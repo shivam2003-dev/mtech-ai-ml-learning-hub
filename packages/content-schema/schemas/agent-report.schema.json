@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shivam2003.com/schemas/agent-report.schema.json",
+  "title": "Agent Completion Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "agentId",
+    "subject",
+    "task",
+    "status",
+    "filesCreated",
+    "filesModified",
+    "sourcesUsed",
+    "citationsVerified",
+    "citationsRejected",
+    "wordCount",
+    "testsRun",
+    "validationResults",
+    "openIssues",
+    "recommendedNextTasks"
+  ],
+  "properties": {
+    "agentId": { "type": "string", "minLength": 1 },
+    "subject": { "type": "string" },
+    "task": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["completed", "partial", "failed", "blocked"] },
+    "filesCreated": { "type": "array", "items": { "type": "string" } },
+    "filesModified": { "type": "array", "items": { "type": "string" } },
+    "sourcesUsed": { "type": "array", "items": { "type": "string" } },
+    "citationsVerified": { "type": "integer", "minimum": 0 },
+    "citationsRejected": { "type": "integer", "minimum": 0 },
+    "wordCount": { "type": "integer", "minimum": 0 },
+    "testsRun": { "type": "array", "items": { "type": "string" } },
+    "validationResults": { "type": "object" },
+    "openIssues": { "type": "array", "items": { "type": "string" } },
+    "recommendedNextTasks": { "type": "array", "items": { "type": "string" } }
+  }
+}

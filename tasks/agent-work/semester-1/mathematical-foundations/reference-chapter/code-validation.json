@@ -1,0 +1,33 @@
+{
+  "contractVersion": "1.0.0",
+  "reportId": "math-foundations-ch01-code-validation-2026-07-28",
+  "status": "passed",
+  "sourcePath": "content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
+  "validatedAt": "2026-07-28",
+  "executionMethod": "Selected published fenced blocks were compiled byte-for-byte as separate units and executed in order in one process __main__ namespace.",
+  "environment": {
+    "python": "3.14.6",
+    "numpy": "2.3.4"
+  },
+  "blockSha256": {
+    "affine_batch": "b13e137ef16dd57a4196c94b4d38c195b99a6bebc8ac959294e931dc7ee0bc21",
+    "affine_batch_loops": "f739f834097024e330ca8464fbdf360e90bf04376dcb4241a360052df2b3cf61",
+    "AffineBatchTests": "6634876ad548d5f15fea8eecb9d0ec0ad96c0668babf38cf619a142485e9ce37"
+  },
+  "testCount": 7,
+  "exitCode": 0,
+  "stdout": "",
+  "stderr": ".......\n----------------------------------------------------------------------\nRan 7 tests in 0.071s\n\nOK\n",
+  "cases": [
+    "known numerical example",
+    "deterministic loop and NumPy implementation agreement",
+    "feature mismatch rejection",
+    "non-finite input rejection",
+    "excessive output rejection",
+    "nonnumeric conversion rejection",
+    "ragged loop input rejection"
+  ],
+  "postCorrectionRerun": true,
+  "publishedBlockHashesUnchanged": true,
+  "independentApprovalClaimed": false
+}

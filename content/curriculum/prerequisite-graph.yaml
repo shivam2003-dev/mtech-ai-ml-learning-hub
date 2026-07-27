@@ -1,0 +1,82 @@
+schemaVersion: 1
+status: provisional
+description: >
+  Educational prerequisite graph derived from standard concept dependencies.
+  These edges are supplementary planning guidance, not claims that the brochure
+  specifies formal prerequisites.
+nodes:
+  - id: linear-algebra
+    label: Linear Algebra
+    classification: prerequisite
+  - id: calculus
+    label: Calculus
+    classification: prerequisite
+  - id: probability
+    label: Probability
+    classification: prerequisite
+  - id: statistics
+    label: Statistical Methods
+    classification: official-subject
+  - id: optimization
+    label: Optimization
+    classification: prerequisite
+  - id: programming
+    label: Python Programming
+    classification: prerequisite
+  - id: machine-learning
+    label: Machine Learning
+    classification: official-subject
+  - id: deep-neural-networks
+    label: Deep Neural Networks
+    classification: official-subject
+  - id: deep-reinforcement-learning
+    label: Deep Reinforcement Learning
+    classification: official-subject
+  - id: natural-language-processing
+    label: Natural Language Processing
+    classification: official-elective
+  - id: computer-vision
+    label: Computer Vision
+    classification: official-elective
+  - id: mlops
+    label: MLOps
+    classification: official-elective
+edges:
+  - from: linear-algebra
+    to: machine-learning
+    type: prerequisite_of
+  - from: calculus
+    to: optimization
+    type: prerequisite_of
+  - from: probability
+    to: statistics
+    type: prerequisite_of
+  - from: statistics
+    to: machine-learning
+    type: prerequisite_of
+  - from: optimization
+    to: machine-learning
+    type: used_by
+  - from: programming
+    to: machine-learning
+    type: prerequisite_of
+  - from: machine-learning
+    to: deep-neural-networks
+    type: prerequisite_of
+  - from: machine-learning
+    to: deep-reinforcement-learning
+    type: prerequisite_of
+  - from: deep-neural-networks
+    to: natural-language-processing
+    type: used_by
+  - from: deep-neural-networks
+    to: computer-vision
+    type: used_by
+  - from: machine-learning
+    to: mlops
+    type: applied_in
+validation:
+  danglingNodeCheck: required
+  strictPrerequisiteCycleCheck: required
+  officialCurriculumClaim: false
+

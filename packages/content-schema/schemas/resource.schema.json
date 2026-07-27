@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shivam2003.com/schemas/resource.schema.json",
+  "title": "Verified Learning Resource",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "authorsOrOrganisation",
+    "publicationYear",
+    "resourceType",
+    "url",
+    "accessDate",
+    "difficulty",
+    "relevance",
+    "prerequisiteTopics",
+    "availability",
+    "confidenceScore",
+    "verificationStatus"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 3 },
+    "title": { "type": "string", "minLength": 3 },
+    "authorsOrOrganisation": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "publicationYear": { "type": ["integer", "null"], "minimum": 1800 },
+    "resourceType": {
+      "enum": ["paper", "book", "course", "lecture", "documentation", "dataset", "tool", "article", "standard"]
+    },
+    "url": { "type": "string", "format": "uri" },
+    "doi": { "type": ["string", "null"] },
+    "arxivId": { "type": ["string", "null"] },
+    "openAlexId": { "type": ["string", "null"] },
+    "semanticScholarId": { "type": ["string", "null"] },
+    "venue": { "type": ["string", "null"] },
+    "accessDate": { "type": "string", "format": "date" },
+    "difficulty": { "enum": ["beginner", "intermediate", "advanced", "research"] },
+    "relevance": { "type": "string", "minLength": 20 },
+    "prerequisiteTopics": { "type": "array", "items": { "type": "string" } },
+    "availability": { "enum": ["free", "paid", "mixed", "unknown"] },
+    "confidenceScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "verificationStatus": { "enum": ["verified", "partial", "unverified", "rejected"] },
+    "verificationNotes": { "type": "string" }
+  }
+}

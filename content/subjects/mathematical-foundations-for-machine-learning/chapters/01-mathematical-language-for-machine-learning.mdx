@@ -1,0 +1,1236 @@
+---
+title: "Mathematical Language for Machine Learning"
+slug: "mathematical-language-for-machine-learning"
+subject: "mathematical-foundations-for-machine-learning"
+chapterNumber: 1
+classification: "prerequisite"
+summary: "A rigorous, beginner-friendly guide to sets, functions, logic, index notation, shapes, and the translation of mathematical expressions into dimension-safe machine-learning code."
+learningObjectives:
+  - "Distinguish mathematical objects from notation and software representations."
+  - "Read set, relation, function, logic, and quantifier notation precisely."
+  - "Track scalar, vector, matrix, tensor, and batch shapes through indexed expressions."
+  - "Use counterexamples to reject invalid universal claims."
+  - "Implement and test a dimension-safe affine batch transformation in NumPy."
+prerequisites:
+  - "Prerequisite: secondary-school algebra"
+  - "Prerequisite: basic Python functions and exceptions"
+  - "Prerequisite: willingness to write out small examples"
+estimatedReadingMinutes: 100
+difficulty: "foundation"
+tags:
+  - "prerequisite"
+  - "notation"
+  - "sets"
+  - "functions"
+  - "logic"
+  - "quantifiers"
+  - "index-notation"
+  - "array-shapes"
+relatedChapters:
+  - "vectors-matrices-linear-systems-and-subspaces"
+recommendedPapers:
+  - "10.1038/s41586-020-2649-2"
+authors:
+  - "Shivam Kumar"
+reviewers:
+  - "review-report:math-foundations-ch01-subject-lead-2026-07-28"
+  - "review-report:math-foundations-ch01-citation-review-2026-07-28"
+wordCount: 4548
+citationStatus: "partial"
+codeStatus: "tested"
+mathReviewStatus: "pending"
+editorialStatus: "review"
+createdAt: "2026-07-28"
+updatedAt: "2026-07-28"
+lastVerifiedAt: "2026-07-28"
+---
+
+**Classification:** **Prerequisite**, with **Supplementary** practice in counterexamples, assumption tracking, array shapes, and defensive implementation.
+
+**Curriculum notice:** the BITS Pilani Work Integrated Learning Programmes
+brochure *M.Tech. AI & ML_New Brochure_2026 copy* verifies this subject's
+Semester 1 placement on PDF page 12 (printed page 10), but does not publish
+topic-level units for it. The repository preserves that visually verified
+provenance in `content/curriculum/official-curriculum.yaml` (record SHA-256
+`d61e6d875dfd4fcbbc0e2bd18cc11e5749a0efe9aa816c540d8498d5b0037975`;
+source-PDF SHA-256
+`fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b`;
+verified 2026-07-28). This chapter is a provisional educational foundation,
+not official syllabus content.
+
+**Vector-orientation convention:** unless a section explicitly says otherwise,
+mathematical coordinate vectors are column vectors. A batch is stored as a
+matrix whose rows are examples. A NumPy array with shape `(d,)` is treated as a
+one-axis coordinate representation, not as a literal row or column matrix.
+
+The word *language* is deliberate. Mathematics is not merely a collection of calculations. It is a compact system for naming objects, stating relationships, and deriving consequences. Machine learning uses this system together with software arrays. A reader must therefore move fluently among three layers:
+
+1. the mathematical object, such as a function or vector;
+2. the notation used to describe it;
+3. the representation used by a program.
+
+Confusing these layers creates errors that can look plausible. A one-dimensional
+NumPy array may represent a mathematical vector, but it has only one axis and
+transposing it does not create a row or column matrix
+([NumPy 2.5 `transpose`](https://numpy.org/doc/2.5/reference/generated/numpy.transpose.html)).
+A tensor in a software library is a multidimensional array, while a tensor in
+mathematics has additional transformation structure. A formula may be
+well-defined for every real vector even when an implementation deliberately
+rejects values outside its input contract. The goal of this chapter is to make
+those distinctions habitual.
+
+## 1. Why this topic matters
+
+Consider a compact model statement:
+
+$$
+\mathbf{Y} = \mathbf{X}\mathbf{W} + \mathbf{1}_b\mathbf{c}^{\mathsf T}.
+$$
+
+An experienced reader sees a batch of examples, a linear transformation, and a bias added to every row. A beginner may reasonably ask:
+
+- What kind of objects are $\mathbf{X}$, $\mathbf{W}$, and $\mathbf{c}$?
+- What does the subscript $b$ mean?
+- Why is $\mathbf{c}$ transposed?
+- Which matrix dimensions must match?
+- Does the addition mean matrix addition or a software broadcasting rule?
+- Is $\mathbf{1}_b$ data, a parameter, or notation?
+- Which index refers to a sample, an input feature, or an output feature?
+
+Until those questions have answers, manipulating the expression is guesswork.
+This matters in practice because shape errors are not always caught by
+software. Broadcasting can make incompatible intentions executable. For
+example, adding an array of shape `(b,)` to a matrix of shape `(b, k)` fails
+for most values of $b$ and $k$, while adding `(k,)` applies the same
+output-feature bias to every row. When $b=k$, `(b,)` and `(k,)` are the same
+numeric shape, so execution may succeed even when the programmer attached the
+wrong axis meaning. These outcomes follow NumPy's trailing-dimension
+compatibility rules
+([NumPy 2.5 broadcasting](https://numpy.org/doc/2.5/user/basics.broadcasting.html));
+success does not prove intent.
+
+The same discipline applies to claims. “For every input, this transformation preserves length” is a universal statement. Testing ten inputs cannot prove it, although one counterexample can disprove it. “There exists an input that maps to zero” is existential; one witness proves it. Research papers, model documentation, and production specifications rely on these logical forms even when they do not display quantifier symbols.
+
+Mathematical literacy therefore improves more than examination performance. It supports:
+
+- correct derivations;
+- readable model implementations;
+- early detection of impossible shapes;
+- precise tests;
+- fair interpretation of research claims;
+- clear communication across teams;
+- safer handling of untrusted data and large arrays.
+
+[Deisenroth, Faisal, and Ong](https://mml-book.github.io/) explicitly position
+mathematical foundations as preparation for reading more advanced
+machine-learning material. [MIT's 18.06SC course](https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/)
+organizes its early study around systems, vectors, and transformations. This
+chapter prepares that transition without yet teaching the later linear algebra
+or probability content in full.
+
+## 2. Learning objectives
+
+After studying this chapter, you should be able to:
+
+- state whether a symbol denotes a set, element, scalar, vector, matrix, tensor, relation, or function;
+- identify a function’s domain, codomain, and actual image;
+- distinguish “for every” from “there exists,” including the order of nested quantifiers;
+- negate simple quantified statements correctly;
+- expand summation and indexed notation into a small numerical example;
+- infer the output shape of an affine transformation before calculating values;
+- distinguish mathematical equality from assignment and approximate numerical equality;
+- explain why a software array’s shape is part of its meaning;
+- write preconditions and postconditions for a numerical function;
+- use a counterexample to disprove a universal assertion;
+- implement a validated affine batch operation using both explicit loops and NumPy matrix operations;
+- state the time and auxiliary-space complexity of those implementations.
+
+The objectives are intentionally observable. “Understand notation” is too vague to assess. “Infer the output shape and justify every matched dimension” describes evidence of understanding.
+
+## 3. Prerequisites
+
+You need secondary-school algebra and basic Python. You should be comfortable with:
+
+- substituting numbers into a formula;
+- reading a simple function such as $f(x)=2x+1$;
+- using parentheses to make operation order explicit;
+- writing a Python function;
+- recognizing a list and a nested list;
+- reading an exception message.
+
+No probability concepts are required or introduced. Although datasets and samples appear as motivating words, they are only indexed collections here. Probability distributions, random variables, expectation, and statistical inference belong elsewhere in the curriculum.
+
+When notation feels dense, use a **symbol table**:
+
+| Symbol | Kind | Meaning | Shape or set |
+|---|---|---|---|
+| $b$ | positive integer | batch size | $b \in \mathbb{N}$ |
+| $d$ | positive integer | input-feature count | $d \in \mathbb{N}$ |
+| $k$ | positive integer | output-feature count | $k \in \mathbb{N}$ |
+| $\mathbf{X}$ | matrix | batch of inputs | $\mathbb{R}^{b \times d}$ |
+| $\mathbf{W}$ | matrix | weights | $\mathbb{R}^{d \times k}$ |
+| $\mathbf{c}$ | vector | bias | $\mathbb{R}^{k}$ |
+| $\mathbf{Y}$ | matrix | transformed batch | $\mathbb{R}^{b \times k}$ |
+
+Creating this table is not remedial busywork. It is a professional technique for preventing ambiguity.
+
+## 4. Big-picture explanation
+
+Mathematical communication begins with **objects**. A set groups objects by membership. A tuple orders objects. A relation records which tuples satisfy a relationship. A function is a special relation that associates each permitted input with exactly one output. Logic combines statements, and quantifiers say how widely a statement applies.
+
+Machine learning adds structured numerical objects:
+
+- a scalar is one number;
+- a vector is an element of a vector space, often represented by a coordinate list;
+- a matrix is a rectangular coordinate representation that can store data or represent a linear map;
+- a higher-order array may hold a batch, image, sequence, or parameter collection.
+
+Indices name components. Shapes state how many values exist along each axis. Operators transform objects under rules. Every valid expression respects those rules.
+
+The workflow for reading a formula is:
+
+```text
+identify objects
+  -> write domains and shapes
+  -> identify the operator
+  -> check preconditions
+  -> expand one small case
+  -> calculate
+  -> interpret the result
+  -> test an edge case
+```
+
+This workflow prevents a common failure: calculating before deciding what the calculation means.
+
+## 5. Core concepts
+
+### Sets and membership
+
+A set is an unordered collection characterized by membership. If $x$ belongs to $S$, write $x \in S$; otherwise write $x \notin S$. Common number sets include the natural numbers $\mathbb{N}$, integers $\mathbb{Z}$, and real numbers $\mathbb{R}$. Because conventions differ on whether $0 \in \mathbb{N}$, define the convention when it matters.
+
+Set-builder notation describes a set by a condition:
+
+$$
+E = \{n \in \mathbb{Z} : n \text{ is even}\}.
+$$
+
+The colon means “such that.” It does not perform division.
+
+The union $A \cup B$ contains elements in either set. The intersection $A \cap B$ contains elements in both. The difference $A \setminus B$ contains elements in $A$ but not $B$. A subset statement $A \subseteq B$ means every element of $A$ is also an element of $B$.
+
+### Ordered tuples and Cartesian products
+
+Order matters in a tuple: generally $(x,y)\neq(y,x)$. The Cartesian product
+
+$$
+A \times B = \{(a,b):a\in A,\ b\in B\}
+$$
+
+contains ordered pairs whose first entry comes from $A$ and second from $B$. If $A$ and $B$ are finite, with $|A|=m$ and $|B|=n$, then $|A\times B|=mn$.
+
+### Relations and functions
+
+A binary relation from $A$ to $B$ is a subset of $A\times B$. A function $f:A\to B$ assigns each $a\in A$ exactly one value $f(a)\in B$. Here:
+
+- $A$ is the domain;
+- $B$ is the codomain;
+- $f(A)=\{f(a):a\in A\}$ is the image or range actually reached.
+
+The image can be a strict subset of the codomain. For $f:\mathbb{R}\to\mathbb{R}$ with $f(x)=x^2$, the codomain is $\mathbb{R}$ but the image is the set of nonnegative reals.
+
+### Logic and quantifiers
+
+A proposition is a statement that is true or false under a given interpretation. Important connectives are negation $\neg P$, conjunction $P\land Q$, disjunction $P\lor Q$, implication $P\Rightarrow Q$, and equivalence $P\Leftrightarrow Q$.
+
+The universal quantifier $\forall$ means “for every.” The existential quantifier $\exists$ means “there exists.” Their order matters:
+
+$$
+\forall x\ \exists y:\ y>x
+$$
+
+is true over real numbers because each $x$ can have its own larger $y$, for example $y=x+1$. But
+
+$$
+\exists y\ \forall x:\ y>x
+$$
+
+is false over real numbers because no single real number exceeds every real number.
+
+### Index notation and shape
+
+If $\mathbf{x}\in\mathbb{R}^{d}$, then $x_j$ denotes its $j$th coordinate. If $\mathbf{X}\in\mathbb{R}^{b\times d}$, then $X_{ij}$ denotes the value at row $i$, column $j$. We use one-based mathematical indices:
+
+$$
+i\in\{1,\dots,b\},\qquad j\in\{1,\dots,d\}.
+$$
+
+Python uses zero-based positions, so mathematical $X_{ij}$ corresponds to `X[i - 1, j - 1]`.
+
+Shape is an ordered tuple. A matrix in $\mathbb{R}^{b\times d}$ has $b$ rows and $d$ columns. Swapping those numbers changes the object’s interface even if the total number of entries remains $bd$.
+
+## 6. Intuitive explanation
+
+Think of a mathematical expression as a typed sentence.
+
+- Sets are vocabularies of allowed objects.
+- Symbols are nouns.
+- Operators are verbs.
+- Domains and shapes are grammatical categories.
+- Equations are claims.
+- Derivations are arguments that each sentence follows from the previous one.
+
+The sentence “multiply a three-feature input by a weight matrix” is incomplete until the weight matrix’s interface is known. If the input is a row-shaped coordinate list of length three and the output should have two features, the weights need three input rows and two output columns. A $3\times2$ matrix accepts that input on the left in row-batch convention.
+
+This type analogy has limits. Mathematical equality is not a programming type checker, and a NumPy operation can be executable even when its scientific meaning is wrong. Still, the analogy encourages a useful question: *What kinds of objects may this operation connect?*
+
+Sets also behave like explicit contracts. If a function is declared $f:\mathbb{R}^{d}\to\mathbb{R}^{k}$, then a length-$d$ input is expected and a length-$k$ output is promised. A software function should make the same contract visible through type hints, documentation, validation, and tests.
+
+## 7. Formal definition
+
+We fix the following conventions for this chapter.
+
+### Set
+
+A set $S$ is treated extensionally: two sets are equal exactly when they have the same members.
+
+$$
+A=B \quad\Longleftrightarrow\quad \forall x\,(x\in A \Leftrightarrow x\in B).
+$$
+
+### Relation
+
+A relation $R$ from $A$ to $B$ is any subset $R\subseteq A\times B$. Writing $aRb$ means $(a,b)\in R$.
+
+### Function
+
+A function $f:A\to B$ is a relation satisfying:
+
+$$
+\forall a\in A\ \exists! b\in B \text{ such that } (a,b)\in f.
+$$
+
+The symbol $\exists!$ means “there exists exactly one.”
+
+### Vector, matrix, and software array
+
+For this introductory coordinate treatment:
+
+- $\mathbf{x}\in\mathbb{R}^{d}$ has coordinates $x_1,\dots,x_d$;
+- $\mathbf{W}\in\mathbb{R}^{d\times k}$ has entries $W_{j\ell}$;
+- $\mathbf{X}\in\mathbb{R}^{b\times d}$ has entries $X_{ij}$.
+
+A NumPy `ndarray` is a usually fixed-size multidimensional container whose
+`shape` is a tuple of nonnegative axis lengths and whose `dtype` describes
+element representation
+([NumPy 2.5 `ndarray` reference](https://numpy.org/doc/2.5/reference/arrays.ndarray.html)).
+This is an implementation definition, not a full mathematical definition of
+a tensor.
+
+### Equality and approximation
+
+Mathematical equality $a=b$ asserts that two expressions denote the same object. Assignment in Python uses `=` to bind a name. Floating-point comparisons often need a tolerance:
+
+$$
+|a-b|\leq \text{atol}+\text{rtol}|b|.
+$$
+
+This is specifically NumPy's asymmetric `isclose` convention, with $b$ as the
+reference value; it is not a universal tolerance definition and it is not
+mathematical equality
+([NumPy 2.5 `isclose`](https://numpy.org/doc/2.5/reference/generated/numpy.isclose.html)).
+
+## 8. Mathematical formulation
+
+Let a batch of $b$ examples, each with $d$ features, be represented by
+
+$$
+\mathbf{X}\in\mathbb{R}^{b\times d}.
+$$
+
+Let the weights and bias be
+
+$$
+\mathbf{W}\in\mathbb{R}^{d\times k},
+\qquad
+\mathbf{c}\in\mathbb{R}^{k}.
+$$
+
+Define an affine batch transformation $F$ by
+
+$$
+F(\mathbf{X})=\mathbf{X}\mathbf{W}+\mathbf{1}_b\mathbf{c}^{\mathsf T},
+$$
+
+where $\mathbf{1}_b\in\mathbb{R}^{b}$ is a vector of ones. The product $\mathbf{X}\mathbf{W}$ has shape $b\times k$. The outer product $\mathbf{1}_b\mathbf{c}^{\mathsf T}$ also has shape $b\times k$, so the addition is defined.
+
+In indices,
+
+$$
+Y_{i\ell}
+=
+\sum_{j=1}^{d}X_{ij}W_{j\ell}+c_\ell,
+\quad
+1\leq i\leq b,\quad 1\leq \ell\leq k.
+$$
+
+The repeated role of $j$ is important: it indexes the input features being combined. The indices $i$ and $\ell$ remain in the output, so the result has batch axis $b$ and output-feature axis $k$.
+
+The transformation is affine, not linear when $\mathbf{c}\neq\mathbf{0}$, because a linear map must send zero to zero:
+
+$$
+F(\mathbf{0})=\mathbf{1}_b\mathbf{c}^{\mathsf T},
+$$
+
+which is nonzero for a nonzero bias.
+
+## 9. Step-by-step derivation
+
+Take
+
+$$
+\mathbf{X}=
+\begin{bmatrix}
+1 & 2 & -1\\
+0 & 3 & 2
+\end{bmatrix},
+\quad
+\mathbf{W}=
+\begin{bmatrix}
+2 & 1\\
+-1 & 0\\
+3 & -2
+\end{bmatrix},
+\quad
+\mathbf{c}=
+\begin{bmatrix}
+1\\
+-1
+\end{bmatrix}.
+$$
+
+Here $b=2$, $d=3$, and $k=2$.
+
+First check dimensions:
+
+$$
+(2\times3)(3\times2)\to(2\times2).
+$$
+
+The inner dimensions, both $3$, match. The outer dimensions, $2$ and $2$, become the output shape.
+
+Now calculate the first output:
+
+$$
+Y_{11}
+=
+X_{11}W_{11}+X_{12}W_{21}+X_{13}W_{31}+c_1.
+$$
+
+Substitute:
+
+$$
+Y_{11}=(1)(2)+(2)(-1)+(-1)(3)+1=2-2-3+1=-2.
+$$
+
+For the second output feature of the first example:
+
+$$
+Y_{12}=(1)(1)+(2)(0)+(-1)(-2)-1=1+0+2-1=2.
+$$
+
+For the second example:
+
+$$
+Y_{21}=(0)(2)+(3)(-1)+(2)(3)+1=0-3+6+1=4,
+$$
+
+and
+
+$$
+Y_{22}=(0)(1)+(3)(0)+(2)(-2)-1=0+0-4-1=-5.
+$$
+
+Therefore
+
+$$
+\mathbf{Y}=
+\begin{bmatrix}
+-2 & 2\\
+4 & -5
+\end{bmatrix}.
+$$
+
+The matrix derivation gives the same result:
+
+$$
+\mathbf{X}\mathbf{W}=
+\begin{bmatrix}
+-3 & 3\\
+3 & -4
+\end{bmatrix},
+\qquad
+\mathbf{1}_2\mathbf{c}^{\mathsf T}=
+\begin{bmatrix}
+1 & -1\\
+1 & -1
+\end{bmatrix}.
+$$
+
+Adding them yields $\mathbf{Y}$. Notice that bias addition is described mathematically by an explicit $2\times2$ matrix, while NumPy can implement it by broadcasting a shape `(2,)` vector across the batch axis.
+
+## 10. Geometric or visual intuition
+
+A vector $\mathbf{x}\in\mathbb{R}^{d}$ can be imagined as a directed displacement once a coordinate system and basis are chosen. A matrix $\mathbf{W}$ describes how coordinates are combined to produce new coordinates. For $d=2$ and $k=2$, the linear part may rotate, reflect, stretch, shear, or collapse the plane. The bias then translates every transformed point by the same amount.
+
+That picture is useful, but it has limits:
+
+- it is easiest in two or three dimensions;
+- a batch axis does not add a geometric feature dimension;
+- coordinates depend on a chosen basis;
+- a higher-dimensional vector is not literally a visible arrow;
+- an affine map with bias is not linear.
+
+Shapes can be visualized as interfaces. The right side of $\mathbf{X}$ exposes $d$ feature positions. The left side of $\mathbf{W}$ accepts exactly $d$ positions. After they connect, the free axes are batch size $b$ and output size $k$. This “matched inner axes, retained outer axes” picture predicts matrix-product shapes without memorizing a software command.
+
+For index notation, imagine a three-loop calculation. The batch loop chooses $i$, the output loop chooses $\ell$, and the feature loop sums over $j$. The feature index disappears because it is reduced; batch and output indices survive.
+
+## 11. Worked examples
+
+### Example A: set equality
+
+Let $A=\{1,2,2,3\}$ and $B=\{3,2,1\}$. Sets ignore repeated listings and order, so $A=B$. By contrast, tuples $(1,2,3)$ and $(3,2,1)$ are not equal.
+
+### Example B: domain versus image
+
+Let $f:\mathbb{R}\to\mathbb{R}$ be $f(x)=x^2$. The value $-1$ belongs to the codomain, but no real input maps to $-1$. Thus the image is not the entire codomain. Saying “range” without clarifying whether it means codomain or image can cause confusion.
+
+### Example C: quantifier order
+
+Over $\mathbb{R}$:
+
+$$
+\forall x\ \exists y\ (y=x+1)
+$$
+
+is true. Each input has an appropriate output. But
+
+$$
+\exists y\ \forall x\ (y=x+1)
+$$
+
+is false. One fixed $y$ cannot equal $x+1$ for every $x$.
+
+### Example D: counterexample
+
+Claim: for every pair of matrices $\mathbf{A}$ and $\mathbf{B}$ for which both products exist, $\mathbf{A}\mathbf{B}=\mathbf{B}\mathbf{A}$.
+
+Choose
+
+$$
+\mathbf{A}=
+\begin{bmatrix}
+1&0\\
+0&0
+\end{bmatrix},
+\quad
+\mathbf{B}=
+\begin{bmatrix}
+0&1\\
+0&0
+\end{bmatrix}.
+$$
+
+Then $\mathbf{A}\mathbf{B}=\mathbf{B}$ but $\mathbf{B}\mathbf{A}=\mathbf{0}$. One counterexample disproves the universal claim.
+
+### Example E: sum expansion
+
+If $d=3$, then
+
+$$
+\sum_{j=1}^{d}X_{ij}W_{j\ell}
+=X_{i1}W_{1\ell}+X_{i2}W_{2\ell}+X_{i3}W_{3\ell}.
+$$
+
+The symbol $j$ is local to the summation. Reusing it outside without a new definition is ambiguous.
+
+### Example F: shape failure
+
+If $\mathbf{X}\in\mathbb{R}^{4\times3}$ and $\mathbf{W}\in\mathbb{R}^{2\times5}$, then $\mathbf{X}\mathbf{W}$ is undefined because $3\neq2$. Reshaping one array merely to silence software is not a mathematical solution; the intended features and axes must be investigated.
+
+## 12. Python implementation
+
+The following implementation uses Python 3.12 as its documented baseline and
+NumPy 2.x APIs. The exact published blocks were executed on Python 3.14.6 with
+NumPy 2.3.4; that evidence does not claim compatibility with every Python or
+NumPy release. The function uses type hints, validates dimensionality,
+compatible shapes, finite values, and a configurable output-size limit, and
+returns a new `float64` array.
+
+```python
+from __future__ import annotations
+
+import numpy as np
+from numpy.typing import ArrayLike, NDArray
+
+FloatArray = NDArray[np.float64]
+
+
+def affine_batch(
+    x: ArrayLike,
+    weights: ArrayLike,
+    bias: ArrayLike,
+    *,
+    max_output_elements: int = 10_000_000,
+) -> FloatArray:
+    """Compute Y = XW + c for a batch of row-oriented examples.
+
+    Args:
+        x: Finite numeric data with shape (batch, input_features).
+        weights: Finite numeric weights with shape
+            (input_features, output_features).
+        bias: Finite numeric bias with shape (output_features,).
+        max_output_elements: Defensive limit for batch * output_features.
+
+    Returns:
+        A float64 array with shape (batch, output_features).
+
+    Raises:
+        TypeError: If an input cannot be converted to a numeric array.
+        ValueError: If rank, shape, finiteness, or size checks fail.
+    """
+    if not isinstance(max_output_elements, int) or max_output_elements <= 0:
+        raise ValueError("max_output_elements must be a positive integer")
+
+    try:
+        x_arr = np.asarray(x, dtype=np.float64)
+        w_arr = np.asarray(weights, dtype=np.float64)
+        c_arr = np.asarray(bias, dtype=np.float64)
+    except (TypeError, ValueError) as exc:
+        raise TypeError("x, weights, and bias must be numeric") from exc
+
+    if x_arr.ndim != 2:
+        raise ValueError(f"x must have rank 2; received shape {x_arr.shape}")
+    if w_arr.ndim != 2:
+        raise ValueError(
+            f"weights must have rank 2; received shape {w_arr.shape}"
+        )
+    if c_arr.ndim != 1:
+        raise ValueError(
+            f"bias must have rank 1; received shape {c_arr.shape}"
+        )
+
+    batch, input_features = x_arr.shape
+    weight_inputs, output_features = w_arr.shape
+    if input_features != weight_inputs:
+        raise ValueError(
+            "feature mismatch: "
+            f"x has {input_features}, weights expect {weight_inputs}"
+        )
+    if c_arr.shape[0] != output_features:
+        raise ValueError(
+            "bias mismatch: "
+            f"bias has {c_arr.shape[0]}, expected {output_features}"
+        )
+    if batch * output_features > max_output_elements:
+        raise ValueError("requested output exceeds max_output_elements")
+    if not all(np.all(np.isfinite(a)) for a in (x_arr, w_arr, c_arr)):
+        raise ValueError("all inputs must contain only finite values")
+
+    return x_arr @ w_arr + c_arr
+```
+
+Expected use:
+
+```python
+x = [[1.0, 2.0, -1.0], [0.0, 3.0, 2.0]]
+weights = [[2.0, 1.0], [-1.0, 0.0], [3.0, -2.0]]
+bias = [1.0, -1.0]
+
+print(affine_batch(x, weights, bias))
+```
+
+Expected output:
+
+```text
+[[-2.  2.]
+ [ 4. -5.]]
+```
+
+The function deliberately converts supported numeric inputs to `float64`. In a production numerical library, dtype policy may need to preserve `float32`, support accelerators, or reject lossy conversion. That policy should be explicit rather than accidental.
+
+## 13. Implementation from scratch where useful
+
+An explicit-loop version mirrors the indexed formula. For ordinary nontrivial
+dense arrays it is typically slower than vectorized NumPy because it performs
+the scalar loops in the Python interpreter, but that is not a universal
+benchmark claim: size, memory layout, runtime, and hardware matter. Its
+pedagogical value is that each loop corresponds to an index.
+
+```python
+from __future__ import annotations
+
+from collections.abc import Sequence
+
+
+def affine_batch_loops(
+    x: Sequence[Sequence[float]],
+    weights: Sequence[Sequence[float]],
+    bias: Sequence[float],
+) -> list[list[float]]:
+    """Educational loop implementation of a batch affine transform."""
+    if not x or not weights or not bias:
+        raise ValueError("x, weights, and bias must be non-empty")
+
+    input_features = len(x[0])
+    if input_features == 0:
+        raise ValueError("x rows must be non-empty")
+    if any(len(row) != input_features for row in x):
+        raise ValueError("x must be rectangular")
+    if len(weights) != input_features:
+        raise ValueError("weights row count must match x feature count")
+
+    output_features = len(bias)
+    if any(len(row) != output_features for row in weights):
+        raise ValueError("weights must be rectangular and match bias")
+
+    result: list[list[float]] = []
+    for i in range(len(x)):
+        output_row: list[float] = []
+        for ell in range(output_features):
+            total = float(bias[ell])
+            for j in range(input_features):
+                total += float(x[i][j]) * float(weights[j][ell])
+            output_row.append(total)
+        result.append(output_row)
+    return result
+```
+
+The loop order is $i$, then $\ell$, then $j$. Only $j$ is summed out. This is the computational counterpart of
+
+$$
+Y_{i\ell}=\sum_{j=1}^{d}X_{ij}W_{j\ell}+c_\ell.
+$$
+
+This version validates rectangular nested sequences but does not define a general-purpose object-ingestion boundary. As repository engineering guidance, production callers should accept narrow numeric formats, validate them before derived allocation, and keep arbitrary custom Python objects outside this function's trusted input contract.
+
+## 14. Library-based implementation
+
+NumPy’s matrix multiplication and broadcasting give the compact expression:
+
+```python
+y = x_arr @ w_arr + c_arr
+```
+
+The official NumPy documentation defines an `ndarray` by its multidimensional
+shape and dtype. Its broadcasting rules compare trailing dimensions:
+dimensions are compatible when they are equal or one of them is $1$. A bias of
+shape `(k,)` therefore aligns with the final axis of a result shaped `(b, k)`
+([NumPy 2.5 `ndarray`](https://numpy.org/doc/2.5/reference/arrays.ndarray.html);
+[NumPy 2.5 broadcasting](https://numpy.org/doc/2.5/user/basics.broadcasting.html)).
+
+Tests:
+
+```python
+import unittest
+
+import numpy as np
+
+
+class AffineBatchTests(unittest.TestCase):
+    def test_known_example(self) -> None:
+        actual = affine_batch(
+            [[1.0, 2.0, -1.0], [0.0, 3.0, 2.0]],
+            [[2.0, 1.0], [-1.0, 0.0], [3.0, -2.0]],
+            [1.0, -1.0],
+        )
+        expected = np.array([[-2.0, 2.0], [4.0, -5.0]])
+        np.testing.assert_allclose(actual, expected)
+
+    def test_loop_and_numpy_versions_agree(self) -> None:
+        rng = np.random.default_rng(7)
+        x = rng.normal(size=(5, 3))
+        weights = rng.normal(size=(3, 2))
+        bias = rng.normal(size=2)
+        expected = np.asarray(
+            affine_batch_loops(x.tolist(), weights.tolist(), bias.tolist())
+        )
+        np.testing.assert_allclose(
+            affine_batch(x, weights, bias),
+            expected,
+            rtol=1e-12,
+            atol=1e-12,
+        )
+
+    def test_rejects_feature_mismatch(self) -> None:
+        with self.assertRaisesRegex(ValueError, "feature mismatch"):
+            affine_batch(np.zeros((2, 3)), np.zeros((4, 1)), np.zeros(1))
+
+    def test_rejects_non_finite_value(self) -> None:
+        with self.assertRaisesRegex(ValueError, "finite"):
+            affine_batch([[np.inf]], [[1.0]], [0.0])
+
+    def test_rejects_excessive_output(self) -> None:
+        with self.assertRaisesRegex(ValueError, "exceeds"):
+            affine_batch(
+                np.zeros((4, 2)),
+                np.zeros((2, 3)),
+                np.zeros(3),
+                max_output_elements=10,
+            )
+
+    def test_rejects_nonnumeric_conversion(self) -> None:
+        with self.assertRaisesRegex(TypeError, "must be numeric"):
+            affine_batch([["not-a-number"]], [[1.0]], [0.0])
+
+    def test_loop_rejects_ragged_input(self) -> None:
+        with self.assertRaisesRegex(ValueError, "rectangular"):
+            affine_batch_loops(
+                [[1.0, 2.0], [3.0]],
+                [[1.0], [2.0]],
+                [0.0],
+            )
+
+
+if __name__ == "__main__":
+    unittest.main()
+```
+
+Abbreviated expected success summary (the default runner also prints progress
+characters and elapsed time):
+
+```text
+Ran 7 tests
+
+OK
+```
+
+The seeded test is deterministic for a fixed NumPy random-generator implementation. The known-example test does not depend on random generation and anchors the intended mathematics.
+
+## 15. Real-world application
+
+The following are educational examples of where affine transformations occur
+in machine-learning architectures:
+
+- a dense neural-network layer before its activation;
+- a linear prediction model;
+- a learned projection from one feature width to another;
+- query, key, and value projections in attention systems;
+- the final logits layer of a classifier.
+
+Suppose an application receives $b=32$ records, each encoded with $d=128$ features, and produces $k=10$ output scores. Then:
+
+$$
+\mathbf{X}\in\mathbb{R}^{32\times128},
+\quad
+\mathbf{W}\in\mathbb{R}^{128\times10},
+\quad
+\mathbf{c}\in\mathbb{R}^{10},
+\quad
+\mathbf{Y}\in\mathbb{R}^{32\times10}.
+$$
+
+This statement is more informative than “the layer has 1,290 parameters,” although the count follows:
+
+$$
+128\cdot10+10=1290.
+$$
+
+The shape contract reveals where batches and features live, which dimension the bias matches, and what downstream code should expect.
+
+## 16. Common mistakes
+
+### Treating notation as decoration
+
+Boldface and capitalization carry conventions. If a source uses $\mathbf{x}$ for a vector and $x_i$ for a coordinate, dropping boldface can erase a useful distinction.
+
+### Confusing elementwise and matrix multiplication
+
+In NumPy, `X * W` is elementwise multiplication with broadcasting; `X @ W`
+invokes matrix multiplication. The two operations have different definitions
+and shape rules
+([NumPy 2.5 `matmul`](https://numpy.org/doc/2.5/reference/generated/numpy.matmul.html)).
+
+### Forgetting the domain
+
+The expression $f(x)=1/x$ is incomplete without excluding $x=0$. A function is not merely a formula; its domain is part of its identity.
+
+### Reversing implication
+
+From $P\Rightarrow Q$, one cannot infer $Q\Rightarrow P$. If “square implies rectangle,” observing a rectangle does not prove it is a square.
+
+### Reversing quantifiers
+
+“Every example has some best label” does not say “one label is best for every example.” Move quantifiers only with proof.
+
+### Confusing a one-dimensional array with a column vector
+
+NumPy shape `(d,)` has one axis. Its transpose has the same shape
+([NumPy 2.5 `transpose`](https://numpy.org/doc/2.5/reference/generated/numpy.transpose.html)).
+If a literal column axis is required, use `(d, 1)` and document why.
+
+### Silencing a shape error with `reshape`
+
+Reshaping preserves element count but changes axis interpretation. A successful reshape can still corrupt sample, feature, channel, or time semantics.
+
+### Using tests as proof
+
+A thousand passing cases do not prove a universal algebraic identity. Tests complement, rather than replace, derivation.
+
+## 17. Edge cases
+
+### Empty axes
+
+Mathematically, matrices with a zero-length dimension can be defined. NumPy
+shapes contain nonnegative axis lengths, so arrays such as `(0, 3)` are valid
+([NumPy 2.5 `ndarray`](https://numpy.org/doc/2.5/reference/arrays.ndarray.html)).
+Whether an application should accept an empty batch is a contract decision.
+The reference `affine_batch` allows one when its output stays within the size
+limit. A later reduction may not have useful application semantics: on the
+tested NumPy 2.3.4 runtime,
+`np.mean(np.empty((0, 3)), axis=0)` returns `[nan, nan, nan]` and emits
+`RuntimeWarning` messages for an empty slice and invalid division. A training
+pipeline that requires a defined batch mean should therefore reject an empty
+batch explicitly.
+
+### Singleton axes
+
+Shape `(b, 1)` and `(b,)` contain the same number of values but broadcast
+differently under NumPy's trailing-dimension rules. Singleton axes can be
+semantically essential
+([NumPy 2.5 broadcasting](https://numpy.org/doc/2.5/user/basics.broadcasting.html)).
+
+### Non-finite values
+
+The reference implementation uses `np.isfinite` and rejects any value for
+which that predicate is false. This is a local input-contract decision rather
+than a claim that every numerical pipeline must reject the same values
+([NumPy 2.5 `isfinite`](https://numpy.org/doc/2.5/reference/generated/numpy.isfinite.html)).
+
+### Integer conversion
+
+The sample function deliberately converts inputs to `float64`, whose finite
+precision is described by `np.finfo`. The conversion is a stated storage and
+calculation policy, not a promise of exact arbitrary-precision integer
+arithmetic
+([NumPy 2.5 `finfo`](https://numpy.org/doc/2.5/reference/generated/numpy.finfo.html)).
+
+### Duplicate set entries
+
+Writing `{1,1,2}` still denotes `{1,2}`. A Python list preserves duplicates; a Python set removes them. The representation chosen affects semantics.
+
+### Vacuous truth
+
+A universal statement over an empty domain is conventionally true. For example, “every element of the empty set is positive” has no counterexample. This convention makes many logical rules consistent, but it can surprise practitioners when an empty filtered dataset silently passes an “all” check.
+
+### Ambiguous axes
+
+An image array might use `(height, width, channels)` or `(channels, height, width)`. Shape alone does not name axes. Documentation or labelled-array tooling is necessary.
+
+## 18. Computational complexity
+
+For $\mathbf{X}\in\mathbb{R}^{b\times d}$ and $\mathbf{W}\in\mathbb{R}^{d\times k}$, the conventional dense computation evaluates $bdk$ scalar products/additions up to constant factors:
+
+$$
+T(b,d,k)=\Theta(bdk).
+$$
+
+Adding bias touches $bk$ outputs, so its time is $\Theta(bk)$. The multiplication dominates when $d$ is not tiny.
+
+The returned output needs $\Theta(bk)$ storage. The loop implementation also stores that output and uses constant scalar accumulator space beyond Python container overhead. The NumPy implementation may call optimized low-level kernels and may create temporary arrays depending on layout and dtype. Big-O notation does not capture cache locality, vector instructions, accelerator transfer, or library overhead.
+
+Validation scans the inputs for finite values, taking $\Theta(bd+dk+k)$ time. That cost can be significant for small $k$ or when repeated unnecessarily. Boundary validation should be placed thoughtfully: validate untrusted or newly loaded data, preserve trustworthy invariants internally, and measure the cost.
+
+## 19. Scalability considerations
+
+At large sizes, mathematical equivalence does not imply equal system performance.
+
+- Memory layout affects how efficiently matrix kernels read data.
+- Dtype affects memory, throughput, precision, and supported hardware.
+- Broadcasting normally avoids materializing repeated bias values, but some broadcasted expressions create large intermediate arrays.
+- Chunking can reduce peak memory while increasing loop overhead.
+- Sparse representations are useful only when sparsity and available kernels justify them.
+- Distributed multiplication adds communication costs absent from the algebraic notation.
+
+The NumPy broadcasting guide explains that broadcasting usually avoids
+needless copies but can make some algorithms memory-inefficient. Before
+turning a concise expression into a production operation, estimate output and
+intermediate shapes
+([NumPy 2.5 broadcasting](https://numpy.org/doc/2.5/user/basics.broadcasting.html)).
+A shape such as `(100_000, 100_000)` contains ten billion values; at eight
+bytes per `float64`, the raw output alone requires about 80 GB.
+
+The defensive `max_output_elements` parameter prevents one direct form of
+accidental resource exhaustion. As local deployment guidance for this
+repository, a service wrapper should also define request-size limits,
+timeouts, quotas, monitoring, and cancellation.
+
+## 20. Security, ethics or privacy considerations where relevant
+
+Mathematical notation can hide operational risks.
+
+### Security
+
+The following bullets are repository engineering guidance for this learning
+platform's implementation boundary; they are not attributed to the chapter's
+academic references:
+
+- accept narrow numeric input formats rather than object arrays or arbitrary custom Python objects;
+- validate rank and size before allocating derived arrays;
+- reject unexpected non-finite values when the model contract requires finite inputs;
+- return errors that are useful without exposing confidential schema details;
+- enforce request-size limits, quotas, and monitoring at service boundaries.
+
+### Privacy
+
+A matrix row may represent a person and a column may encode a sensitive characteristic. Calling the data merely $\mathbf{X}$ does not remove its human meaning. Documentation should state provenance, purpose, retention, and access controls outside the equation.
+
+### Ethics
+
+An affine layer combines features according to learned weights, but a clean mathematical form does not make the application fair or appropriate. Feature definitions, labels, missingness, and deployment decisions can encode inequity. Dimension checks prevent technical errors; they do not validate social assumptions.
+
+### Communication
+
+Avoid claiming that a tensor “understands” a feature or that a geometric picture proves behaviour in all dimensions. Explain where analogies stop.
+
+## 21. Industry practices
+
+As repository engineering guidance, treat shapes and assumptions as interfaces:
+
+- include shapes in docstrings;
+- choose consistent axis names such as `batch`, `feature`, and `class`;
+- assert critical invariants at module boundaries;
+- use type hints while remembering that basic NumPy hints do not enforce runtime shapes;
+- maintain known-answer tests and property-based tests;
+- compare floating-point outputs with justified tolerances;
+- record dtype and library versions for reproducibility;
+- distinguish user input errors from internal invariant failures;
+- profile before replacing clear code with complex broadcasting.
+
+Model cards and system documentation should define inputs and outputs in reader-facing language. A shape like `(None, 128)` is not enough: explain that the first axis is variable batch size and the second contains 128 ordered features produced by a named preprocessing version.
+
+## 22. Research connection
+
+Research compresses complex pipelines into notation. The
+[NumPy paper by Harris and colleagues](https://doi.org/10.1038/s41586-020-2649-2)
+describes array programming as a foundation of scientific computation. Its
+relevance here is not that mathematical arrays and `ndarray` objects are
+identical; it is that array-oriented notation and implementation allow
+researchers to express structured numerical work compactly.
+
+When reading a paper:
+
+1. create a symbol table;
+2. mark which symbols are fixed, learned, observed, or indexed;
+3. record all shapes;
+4. find every quantifier word: all, any, some, exists, unique;
+5. separate definitions from empirical claims;
+6. identify whether an equation is exact, approximate, or an optimization objective;
+7. check whether software broadcasting is implied but unstated;
+8. reconstruct one small numerical case.
+
+This process often reveals underspecified details before implementation begins.
+
+## 23. Recommended papers
+
+### Modern implementation paper
+
+Charles R. Harris et al., “Array programming with NumPy,” *Nature* 585, 357–362 (2020), DOI [10.1038/s41586-020-2649-2](https://doi.org/10.1038/s41586-020-2649-2).
+
+Read it to understand why homogeneous multidimensional arrays and vectorized operations became central infrastructure for numerical Python. Separate the paper’s software/ecosystem claims from this chapter’s educational interpretation.
+
+### Foundational-paper note
+
+No single foundational research paper is assigned for basic set, function, and quantifier notation. These are longstanding mathematical language conventions better learned from a coherent textbook and course. Inventing a “foundational paper” merely to fill a slot would weaken the source trail.
+
+## 24. Recommended articles
+
+- NumPy Developers, [“The N-dimensional array (`ndarray`)”](https://numpy.org/doc/2.5/reference/arrays.ndarray.html), NumPy 2.5 Reference, updated 28 June 2026. Focus on `shape`, `ndim`, and `dtype`.
+- NumPy Developers, [“Broadcasting”](https://numpy.org/doc/2.5/user/basics.broadcasting.html), NumPy 2.5 User Guide, updated 28 June 2026. Trace the trailing-axis compatibility rules and the memory warning.
+- MIT OpenCourseWare, [18.06SC Linear Algebra](https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/). Use the early units to connect equations, vectors, and systems.
+
+These are authoritative technical and university resources, not random practitioner summaries.
+
+## 25. Recommended books or chapters
+
+Marc Peter Deisenroth, A. Aldo Faisal, and Cheng Soon Ong, *Mathematics for Machine Learning* (Cambridge University Press, 2020), DOI [10.1017/9781108679930](https://doi.org/10.1017/9781108679930).
+
+Recommended sequence:
+
+1. Introduction and Motivation;
+2. the opening of Linear Algebra;
+3. return to later sections only after Chapter 2 of this book.
+
+The authors’ official companion site keeps a free version and frames the text as the mathematical preparation needed to read advanced ML material.
+
+## 26. Practical exercise
+
+Create a notation ledger for:
+
+$$
+\mathbf{H}=\phi(\mathbf{X}\mathbf{W}+\mathbf{1}_b\mathbf{c}^{\mathsf T}),
+$$
+
+where $\phi$ is applied elementwise.
+
+Tasks:
+
+1. define every symbol;
+2. assign shapes using $b=4$, $d=3$, $k=2$;
+3. write the indexed expression for $H_{i\ell}$;
+4. identify which index is summed out;
+5. state the domain and codomain of the batch transformation before $\phi$;
+6. explain why a bias of shape `(4,)` is not the intended output-feature bias;
+7. construct a concrete $4\times3$ input and verify the output shape with NumPy;
+8. describe one empty-axis edge case.
+
+Do not use random personal data. Explicit small synthetic arrays are enough.
+
+## 27. Assignment
+
+### Dimension Contract and Counterexample Clinic
+
+**Part A — formal reading**
+
+For each of six supplied formulas, produce a symbol table with object kind, domain, shape, and role. Mark every undefined or overloaded symbol.
+
+**Part B — derivation**
+
+Derive the batch affine transform from $Y_{i\ell}$ to matrix form. Explain why the bias term has shape $b\times k$ after expansion.
+
+**Part C — implementation**
+
+Implement a validated affine transformation independently. Requirements:
+
+- Python 3.12 and NumPy 2.x;
+- type hints;
+- rank, shape, finite-value, and resource-size validation;
+- deterministic tests;
+- expected output;
+- complexity statement;
+- no untrusted object deserialization.
+
+**Part D — counterexamples**
+
+Disprove three false claims:
+
+1. matrix multiplication is commutative;
+2. every NumPy one-dimensional array is a column matrix;
+3. if code runs without an exception, its axis interpretation is correct.
+
+**Rubric**
+
+- mathematical precision: 30%;
+- derivation and dimension checks: 25%;
+- code correctness and validation: 20%;
+- tests and edge cases: 15%;
+- explanation, security, and limitations: 10%.
+
+## 28. Quiz
+
+1. If $A\subseteq B$, which quantified statement is equivalent?
+2. What is the difference between codomain and image?
+3. Negate: $\forall x\in S,\ f(x)>0$.
+4. Which is stronger over $\mathbb{R}$: $\forall x\exists y(y>x)$ or $\exists y\forall x(y>x)$?
+5. If $\mathbf{X}$ has shape $7\times5$ and $\mathbf{W}$ has shape $5\times3$, what is the product shape?
+6. In $\sum_{j=1}^{d}X_{ij}W_{j\ell}$, which indices remain in the result?
+7. Is $f(x)=x^2$ from $\mathbb{R}$ to $\mathbb{R}$ surjective?
+8. Does transposing a NumPy array of shape `(5,)` create shape `(5, 1)`?
+9. Give one counterexample to the commutativity of matrix multiplication.
+10. Why can broadcasting be mathematically valid but operationally undesirable?
+
+## 29. Answers or solution guidance
+
+1. $\forall x\,(x\in A\Rightarrow x\in B)$.
+2. The codomain is the declared target set; the image contains values actually produced.
+3. $\exists x\in S$ such that $f(x)\leq0$.
+4. The first is true; the second is false over unbounded reals. They are not interchangeable.
+5. $7\times3$.
+6. $i$ and $\ell$ remain; $j$ is summed out.
+7. No. Negative reals are in the codomain but not the image.
+8. No. A one-dimensional array remains shape `(5,)`; use an explicit new axis or reshape when column shape is intended.
+9. Use the matrices from Worked Example D, or any valid pair with $\mathbf{A}\mathbf{B}\neq\mathbf{B}\mathbf{A}$.
+10. It may produce a very large intermediate array, obscure axis meaning, or apply values along an unintended but compatible axis.
+
+For the assignment, solution guidance should emphasize reasoning rather than a single code listing. A correct derivation names $b,d,k$, shows the matched $d$ dimension, expands the bias explicitly, and identifies the output as $\mathbb{R}^{b\times k}$. A strong counterexample is minimal, calculated, and directly contradicts the universal claim.
+
+## 30. Chapter summary
+
+Mathematical notation is an interface for thought. Sets define membership; tuples preserve order; relations connect objects; functions map each domain element to one codomain element; logic and quantifiers state the reach of claims. Scalars, vectors, matrices, and arrays require explicit conventions. Indices reveal which components are selected, summed, or retained.
+
+Before computing, identify objects, domains, shapes, and operations. Then expand a small case, derive the expression, implement it, and test edge conditions. Shape-safe code should validate untrusted inputs and document axis meaning. Counterexamples are decisive tools for rejecting universal statements. Tests provide implementation evidence but do not replace proof.
+
+The batch affine transformation illustrates the complete workflow:
+
+$$
+\mathbf{X}\in\mathbb{R}^{b\times d},
+\quad
+\mathbf{W}\in\mathbb{R}^{d\times k},
+\quad
+\mathbf{c}\in\mathbb{R}^{k}
+\quad\Longrightarrow\quad
+\mathbf{Y}\in\mathbb{R}^{b\times k}.
+$$
+
+Its index form, matrix form, loop implementation, and NumPy implementation describe the same intended computation at different layers.
+
+## 31. Key terms
+
+- set
+- element
+- subset
+- Cartesian product
+- tuple
+- relation
+- function
+- domain
+- codomain
+- image
+- proposition
+- implication
+- equivalence
+- universal quantifier
+- existential quantifier
+- counterexample
+- scalar
+- vector
+- matrix
+- software tensor
+- coordinate
+- index
+- shape
+- axis
+- matrix multiplication
+- elementwise operation
+- broadcasting
+- affine transformation
+- precondition
+- postcondition
+- invariant
+- approximate equality
+
+## 32. What to study next
+
+Proceed to **Vectors, Matrices, Linear Systems, and Subspaces** after you can:
+
+- distinguish `(d,)`, `(1, d)`, and `(d, 1)`;
+- expand a matrix product by indices;
+- state a function’s domain and codomain;
+- negate a simple quantified claim;
+- produce a counterexample;
+- explain the shape contract of `X @ W + c`.
+
+The next chapter will deepen vector spaces, linear combinations, span, independence, bases, systems of equations, rank, and subspaces. Probability content is not the next step in this scoped reference sequence.
+
+## 33. References
+
+1. BITS Pilani Work Integrated Learning Programmes. (2026). *M.Tech. AI & ML_New Brochure_2026 copy*. Curriculum placement evidence: PDF page 12, printed page 10. Repository record: `content/curriculum/official-curriculum.yaml`, SHA-256 `d61e6d875dfd4fcbbc0e2bd18cc11e5749a0efe9aa816c540d8498d5b0037975`; source-PDF SHA-256 `fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b`. Visually verified 2026-07-28.
+2. Deisenroth, M. P., Faisal, A. A., & Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. [https://doi.org/10.1017/9781108679930](https://doi.org/10.1017/9781108679930).
+3. Strang, G. (2011). *MIT 18.06SC Linear Algebra*. MIT OpenCourseWare. [https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/](https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/).
+4. Harris, C. R., Millman, K. J., van der Walt, S. J., et al. (2020). Array programming with NumPy. *Nature*, 585, 357–362. [https://doi.org/10.1038/s41586-020-2649-2](https://doi.org/10.1038/s41586-020-2649-2).
+5. NumPy Developers. (2026). *The N-dimensional array (`ndarray`)*. NumPy 2.5 Reference. [https://numpy.org/doc/2.5/reference/arrays.ndarray.html](https://numpy.org/doc/2.5/reference/arrays.ndarray.html). Last updated 2026-06-28; accessed 2026-07-28.
+6. NumPy Developers. (2026). *Broadcasting*. NumPy 2.5 User Guide. [https://numpy.org/doc/2.5/user/basics.broadcasting.html](https://numpy.org/doc/2.5/user/basics.broadcasting.html). Last updated 2026-06-28; accessed 2026-07-28.
+7. NumPy Developers. (2026). *numpy.isclose*. NumPy 2.5 Reference. [https://numpy.org/doc/2.5/reference/generated/numpy.isclose.html](https://numpy.org/doc/2.5/reference/generated/numpy.isclose.html). Accessed 2026-07-28.
+8. NumPy Developers. (2026). *numpy.matmul*. NumPy 2.5 Reference. [https://numpy.org/doc/2.5/reference/generated/numpy.matmul.html](https://numpy.org/doc/2.5/reference/generated/numpy.matmul.html). Accessed 2026-07-28.
+9. NumPy Developers. (2026). *numpy.transpose*. NumPy 2.5 Reference. [https://numpy.org/doc/2.5/reference/generated/numpy.transpose.html](https://numpy.org/doc/2.5/reference/generated/numpy.transpose.html). Accessed 2026-07-28.
+10. NumPy Developers. (2026). *numpy.isfinite*. NumPy 2.5 Reference. [https://numpy.org/doc/2.5/reference/generated/numpy.isfinite.html](https://numpy.org/doc/2.5/reference/generated/numpy.isfinite.html). Accessed 2026-07-28.
+11. NumPy Developers. (2026). *numpy.finfo*. NumPy 2.5 Reference. [https://numpy.org/doc/2.5/reference/generated/numpy.finfo.html](https://numpy.org/doc/2.5/reference/generated/numpy.finfo.html). Accessed 2026-07-28.

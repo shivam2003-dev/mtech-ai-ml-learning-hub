@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shivam2003.com/schemas/subject.schema.json",
+  "title": "Learning Hub Subject",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "title",
+    "slug",
+    "semester",
+    "subjectType",
+    "summary",
+    "prerequisites",
+    "learningOutcomes",
+    "difficulty",
+    "estimatedHours",
+    "tools",
+    "tags",
+    "authors",
+    "reviewers",
+    "status",
+    "createdAt",
+    "updatedAt",
+    "lastVerifiedAt",
+    "version"
+  ],
+  "properties": {
+    "title": { "type": "string", "minLength": 3 },
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "semester": {
+      "oneOf": [
+        { "type": "integer", "minimum": 1, "maximum": 3 },
+        { "const": "configurable-2-3" }
+      ]
+    },
+    "subjectType": { "enum": ["compulsory", "elective"] },
+    "specialization": { "type": ["string", "null"] },
+    "officialSyllabusSource": {
+      "type": "object",
+      "required": ["document", "pdfPage", "verificationStatus"],
+      "properties": {
+        "document": { "type": "string" },
+        "pdfPage": { "type": "integer", "minimum": 1 },
+        "printedPage": { "type": ["integer", "null"] },
+        "verificationStatus": { "enum": ["verified", "partial", "unverified"] }
+      }
+    },
+    "summary": { "type": "string", "minLength": 40 },
+    "prerequisites": { "type": "array", "items": { "type": "string" } },
+    "learningOutcomes": { "type": "array", "items": { "type": "string" } },
+    "difficulty": { "enum": ["foundation", "intermediate", "advanced"] },
+    "estimatedHours": { "type": "integer", "minimum": 1 },
+    "chapterCount": { "type": "integer", "minimum": 0 },
+    "projectCount": { "type": "integer", "minimum": 0 },
+    "paperCount": { "type": "integer", "minimum": 0 },
+    "tools": { "type": "array", "items": { "type": "string" } },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "authors": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "reviewers": { "type": "array", "items": { "type": "string" } },
+    "status": {
+      "enum": [
+        "planned",
+        "researching",
+        "drafting",
+        "technical-review",
+        "citation-review",
+        "editorial-review",
+        "approved",
+        "published",
+        "needs-update",
+        "blocked"
+      ]
+    },
+    "createdAt": { "type": "string", "format": "date" },
+    "updatedAt": { "type": "string", "format": "date" },
+    "lastVerifiedAt": { "type": "string", "format": "date" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" }
+  }
+}

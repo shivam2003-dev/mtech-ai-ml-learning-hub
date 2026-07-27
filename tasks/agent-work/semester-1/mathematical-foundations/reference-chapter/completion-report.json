@@ -1,0 +1,115 @@
+{
+  "agentId": "subject-lead-001-reference-chapter-writer-math-reviewer",
+  "subject": "Mathematical Foundations for Machine Learning",
+  "task": "Create the production reference subject page, complete book front matter, and Chapter 1 Mathematical Language for Machine Learning",
+  "status": "completed",
+  "filesCreated": [
+    "content/subjects/mathematical-foundations-for-machine-learning/index.mdx",
+    "content/subjects/mathematical-foundations-for-machine-learning/book/00-preface.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/book/01-how-to-use-this-book.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/book/02-prerequisites.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/book/03-learning-outcomes.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/book/04-subject-roadmap.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/book/05-mathematical-notation.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
+    "content/subjects/mathematical-foundations-for-machine-learning/references.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/references.bib",
+    "content/subjects/mathematical-foundations-for-machine-learning/glossary.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/further-reading.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/research-papers/README.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/papers/README.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/projects/README.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/assignments/README.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/quizzes/README.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/datasets/README.md",
+    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/completion-report.json",
+    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/code-validation.md",
+    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/code-validation.json",
+    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/word-count-validation.json",
+    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/heading-validation.json",
+    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/citation-content-remediation.md",
+    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/correction-disposition.md",
+    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/correction-disposition.json"
+  ],
+  "filesModified": [
+    "content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
+    "content/subjects/mathematical-foundations-for-machine-learning/references.md",
+    "content/subjects/mathematical-foundations-for-machine-learning/references.bib",
+    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/completion-report.json"
+  ],
+  "sourcesUsed": [
+    "BITS Pilani WILP M.Tech. AI & ML_New Brochure_2026 copy, physical PDF page 12, printed page 10",
+    "Mathematics for Machine Learning by Deisenroth, Faisal, and Ong, DOI 10.1017/9781108679930",
+    "MIT 18.06SC Linear Algebra by Gilbert Strang",
+    "Array programming with NumPy by Harris et al., DOI 10.1038/s41586-020-2649-2",
+    "NumPy 2.5 official ndarray reference, last updated 2026-06-28",
+    "NumPy 2.5 official broadcasting guide, last updated 2026-06-28",
+    "NumPy 2.5 official isclose, matmul, transpose, isfinite, and finfo references"
+  ],
+  "citationsVerified": 5,
+  "citationsRejected": 0,
+  "wordCount": 4548,
+  "testsRun": [
+    "node scripts/calculate-word-count/chapter-word-count.mjs content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
+    "33-section ordered-heading count after removing the redundant authored chapter-title section",
+    "gray-matter frontmatter extraction for subject and chapter",
+    "subject frontmatter required/additional/property validation against subject.schema.json",
+    "chapter frontmatter required/additional/property validation against chapter.schema.json",
+    "@mdx-js/mdx compilation with remark-math and rehype-mathjax for subject and chapter",
+    "byte-for-byte execution of the published affine_batch, affine_batch_loops, and AffineBatchTests fenced blocks",
+    "seven unittest cases for known output, seeded implementation agreement, shape mismatch, non-finite input, resource-size rejection, nonnumeric conversion, and ragged loop input",
+    "scope scan for probability and project content",
+    "route-safe chapter-link check",
+    "git diff --check"
+  ],
+  "validationResults": {
+    "officialTopicBoundary": "passed: all topic-level material is visibly prerequisite or supplementary",
+    "probabilityContent": "excluded",
+    "projectContent": "excluded; honest placeholder only",
+    "chapterStructure": "passed: no authored H1, first authored heading is H2 Why this topic matters, and 33 authored sections are ordered without a redundant chapter-title section",
+    "meaningfulProseWords": 4548,
+    "minimumMeaningfulProseWords": 3000,
+    "chapterFrontmatterWordCountMatches": true,
+    "subjectSchema": "passed",
+    "chapterSchema": "passed",
+    "mdxCompilation": "passed for index and chapter with MathJax pipeline",
+    "mathReview": "pending independent approval; the producing agent does not claim an independent mathematics decision",
+    "codeStatus": "tested on Python 3.14.6 with NumPy 2.3.4; exact published blocks executed and 7 of 7 tests passed",
+    "citations": "partial pending independent recheck; curriculum provenance is hash/page traceable, NumPy documentation is pinned to 2.5, technical claims have inline links, and local guidance is explicitly labeled",
+    "reviewerMetadata": "normalized to Subject Lead and independent citation-review report IDs without claiming overall approval",
+    "editorialStatus": "review",
+    "evidencePaths": {
+      "subjectLeadReview": "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/subject-lead-review.json",
+      "citationReview": "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/citation-review.json",
+      "headingSource": "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/heading-validation.json",
+      "wordCount": "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/word-count-validation.json",
+      "code": [
+        "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/code-validation.md",
+        "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/code-validation.json"
+      ],
+      "citationContentRemediation": "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/citation-content-remediation.md",
+      "correctionDisposition": [
+        "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/correction-disposition.md",
+        "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/correction-disposition.json"
+      ]
+    },
+    "staticRoute": "./chapters/01-mathematical-language-for-machine-learning/",
+    "placeholderIntegrity": "passed: no fake paper, project, assignment, quiz, or dataset content",
+    "sharedFilesTouched": false,
+    "fullChaptersCreated": 1
+  },
+  "openIssues": [
+    "The official brochure remains title-only for this subject, so the chapter is provisional and not an official unit.",
+    "Independent mathematics, citation, and editorial sign-off is still required before publication status can become approved.",
+    "The application must render the route-safe subject and chapter paths; shared app integration is outside this task.",
+    "The canonical future paper-directory name must be standardized between papers and research-papers."
+  ],
+  "recommendedNextTasks": [
+    "Request independent citation and editorial recheck of the corrected snapshot identified in correction-disposition.json.",
+    "Request Subject Lead re-review of RC-SL-001 through RC-SL-005 using the linked evidence.",
+    "Run independent mathematics review of the reference chapter.",
+    "Integrate the subject and chapter routes without changing the portable MDX content.",
+    "Render and visually inspect MathJax, code highlighting, tables, mobile layout, print mode, and heading anchors.",
+    "Keep probability and project generation blocked until their separate scope and completeness gates pass."
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "contractVersion": "1.0.0",
+  "reportId": "math-foundations-ch01-correction-disposition-2026-07-28",
+  "basedOnReviewId": "math-foundations-ch01-citation-review-2026-07-28",
+  "status": "author-corrections-complete-independent-recheck-required",
+  "approvalClaimed": false,
+  "chapterStatuses": {
+    "citationStatus": "partial",
+    "mathReviewStatus": "pending",
+    "editorialStatus": "review"
+  },
+  "dispositions": [
+    {
+      "item": "curriculum-provenance",
+      "status": "corrected",
+      "evidence": "Brochure title, issuer, record hash, source-PDF hash, PDF page 12, printed page 10, and verification date are recorded."
+    },
+    {
+      "item": "numpy-version-pinning",
+      "status": "corrected",
+      "evidence": "ndarray and broadcasting use NumPy 2.5 URLs and the verified 2026-06-28 update date."
+    },
+    {
+      "item": "claim-level-links",
+      "status": "corrected",
+      "evidence": "Inline links cover ndarray, broadcasting, isclose, matmul, transpose, isfinite, and finfo."
+    },
+    {
+      "item": "broadcast-b-equals-k",
+      "status": "corrected",
+      "evidence": "Exceptional numeric-shape compatibility and semantic-axis risk are explicit."
+    },
+    {
+      "item": "floating-point-and-dtype",
+      "status": "narrowed-and-sourced",
+      "evidence": "Claims are limited to the local isfinite and float64 contracts with official NumPy links."
+    },
+    {
+      "item": "deployment-advice",
+      "status": "corrected",
+      "evidence": "Advice is explicitly local repository deployment guidance."
+    },
+    {
+      "item": "python-loop-performance",
+      "status": "qualified",
+      "evidence": "The prose disclaims a universal benchmark and names size, layout, runtime, and hardware."
+    },
+    {
+      "item": "empty-batch-mean",
+      "status": "added",
+      "evidence": "Tested NumPy 2.3.4 output and warnings are recorded."
+    },
+    {
+      "item": "reading-time",
+      "status": "adjusted",
+      "evidence": "Estimated reading time is 100 minutes."
+    },
+    {
+      "item": "reviewer-evidence",
+      "status": "corrected",
+      "evidence": "Subject Lead and citation-review IDs are present without an approval claim."
+    }
+  ],
+  "postCorrectionEvidence": {
+    "meaningfulProseWords": 4548,
+    "publishedCodeTestsPassed": 7,
+    "python": "3.14.6",
+    "numpy": "2.3.4",
+    "chapterSha256": "18c1e969716e46f2996f84b4cf65e4b5099a109a3483f8efc338a567dac96fb6",
+    "referencesMarkdownSha256": "4fa7afe62da0f9f538cd6b4326ee569be343305b7f307899fda0a90b9c032833",
+    "referencesBibSha256": "5db20ce2d5ec2b6f5b33f5a2fb1cf5315fc823414fddc2d4cd3291650e5a35b1"
+  }
+}

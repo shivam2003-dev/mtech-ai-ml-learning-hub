@@ -1,0 +1,158 @@
+schemaVersion: 1
+programme:
+  title: M.Tech. Artificial Intelligence and Machine Learning
+  institution: BITS Pilani Work Integrated Learning Programmes
+  audience: working professionals
+  brochureTitle: M.Tech. AI & ML_New Brochure_2026 copy
+  brochurePath: /Users/shivamkumar/Downloads/mtech-ai-ml.pdf
+  brochureSha256: fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b
+  brochureCreationDate: 2026-04-30
+  brochureModifiedDate: 2026-07-21
+  pageCount: 23
+  extractionDate: 2026-07-28
+  verificationStatus: visually-verified
+  notes:
+    - PDF page numbers differ from the printed brochure page numbers.
+    - Semester 2 and Semester 3 elective selections are configurable; the brochure does not assign named electives to a fixed semester.
+    - Semester 4 contains the dissertation and is outside the requested Semester 1-3 learning corpus.
+
+semesters:
+  - semester: 1
+    brochureEvidence:
+      pdfPage: 12
+      printedPage: 10
+    compulsorySubjects:
+      - Mathematical Foundations for Machine Learning
+      - Introduction to Statistical Methods
+      - Artificial and Computational Intelligence
+      - Machine Learning
+  - semester: 2
+    brochureEvidence:
+      pdfPage: 12
+      printedPage: 10
+    compulsorySubjects:
+      - Deep Neural Networks
+      - Deep Reinforcement Learning
+    electiveSlots: 2
+  - semester: 3
+    brochureEvidence:
+      pdfPage: 12
+      printedPage: 10
+    compulsorySubjects: []
+    electiveSlots: 4
+  - semester: 4
+    brochureEvidence:
+      pdfPage: 12
+      printedPage: 10
+    project:
+      - Dissertation
+    includedInHubScope: false
+
+electivePools:
+  general:
+    brochureEvidence:
+      pdfPage: 12
+      printedPage: 10
+    subjects:
+      - AI and ML for Robotics
+      - AI and ML Techniques for Cyber Security
+      - Advanced Data Mining
+      - API-driven Cloud Native Solutions
+      - Automated Reasoning
+      - Architecting AI Systems
+      - Agentic AI Systems
+      - Design of Algorithms
+      - Data Management for Machine Learning
+      - Introduction to Parallel and Distributed Programming
+      - MLOps
+      - Metaheuristics for Optimization
+      - Multimodal AI
+      - Multimodal Information Retrieval
+      - Probabilistic Graphical Models
+      - Quantum Machine Learning
+      - Software Engineering for Machine Learning
+  nlp:
+    brochureEvidence:
+      pdfPage: 13
+      printedPage: 11
+    minimumCourses: 3
+    requiredMarkedCourse: Natural Language Processing
+    subjects:
+      - Advanced Reasoning and Planning
+      - Conversational AI
+      - Information Retrieval
+      - Large Language Models for Generative AI
+      - Natural Language Processing
+      - NLP Applications
+      - Speech Processing
+      - Social Media Analytics
+  deep-learning:
+    brochureEvidence:
+      pdfPage: 13
+      printedPage: 11
+    minimumCourses: 3
+    requiredMarkedCourse: Unsupervised Deep Learning
+    subjects:
+      - Computational Learning Theory
+      - Distributed Machine Learning
+      - Fair, Interpretable, Trustworthy Machine Learning
+      - Graph Neural Networks
+      - ML System Optimization
+      - Machine Learning on the Edge
+      - Unsupervised Deep Learning
+  audio-and-vision:
+    brochureEvidence:
+      pdfPage: 13
+      printedPage: 11
+    minimumCourses: 3
+    requiredMarkedCourses:
+      - Audio Analysis
+      - Computer Vision
+    subjects:
+      - Audio Analysis
+      - Computer Vision
+      - Computational Photography
+      - Computational Imaging
+      - Contemporary Computer Graphics
+      - 3D Computer Vision
+      - Video Analysis
+
+courseDescriptions:
+  note: Only courses with descriptions printed on brochure PDF pages 14-17 are transcribed here.
+  sourcePages:
+    - pdfPage: 14
+      printedPage: 12
+    - pdfPage: 15
+      printedPage: 13
+    - pdfPage: 16
+      printedPage: 14
+    - pdfPage: 17
+      printedPage: 15
+  describedSubjects:
+    - Deep Neural Networks
+    - Machine Learning
+    - Computer Vision
+    - Video Analysis
+    - Audio Analysis
+    - Large Language Models for Generative AI
+    - NLP Applications
+    - Conversational AI
+    - Social Media Analytics
+    - AI and ML Techniques for Cyber Security
+    - Agentic AI Systems
+    - Advanced Reasoning and Planning
+    - Multimodal AI
+    - Architecting AI Systems
+    - Advanced Data Mining
+  undescribedSubjectsPolicy: Keep officialTopics empty until another official syllabus source is supplied.
+
+assessment:
+  brochureEvidence:
+    pdfPage: 18
+    printedPage: 16
+  semestersOneToThree:
+    - mid-semester exam
+    - comprehensive exam
+    - online quizzes and assignments via LMS
+  semesterFour:
+    - dissertation or project work

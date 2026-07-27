@@ -1,0 +1,298 @@
+{
+  "reviewId": "math-foundations-ch01-citation-review-2026-07-28",
+  "role": "Independent Citation Verifier",
+  "subject": "Mathematical Foundations for Machine Learning",
+  "chapter": "Mathematical Language for Machine Learning",
+  "reviewedAt": "2026-07-28",
+  "status": "changes-required",
+  "approved": false,
+  "approvalBlockers": [
+    "Claim-level citations are incomplete.",
+    "The curriculum notice lacks exact brochure provenance.",
+    "Moving NumPy stable URLs are not pinned to the verified documentation version.",
+    "The IEEE floating-point statement lacks a standards citation.",
+    "Writer fixes and rendered QA have not been independently reviewed."
+  ],
+  "reviewedSnapshot": {
+    "chapter": {
+      "path": "content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
+      "sha256": "8743afe6e6f4b6025b99cf8a9101301d85eb89c1066690e7d9f5cbca8eaba857"
+    },
+    "referencesBib": {
+      "path": "content/subjects/mathematical-foundations-for-machine-learning/references.bib",
+      "sha256": "40fea8b5cb73cda4171728b3e71ea5c075ab8a2671a7da27265321558632e876"
+    },
+    "referencesMarkdown": {
+      "path": "content/subjects/mathematical-foundations-for-machine-learning/references.md",
+      "sha256": "c212d12c7f00cdfb293d85c3f35afad7977f4b82da828a54d3f41434594119f5"
+    }
+  },
+  "sourceSummary": {
+    "sourcesReviewed": 5,
+    "sourcesAccepted": 5,
+    "sourcesRejected": 0,
+    "identifiersAccepted": 7,
+    "identifiersRejected": 0
+  },
+  "sources": [
+    {
+      "sourceId": "S1",
+      "title": "Mathematics for Machine Learning",
+      "authors": [
+        "Marc Peter Deisenroth",
+        "A. Aldo Faisal",
+        "Cheng Soon Ong"
+      ],
+      "year": 2020,
+      "venueOrPublisher": "Cambridge University Press",
+      "resourceType": "book",
+      "doi": "10.1017/9781108679930",
+      "url": "https://www.cambridge.org/highereducation/books/mathematics-for-machinelearning/5EE57FD1CFB23E6EB11E130309C7EF98",
+      "companionUrl": "https://mml-book.github.io/",
+      "verificationStatus": "accepted"
+    },
+    {
+      "sourceId": "S2",
+      "title": "MIT 18.06SC Linear Algebra",
+      "authors": [
+        "Gilbert Strang"
+      ],
+      "year": 2011,
+      "venueOrPublisher": "MIT OpenCourseWare",
+      "resourceType": "course",
+      "doi": null,
+      "url": "https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/",
+      "verificationStatus": "accepted"
+    },
+    {
+      "sourceId": "S3",
+      "title": "Array programming with NumPy",
+      "authors": [
+        "Charles R. Harris",
+        "K. Jarrod Millman",
+        "Stefan J. van der Walt",
+        "et al."
+      ],
+      "year": 2020,
+      "venueOrPublisher": "Nature 585, 357-362",
+      "resourceType": "journal-article",
+      "doi": "10.1038/s41586-020-2649-2",
+      "url": "https://www.nature.com/articles/s41586-020-2649-2",
+      "verificationStatus": "accepted"
+    },
+    {
+      "sourceId": "S4",
+      "title": "The N-dimensional array (ndarray)",
+      "authors": [
+        "NumPy Developers"
+      ],
+      "year": 2026,
+      "venueOrPublisher": "NumPy 2.5 Reference",
+      "resourceType": "official-documentation",
+      "doi": null,
+      "url": "https://numpy.org/doc/2.5/reference/arrays.ndarray.html",
+      "lastUpdated": "2026-06-28",
+      "verificationStatus": "accepted-with-metadata-correction"
+    },
+    {
+      "sourceId": "S5",
+      "title": "Broadcasting",
+      "authors": [
+        "NumPy Developers"
+      ],
+      "year": 2026,
+      "venueOrPublisher": "NumPy 2.5 User Guide",
+      "resourceType": "official-documentation",
+      "doi": null,
+      "url": "https://numpy.org/doc/2.5/user/basics.broadcasting.html",
+      "lastUpdated": "2026-06-28",
+      "verificationStatus": "accepted-with-metadata-correction"
+    }
+  ],
+  "acceptedIdentifiers": [
+    "doi:10.1017/9781108679930",
+    "doi:10.1038/s41586-020-2649-2",
+    "isbn:9781108679930",
+    "isbn:9781108470049",
+    "isbn:9781108455145",
+    "url:https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/",
+    "url:https://mml-book.github.io/"
+  ],
+  "rejectedIdentifiers": [],
+  "claimMap": [
+    {
+      "claimId": "C01",
+      "lines": "49",
+      "claim": "Official brochure verifies subject title and Semester 1 placement but not topic-level units.",
+      "status": "unresolved-traceability",
+      "sources": [],
+      "requiredCorrection": "Add exact official brochure provenance and attach a claim-level citation."
+    },
+    {
+      "claimId": "C02",
+      "lines": "62",
+      "claim": "A one-dimensional NumPy array is not explicitly a row or column matrix.",
+      "status": "verified-needs-inline-citation",
+      "sources": [
+        "S4",
+        "https://numpy.org/doc/2.5/reference/generated/numpy.transpose.html"
+      ]
+    },
+    {
+      "claimId": "C03",
+      "lines": "82",
+      "claim": "A shape (k,) bias broadcasts over (b,k), while shape (b,) generally does not.",
+      "status": "verified-needs-qualification-and-inline-citation",
+      "sources": [
+        "S5"
+      ],
+      "requiredCorrection": "Cite S5 and qualify the b == k case."
+    },
+    {
+      "claimId": "C04",
+      "lines": "96",
+      "claim": "MML and MIT course characterizations.",
+      "status": "verified-needs-inline-citation",
+      "sources": [
+        "S1",
+        "S2"
+      ]
+    },
+    {
+      "claimId": "C05",
+      "lines": "289",
+      "claim": "ndarray fixed-size container, shape, and dtype definition.",
+      "status": "verified-needs-wording-and-inline-citation",
+      "sources": [
+        "S4"
+      ],
+      "requiredCorrection": "Use 'usually fixed-size' and cite S4."
+    },
+    {
+      "claimId": "C06",
+      "lines": "293-299",
+      "claim": "Approximate-comparison formula.",
+      "status": "verified-additional-source-required",
+      "sources": [
+        "https://numpy.org/doc/2.5/reference/generated/numpy.isclose.html"
+      ],
+      "requiredCorrection": "Identify it as NumPy's asymmetric isclose rule with b as reference."
+    },
+    {
+      "claimId": "C07",
+      "lines": "521",
+      "claim": "Python 3.12 and NumPy 2.x target and tested status.",
+      "status": "accepted-with-recorded-execution-evidence",
+      "sources": [
+        "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/code-validation.md",
+        "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/code-validation.json"
+      ],
+      "note": "All seven published tests passed on Python 3.14.6 and NumPy 2.3.4; this is evidence for a later Python 3 release and one NumPy 2.x release, not every supported combination."
+    },
+    {
+      "claimId": "C08",
+      "lines": "674",
+      "claim": "Trailing-axis broadcasting and bias behavior.",
+      "status": "verified-needs-inline-citation",
+      "sources": [
+        "S5"
+      ]
+    },
+    {
+      "claimId": "C09",
+      "lines": "756-762",
+      "claim": "Affine transforms appear in listed machine-learning components.",
+      "status": "plausible-needs-citation-or-label",
+      "sources": [],
+      "requiredCorrection": "Cite authoritative implementation/paper sources or label the list as educational examples."
+    },
+    {
+      "claimId": "C10",
+      "lines": "792",
+      "claim": "For ndarray, * is elementwise and @ is matrix multiplication.",
+      "status": "verified-additional-source-required",
+      "sources": [
+        "https://numpy.org/doc/2.5/reference/generated/numpy.matmul.html"
+      ]
+    },
+    {
+      "claimId": "C11",
+      "lines": "808",
+      "claim": "Transposing a one-dimensional NumPy array preserves its shape.",
+      "status": "verified-additional-source-required",
+      "sources": [
+        "https://numpy.org/doc/2.5/reference/generated/numpy.transpose.html"
+      ]
+    },
+    {
+      "claimId": "C12",
+      "lines": "830",
+      "claim": "NaN and infinities are IEEE floating-point values.",
+      "status": "standards-citation-required",
+      "sources": [
+        "doi:10.1109/IEEESTD.2019.8766229"
+      ]
+    },
+    {
+      "claimId": "C13",
+      "lines": "850-860",
+      "claim": "Dense affine and validation complexity.",
+      "status": "accepted-direct-derivation",
+      "sources": []
+    },
+    {
+      "claimId": "C14",
+      "lines": "868-873",
+      "claim": "Broadcasting memory behavior and 80 GB example.",
+      "status": "verified-needs-inline-citation",
+      "sources": [
+        "S5"
+      ]
+    },
+    {
+      "claimId": "C15",
+      "lines": "875",
+      "claim": "Real services need limits, timeouts, quotas, monitoring, and cancellation.",
+      "status": "local-guidance-label-or-source-required",
+      "sources": []
+    },
+    {
+      "claimId": "C16",
+      "lines": "883-919",
+      "claim": "Security and engineering recommendations.",
+      "status": "accepted-as-explicit-local-guidance",
+      "sources": []
+    },
+    {
+      "claimId": "C17",
+      "lines": "923-944",
+      "claim": "NumPy array programming is central scientific-computing infrastructure.",
+      "status": "verified-needs-inline-citation",
+      "sources": [
+        "S3"
+      ]
+    }
+  ],
+  "requiredCorrections": [
+    "Add exact official brochure provenance and a claim-level curriculum citation.",
+    "Pin NumPy pages to version 2.5 and cite their supported 2026-06-28 last-update date.",
+    "Add claim-level citations at the listed technical and source-characterization claims.",
+    "Add NumPy isclose, matmul, and transpose documentation where specified.",
+    "Support the IEEE floating-point statement with IEEE 754-2019 or narrow and source the claim.",
+    "Qualify the broadcasting example for b == k.",
+    "Label the service-deployment sentence as local guidance or add an authoritative source.",
+    "Retain citationStatus partial until independent re-verification."
+  ],
+  "testsRun": [
+    "Crossref metadata lookup for both DOI records",
+    "HTTP 200 check for NumPy 2.5 versioned documentation URLs",
+    "NumPy documentation HTML metadata check for version and last-update date",
+    "Manual cross-file comparison of chapter references, references.md, and references.bib",
+    "SHA-256 snapshot capture"
+  ],
+  "openIssues": [
+    "Rendered citation-link behavior has not been tested.",
+    "Writer corrections have not been reviewed.",
+    "The chapter tests were not re-executed by the citation verifier; the writer's byte-for-byte execution report was inspected and accepted."
+  ]
+}

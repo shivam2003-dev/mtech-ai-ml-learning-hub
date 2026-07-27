@@ -1,0 +1,112 @@
+{
+  "contractVersion": "1.0.0",
+  "reviewId": "math-foundations-ch01-subject-lead-2026-07-28",
+  "reviewerRole": "subject-lead",
+  "reviewerId": "subject-lead:mathematical-foundations-for-machine-learning",
+  "subject": "Mathematical Foundations for Machine Learning",
+  "chapter": "Mathematical Language for Machine Learning",
+  "sourcePath": "content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
+  "reviewReportPath": "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/subject-lead-review.md",
+  "reviewedAt": "2026-07-28",
+  "status": "changes-required",
+  "contentModified": false,
+  "scopeChecks": {
+    "officialSyllabusBoundary": "passed",
+    "chapterClassification": "passed",
+    "firstChapterPurpose": "passed",
+    "probabilityOwnershipBoundary": "passed",
+    "statisticalMethodsDuplication": "not-present",
+    "nextChapterDependency": "passed"
+  },
+  "preliminaryChecks": {
+    "mathematicalCoherence": "passed-preliminary",
+    "requiredSectionCoverage": "passed-preliminary",
+    "codeDesign": "passed-preliminary",
+    "sourceRelevance": "passed-preliminary",
+    "headingHierarchy": "failed",
+    "meaningfulWordCountEvidence": "needs-evidence",
+    "executableCodeTestEvidence": "needs-evidence",
+    "reviewerMetadata": "needs-reconciliation",
+    "claimLevelCitationEvidence": "needs-evidence",
+    "editorialApproval": "pending"
+  },
+  "observations": {
+    "rawFileWordCount": 6191,
+    "frontMatterWordCount": 4527,
+    "rawFileLineCount": 1117,
+    "embeddedUnitTestCount": 5,
+    "firstAuthoredHeading": "## 1. Chapter title",
+    "nextHeading": "# Mathematical Language for Machine Learning"
+  },
+  "findings": [
+    {
+      "id": "RC-SL-001",
+      "severity": "blocking",
+      "area": "accessibility-heading-structure",
+      "summary": "The source places a level-two heading before the page level-one title.",
+      "requiredEvidence": [
+        "exactly one rendered H1",
+        "monotonic heading hierarchy",
+        "passing heading-order accessibility check"
+      ]
+    },
+    {
+      "id": "RC-SL-002",
+      "severity": "major",
+      "area": "word-count",
+      "summary": "The declared meaningful word count lacks reproducible calculation evidence.",
+      "requiredEvidence": [
+        "meaningful-prose counter result",
+        "counter method/version",
+        "confirmed result above 3000 words excluding code and references"
+      ]
+    },
+    {
+      "id": "RC-SL-003",
+      "severity": "major",
+      "area": "code",
+      "summary": "Embedded tests are present, but codeStatus tested lacks execution evidence.",
+      "requiredEvidence": [
+        "exact published code executed",
+        "Python and NumPy versions",
+        "passing test output",
+        "completion-report link"
+      ]
+    },
+    {
+      "id": "RC-SL-004",
+      "severity": "major",
+      "area": "review-metadata",
+      "summary": "Reviewer and independent review-status evidence is incomplete.",
+      "requiredEvidence": [
+        "normalized reviewer report identifiers",
+        "subject-lead changes-required status retained until closure",
+        "independent citation, mathematics, code, and editorial decisions"
+      ]
+    },
+    {
+      "id": "RC-SL-005",
+      "severity": "major",
+      "area": "citations",
+      "summary": "Claim-level citation evidence and web-document publication-date handling need completion.",
+      "requiredEvidence": [
+        "claim-to-source mapping",
+        "verified bibliographic metadata",
+        "n.d. for undated documentation unless update year is verified",
+        "support or explicit local-guidance labeling for security claims"
+      ]
+    }
+  ],
+  "nonBlockingPolish": [
+    "Label unittest output as abbreviated or use captured output.",
+    "Add an explicit default vector-orientation convention for later chapters.",
+    "Retain the warning that basic NumPy type hints do not enforce runtime shapes."
+  ],
+  "approvalGate": [
+    "RC-SL-001 through RC-SL-005 closed with evidence",
+    "rendered desktop/mobile and keyboard checks pass",
+    "meaningful prose count reproduced",
+    "code and citation reports attached",
+    "independent editorial approval complete"
+  ]
+}
