@@ -1,0 +1,116 @@
+{
+  "agentId": "subject-lead-elective-mlops",
+  "subject": "MLOps",
+  "task": "Create the title-only elective planning bundle without drafting full chapters",
+  "status": "completed",
+  "filesCreated": [
+    "tasks/agent-work/electives/mlops/plan.md",
+    "tasks/agent-work/electives/mlops/completion-report.json"
+  ],
+  "filesModified": [],
+  "sourcesUsed": [
+    {
+      "id": "official-brochure",
+      "path": "/Users/shivamkumar/Downloads/mtech-ai-ml.pdf",
+      "sha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+      "locator": "physical PDF page 12, printed page 10",
+      "verificationStatus": "verified-title-only"
+    },
+    {
+      "ids": "R01-R28",
+      "resourceIds": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06",
+        "R07",
+        "R08",
+        "R09",
+        "R10",
+        "R11",
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16",
+        "R17",
+        "R18",
+        "R19",
+        "R20",
+        "R21",
+        "R22",
+        "R23",
+        "R24",
+        "R25",
+        "R26",
+        "R27",
+        "R28"
+      ],
+      "record": "plan.md Section 8",
+      "acceptedResourceCount": 28,
+      "verificationStatus": "individually-recorded-and-host-checked"
+    }
+  ],
+  "citationsVerified": 28,
+  "citationsRejected": 2,
+  "rejectedSources": [
+    {
+      "candidate": "DOI 10.1145/2939672.2939716 as an identifier for FBLearner Flow",
+      "reason": "Crossref resolves it to the unrelated paper Domain Adaptation in the Absence of Source Domain Data."
+    },
+    {
+      "candidate": "DOI 10.48550/arXiv.2205.02302 as the final IEEE identifier for the MLOps architecture paper",
+      "reason": "It identifies the 2022 preprint version; the final 2023 IEEE article uses DOI 10.1109/ACCESS.2023.3262138."
+    }
+  ],
+  "wordCount": 5279,
+  "testsRun": [
+    "verified brochure SHA-256 and title-only locator",
+    "confirmed every proposed topic is labelled non-official",
+    "checked chapter count is within 8-16",
+    "summed chapter-hour rows to 170",
+    "validated total workload 8 + 56 + 60 + 32 + 22 + 32 + 10 = 220",
+    "checked 28 canonical resource records",
+    "queried DOI metadata through Crossref",
+    "probed canonical URLs with redirects and bounded concurrency",
+    "inspected six projects for every required contract field",
+    "validated completion-report JSON",
+    "confirmed no full chapter was created"
+  ],
+  "validationResults": {
+    "officialCourseIdentity": "passed-title-only",
+    "officialDetailedSyllabusAvailable": false,
+    "proposedTopicsPresentedAsOfficial": false,
+    "additionClassification": "passed",
+    "chapterCount": "passed-12",
+    "learningOutcomes": "passed-provisional",
+    "prerequisiteMap": "passed-provisional",
+    "knowledgeGraph": "passed-provisional",
+    "crossSubjectBoundaries": "passed-provisional-ownership-matrix-required-before-prose",
+    "researchQueries": "passed-15",
+    "academicResources": "passed-28",
+    "paperReadingPath": "passed-21",
+    "paperCategoryMix": "passed-4-foundational-5-established-5-modern-3-survey-4-applied",
+    "projectLevels": "passed-2-beginner-2-intermediate-1-advanced-1-research",
+    "projectContractFields": "passed-all-six",
+    "estimatedHours": "passed-220",
+    "citationMetadata": "passed-with-2-rejections-documented",
+    "fullChapterDraft": "not-created-as-required"
+  },
+  "openIssues": [
+    "No official MLOps topic-level syllabus is available.",
+    "Tool documentation and versions must be pinned at implementation time.",
+    "Cross-subject ownership must be frozen before prose generation.",
+    "Claim-level primary-source reading remains a chapter gate.",
+    "Any external dataset requires final identity, licence, and checksum."
+  ],
+  "recommendedNextTasks": [
+    "Integrate provisional subject metadata with the title-only warning.",
+    "Approve a cross-subject ownership matrix.",
+    "Pin a local-first reference lab stack.",
+    "Create Chapter 1 and Chapter 2 task specifications.",
+    "Run security, reliability, code, citation, accessibility, and editorial review before chapter approval."
+  ]
+}
