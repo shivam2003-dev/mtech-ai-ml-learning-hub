@@ -227,10 +227,10 @@ All 27 resources were checked on 2026-07-28. Confidence describes metadata/host 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | R01 | *Deep Learning* | Ian Goodfellow, Yoshua Bengio, Aaron Courville; 2016 | MIT Press book | https://www.deeplearningbook.org/ | Intermediate-advanced; mathematical and architectural reference; linear algebra/calculus/probability | Free official HTML; paid print | 1.00 / official author site verified |
 | R02 | *Dive into Deep Learning* | Aston Zhang, Zachary C. Lipton, Mu Li, Alexander J. Smola; 2023 | Cambridge UP interactive book | https://d2l.ai/ | Beginner-advanced; executable math/code path; Python and ML | Free official site; paid print | 1.00 / official project metadata verified |
-| R03 | PyTorch Tutorials | PyTorch Foundation; continuously updated | Official documentation/tutorials | https://docs.pytorch.org/tutorials/ | Beginner-advanced; tested framework patterns; Python/tensors | Free | 1.00 / official documentation verified |
-| R04 | Keras Guide | TensorFlow/Google; continuously updated | Official documentation | https://www.tensorflow.org/guide/keras | Beginner-intermediate; second framework perspective; Python | Free | 1.00 / official documentation verified |
-| R05 | CS231n: Deep Learning for Computer Vision | Stanford University; current course archive | University course | https://cs231n.stanford.edu/ | Intermediate-advanced; CNN/training/vision lectures; calculus/ML | Free materials | 0.99 / institutional host verified |
-| R06 | CS224N: Natural Language Processing with Deep Learning | Stanford University; current course archive | University course | https://web.stanford.edu/class/cs224n/ | Advanced; RNN/attention/transformer teaching; probability/ML | Free public materials | 0.99 / institutional host verified |
+| R03 | PyTorch Tutorials | PyTorch Foundation; n.d.; accessed 2026-07-28 | Official documentation/tutorials | https://docs.pytorch.org/tutorials/ | Beginner-advanced; tested framework patterns; Python/tensors | Free | 1.00 / official documentation verified |
+| R04 | Keras Guide | TensorFlow/Google; n.d.; accessed 2026-07-28 | Official documentation | https://www.tensorflow.org/guide/keras | Beginner-intermediate; second framework perspective; Python | Free | 1.00 / official documentation verified |
+| R05 | CS231n: Deep Learning for Computer Vision | Stanford University; n.d.; accessed 2026-07-28 | University course archive | https://cs231n.stanford.edu/ | Intermediate-advanced; CNN/training/vision lectures; calculus/ML | Free materials | 0.99 / institutional host verified |
+| R06 | CS224N: Natural Language Processing with Deep Learning | Stanford University; n.d.; accessed 2026-07-28 | University course archive | https://web.stanford.edu/class/cs224n/ | Advanced; RNN/attention/transformer teaching; probability/ML | Free public materials | 0.99 / institutional host verified |
 
 ### Foundational papers
 
@@ -261,7 +261,9 @@ All 27 resources were checked on 2026-07-28. Confidence describes metadata/host 
 | R19 | Dosovitskiy, A., et al. (2021). “An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale.” *ICLR 2021*. | arXiv `2010.11929`; OpenReview `YicbFdNTTy`; https://openreview.net/forum?id=YicbFdNTTy | Advanced; ViT; transformer/CNN/evaluation | Free | 1.00 / accepted OpenReview and arXiv verified |
 | R20 | Hu, E. J., et al. (2022). “LoRA: Low-Rank Adaptation of Large Language Models.” *ICLR 2022*. | arXiv `2106.09685`; OpenReview `nZeVKeeFYf9`; https://openreview.net/forum?id=nZeVKeeFYf9 | Advanced extension; parameter-efficient tuning; transformers/low rank | Free | 1.00 / accepted OpenReview and arXiv verified |
 | R21 | Kaplan, J., et al. (2020). “Scaling Laws for Neural Language Models.” arXiv preprint. | arXiv `2001.08361`; https://arxiv.org/abs/2001.08361 | Advanced extension; empirical scaling; statistics/compute | Free | 1.00 / arXiv metadata verified |
-| R22 | Hoffmann, J., et al. (2022). “Training Compute-Optimal Large Language Models.” *NeurIPS 35*. | arXiv `2203.15556`; https://arxiv.org/abs/2203.15556 | Advanced extension; compute/data trade-offs; transformers/statistics | Free | 0.99 / arXiv and official venue identity verified |
+| R22 | Hoffmann, J., et al. (2022). “An empirical analysis of compute-optimal large language model training.” *NeurIPS 35*. The related arXiv version is titled “Training Compute-Optimal Large Language Models.” | DOI `10.52202/068431-2176`; official proceedings: https://papers.neurips.cc/paper_files/paper/2022/hash/c1e2faff6f588870935f114ebe04a3e5-Abstract-Conference.html; arXiv `2203.15556` | Advanced extension; compute/data trade-offs; transformers/statistics | Free proceedings and preprint | 1.00 / official NeurIPS, DOI, and arXiv identities verified |
+| R28 | Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). “On Calibration of Modern Neural Networks.” *ICML 2017*, PMLR 70, 1321-1330. | https://proceedings.mlr.press/v70/guo17a.html | Advanced; modern softmax confidence calibration; classification/probability/evaluation | Free | 1.00 / official PMLR verified |
+| R29 | Baydin, A. G., Pearlmutter, B. A., Syme, D., Wood, F., & Torr, P. H. S. (2022). “Gradients without Backpropagation.” arXiv preprint. | arXiv `2202.08587`; https://arxiv.org/abs/2202.08587 | Advanced; forward-gradient contrast to reverse-mode backpropagation; calculus/autodiff/probability | Free | 1.00 / arXiv and institutional author record verified |
 
 ### Surveys, tutorials, and applied/responsible papers
 
@@ -304,26 +306,28 @@ All 27 resources were checked on 2026-07-28. Confidence describes metadata/host 
 14. R20 LoRA — connect low-rank updates to parameter/memory accounting and adaptation limits.
 15. R21 scaling laws — separate empirical fits in a defined regime from universal laws.
 16. R22 compute-optimal training — compare assumptions and compute accounting with R21.
+17. R28 calibration — connect softmax outputs to confidence calibration and decision-facing evaluation.
+18. R29 forward gradients — contrast an unbiased forward-gradient estimator with reverse-mode backpropagation and inspect variance/cost limits.
 
 ### Survey/tutorial path (3)
 
-17. R23 deep-learning review — build a historical map, then verify individual scientific claims in primary papers.
-18. R24 transfer-learning survey — use the taxonomy while noting its age and later deep-transfer changes.
-19. R25 large-scale optimization review — connect convergence assumptions to non-convex practice and system constraints.
+19. R23 deep-learning review — build a historical map, then verify individual scientific claims in primary papers.
+20. R24 transfer-learning survey — use the taxonomy while noting its age and later deep-transfer changes.
+21. R25 large-scale optimization review — connect convergence assumptions to non-convex practice and system constraints.
 
 ### Applied/responsible path (2)
 
-20. R26 adversarial properties — reproduce a small perturbation study and distinguish vulnerability evidence from security guarantees.
-21. R27 model cards — turn the final experiment into bounded intended-use, metric, subgroup, and limitation reporting.
+22. R26 adversarial properties — reproduce a small perturbation study and distinguish vulnerability evidence from security guarantees.
+23. R27 model cards — turn the final experiment into bounded intended-use, metric, subgroup, and limitation reporting.
 
 ### Chapter reading matrix
 
 | Chapter | Foundational/established | Modern | Survey/tutorial | Implementation/applied |
 | ---: | --- | --- | --- | --- |
 | 1 | R07-R08 | R21 | R23 | R02-R04, R27 |
-| 2 | R07 | — | R01-R02 | R03-R04 |
+| 2 | R07 | R28 | R01-R02 | R03-R04 |
 | 3 | R08-R09 | R21 | R23 | R01-R03 |
-| 4 | R08 | — | R01 | R03 |
+| 4 | R08 | R29 | R01 | R03 |
 | 5 | R12, R14 | R21-R22 | R25 | R03-R04 |
 | 6 | R13-R16 | R21-R22 | R25 | R03, R26 |
 | 7 | — | R20 | R24 | R03-R04, R27 |
