@@ -9,6 +9,7 @@ import remarkMath from "remark-math";
 import rehypeShiki from "@shikijs/rehype";
 import { LearningHeader } from "@/components/learning-header";
 import { ReadingTools } from "@/components/reading-tools";
+import { rehypeCaptureMathSources, rehypeLabelMathSvg } from "@/lib/accessible-math";
 import { extractTableOfContents, getChapterDocument, getChapterSlugs, getSubjectSlugs } from "@/lib/content";
 
 export async function generateStaticParams() {
@@ -74,7 +75,7 @@ export default async function ChapterPage({ params }: { params: Promise<{ subjec
         <article className="chapter-prose">
           <MDXRemote
             source={document.source}
-            options={{ mdxOptions: { remarkPlugins: [remarkGfm, remarkMath], rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings, [rehypeShiki, { theme: "github-dark" }], rehypeMathjax] } }}
+            options={{ mdxOptions: { remarkPlugins: [remarkGfm, remarkMath], rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings, [rehypeShiki, { theme: "github-dark" }], rehypeCaptureMathSources, rehypeMathjax, rehypeLabelMathSvg] } }}
           />
           <nav className="chapter-pagination" aria-label="Chapter navigation">
             {previousChapter

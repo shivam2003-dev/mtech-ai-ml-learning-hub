@@ -8,6 +8,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeShiki from "@shikijs/rehype";
 import { LearningHeader } from "@/components/learning-header";
+import { rehypeCaptureMathSources, rehypeLabelMathSvg } from "@/lib/accessible-math";
 import { getChapterSlugs, getSubjectDocument, getSubjectSlugs } from "@/lib/content";
 
 export async function generateStaticParams() {
@@ -60,7 +61,7 @@ export default async function SubjectPage({ params }: { params: Promise<{ subjec
         <article className="subject-prose">
           <MDXRemote
             source={document.source}
-            options={{ mdxOptions: { remarkPlugins: [remarkGfm, remarkMath], rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings, [rehypeShiki, { theme: "github-dark" }], rehypeMathjax] } }}
+            options={{ mdxOptions: { remarkPlugins: [remarkGfm, remarkMath], rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings, [rehypeShiki, { theme: "github-dark" }], rehypeCaptureMathSources, rehypeMathjax, rehypeLabelMathSvg] } }}
           />
         </article>
         <aside className="chapter-index">
