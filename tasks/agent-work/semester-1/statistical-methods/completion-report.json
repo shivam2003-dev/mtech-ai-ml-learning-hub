@@ -9,57 +9,9 @@
   ],
   "filesModified": [],
   "sourcesUsed": [
-    {
-      "type": "official-programme-brochure",
-      "title": "M.Tech. AI & ML_New Brochure_2026 copy",
-      "path": "/Users/shivamkumar/Downloads/mtech-ai-ml.pdf",
-      "evidence": "physical PDF page 12, printed page 10"
-    },
-    {
-      "type": "verified-resource-catalogue",
-      "count": 26,
-      "accessDate": "2026-07-28",
-      "resourceIds": [
-        "STAT-R01",
-        "STAT-R02",
-        "STAT-R03",
-        "STAT-R04",
-        "STAT-R05",
-        "STAT-R06",
-        "STAT-R07",
-        "STAT-R08",
-        "STAT-R09",
-        "STAT-R10",
-        "STAT-R11",
-        "STAT-R12",
-        "STAT-R13",
-        "STAT-R14",
-        "STAT-R15",
-        "STAT-R16",
-        "STAT-R17",
-        "STAT-R18",
-        "STAT-R19",
-        "STAT-R20",
-        "STAT-R21",
-        "STAT-R22",
-        "STAT-R23",
-        "STAT-R24",
-        "STAT-R25",
-        "STAT-R26"
-      ],
-      "details": "IDs follow resource order in plan.md Verified authoritative resources"
-    },
-    {
-      "type": "verified-dataset-catalogue",
-      "count": 3,
-      "accessDate": "2026-07-28",
-      "datasetIds": [
-        "DS-STAT-001",
-        "DS-STAT-002",
-        "DS-STAT-003"
-      ],
-      "details": "UCI Adult, Bike Sharing, and Heart Disease identity, DOI, version context, and CC BY 4.0 licence verified on official UCI pages"
-    }
+    "/Users/shivamkumar/Downloads/mtech-ai-ml.pdf#physical-page=12&printed-page=10",
+    "tasks/agent-work/semester-1/statistical-methods/plan.md#verified-authoritative-resources-STAT-R01-STAT-R26",
+    "tasks/agent-work/semester-1/statistical-methods/plan.md#preliminary-dataset-registry-DS-STAT-001-DS-STAT-003"
   ],
   "citationsVerified": 29,
   "citationsRejected": 0,
