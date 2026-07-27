@@ -1,0 +1,329 @@
+{
+  "agentId": "SUBJ-006",
+  "subject": "Deep Reinforcement Learning",
+  "task": "Create the verified Semester 2 subject planning bundle",
+  "status": "completed",
+  "filesCreated": [
+    "tasks/agent-work/semester-2/deep-reinforcement-learning/plan.md",
+    "tasks/agent-work/semester-2/deep-reinforcement-learning/completion-report.json"
+  ],
+  "filesModified": [],
+  "sourcesUsed": [
+    {
+      "title": "M.Tech. AI & ML_New Brochure_2026 copy",
+      "organization": "BITS Pilani Work Integrated Learning Programmes",
+      "year": 2026,
+      "resourceType": "official-programme-brochure",
+      "locator": "physical PDF page 12 / printed page 10",
+      "url": null,
+      "localPath": "/Users/shivamkumar/Downloads/mtech-ai-ml.pdf",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified-title-and-semester-placement-only"
+    },
+    {
+      "title": "Reinforcement Learning: An Introduction, second edition",
+      "authors": ["Richard S. Sutton", "Andrew G. Barto"],
+      "year": 2018,
+      "resourceType": "book",
+      "identifier": "ISBN 9780262039246",
+      "url": "https://mitpress.mit.edu/9780262039246/reinforcement-learning/",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Q-learning",
+      "authors": ["Christopher J. C. H. Watkins", "Peter Dayan"],
+      "year": 1992,
+      "resourceType": "journal-article",
+      "identifier": "DOI 10.1007/BF00992698",
+      "url": "https://doi.org/10.1007/BF00992698",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Simple statistical gradient-following algorithms for connectionist reinforcement learning",
+      "authors": ["Ronald J. Williams"],
+      "year": 1992,
+      "resourceType": "journal-article",
+      "identifier": "DOI 10.1007/BF00992696",
+      "url": "https://doi.org/10.1007/BF00992696",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Human-level control through deep reinforcement learning",
+      "authors": ["Volodymyr Mnih et al."],
+      "year": 2015,
+      "resourceType": "journal-article",
+      "identifier": "DOI 10.1038/nature14236",
+      "url": "https://www.nature.com/articles/nature14236",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Trust Region Policy Optimization",
+      "authors": ["John Schulman et al."],
+      "year": 2015,
+      "resourceType": "conference-paper",
+      "identifier": "PMLR v37/schulman15",
+      "url": "https://proceedings.mlr.press/v37/schulman15.html",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Asynchronous Methods for Deep Reinforcement Learning",
+      "authors": ["Volodymyr Mnih et al."],
+      "year": 2016,
+      "resourceType": "conference-paper",
+      "identifier": "PMLR v48/mniha16",
+      "url": "https://proceedings.mlr.press/v48/mniha16.html",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Proximal Policy Optimization Algorithms",
+      "authors": ["John Schulman et al."],
+      "year": 2017,
+      "resourceType": "preprint",
+      "identifier": "arXiv 1707.06347",
+      "url": "https://arxiv.org/abs/1707.06347",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Continuous Control with Deep Reinforcement Learning",
+      "authors": ["Timothy P. Lillicrap et al."],
+      "year": 2015,
+      "resourceType": "preprint",
+      "identifier": "arXiv 1509.02971",
+      "url": "https://arxiv.org/abs/1509.02971",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Soft Actor-Critic",
+      "authors": ["Tuomas Haarnoja et al."],
+      "year": 2018,
+      "resourceType": "conference-paper",
+      "identifier": "PMLR v80/haarnoja18b",
+      "url": "https://proceedings.mlr.press/v80/haarnoja18b.html",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "A Distributional Perspective on Reinforcement Learning",
+      "authors": ["Marc G. Bellemare", "Will Dabney", "Remi Munos"],
+      "year": 2017,
+      "resourceType": "conference-paper",
+      "identifier": "PMLR v70/bellemare17a",
+      "url": "https://proceedings.mlr.press/v70/bellemare17a.html",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Rainbow: Combining Improvements in Deep Reinforcement Learning",
+      "authors": ["Matteo Hessel et al."],
+      "year": 2018,
+      "resourceType": "conference-paper",
+      "identifier": "DOI 10.1609/aaai.v32i1.11796",
+      "url": "https://ojs.aaai.org/index.php/AAAI/article/view/11796",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "IMPALA: Scalable Distributed Deep-RL with Importance Weighted Actor-Learner Architectures",
+      "authors": ["Lasse Espeholt et al."],
+      "year": 2018,
+      "resourceType": "conference-paper",
+      "identifier": "PMLR v80/espeholt18a",
+      "url": "https://proceedings.mlr.press/v80/espeholt18a.html",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Mastering the Game of Go with Deep Neural Networks and Tree Search",
+      "authors": ["David Silver et al."],
+      "year": 2016,
+      "resourceType": "journal-article",
+      "identifier": "DOI 10.1038/nature16961",
+      "url": "https://www.nature.com/articles/nature16961",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "A General Reinforcement Learning Algorithm that Masters Chess, Shogi, and Go through Self-Play",
+      "authors": ["David Silver et al."],
+      "year": 2018,
+      "resourceType": "journal-article",
+      "identifier": "DOI 10.1126/science.aar6404",
+      "url": "https://doi.org/10.1126/science.aar6404",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified-via-crossref-publisher-blocked-automated-probe"
+    },
+    {
+      "title": "Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model",
+      "authors": ["Julian Schrittwieser et al."],
+      "year": 2020,
+      "resourceType": "journal-article",
+      "identifier": "DOI 10.1038/s41586-020-03051-4",
+      "url": "https://www.nature.com/articles/s41586-020-03051-4",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Offline Reinforcement Learning: Tutorial, Review, and Perspectives on Open Problems",
+      "authors": ["Sergey Levine", "Aviral Kumar", "George Tucker", "Justin Fu"],
+      "year": 2020,
+      "resourceType": "tutorial-review",
+      "identifier": "arXiv 2005.01643",
+      "url": "https://arxiv.org/abs/2005.01643",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Conservative Q-Learning for Offline Reinforcement Learning",
+      "authors": ["Aviral Kumar", "Aurick Zhou", "George Tucker", "Sergey Levine"],
+      "year": 2020,
+      "resourceType": "conference-paper",
+      "identifier": "arXiv 2006.04779",
+      "url": "https://proceedings.neurips.cc/paper/2020/hash/0d2b2061826a5df3221116a5085a6052-Abstract.html",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Decision Transformer: Reinforcement Learning via Sequence Modeling",
+      "authors": ["Lili Chen et al."],
+      "year": 2021,
+      "resourceType": "conference-paper",
+      "identifier": "arXiv 2106.01345",
+      "url": "https://proceedings.neurips.cc/paper_files/paper/2021/hash/7f489f642a0ddb10272b5c31057f0663-Abstract.html",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Offline Reinforcement Learning with Implicit Q-Learning",
+      "authors": ["Ilya Kostrikov", "Ashvin Nair", "Sergey Levine"],
+      "year": 2022,
+      "resourceType": "conference-paper",
+      "identifier": "OpenReview 68n2s9ZJWF8",
+      "url": "https://openreview.net/forum?id=68n2s9ZJWF8",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "D4RL: Datasets for Deep Data-Driven Reinforcement Learning",
+      "authors": ["Justin Fu et al."],
+      "year": 2020,
+      "resourceType": "dataset-benchmark",
+      "identifier": "arXiv 2004.07219",
+      "url": "https://arxiv.org/abs/2004.07219",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "A Comprehensive Survey on Safe Reinforcement Learning",
+      "authors": ["Javier Garcia", "Fernando Fernandez"],
+      "year": 2015,
+      "resourceType": "survey",
+      "identifier": "JMLR 16",
+      "url": "https://jmlr.org/papers/v16/garcia15a.html",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Deep Reinforcement Learning That Matters",
+      "authors": ["Peter Henderson et al."],
+      "year": 2018,
+      "resourceType": "conference-paper",
+      "identifier": "DOI 10.1609/aaai.v32i1.11694",
+      "url": "https://doi.org/10.1609/aaai.v32i1.11694",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Stable-Baselines3: Reliable Reinforcement Learning Implementations",
+      "authors": ["Antonin Raffin et al."],
+      "year": 2021,
+      "resourceType": "software-paper",
+      "identifier": "JMLR 22(268)",
+      "url": "https://www.jmlr.org/papers/v22/20-1364.html",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "CleanRL: High-quality Single-file Implementations of Deep Reinforcement Learning Algorithms",
+      "authors": ["Shengyi Huang et al."],
+      "year": 2022,
+      "resourceType": "software-paper",
+      "identifier": "JMLR 23",
+      "url": "https://www.jmlr.org/papers/v23/21-1342.html",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Gymnasium",
+      "authors": ["Farama Foundation", "Mark Towers et al."],
+      "year": 2024,
+      "resourceType": "official-documentation-and-software-paper",
+      "identifier": "arXiv 2407.17032",
+      "url": "https://gymnasium.farama.org/",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    },
+    {
+      "title": "Mastering Diverse Control Tasks through World Models",
+      "authors": ["Danijar Hafner", "Jurgis Pasukonis", "Jimmy Ba", "Timothy Lillicrap"],
+      "year": 2025,
+      "resourceType": "journal-article",
+      "identifier": "DOI 10.1038/s41586-025-08744-2",
+      "url": "https://www.nature.com/articles/s41586-025-08744-2",
+      "accessedAt": "2026-07-28",
+      "verificationStatus": "verified"
+    }
+  ],
+  "citationsVerified": 26,
+  "citationsRejected": 1,
+  "wordCount": 6777,
+  "testsRun": [
+    "pdfinfo and pdftotext inspection of /Users/shivamkumar/Downloads/mtech-ai-ml.pdf",
+    "visual inspection of rendered physical PDF page 12",
+    "Crossref DOI metadata checks",
+    "official publisher/proceedings/journal/arXiv/OpenReview/documentation URL checks",
+    "chapter-count and classification validation",
+    "project-contract field validation",
+    "workload arithmetic validation",
+    "JSON syntax validation",
+    "git diff --check"
+  ],
+  "validationResults": {
+    "officialCurriculum": "passed: exact title and compulsory Semester 2 placement verified; no topic-level units found",
+    "topicClassification": "passed: all 12 proposed chapters explicitly classified",
+    "chapterCount": 12,
+    "chapterRange": "passed: 12 is within 8-16",
+    "principalChapterHours": 128,
+    "totalEstimatedHours": 238,
+    "resourceCount": 26,
+    "resourceMinimum": "passed: 26 is within 15-30",
+    "linkProbe": "24 resource URLs returned HTTP 200; MIT Press and Science returned HTTP 403 anti-bot responses but their metadata were independently verified through the official page/Web discovery and Crossref respectively",
+    "projectCount": 6,
+    "projectLevelMix": "passed: 2 beginner, 2 intermediate, 1 advanced, 1 research",
+    "ownershipBoundaries": "passed",
+    "knowledgeGraph": "passed",
+    "paperReadingPath": "passed",
+    "scope": "passed: only plan.md and completion-report.json created"
+  },
+  "openIssues": [
+    "The brochure contains no topic-level units, prerequisites, or learning outcomes for this subject.",
+    "Independent outline, citation, editorial, and workload review are required before chapter generation.",
+    "Compute and licensing approval are required before Atari, MuJoCo, D4RL, or other restricted assets are used.",
+    "The official credit-hour mapping is unknown; the 238-hour estimate is a planning assumption.",
+    "Future detailed university syllabus material may require reconciliation."
+  ],
+  "recommendedNextTasks": [
+    "Run independent curriculum and ownership-boundary review.",
+    "Run independent metadata and citation review of the 26-resource registry.",
+    "Approve a core-versus-extension workload split.",
+    "Define compute budgets, environment versions, and permitted licenses.",
+    "Generate chapter task manifests only after outline approval."
+  ]
+}
