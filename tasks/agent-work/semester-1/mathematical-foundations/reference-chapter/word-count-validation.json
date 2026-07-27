@@ -6,7 +6,8 @@
   "validatedAt": "2026-07-28",
   "command": "node scripts/calculate-word-count/chapter-word-count.mjs content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
   "counterPath": "scripts/calculate-word-count/chapter-word-count.mjs",
-  "meaningfulProseWords": 4548,
+  "chapterSha256": "dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952",
+  "meaningfulProseWords": 4944,
   "minimumMeaningfulProseWords": 3000,
   "excludes": [
     "frontmatter",
