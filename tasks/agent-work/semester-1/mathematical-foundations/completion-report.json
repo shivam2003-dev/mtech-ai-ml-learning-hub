@@ -1,336 +1,143 @@
 {
-  "contractVersion": "1.0.0",
   "agentId": "subject-lead:mathematical-foundations-for-machine-learning",
   "subject": "Mathematical Foundations for Machine Learning",
-  "task": "Resolve subject-plan validation findings, clarify Statistical Methods ownership, strengthen project contracts, normalize source traceability, and perform preliminary subject-lead review of the reference chapter",
+  "task": "Normalize the subject-planning completion report to the canonical agent-report schema and independently recheck its plan arithmetic",
   "status": "completed",
-  "filesCreated": [
-    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/subject-lead-review.md",
-    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/subject-lead-review.json"
-  ],
+  "filesCreated": [],
   "filesModified": [
-    "tasks/agent-work/semester-1/mathematical-foundations/plan.md",
     "tasks/agent-work/semester-1/mathematical-foundations/completion-report.json"
   ],
   "sourcesUsed": [
-    {
-      "id": "official-brochure",
-      "title": "M.Tech. Artificial Intelligence and Machine Learning for working professionals",
-      "organisation": "BITS Pilani Work Integrated Learning Programmes",
-      "path": "/Users/shivamkumar/Downloads/mtech-ai-ml.pdf",
-      "sha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
-      "locator": "physical PDF page 12, printed page 10",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "tasks/agent-work/curriculum-source/report.md",
-      "verificationStatus": "verified-local-source"
-    },
-    {
-      "id": "R01",
-      "title": "Mathematics for Machine Learning",
-      "resourceType": "book",
-      "url": "https://mml-book.github.io/",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R01",
-      "verificationStatus": "verified"
-    },
-    {
-      "id": "R02",
-      "title": "Convex Optimization",
-      "resourceType": "book",
-      "url": "https://web.stanford.edu/~boyd/cvxbook/",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R02",
-      "verificationStatus": "verified"
-    },
-    {
-      "id": "R03",
-      "title": "Numerical Optimization",
-      "resourceType": "book",
-      "url": "https://link.springer.com/book/10.1007/978-0-387-40065-5",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R03",
-      "verificationStatus": "verified"
-    },
-    {
-      "id": "R04",
-      "title": "MIT 18.06SC Linear Algebra",
-      "resourceType": "university-course",
-      "url": "https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R04",
-      "verificationStatus": "verified"
-    },
-    {
-      "id": "R05",
-      "title": "Harvard Stat 110 Probability",
-      "resourceType": "university-course-cross-link",
-      "url": "https://stat110.hsites.harvard.edu/",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R05",
-      "verificationStatus": "verified-official-page-access-controlled-to-automated-check"
-    },
-    {
-      "id": "R06",
-      "title": "Stanford EE364a Convex Optimization I",
-      "resourceType": "university-course",
-      "url": "https://web.stanford.edu/class/ee364a/",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R06",
-      "verificationStatus": "verified"
-    },
-    {
-      "id": "R07",
-      "title": "An Essay towards Solving a Problem in the Doctrine of Chances",
-      "resourceType": "foundational-paper-cross-link",
-      "url": "https://doi.org/10.1098/rstl.1763.0053",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R07",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R08",
-      "title": "On Lines and Planes of Closest Fit to Systems of Points in Space",
-      "resourceType": "foundational-paper",
-      "url": "https://doi.org/10.1080/14786440109462720",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R08",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R09",
-      "title": "A Mathematical Theory of Communication",
-      "resourceType": "foundational-paper",
-      "url": "https://doi.org/10.1002/j.1538-7305.1948.tb01338.x",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R09",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R10",
-      "title": "A Stochastic Approximation Method",
-      "resourceType": "foundational-paper-cross-link",
-      "url": "https://doi.org/10.1214/aoms/1177729586",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R10",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R11",
-      "title": "Learning Representations by Back-Propagating Errors",
-      "resourceType": "established-paper",
-      "url": "https://doi.org/10.1038/323533a0",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R11",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R12",
-      "title": "Extensions of Lipschitz Mappings into a Hilbert Space",
-      "resourceType": "established-paper",
-      "url": "https://doi.org/10.1090/conm/026/737400",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R12",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R13",
-      "title": "A Family of Variable-Metric Methods Derived by Variational Means",
-      "resourceType": "established-paper",
-      "url": "https://doi.org/10.1090/S0025-5718-1970-0258249-6",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R13",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R14",
-      "title": "Natural Gradient Works Efficiently in Learning",
-      "resourceType": "established-paper",
-      "url": "https://doi.org/10.1162/089976698300017746",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R14",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R15",
-      "title": "Adaptive Subgradient Methods for Online Learning and Stochastic Optimization",
-      "resourceType": "established-paper",
-      "url": "https://jmlr.org/papers/v12/duchi11a.html",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R15",
-      "verificationStatus": "verified-official-journal"
-    },
-    {
-      "id": "R16",
-      "title": "Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions",
-      "resourceType": "established-paper",
-      "url": "https://doi.org/10.1137/090771806",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R16",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R17",
-      "title": "Adam: A Method for Stochastic Optimization",
-      "resourceType": "modern-paper",
-      "url": "https://arxiv.org/abs/1412.6980",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R17",
-      "verificationStatus": "verified-arxiv"
-    },
-    {
-      "id": "R18",
-      "title": "Optimizing Neural Networks with Kronecker-Factored Approximate Curvature",
-      "resourceType": "modern-paper",
-      "url": "https://proceedings.mlr.press/v37/martens15.html",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R18",
-      "verificationStatus": "verified-official-proceedings"
-    },
-    {
-      "id": "R19",
-      "title": "Shampoo: Preconditioned Stochastic Tensor Optimization",
-      "resourceType": "modern-paper",
-      "url": "https://proceedings.mlr.press/v80/gupta18a.html",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R19",
-      "verificationStatus": "verified-official-proceedings"
-    },
-    {
-      "id": "R20",
-      "title": "BackPACK: Packing More into Backprop",
-      "resourceType": "modern-paper",
-      "url": "https://openreview.net/forum?id=BJlrF24twB",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R20",
-      "verificationStatus": "verified-official-conference-record"
-    },
-    {
-      "id": "R21",
-      "title": "Hutch++: Optimal Stochastic Trace Estimation",
-      "resourceType": "modern-paper",
-      "url": "https://doi.org/10.1137/1.9781611976496.16",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R21",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R22",
-      "title": "Automatic Differentiation in Machine Learning: A Survey",
-      "resourceType": "survey",
-      "url": "https://www.jmlr.org/papers/v18/17-468.html",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R22",
-      "verificationStatus": "verified-official-journal"
-    },
-    {
-      "id": "R23",
-      "title": "Optimization Methods for Large-Scale Machine Learning",
-      "resourceType": "survey",
-      "url": "https://doi.org/10.1137/16M1080173",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R23",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R24",
-      "title": "Randomized Algorithms for Matrices and Data",
-      "resourceType": "survey",
-      "url": "https://doi.org/10.1561/2200000035",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R24",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R25",
-      "title": "Scikit-learn: Machine Learning in Python",
-      "resourceType": "applied-paper",
-      "url": "https://www.jmlr.org/papers/v12/pedregosa11a.html",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R25",
-      "verificationStatus": "verified-official-journal"
-    },
-    {
-      "id": "R26",
-      "title": "Array Programming with NumPy",
-      "resourceType": "applied-paper",
-      "url": "https://doi.org/10.1038/s41586-020-2649-2",
-      "accessedAt": "2026-07-28",
-      "metadataRecord": "plan.md section 8 R26",
-      "verificationStatus": "verified-crossref-and-publisher"
-    }
+    "official-brochure | BITS Pilani WILP M.Tech. Artificial Intelligence and Machine Learning brochure | local source SHA-256 fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b | physical PDF page 12, printed page 10",
+    "R01 | Mathematics for Machine Learning | https://mml-book.github.io/ | canonical metadata in plan.md section 8",
+    "R02 | Convex Optimization | https://web.stanford.edu/~boyd/cvxbook/ | canonical metadata in plan.md section 8",
+    "R03 | Numerical Optimization | https://link.springer.com/book/10.1007/978-0-387-40065-5 | canonical metadata in plan.md section 8",
+    "R04 | MIT 18.06SC Linear Algebra | https://ocw.mit.edu/courses/18-06sc-linear-algebra-fall-2011/ | canonical metadata in plan.md section 8",
+    "R05 | Harvard Stat 110 Probability | https://stat110.hsites.harvard.edu/ | canonical metadata in plan.md section 8",
+    "R06 | Stanford EE364a Convex Optimization I | https://web.stanford.edu/class/ee364a/ | canonical metadata in plan.md section 8",
+    "R07 | An Essay towards Solving a Problem in the Doctrine of Chances | https://doi.org/10.1098/rstl.1763.0053 | canonical metadata in plan.md section 8",
+    "R08 | On Lines and Planes of Closest Fit to Systems of Points in Space | https://doi.org/10.1080/14786440109462720 | canonical metadata in plan.md section 8",
+    "R09 | A Mathematical Theory of Communication | https://doi.org/10.1002/j.1538-7305.1948.tb01338.x | canonical metadata in plan.md section 8",
+    "R10 | A Stochastic Approximation Method | https://doi.org/10.1214/aoms/1177729586 | canonical metadata in plan.md section 8",
+    "R11 | Learning Representations by Back-Propagating Errors | https://doi.org/10.1038/323533a0 | canonical metadata in plan.md section 8",
+    "R12 | Extensions of Lipschitz Mappings into a Hilbert Space | https://doi.org/10.1090/conm/026/737400 | canonical metadata in plan.md section 8",
+    "R13 | A Family of Variable-Metric Methods Derived by Variational Means | https://doi.org/10.1090/S0025-5718-1970-0258249-6 | canonical metadata in plan.md section 8",
+    "R14 | Natural Gradient Works Efficiently in Learning | https://doi.org/10.1162/089976698300017746 | canonical metadata in plan.md section 8",
+    "R15 | Adaptive Subgradient Methods for Online Learning and Stochastic Optimization | https://jmlr.org/papers/v12/duchi11a.html | canonical metadata in plan.md section 8",
+    "R16 | Finding Structure with Randomness | https://doi.org/10.1137/090771806 | canonical metadata in plan.md section 8",
+    "R17 | Adam: A Method for Stochastic Optimization | https://arxiv.org/abs/1412.6980 | canonical metadata in plan.md section 8",
+    "R18 | Optimizing Neural Networks with Kronecker-Factored Approximate Curvature | https://proceedings.mlr.press/v37/martens15.html | canonical metadata in plan.md section 8",
+    "R19 | Shampoo: Preconditioned Stochastic Tensor Optimization | https://proceedings.mlr.press/v80/gupta18a.html | canonical metadata in plan.md section 8",
+    "R20 | BackPACK: Packing More into Backprop | https://openreview.net/forum?id=BJlrF24twB | canonical metadata in plan.md section 8",
+    "R21 | Hutch++: Optimal Stochastic Trace Estimation | https://doi.org/10.1137/1.9781611976496.16 | canonical metadata in plan.md section 8",
+    "R22 | Automatic Differentiation in Machine Learning: A Survey | https://www.jmlr.org/papers/v18/17-468.html | canonical metadata in plan.md section 8",
+    "R23 | Optimization Methods for Large-Scale Machine Learning | https://doi.org/10.1137/16M1080173 | canonical metadata in plan.md section 8",
+    "R24 | Randomized Algorithms for Matrices and Data | https://doi.org/10.1561/2200000035 | canonical metadata in plan.md section 8",
+    "R25 | Scikit-learn: Machine Learning in Python | https://www.jmlr.org/papers/v12/pedregosa11a.html | canonical metadata in plan.md section 8",
+    "R26 | Array Programming with NumPy | https://doi.org/10.1038/s41586-020-2649-2 | canonical metadata in plan.md section 8"
   ],
-  "sourceTraceability": {
-    "canonicalMetadataRegistry": "tasks/agent-work/semester-1/mathematical-foundations/plan.md section 8",
-    "requiredFieldsPresentInRegistry": [
-      "title",
-      "authorOrOrganisation",
-      "publicationYear",
-      "resourceType",
-      "url",
-      "doiOrArxivWhereAvailable",
-      "venue",
-      "accessedAt",
-      "difficulty",
-      "relevance",
-      "prerequisites",
-      "freeOrPaid",
-      "confidence",
-      "verificationStatus"
-    ],
-    "resourceIdsUnique": true,
-    "resourceCount": 26
-  },
   "citationsVerified": 26,
   "citationsRejected": 0,
   "wordCount": 6421,
   "testsRun": [
-    "jq empty tasks/agent-work/semester-1/mathematical-foundations/completion-report.json",
-    "git diff --check -- tasks/agent-work/semester-1/mathematical-foundations/",
-    "resource-heading count: 26",
-    "chapter-outline count: 10",
-    "paper-reading-path count: 20",
-    "project-level count: 6",
-    "project contract field count: 6 of 6 include explicit learning objectives, prerequisites, extension ideas, and deployment guidance",
-    "probability ownership scan: no principal probability/random-variable/distribution/expectation/LLN/CLT chapter remains",
-    "reference chapter scope scan: Chapter 1 contains no probability principal coverage",
-    "jq empty tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/subject-lead-review.json",
-    "reference chapter heading scan: detected level-two heading before level-one title and recorded RC-SL-001",
-    "HTTP resolution check for 28 unique external URLs: 18 returned 2xx; 10 publisher/institution targets returned automated-access 403 and were verified through official pages or Crossref metadata"
+    "JSON parse check for completion-report.json",
+    "AJV draft-2020 validation against packages/content-schema/schemas/agent-report.schema.json",
+    "plan SHA-256 calculation",
+    "wc -w plan.md: 6421 words",
+    "resource-heading audit: 26 records and 26 unique IDs",
+    "paper-reading-path audit: 20 entries and 20 unique resource IDs",
+    "chapter-table audit: 10 chapters and 96 chapter hours",
+    "study-time arithmetic audit: 4 + 96 + 2 + 24 + 16 = 142 hours",
+    "research-query audit: 14 provider-specific queries",
+    "project-level audit: two beginner, two intermediate, one advanced, and one research-oriented project",
+    "project contract audit: all six projects contain learning objectives, prerequisites, extension ideas, and deployment guidance",
+    "git diff --check"
   ],
   "validationResults": {
+    "schema": {
+      "schemaPath": "packages/content-schema/schemas/agent-report.schema.json",
+      "draft": "2020-12",
+      "status": "passed",
+      "additionalProperties": "none",
+      "sourcesUsedItemType": "string"
+    },
+    "sourceTraceability": {
+      "officialCurriculumEvidence": "official-brochure string entry includes source identity, page locator, and SHA-256",
+      "canonicalAcademicMetadataRegistry": "tasks/agent-work/semester-1/mathematical-foundations/plan.md section 8",
+      "requiredMetadataFieldsRecordedInPlan": [
+        "title",
+        "authorOrOrganisation",
+        "publicationYear",
+        "resourceType",
+        "url",
+        "doiOrArxivWhereAvailable",
+        "venue",
+        "accessedAt",
+        "difficulty",
+        "relevance",
+        "prerequisites",
+        "freeOrPaid",
+        "confidence",
+        "verificationStatus"
+      ],
+      "resourceIdsUnique": true,
+      "academicResourceCount": 26,
+      "normalizationNote": "The schema-compatible sourcesUsed strings point to the complete metadata records in plan.md; normalization did not discard source metadata."
+    },
+    "planEvidence": {
+      "path": "tasks/agent-work/semester-1/mathematical-foundations/plan.md",
+      "sha256": "64091929d6875120b8b5750ce5e3b3affbd7bbf338e3c2114685e3e19ca91d6c",
+      "wordCountMethod": "wc -w",
+      "wordCount": 6421
+    },
+    "arithmetic": {
+      "chapterCount": 10,
+      "chapterHours": 96,
+      "readinessAndFrontMatterHours": 4,
+      "probabilityBridgeHours": 2,
+      "projectLabHours": 24,
+      "assignmentReviewExamHours": 16,
+      "estimatedTotalHours": 142,
+      "calculation": "4 + 96 + 2 + 24 + 16 = 142"
+    },
+    "resourceAndPaperCounts": {
+      "academicResources": 26,
+      "uniqueAcademicResourceIds": 26,
+      "paperReadingPath": 20,
+      "uniquePaperReadingPathIds": 20,
+      "foundational": 4,
+      "established": 6,
+      "modern": 5,
+      "surveyOrTutorial": 3,
+      "applied": 2
+    },
+    "projectCounts": {
+      "total": 6,
+      "beginner": 2,
+      "intermediate": 2,
+      "advanced": 1,
+      "researchOriented": 1,
+      "contractsWithAllFourClaimedFields": 6
+    },
+    "researchQueries": 14,
     "officialCourseIdentity": "passed",
     "officialTopicBoundary": "passed-no-topic-level-syllabus-claimed",
-    "topicClassification": "passed",
-    "chapterCount": "passed-10",
-    "learningOutcomes": "passed-provisional",
-    "prerequisiteMap": "passed-provisional",
     "statisticalMethodsOwnership": "passed-principal-probability-distribution-expectation-LLN-CLT-coverage-cross-linked",
-    "firstChapterScopeImpact": "passed-unaffected",
-    "knowledgeGraph": "passed-provisional",
-    "researchQueries": "passed-14",
-    "academicResources": "passed-26",
-    "paperReadingPath": "passed-20",
-    "projectLevels": "passed-2-beginner-2-intermediate-1-advanced-1-research",
-    "projectContractCompleteness": "passed-6-of-6",
-    "estimatedHours": "passed-142",
-    "referenceChapterReview": "completed-changes-required",
-    "referenceChapterContentModified": "false",
-    "citationMetadata": "passed-with-access-control-notes",
-    "sourceTraceability": "passed-26-resources-linked-to-complete-plan-metadata",
-    "scopeIsolation": "passed"
+    "citationMetadata": "The 26 academic-resource verification records are retained from the source plan; this schema-normalization pass did not perform a new live URL or DOI revalidation.",
+    "scopeIsolation": "passed-completion-report-only"
   },
   "openIssues": [
-    "The official detailed course handout is not available; all topic-level planning remains provisional.",
-    "Assessment format, contact hours, and official subject-level tools are unknown.",
-    "Final cross-links to Introduction to Statistical Methods require coordination with that Subject Lead, but principal content ownership is now explicit.",
-    "Chapters 9 and 10 may need to move to optional advanced extensions after workload review.",
-    "Reference Chapter 1 requires closure of RC-SL-001 through RC-SL-005 before subject approval."
+    "The official detailed course handout is unavailable, so every topic-level chapter, outcome, prerequisite, project, and hour estimate remains provisional.",
+    "Official assessment format, contact hours, and subject-level tools remain unknown.",
+    "Final probability cross-links require coordination with the Introduction to Statistical Methods Subject Lead.",
+    "Chapters 9 and 10 may need to become optional advanced extensions after the semester workload review.",
+    "Live resource and DOI verification must be repeated at publication time because this normalization pass validated stored evidence and arithmetic, not current external availability."
   ],
   "recommendedNextTasks": [
     "Obtain and verify the registered course handout or LMS unit list.",
-    "Run cross-subject cross-link review with Statistical Methods and Machine Learning Subject Leads.",
-    "Freeze shared mathematical notation.",
-    "Generate and validate BibTeX from the verified resource registry.",
-    "Close the five reference-chapter subject-lead findings and request re-review."
+    "Run cross-subject review with the Statistical Methods and Machine Learning Subject Leads.",
+    "Freeze the shared mathematical notation registry.",
+    "Generate and validate BibTeX from the canonical resource metadata in plan.md section 8.",
+    "Repeat live link and identifier validation before publication."
   ]
 }
