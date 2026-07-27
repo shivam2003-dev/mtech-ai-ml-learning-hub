@@ -166,26 +166,26 @@ Deduplicate by DOI, persistent identifier, normalized title plus first author, t
 
 ## 8. Verified preliminary resources
 
-All 28 records were checked on 2026-07-28. Documentation is version-sensitive and must be pinned when used in code. Confidence means identity/host verification, not endorsement of every claim.
+All 30 records were checked on 2026-07-28. Documentation is version-sensitive and must be pinned when used in code. Confidence means identity/host verification, not endorsement of every claim.
 
 ### Standards, official documentation, and authoritative practice
 
 | ID | Title | Author/organisation; year | Type | URL/identifier | Difficulty; relevance; prerequisites | Access | Confidence/status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| R01 | Rules of Machine Learning | Martin Zinkevich / Google; maintained | Official engineering guide | https://developers.google.com/machine-learning/guides/rules-of-ml/ | Intermediate; lifecycle/product lessons; ML workflow | Free | 1.00 / official host |
+| R01 | Rules of Machine Learning | Martin Zinkevich / Google; n.d.; accessed 2026-07-28 | Official engineering guide | https://developers.google.com/machine-learning/guides/rules-of-ml/ | Intermediate; lifecycle/product lessons; ML workflow | Free | 1.00 / official host |
 | R02 | Site Reliability Engineering books | Google SRE authors; 2016 onward | Books | https://sre.google/books/ | Intermediate-advanced; SLOs/incidents/toil; systems basics | Free official HTML; print varies | 1.00 / official host |
-| R03 | MLflow Documentation | MLflow project; current | Official docs | https://mlflow.org/docs/latest/ | Intermediate; tracking/registry/packaging; Python/SQL/storage | Free | 1.00 / official docs |
-| R04 | Kubeflow Documentation | Kubeflow/CNCF; current | Official docs | https://www.kubeflow.org/docs/ | Advanced; pipelines/platform; Kubernetes | Free | 1.00 / official docs |
-| R05 | DVC Documentation | Iterative; current | Official docs | https://dvc.org/doc | Intermediate; data/pipeline version references; Git/storage | Free | 1.00 / official docs |
-| R06 | Feast Documentation | Feast project; current | Official docs | https://docs.feast.dev/ | Advanced; feature-store concepts; data engineering | Free | 1.00 / official docs |
-| R07 | Kubernetes Documentation | Kubernetes/CNCF; current | Official docs | https://kubernetes.io/docs/ | Advanced; orchestration/deployment substrate; containers/networking | Free | 1.00 / official docs |
-| R08 | Docker Documentation | Docker; current | Official docs | https://docs.docker.com/ | Intermediate; reproducible packaging; Linux/processes | Free | 1.00 / official docs |
-| R09 | OpenTelemetry Specifications | CNCF; current | Open specification | https://opentelemetry.io/docs/specs/ | Advanced; telemetry semantics/context; distributed systems | Free | 1.00 / official spec |
+| R03 | MLflow Documentation | MLflow project; n.d.; accessed 2026-07-28 | Official docs | https://mlflow.org/docs/latest/ | Intermediate; tracking/registry/packaging; Python/SQL/storage | Free | 1.00 / official docs |
+| R04 | Kubeflow Documentation | Kubeflow/CNCF; n.d.; accessed 2026-07-28 | Official docs | https://www.kubeflow.org/docs/ | Advanced; pipelines/platform; Kubernetes | Free | 1.00 / official docs |
+| R05 | DVC Documentation | Iterative; n.d.; accessed 2026-07-28 | Official docs | https://dvc.org/doc | Intermediate; data/pipeline version references; Git/storage | Free | 1.00 / official docs |
+| R06 | Feast Documentation | Feast project; n.d.; accessed 2026-07-28 | Official docs | https://docs.feast.dev/ | Advanced; feature-store concepts; data engineering | Free | 1.00 / official docs |
+| R07 | Kubernetes Documentation | Kubernetes/CNCF; n.d.; accessed 2026-07-28 | Official docs | https://kubernetes.io/docs/ | Advanced; orchestration/deployment substrate; containers/networking | Free | 1.00 / official docs |
+| R08 | Docker Documentation | Docker; n.d.; accessed 2026-07-28 | Official docs | https://docs.docker.com/ | Intermediate; reproducible packaging; Linux/processes | Free | 1.00 / official docs |
+| R09 | OpenTelemetry Specifications | CNCF; n.d.; accessed 2026-07-28 | Open specification | https://opentelemetry.io/docs/specs/ | Advanced; telemetry semantics/context; distributed systems | Free | 1.00 / official spec |
 | R10 | Artificial Intelligence Risk Management Framework 1.0 | Elham Tabassi / NIST; 2023 | Standard/guidance, NIST AI 100-1 | DOI `10.6028/NIST.AI.100-1`; https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10 | Intermediate; lifecycle risk; governance basics | Free | 1.00 / NIST verified |
 | R11 | Secure Software Development Framework 1.1 | Souppaya, Scarfone, Dodson / NIST; 2022 | Standard, SP 800-218 | DOI `10.6028/NIST.SP.800-218`; https://csrc.nist.gov/pubs/sp/800/218/final | Advanced; secure lifecycle; software security | Free | 1.00 / NIST verified |
-| R12 | SLSA Specification v1.2 | OpenSSF/SLSA; current | Open specification | https://slsa.dev/spec/v1.2/ | Advanced; build provenance/supply chain; CI/build systems | Free | 1.00 / official spec |
-| R13 | OpenLineage Documentation | OpenLineage project; current | Open specification/docs | https://openlineage.io/docs/ | Advanced; job/dataset lineage; data pipelines | Free | 1.00 / official host |
-| R14 | KServe Documentation | KServe/CNCF; current | Official docs | https://kserve.github.io/website/docs/getting-started | Advanced; model serving patterns; Kubernetes | Free | 1.00 / official docs |
+| R12 | SLSA Specification v1.2 | OpenSSF/SLSA; n.d.; accessed 2026-07-28 | Open specification | https://slsa.dev/spec/v1.2/ | Advanced; build provenance/supply chain; CI/build systems | Free | 1.00 / official spec |
+| R13 | OpenLineage Documentation | OpenLineage project; n.d.; accessed 2026-07-28 | Open specification/docs | https://openlineage.io/docs/ | Advanced; job/dataset lineage; data pipelines | Free | 1.00 / official host |
+| R14 | KServe Documentation | KServe/CNCF; n.d.; accessed 2026-07-28 | Official docs | https://kserve.github.io/website/docs/getting-started | Advanced; model serving patterns; Kubernetes | Free | 1.00 / official docs |
 
 ### Primary papers, surveys, and industry case records
 
@@ -205,6 +205,8 @@ All 28 records were checked on 2026-07-28. Documentation is version-sensitive an
 | R26 | Amershi, S., et al. (2019). “Software Engineering for Machine Learning: A Case Study.” | ICSE-SEIP 2019 | DOI `10.1109/ICSE-SEIP.2019.00042`; https://doi.org/10.1109/ICSE-SEIP.2019.00042 | Intermediate; roles/challenges/process; software engineering | Publisher plus author copy | 1.00 / Crossref |
 | R27 | Verma, A., et al. (2015). “Large-scale cluster management at Google with Borg.” | EuroSys 2015 | DOI `10.1145/2741948.2741964`; https://doi.org/10.1145/2741948.2741964 | Advanced; orchestration substrate context; distributed systems | Publisher varies | 1.00 / Crossref |
 | R28 | Sato, D., Wider, A., & Windheuser, C. (2019). “Continuous Delivery for Machine Learning.” | Primary practitioner article | https://martinfowler.com/articles/cd4ml.html | Intermediate; CD4ML process; CI/CD and ML | Free | 0.99 / author-hosted primary article |
+| R29 | Faubel, L., Schmid, K., & Eichelberger, H. (2023). “MLOps Challenges in Industry 4.0.” | SN Computer Science 4, 828; systematic literature review plus industry-focused analysis | DOI `10.1007/s42979-023-02282-2`; https://doi.org/10.1007/s42979-023-02282-2 | Advanced; MLOps activities and industrial constraints; software engineering/Industry 4.0 | Open access | 1.00 / Crossref and Springer |
+| R30 | Liu, Y., Ling, Z., Huo, B., Wang, B., Chen, T., & Mouine, E. (2020). “Building A Platform for Machine Learning Operations from Open Source Frameworks.” | IFAC-PapersOnLine 53(5), 704-709 | DOI `10.1016/j.ifacol.2021.04.161`; https://doi.org/10.1016/j.ifacol.2021.04.161 | Advanced; applied platform architecture; ML lifecycle/open-source frameworks | Free article page; PDF availability varies | 1.00 / Crossref and Elsevier |
 
 ### Citation rejects
 
@@ -220,51 +222,52 @@ All 28 records were checked on 2026-07-28. Documentation is version-sensitive an
 3. R17 TFX — identify component contracts, metadata, validation, and continuous refresh evidence.
 4. R27 Borg — understand orchestration substrate principles without equating Borg/Kubernetes with MLOps.
 
-### Established practice and platform path (5)
+### Established paper path (5)
 
-5. R18 FBLearner Flow — compare primary organizational experience with TFX.
-6. R19 MLflow — separate lifecycle interfaces from a complete operating model.
-7. R20 TensorFlow Data Validation — connect statistics, anomalies, schemas, and pipeline placement.
+5. R19 MLflow — separate lifecycle interfaces from a complete operating model.
+6. R20 TensorFlow Data Validation — connect statistics, anomalies, schemas, and pipeline placement.
+7. R23 Model Cards — bind reporting practice to a versioned model and evaluated context.
 8. R26 Software Engineering for ML — map roles and challenges to ownership and team design.
-9. R28 CD4ML — translate continuous delivery into code-data-model release evidence.
+9. R30 Open-source MLOps platform — examine an applied platform architecture assembled from open-source frameworks.
 
 ### Modern/reliability path (5)
 
 10. R21 Data Cascades — trace compounding data failures and organizational causes.
 11. R22 Datasheets — design documentation as an operational control, not paperwork.
-12. R23 Model Cards — bind reporting to a versioned model and evaluated context.
-13. R24 Underspecification — explain why equal test performance may not imply equal production behaviour.
-14. R25 MLOps architecture — compare its definition and components with observed platform needs.
+12. R24 Underspecification — explain why equal test performance may not imply equal production behaviour.
+13. R25 MLOps architecture — compare its definition and components with observed platform needs.
+14. R29 MLOps Challenges in Industry 4.0 — test general MLOps assumptions against cyber-physical constraints.
 
-### Survey/tutorial path (3)
+### Survey/review paper path (2)
 
 15. R25 MLOps architecture — primary taxonomy/reference map.
-16. R01 Rules of ML — staged practitioner tutorial, checked against system context.
-17. R02 SRE books — reliability concepts adapted carefully to ML outcome signals.
+16. R29 MLOps Challenges in Industry 4.0 — systematic review of MLOps activities followed by analysis of industrial constraints.
 
-### Applied governance/security path (4)
+### Applied/industry paper path (4)
 
-18. R10 NIST AI RMF — Govern, Map, Measure, Manage as risk outcomes, not a mechanical checklist.
-19. R11 NIST SSDF — map secure-development practices to pipeline components.
-20. R12 SLSA — evaluate build provenance and artifact integrity.
-21. R09 OpenTelemetry — implement bounded telemetry without leaking sensitive features or labels.
+17. R17 TFX — production-scale platform architecture and operational component contracts.
+18. R20 TensorFlow Data Validation — production pipeline evidence for scalable data analysis and validation.
+19. R26 Software Engineering for ML — industry case evidence about roles, process, and engineering challenges.
+20. R30 Open-source MLOps platform — applied platform design and integration evidence.
 
 ### Chapter-resource matrix
 
 | Ch. | Primary/research | Survey/practice | Implementation/standard |
 | ---: | --- | --- | --- |
 | 1 | R15, R26 | R01, R25 | R10 |
-| 2 | R15 | R01 | R05, R08, R12 |
+| 2 | R15, R24 | R01 | R05, R08, R12 |
 | 3 | R17-R19 | R25 | R03, R13 |
 | 4 | R20-R22 | R01 | R06, R13 |
 | 5 | R17-R20 | R25, R28 | R04 |
-| 6 | R16, R26 | R01, R28 | R11-R12 |
-| 7 | R16-R19 | R28 | R03-R04, R12 |
+| 6 | R16, R25-R26 | R01, R28 | R11-R12 |
+| 7 | R16-R19, R25 | R28 | R03-R04, R12 |
 | 8 | R17, R27 | R02, R25 | R07-R08, R14 |
 | 9 | R20, R24 | R02 | R03, R09 |
 | 10 | R15-R16, R24 | R02 | R09-R10 |
 | 11 | R21-R23 | R10 | R11-R12 |
 | 12 | R17-R19, R25-R27 | R01-R02 | R03-R07 |
+
+For this matrix, R15-R20, R23, R26-R27, and R30 provide foundational or established papers; R21-R22, R24-R25, and R29 provide modern papers. Every chapter therefore has at least one foundational/established paper where applicable, one modern paper, one survey/tutorial or authoritative practice resource, and one implementation resource or standard where applicable.
 
 ## 10. Complete project portfolio
 
@@ -401,7 +404,7 @@ The four chapter activities sum to the chapter table's 170 hours (`56 + 60 + 32 
 - [x] every proposed topic classified as non-official;
 - [x] 12 proposed chapters within 8-16;
 - [x] outcomes, prerequisites, graph, queries, resources, reading path, projects, and hours present;
-- [x] 28 resources contain title, author/organisation, year/current status, type, URL/identifier, access, difficulty, relevance, prerequisites, confidence, and verification;
+- [x] 30 resources contain title, author/organisation, publication year or `n.d.`, access date, type, URL/identifier, access status, difficulty, relevance, prerequisites, confidence, and verification;
 - [x] six projects meet 2 beginner / 2 intermediate / 1 advanced / 1 research and all contract fields;
 - [x] workload adds once;
 - [x] citation rejects documented;
