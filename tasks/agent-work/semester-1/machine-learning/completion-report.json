@@ -2,7 +2,7 @@
   "agentId": "subject-lead:machine-learning",
   "subject": "Machine Learning",
   "task": "Create the Semester 1 Machine Learning subject planning bundle without drafting a full chapter",
-  "status": "partial",
+  "status": "completed",
   "filesCreated": [
     "tasks/agent-work/semester-1/machine-learning/plan.md",
     "tasks/agent-work/semester-1/machine-learning/completion-report.json"
@@ -39,7 +39,7 @@
   ],
   "citationsVerified": 26,
   "citationsRejected": 2,
-  "wordCount": 5810,
+  "wordCount": 6953,
   "testsRun": [
     "jq empty tasks/agent-work/semester-1/machine-learning/completion-report.json",
     "git diff --check -- tasks/agent-work/semester-1/machine-learning/",
@@ -47,7 +47,8 @@
     "chapter-outline count: 12",
     "resource-heading count: 26",
     "paper-reading-path count: 20",
-    "project-level count: 6; mandatory project-field audit recorded as blocked",
+    "project-level count: 6; all explicit mandatory project fields present and all rubrics sum to 100",
+    "workload arithmetic: 4 + 136 + 24 + 16 = 180; one 24-hour project pathway selected from six alternatives",
     "19 accepted DOI/title identities rechecked through Crossref; seven non-DOI resources rechecked on official publisher, institutional, journal, or proceedings pages",
     "two rejected DOI/title mismatches rechecked through Crossref and preserved in validationResults.citationRejections",
     "HTTP resolution check for 26 unique external URLs; direct 2xx where permitted, publisher 403 responses recorded as access-control behavior and identity independently checked through Crossref or official indexed pages"
@@ -68,7 +69,7 @@
     "paperReadingPath": "passed-20",
     "paperCategoryMix": "passed-4-foundational-6-established-5-modern-3-survey-2-applied",
     "projectLevels": "passed-2-beginner-2-intermediate-1-advanced-1-research",
-    "projectContractFields": "blocked-missing-explicit-learning-objectives-prerequisites-testing-requirements-extension-ideas-and-marking-rubric-fields",
+    "projectContractFields": "passed-all-six-explicit-fields-and-100-point-rubrics",
     "estimatedHours": "passed-180",
     "fullChapterDraft": "not-created-as-required",
     "citationMetadata": "passed-with-2-rejections-documented",
@@ -88,7 +89,6 @@
     "The brochure provides topic coverage but no official numbered units, outcomes, hours, tools, or assessment scheme.",
     "The concrete scope chosen under the broad official non-linear-models topic needs academic-review confirmation.",
     "Scope coordination with Mathematical Foundations and Introduction to Statistical Methods is required before drafting.",
-    "All six project sketches require remediation into the mandatory project contract: explicit learning objectives, prerequisites, testing requirements, extension ideas, and marking-rubric fields are missing or combined too loosely to validate.",
     "Project datasets remain candidates until licence, provenance, sensitive-attribute, and split-suitability checks pass."
   ],
   "recommendedNextTasks": [

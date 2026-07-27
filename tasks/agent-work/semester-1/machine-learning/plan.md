@@ -151,7 +151,7 @@ These are **Supplementary planning estimates**, not official credit/contact hour
 | --- | ---: |
 | Readiness diagnostic, environment, and front matter | 4 |
 | Twelve chapters: reading, derivations, code, exercises, quizzes | 136 |
-| Six selected practical/project assessments | 24 |
+| One selected project pathway from six alternatives | 24 |
 | Revision, cumulative assignment, and examination preparation | 16 |
 | **Total** | **180** |
 
@@ -544,59 +544,115 @@ An authoritative book/course may replace a forced “foundational paper” where
 
 All projects are non-official educational additions.
 
+The six specifications are alternatives. The 180-hour route budgets **24 hours for one selected project's base requirements**; extension ideas are optional and excluded from that total.
+
 ### Beginner 1 — Linear Regression from First Principles
 
 - **Classification:** Official-topic implementation + Supplementary validation.
-- **Problem/data:** recover coefficients on seeded synthetic data with controlled noise, collinearity, and outliers.
+- **Problem statement:** recover linear and ridge coefficients reliably when controlled noise, collinearity, and outliers challenge a naive least-squares implementation.
+- **Learning objectives:** derive the objective and solution assumptions; implement fit/predict interfaces; compare normal-equation, QR/library least-squares, and ridge solutions; connect conditioning and residual evidence to numerical reliability.
+- **Prerequisites:** Chapter 3; vectors, matrices, least squares, basic NumPy, pytest, and train/test reasoning.
 - **Architecture:** typed NumPy package, pytest, Matplotlib; compare normal equation, QR/library least squares, and ridge.
+- **Dataset:** versioned seeded synthetic generator with declared coefficient vector, controllable noise, collinearity, and outlier parameters.
 - **Milestones:** data generator; fit/predict API; analytic tests; conditioning sweep; residual report.
-- **Evaluation/deliverables:** code, tests, notebook, two-page analysis; correctness 40%, tests 20%, numerical reasoning 25%, communication 15%.
-- **Ethics/deployment:** synthetic data only; package/CLI demonstration, not a decision service.
+- **Implementation requirements:** Python 3.12+, type hints, deterministic seed, shape and finite-value validation, explicit failure messages, complexity notes, and expected-output examples.
+- **Evaluation metrics:** coefficient error against ground truth, held-out RMSE, condition number, residual diagnostics, runtime, and agreement with the library solution within declared tolerances.
+- **Expected deliverables:** source package, tests, environment lock, notebook, generated-data manifest, CLI example, and two-page analysis.
+- **Testing requirements:** noiseless analytic recovery; rank-deficient and ill-conditioned matrices; invalid shapes/non-finite values; seed repeatability; ridge-limit behavior; library-agreement tolerance.
+- **Extension ideas:** heteroskedastic noise, robust regression, iterative solvers, confidence intervals, and continuous-integration execution.
+- **Deployment guidance:** package and local CLI demonstration only; do not expose it as a decision service.
+- **Ethical considerations:** use synthetic data only and state that numerical recovery does not establish causal or real-world validity.
+- **Marking rubric:** correctness 40%, tests 20%, numerical reasoning 25%, communication 15%.
 
 ### Beginner 2 — Naive Bayes Text Classifier
 
 - **Classification:** Official-topic implementation + Industry application.
-- **Problem/data:** classify a small openly licensed text corpus or a documented synthetic corpus after licence/provenance review.
+- **Problem statement:** build a leakage-safe multinomial naive Bayes classifier for a small text task while making smoothing, vocabulary, provenance, and domain limitations explicit.
+- **Learning objectives:** derive posterior scoring in log space; implement vocabulary and likelihood estimation; compare against scikit-learn; evaluate discrimination, calibration, and language/domain failure modes.
+- **Prerequisites:** Chapter 2 and Chapter 12; conditional probability, logarithms, sparse counts, basic text preprocessing, and classification metrics.
 - **Architecture:** tokenizer, vocabulary, multinomial naive Bayes, scikit-learn baseline, deterministic split.
+- **Dataset:** a small openly licensed corpus selected only after licence/provenance review, or a documented synthetic corpus with generator and checksum.
 - **Milestones:** leakage-safe preprocessing; smoothing; log-probability implementation; confusion/calibration analysis.
-- **Evaluation/deliverables:** pipeline, tests, model card; derivation 25%, implementation 30%, evaluation 25%, provenance/limitations 20%.
-- **Ethics/deployment:** remove personal text; document language/domain bias; local demo only.
+- **Implementation requirements:** Python 3.12+, type hints, deterministic split, training-only vocabulary fitting, configurable smoothing, log-space computation, input validation, error handling, and dependency lock.
+- **Evaluation metrics:** macro/micro F1, per-class precision/recall, log loss, calibration error, confusion matrix, vocabulary coverage, and baseline agreement.
+- **Expected deliverables:** reusable pipeline, tests, experiment manifest, notebook/report, corpus licence record, and model card.
+- **Testing requirements:** empty documents; unseen tokens; zero class/token counts; invalid labels; log-underflow resistance; deterministic split; training-only vocabulary assertion; baseline agreement on a toy corpus.
+- **Extension ideas:** Bernoulli naive Bayes, character features, prior-shift correction, calibration, drift checks, and multilingual error analysis.
+- **Deployment guidance:** local read-only demonstration only; no public text collection or production moderation decision.
+- **Ethical considerations:** remove personal text, respect corpus licence and consent context, and document language, dialect, class, and domain bias.
+- **Marking rubric:** derivation 25%, implementation 30%, evaluation 25%, provenance and limitations 20%.
 
 ### Intermediate 1 — Instance Methods versus SVMs
 
 - **Classification:** Official-topic comparison.
-- **Problem/data:** compare k-NN, linear SVM, and kernel SVM on synthetic datasets with controlled dimension, overlap, scale, and imbalance.
+- **Problem statement:** determine how dimension, overlap, feature scale, class imbalance, and sample size affect k-NN, linear SVM, and kernel SVM behavior.
+- **Learning objectives:** implement vectorized k-NN; design leakage-safe nested validation; explain metric, margin, and kernel trade-offs; measure predictive and computational scaling.
+- **Prerequisites:** Chapters 7, 8, and 12; distance metrics, feature scaling, cross-validation, classification metrics, and basic complexity analysis.
 - **Architecture:** scikit-learn pipelines plus from-scratch k-NN; nested validation.
+- **Dataset:** versioned seeded synthetic classification generators spanning controlled dimension, overlap, scale, imbalance, and sample-size grids.
 - **Milestones:** preregister hypotheses; scaling ablation; metric/kernel search; runtime/memory profiling.
-- **Evaluation/deliverables:** reproducible benchmark and report; method 30%, leakage control 25%, analysis 25%, tests 20%.
-- **Ethics/deployment:** no real-person claims; explain that synthetic findings do not establish universal superiority.
+- **Implementation requirements:** Python 3.12+, typed vectorized k-NN, preprocessing inside pipelines, deterministic nested splits, bounded search grids, resource measurement, validation, and expected-output example.
+- **Evaluation metrics:** balanced accuracy, macro F1, ROC-AUC where valid, calibration, fit/predict latency, peak memory, and sensitivity across experimental factors.
+- **Expected deliverables:** benchmark package, tests, experiment manifest, result table, plots, environment lock, and reproducible comparison report.
+- **Testing requirements:** hand-calculated distance/neighbor oracle; scaling confined to training folds; tie handling; zero-variance features; invalid `k`; deterministic nested CV; no train/test overlap.
+- **Extension ideas:** approximate nearest neighbours, multiclass decomposition, alternative kernels, probability calibration, and cost-sensitive evaluation.
+- **Deployment guidance:** publish a static benchmark report or local CLI; do not present one synthetic winner as a production recommendation.
+- **Ethical considerations:** make no real-person claims and explain that synthetic findings do not establish universal superiority or fairness.
+- **Marking rubric:** method 30%, leakage control 25%, analysis 25%, tests 20%.
 
 ### Intermediate 2 — Decision Tree and MDL Laboratory
 
 - **Classification:** Official-topic implementation + Supplementary complexity study.
-- **Problem/data:** build a small classification tree and compare depth/leaf penalties with validation error and compressed-description proxies.
+- **Problem statement:** build a small classification tree and test how depth, leaf penalties, pruning, and explicit description-length proxies trade fit against complexity.
+- **Learning objectives:** implement deterministic splitting and prediction; relate impurity reduction to tree construction; state MDL proxy assumptions; compare complexity controls and instability across resamples.
+- **Prerequisites:** Chapter 6; entropy/impurity, recursion, categorical labels, validation, and basic coding-length intuition.
 - **Architecture:** typed Python tree nodes, impurity/split module, pruning/penalty experiment, library baseline.
+- **Dataset:** seeded synthetic classification datasets with known rules, noise, redundant features, class imbalance, and resampling manifests.
 - **Milestones:** deterministic splitter; edge-case tests; pruning; MDL assumptions; stability across resamples.
-- **Evaluation/deliverables:** tested implementation, complexity curves, written critique; correctness 35%, MDL reasoning 25%, experiments 25%, clarity 15%.
-- **Ethics/deployment:** warn against treating impurity importance as causal evidence.
+- **Implementation requirements:** Python 3.12+, typed nodes, deterministic tie-breaking, configurable stopping/pruning, explicit description-length proxy, input validation, complexity notes, and library comparison.
+- **Evaluation metrics:** held-out error, node/leaf count, depth, description-length proxy, resample stability, runtime, and agreement with hand-worked split examples.
+- **Expected deliverables:** tested implementation, experiment manifest, complexity curves, tree visualization, library comparison, and written critique.
+- **Testing requirements:** pure node; constant feature; tied split; minimum leaf; invalid labels/shapes; pruning monotonicity checks; deterministic resampling; hand-calculated impurity oracle.
+- **Extension ideas:** regression trees, cost-complexity pruning, missing-value strategies, surrogate splits, and minimum-description-length sensitivity analysis.
+- **Deployment guidance:** local educational package and static report only; avoid decision deployment without data and risk review.
+- **Ethical considerations:** do not treat impurity importance as causal evidence; examine instability before interpreting paths or feature rankings.
+- **Marking rubric:** correctness 35%, MDL reasoning 25%, experiments 25%, clarity 15%.
 
 ### Advanced — Ensemble Reliability and Interpretation Audit
 
 - **Classification:** Official ensemble topic + Industry application.
-- **Problem/data:** compare bagging, random forests, AdaBoost, and gradient boosting under noise, imbalance, subgroup shift, and missingness.
+- **Problem statement:** audit bagging, random forests, AdaBoost, and gradient boosting under noise, imbalance, missingness, subgroup shift, and explanation perturbations.
+- **Learning objectives:** design nested evaluation for ensembles; quantify calibration and slice uncertainty; compare predictive and computational trade-offs; test whether feature explanations are stable enough for their stated use.
+- **Prerequisites:** Chapters 9 and 12; resampling, boosting, cross-validation, calibration, subgroup metrics, uncertainty intervals, and model-interpretation limits.
 - **Architecture:** versioned pipeline, nested CV, calibration, slice metrics, permutation importance, LIME/SHAP sensitivity tests.
+- **Dataset:** versioned seeded synthetic generator with controlled noise, imbalance, missingness, subgroup membership, and shift scenarios; real data remains optional pending licence and risk review.
 - **Milestones:** data cards; baselines; uncertainty intervals; explanation perturbation tests; model card.
-- **Evaluation/deliverables:** repository, reproducibility manifest, audit report; experimental validity 30%, evaluation 25%, interpretation caution 20%, engineering 15%, ethics 10%.
-- **Ethics/deployment:** no high-stakes deployment; explanation methods are diagnostics, not causal proof.
+- **Implementation requirements:** Python 3.12+, locked environment, deterministic outer/inner splits, preprocessing inside pipelines, calibrated predictions, bounded explanation sampling, resource logs, and failure-safe configuration validation.
+- **Evaluation metrics:** macro F1/ROC-AUC where valid, log loss, calibration error, slice gaps with intervals, shift degradation, explanation rank stability, latency, memory, and training cost.
+- **Expected deliverables:** repository, tests, reproducibility manifest, data/model cards, uncertainty tables, explanation sensitivity evidence, and audit report.
+- **Testing requirements:** split disjointness; preprocessing fit only on training folds; deterministic scenarios; missing-value path; metric edge cases; calibration invariants; explanation perturbation repeatability.
+- **Extension ideas:** cost-sensitive learning, conformal prediction, monotonic constraints, online monitoring simulation, and explanation methods beyond LIME/SHAP.
+- **Deployment guidance:** isolated audit environment only; no high-stakes deployment or automated action.
+- **Ethical considerations:** explanation methods are diagnostics rather than causal proof; report subgroup uncertainty and avoid ranking people from synthetic or proxy attributes.
+- **Marking rubric:** experimental validity 30%, evaluation 25%, interpretation caution 20%, engineering 15%, ethics 10%.
 
 ### Research-oriented — Leakage and Reproducibility Replication Audit
 
 - **Classification:** Industry application + Advanced extension.
-- **Problem/data:** choose one open ML study or benchmark with code/data, preregister a leakage checklist, and compare reported protocol with corrected split/preprocessing alternatives.
+- **Problem statement:** replicate one open ML study or benchmark, preregister a leakage checklist, and compare the reported protocol with corrected split and preprocessing alternatives.
+- **Learning objectives:** distinguish exact, partial, and conceptual reproduction; threat-model leakage; reconstruct provenance; measure how corrected protocols change conclusions; report negative and ambiguous evidence responsibly.
+- **Prerequisites:** Chapters 1 and 12; experimental design, statistical comparison, Git, environment locking/containers, dataset licensing, checksums, and research-ethics basics.
 - **Architecture:** immutable raw-data checksums, split manifest, experiment tracker, container/lockfile, statistical comparison.
+- **Dataset:** one open study or benchmark with accessible code/data selected only after identity, licence, provenance, sensitive-data, and split-suitability review.
 - **Milestones:** study selection and licence check; protocol reconstruction; leakage threat model; exact/partial reproduction; corrected analysis; limitations.
-- **Evaluation/deliverables:** code, evidence log, negative results, paper-style report; fidelity 25%, leakage analysis 25%, reproducibility 20%, statistics 15%, transparency/ethics 15%.
-- **Ethics/deployment:** do not accuse authors beyond evidence; distinguish error, ambiguity, and inference; protect sensitive records and exclude restricted data.
+- **Implementation requirements:** immutable raw inputs, content hashes, explicit split/preprocessing manifest, pinned environment, deterministic seeds where valid, experiment tracking, input validation, and no silent deviation from the source protocol.
+- **Evaluation metrics:** reconstruction fidelity, reproduced-versus-reported effect difference, leakage impact, uncertainty, run-to-run variance, environment reconstruction success, runtime, and evidence completeness.
+- **Expected deliverables:** code, tests, licence/provenance record, evidence log, immutable manifests, negative results, corrected analysis, and paper-style report.
+- **Testing requirements:** checksum and manifest validation; split disjointness; preprocessing fit only on training data; deterministic rerun where applicable; environment rebuild; duplicate-run detection; analysis sanity checks.
+- **Extension ideas:** multi-study replication, adversarial leakage injection, registered-report format, alternative benchmark, and meta-analysis of protocol sensitivity.
+- **Deployment guidance:** archive a reproducibility package or container; do not deploy the reproduced model as a service.
+- **Ethical considerations:** do not accuse authors beyond evidence; distinguish error, ambiguity, and inference; protect sensitive records and exclude restricted data.
+- **Marking rubric:** fidelity 25%, leakage analysis 25%, reproducibility 20%, statistics 15%, transparency and ethics 15%.
 
 ## 11. Validation gates
 
