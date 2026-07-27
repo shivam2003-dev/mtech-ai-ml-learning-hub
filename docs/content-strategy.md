@@ -27,6 +27,32 @@ Each subject contains front matter, 8-16 syllabus-shaped chapters, papers, proje
 
 Principal chapters require at least 3,000 meaningful prose words, excluding code, metadata, navigation, references and boilerplate. Mathematical chapters normally target 4,000-7,000 words.
 
+## Chapter experience
+
+The chapter experience follows the successful explanatory pattern of Shivam's
+existing *Speech and Language Processing* companion, adapted as original work
+for this platform. It is a narrative learning arc, not a long checklist of
+micro-headings. A chapter normally exposes **8-10 reader-facing sections** in
+its table of contents:
+
+1. Begin with a concrete problem or running story.
+2. Give a conceptual map and explain what connects to what.
+3. Build intuition before introducing formal language.
+4. Derive the central result and work through a small case.
+5. Implement it from first principles and, when useful, with a library.
+6. Explain the real application and the engineering contract.
+7. Cover failure modes, edge cases, evaluation, complexity, scale, safety and research links.
+8. End with a study lab or assignment that produces inspectable evidence.
+9. Use oral-exam questions and a complete summary to consolidate the chapter.
+
+Learning objectives, prerequisites, symbols, readings, exercises, quiz
+guidance, industry practice and next steps are required content, but belong in
+the relevant narrative section or an H3/H4 sub-section. They must not inflate
+the reader-facing table of contents into a 29- or 33-item compliance list.
+Each chapter opens with a short **one-minute version**, a running example, and
+a **chapter promise**. It closes with an original-scope notice where a source
+book or external curriculum is discussed.
+
 ## Editorial standard
 
 - Clear international English.
@@ -71,4 +97,3 @@ Exceptional states are `needs-update` and `blocked`.
 ## Initial reference implementation
 
 The first complete reference is **Mathematical Foundations for Machine Learning**. Its first chapter establishes the MDX, mathematics, code, citation, exercise, progress and accessibility conventions used by later books.
-
