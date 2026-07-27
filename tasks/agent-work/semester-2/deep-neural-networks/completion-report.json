@@ -9,179 +9,54 @@
   ],
   "filesModified": [],
   "sourcesUsed": [
-    {
-      "id": "official-brochure",
-      "title": "M.Tech. Artificial Intelligence and Machine Learning for working professionals",
-      "organisation": "BITS Pilani Work Integrated Learning Programmes",
-      "path": "/Users/shivamkumar/Downloads/mtech-ai-ml.pdf",
-      "sha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
-      "locators": [
-        "physical PDF page 12, printed page 10",
-        "physical PDF page 14, printed page 12"
-      ],
-      "verificationStatus": "verified-local-source"
-    },
-    {
-      "id": "R01",
-      "url": "https://www.deeplearningbook.org/",
-      "verificationStatus": "verified-official-author-site"
-    },
-    {
-      "id": "R02",
-      "url": "https://d2l.ai/",
-      "verificationStatus": "verified-official-project-site"
-    },
-    {
-      "id": "R03",
-      "url": "https://docs.pytorch.org/tutorials/",
-      "verificationStatus": "verified-official-documentation"
-    },
-    {
-      "id": "R04",
-      "url": "https://www.tensorflow.org/guide/keras",
-      "verificationStatus": "verified-official-documentation"
-    },
-    {
-      "id": "R05",
-      "url": "https://cs231n.stanford.edu/",
-      "verificationStatus": "verified-institutional-course"
-    },
-    {
-      "id": "R06",
-      "url": "https://web.stanford.edu/class/cs224n/",
-      "verificationStatus": "verified-institutional-course"
-    },
-    {
-      "id": "R07",
-      "url": "https://doi.org/10.1037/h0042519",
-      "verificationStatus": "verified-crossref-and-resolver"
-    },
-    {
-      "id": "R08",
-      "url": "https://doi.org/10.1038/323533a0",
-      "verificationStatus": "verified-crossref-and-resolver"
-    },
-    {
-      "id": "R09",
-      "url": "https://doi.org/10.1016/0893-6080(89)90020-8",
-      "verificationStatus": "verified-crossref-and-resolver"
-    },
-    {
-      "id": "R10",
-      "url": "https://doi.org/10.1109/5.726791",
-      "verificationStatus": "verified-crossref-and-resolver"
-    },
-    {
-      "id": "R11",
-      "url": "https://doi.org/10.1162/neco.1997.9.8.1735",
-      "verificationStatus": "verified-crossref-and-resolver"
-    },
-    {
-      "id": "R12",
-      "url": "https://papers.neurips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks",
-      "verificationStatus": "verified-official-proceedings"
-    },
-    {
-      "id": "R13",
-      "url": "https://jmlr.org/papers/v15/srivastava14a.html",
-      "verificationStatus": "verified-official-journal"
-    },
-    {
-      "id": "R14",
-      "url": "https://proceedings.mlr.press/v37/ioffe15.html",
-      "verificationStatus": "verified-official-proceedings-and-arxiv"
-    },
-    {
-      "id": "R15",
-      "url": "https://arxiv.org/abs/1412.6980",
-      "verificationStatus": "verified-arxiv-and-venue"
-    },
-    {
-      "id": "R16",
-      "url": "https://doi.org/10.1109/CVPR.2016.90",
-      "verificationStatus": "verified-crossref-and-resolver"
-    },
-    {
-      "id": "R17",
-      "url": "https://papers.neurips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks",
-      "verificationStatus": "verified-official-proceedings-and-arxiv"
-    },
-    {
-      "id": "R18",
-      "url": "https://papers.neurips.cc/paper/7181-attention-is-all-you-need",
-      "verificationStatus": "verified-official-proceedings-and-arxiv"
-    },
-    {
-      "id": "R19",
-      "url": "https://openreview.net/forum?id=YicbFdNTTy",
-      "verificationStatus": "verified-accepted-openreview-and-arxiv"
-    },
-    {
-      "id": "R20",
-      "url": "https://openreview.net/forum?id=nZeVKeeFYf9",
-      "verificationStatus": "verified-accepted-openreview-and-arxiv"
-    },
-    {
-      "id": "R21",
-      "url": "https://arxiv.org/abs/2001.08361",
-      "verificationStatus": "verified-arxiv"
-    },
-    {
-      "id": "R22",
-      "url": "https://arxiv.org/abs/2203.15556",
-      "verificationStatus": "verified-arxiv-and-venue"
-    },
-    {
-      "id": "R23",
-      "url": "https://doi.org/10.1038/nature14539",
-      "verificationStatus": "verified-crossref-and-resolver"
-    },
-    {
-      "id": "R24",
-      "url": "https://doi.org/10.1109/TKDE.2009.191",
-      "verificationStatus": "verified-crossref-and-resolver"
-    },
-    {
-      "id": "R25",
-      "url": "https://doi.org/10.1137/16M1080173",
-      "verificationStatus": "verified-crossref-and-resolver"
-    },
-    {
-      "id": "R26",
-      "url": "https://arxiv.org/abs/1312.6199",
-      "verificationStatus": "verified-arxiv-and-venue"
-    },
-    {
-      "id": "R27",
-      "url": "https://doi.org/10.1145/3287560.3287596",
-      "verificationStatus": "verified-crossref-and-resolver"
-    }
+    "official-brochure | /Users/shivamkumar/Downloads/mtech-ai-ml.pdf | sha256 fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b | physical pages 12 and 14 | verified local source",
+    "R01 | https://www.deeplearningbook.org/ | verified official author site",
+    "R02 | https://d2l.ai/ | verified official project site",
+    "R03 | https://docs.pytorch.org/tutorials/ | verified official documentation",
+    "R04 | https://www.tensorflow.org/guide/keras | verified official documentation",
+    "R05 | https://cs231n.stanford.edu/ | verified institutional course",
+    "R06 | https://web.stanford.edu/class/cs224n/ | verified institutional course",
+    "R07 | https://doi.org/10.1037/h0042519 | verified Crossref and resolver",
+    "R08 | https://doi.org/10.1038/323533a0 | verified Crossref and resolver",
+    "R09 | https://doi.org/10.1016/0893-6080(89)90020-8 | verified Crossref and resolver",
+    "R10 | https://doi.org/10.1109/5.726791 | verified Crossref and resolver",
+    "R11 | https://doi.org/10.1162/neco.1997.9.8.1735 | verified Crossref and resolver",
+    "R12 | https://papers.neurips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks | verified official proceedings",
+    "R13 | https://jmlr.org/papers/v15/srivastava14a.html | verified official journal",
+    "R14 | https://proceedings.mlr.press/v37/ioffe15.html | verified official proceedings and arXiv",
+    "R15 | https://arxiv.org/abs/1412.6980 | verified arXiv and venue",
+    "R16 | https://doi.org/10.1109/CVPR.2016.90 | verified Crossref and resolver",
+    "R17 | https://papers.neurips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks | verified official proceedings and arXiv",
+    "R18 | https://papers.neurips.cc/paper/7181-attention-is-all-you-need | verified official proceedings and arXiv",
+    "R19 | https://openreview.net/forum?id=YicbFdNTTy | verified accepted OpenReview and arXiv",
+    "R20 | https://openreview.net/forum?id=nZeVKeeFYf9 | verified accepted OpenReview and arXiv",
+    "R21 | https://arxiv.org/abs/2001.08361 | verified arXiv",
+    "R22 | https://doi.org/10.52202/068431-2176 | official NeurIPS record and arXiv 2203.15556 verified",
+    "R23 | https://doi.org/10.1038/nature14539 | verified Crossref and resolver",
+    "R24 | https://doi.org/10.1109/TKDE.2009.191 | verified Crossref and resolver",
+    "R25 | https://doi.org/10.1137/16M1080173 | verified Crossref and resolver",
+    "R26 | https://arxiv.org/abs/1312.6199 | verified arXiv and venue",
+    "R27 | https://doi.org/10.1145/3287560.3287596 | verified Crossref and resolver",
+    "R28 | https://proceedings.mlr.press/v70/guo17a.html | verified official PMLR",
+    "R29 | https://arxiv.org/abs/2202.08587 | verified arXiv and institutional author record"
   ],
-  "citationsVerified": 27,
+  "citationsVerified": 29,
   "citationsRejected": 2,
-  "rejectedSources": [
-    {
-      "candidate": "DOI 10.1145/3065386 as the original 2012 NeurIPS AlexNet citation",
-      "reason": "Crossref identifies a 2017 Communications of the ACM republication; the official 2012 NeurIPS record is used instead."
-    },
-    {
-      "candidate": "DOI 10.48550/arXiv.1207.0580 as the identifier for the 2014 JMLR Dropout paper",
-      "reason": "The identifier belongs to a related 2012 preprint with a different title and author record; the official JMLR article is used."
-    }
-  ],
-  "wordCount": 6358,
+  "wordCount": 6506,
   "testsRun": [
     "verified brochure SHA-256 and page locators",
     "transcribed and mapped all 12 official topic phrases",
     "checked chapter count is within 8-16",
     "summed 12 chapter-hour rows to 184",
     "validated additive total workload 8 + 82 + 50 + 30 + 22 + 32 + 12 = 236",
-    "checked 27 canonical resource URLs with redirects and bounded concurrency",
+    "checked 29 canonical resource URLs with redirects and bounded concurrency",
     "queried DOI metadata through Crossref",
     "queried arXiv identifiers in bounded batches",
     "verified accepted OpenReview records for ViT and LoRA",
+    "verified the official NeurIPS R22 record, DOI 10.52202/068431-2176, and related arXiv identity",
+    "verified modern Chapter 2 and Chapter 4 paper destinations through official PMLR and arXiv records",
     "inspected all six projects for every required contract field",
-    "validated completion-report JSON",
+    "validated completion-report JSON against packages/content-schema/schemas/agent-report.schema.json with AJV draft 2020",
     "confirmed no full chapter was created"
   ],
   "validationResults": {
@@ -195,13 +70,18 @@
     "knowledgeGraph": "passed-provisional",
     "crossSubjectBoundaries": "passed-provisional-ownership-matrix-required-before-prose",
     "researchQueries": "passed-15",
-    "academicResources": "passed-27",
-    "paperReadingPath": "passed-21",
-    "paperCategoryMix": "passed-5-foundational-6-established-5-modern-3-survey-2-applied",
+    "academicResources": "passed-29",
+    "paperReadingPath": "passed-23",
+    "paperCategoryMix": "passed-5-foundational-6-established-7-modern-3-survey-2-applied",
     "projectLevels": "passed-2-beginner-2-intermediate-1-advanced-1-research",
     "projectContractFields": "passed-all-six",
     "estimatedHours": "passed-236",
     "citationMetadata": "passed-with-2-rejections-documented",
+    "agentReportSchema": "passed-draft-2020-no-additional-properties",
+    "citationRejections": [
+      "DOI 10.1145/3065386 was rejected as the original 2012 NeurIPS AlexNet citation because Crossref identifies the 2017 Communications of the ACM republication; the official 2012 NeurIPS record is used.",
+      "DOI 10.48550/arXiv.1207.0580 was rejected as the identifier for the 2014 JMLR Dropout paper because it belongs to a related 2012 preprint with a different title and author record; the official JMLR article is used."
+    ],
     "fullChapterDraft": "not-created-as-required"
   },
   "openIssues": [
