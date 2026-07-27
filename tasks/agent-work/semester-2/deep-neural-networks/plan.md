@@ -219,7 +219,7 @@ Deduplicate by DOI, then arXiv/OpenReview/proceedings ID, then normalized title 
 
 ## 8. Verified preliminary resource catalogue
 
-All 27 resources were checked on 2026-07-28. Confidence describes metadata/host verification, not agreement with every claim. Publisher access conditions may change.
+All 29 resources were checked on 2026-07-28. Confidence describes metadata/host verification, not agreement with every claim. Publisher access conditions may change.
 
 ### Authoritative books, courses, and implementation documentation
 
@@ -475,7 +475,7 @@ The planning bundle may integrate only if:
 - [x] all additions are classified;
 - [x] 12 chapters fall within the 8-16 range;
 - [x] outcomes, prerequisites, knowledge graph, research queries, and hours are present;
-- [x] 27 resources contain required human-readable metadata;
+- [x] 29 resources contain required human-readable metadata;
 - [x] paper path meets category minima;
 - [x] six projects meet 2 beginner / 2 intermediate / 1 advanced / 1 research and contain every contract field;
 - [x] workload arithmetic adds once;
