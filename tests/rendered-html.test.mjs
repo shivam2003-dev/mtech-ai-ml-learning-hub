@@ -22,6 +22,8 @@ test("chapter export contains MathJax, highlighted code, and reading tools", asy
     "utf8",
   );
   assert.match(html, /<mjx-container/);
+  assert.match(html, /<title id="math-expression-1">Mathematical expression:/);
+  assert.match(html, /aria-labelledby="math-expression-1"/);
   assert.match(html, /class="shiki/);
   assert.match(html, /<table>/);
   assert.match(html, /Copy citation/);
