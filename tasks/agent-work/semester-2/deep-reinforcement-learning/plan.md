@@ -2,11 +2,16 @@
 
 ## 0. Planning status and authority boundary
 
-**Agent:** `SUBJ-006`  
-**Accountable role:** Subject Lead, Deep Reinforcement Learning  
-**Programme:** M.Tech. Artificial Intelligence and Machine Learning  
-**Verified placement:** compulsory subject, Semester 2  
-**Planning date:** 2026-07-28  
+**Agent:** `SUBJ-006`
+
+**Accountable role:** Subject Lead, Deep Reinforcement Learning
+
+**Programme:** M.Tech. Artificial Intelligence and Machine Learning
+
+**Verified placement:** compulsory subject, Semester 2
+
+**Planning date:** 2026-07-28
+
 **Plan status:** proposed subject plan; ready for outline validation, not approved
 for chapter generation
 
@@ -14,7 +19,9 @@ The curriculum source of truth is the programme brochure:
 
 - *M.Tech. AI & ML_New Brochure_2026 copy*, BITS Pilani Work Integrated
   Learning Programmes, physical PDF page 12 / printed page 10, accessed
-  2026-07-28 from `/Users/shivamkumar/Downloads/mtech-ai-ml.pdf`.
+  2026-07-28 from `/Users/shivamkumar/Downloads/mtech-ai-ml.pdf`; source-PDF
+  SHA-256
+  `fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b`.
 
 Visual inspection and text extraction verify only:
 
@@ -38,6 +45,12 @@ of:
 No proposed topic is represented as official syllabus content. Full chapter
 generation remains blocked until this outline is reviewed against any future
 detailed university syllabus.
+
+The word **Prerequisite** is reserved for entry knowledge in Section 3.
+Principal chapters are proposed teaching material and are therefore
+**Supplementary**, **Advanced extension**, or **Industry application**. This
+prevents foundational subject content from being misrepresented as knowledge a
+student must already possess.
 
 ## 1. Subject purpose
 
@@ -140,9 +153,9 @@ template.
 
 | Ch. | Proposed title | Classification | Principal concepts | Gate/output | Hours |
 |---:|---|---|---|---|---:|
-| 1 | Sequential Decision-Making and the DRL Experimental Contract | **Prerequisite** | agent/environment loop; states, observations, actions, rewards, episodes; horizon; termination vs truncation; reward versus objective; reproducible run manifest | Correct Gymnasium interaction loop and problem statement | 7 |
-| 2 | Markov Decision Processes, Values, and Bellman Reasoning | **Prerequisite** | Markov property; policies; occupancy intuition; returns; value/action-value functions; Bellman expectation/optimality equations; contraction intuition; policy/value iteration | Derive and numerically verify a small MDP | 11 |
-| 3 | Sampling, Monte Carlo, Temporal Difference, and Tabular Control | **Prerequisite** | MC prediction; TD(0); n-step returns; eligibility-trace intuition; SARSA; expected SARSA; Q-learning; exploration schedules; on/off-policy distinction | Tabular baseline with convergence diagnostics | 10 |
+| 1 | Sequential Decision-Making and the DRL Experimental Contract | **Supplementary** + **Industry application** | agent/environment loop; states, observations, actions, rewards, episodes; horizon; termination vs truncation; reward versus objective; reproducible run manifest | Correct Gymnasium interaction loop and problem statement | 7 |
+| 2 | Markov Decision Processes, Values, and Bellman Reasoning | **Supplementary** | Markov property; policies; occupancy intuition; returns; value/action-value functions; Bellman expectation/optimality equations; contraction intuition; policy/value iteration | Derive and numerically verify a small MDP | 11 |
+| 3 | Sampling, Monte Carlo, Temporal Difference, and Tabular Control | **Supplementary** | MC prediction; TD(0); n-step returns; eligibility-trace intuition; SARSA; expected SARSA; Q-learning; exploration schedules; on/off-policy distinction | Tabular baseline with convergence diagnostics | 10 |
 | 4 | Function Approximation and the Stability Problem | **Supplementary** | semi-gradient learning; projected targets; replay; target networks; deadly triad; overestimation; normalization; gradient clipping; representation drift | Failure-case notebook and stability checklist | 10 |
 | 5 | Deep Value-Based Learning: DQN to Distributional and Rainbow Agents | **Supplementary** | DQN objective; replay/target networks; Double DQN; dueling networks; prioritized replay; multi-step targets; noisy exploration; distributional value learning; Rainbow ablations | DQN from first principles plus controlled ablation | 13 |
 | 6 | Policy Gradients, Credit Assignment, and Variance Reduction | **Supplementary** | likelihood-ratio estimator; policy-gradient theorem; reward-to-go; baselines; advantage functions; entropy; GAE; bias-variance trade-off | Derive and implement REINFORCE with baseline | 11 |
@@ -303,28 +316,32 @@ metadata confidence, not a quality score.
 | R02 | Q-learning | Christopher J. C. H. Watkins; Peter Dayan | 1992 | Journal article; *Machine Learning* 8, 279-292 | DOI `10.1007/BF00992698`; https://doi.org/10.1007/BF00992698 | I; foundational off-policy control; MDP/TD; abstract free, access may vary | 1.00 / Crossref DOI verified |
 | R03 | Simple statistical gradient-following algorithms for connectionist reinforcement learning | Ronald J. Williams | 1992 | Journal article; *Machine Learning* 8, 229-256 | DOI `10.1007/BF00992696`; https://doi.org/10.1007/BF00992696 | I; REINFORCE foundation; probability/calculus; abstract free, access may vary | 1.00 / Crossref DOI verified |
 | R04 | Human-level control through deep reinforcement learning | Volodymyr Mnih et al. | 2015 | Article; *Nature* 518, 529-533 | DOI `10.1038/nature14236`; https://www.nature.com/articles/nature14236 | I; DQN reference; CNN/Q-learning; abstract free, access may vary | 1.00 / publisher verified |
-| R05 | Trust Region Policy Optimization | John Schulman et al. | 2015 | ICML; PMLR 37, 1889-1897 | PMLR `v37/schulman15`; https://proceedings.mlr.press/v37/schulman15.html | A; trust-region derivation; policy gradients/KL; free | 1.00 / proceedings verified |
-| R06 | Asynchronous Methods for Deep Reinforcement Learning | Volodymyr Mnih et al. | 2016 | ICML; PMLR 48, 1928-1937 | PMLR `v48/mniha16`; https://proceedings.mlr.press/v48/mniha16.html | I-A; A3C/scaling; actor-critic; free | 1.00 / proceedings verified |
+| R05 | Trust Region Policy Optimization | John Schulman et al. | 2015 | ICML; PMLR 37, 1889-1897 | PMLR `v37/schulman15`; arXiv `1502.05477`; https://proceedings.mlr.press/v37/schulman15.html | A; trust-region derivation; policy gradients/KL; free | 1.00 / proceedings and arXiv verified |
+| R06 | Asynchronous Methods for Deep Reinforcement Learning | Volodymyr Mnih et al. | 2016 | ICML; PMLR 48, 1928-1937 | PMLR `v48/mniha16`; arXiv `1602.01783`; https://proceedings.mlr.press/v48/mniha16.html | I-A; A3C/scaling; actor-critic; free | 1.00 / proceedings and arXiv verified |
 | R07 | Proximal Policy Optimization Algorithms | John Schulman et al. | 2017 | arXiv preprint | arXiv `1707.06347`; https://arxiv.org/abs/1707.06347 | I-A; PPO objective; policy gradients/importance ratios; free | 0.99 / arXiv metadata verified |
 | R08 | Continuous Control with Deep Reinforcement Learning | Timothy P. Lillicrap et al. | 2015 | arXiv / ICLR 2016 | arXiv `1509.02971`; https://arxiv.org/abs/1509.02971 | I-A; DDPG; actor-critic/continuous actions; free | 0.99 / arXiv metadata verified |
-| R09 | Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor | Tuomas Haarnoja et al. | 2018 | ICML; PMLR 80, 1861-1870 | PMLR `v80/haarnoja18b`; https://proceedings.mlr.press/v80/haarnoja18b.html | A; entropy/continuous control; actor-critic; free | 1.00 / proceedings verified |
-| R10 | A Distributional Perspective on Reinforcement Learning | Marc G. Bellemare; Will Dabney; Remi Munos | 2017 | ICML; PMLR 70, 449-458 | PMLR `v70/bellemare17a`; https://proceedings.mlr.press/v70/bellemare17a.html | A; return distributions; Bellman operators/probability; free | 1.00 / proceedings verified |
-| R11 | Rainbow: Combining Improvements in Deep Reinforcement Learning | Matteo Hessel et al. | 2018 | AAAI 32(1) | DOI `10.1609/aaai.v32i1.11796`; https://ojs.aaai.org/index.php/AAAI/article/view/11796 | I-A; DQN synthesis/ablation; DQN extensions; free | 1.00 / AAAI DOI verified |
-| R12 | IMPALA: Scalable Distributed Deep-RL with Importance Weighted Actor-Learner Architectures | Lasse Espeholt et al. | 2018 | ICML; PMLR 80, 1407-1416 | PMLR `v80/espeholt18a`; https://proceedings.mlr.press/v80/espeholt18a.html | A; distributed actors/V-trace; actor-critic/importance sampling; free | 1.00 / proceedings verified |
+| R09 | Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor | Tuomas Haarnoja et al. | 2018 | ICML; PMLR 80, 1861-1870 | PMLR `v80/haarnoja18b`; arXiv `1801.01290`; https://proceedings.mlr.press/v80/haarnoja18b.html | A; entropy/continuous control; actor-critic; free | 1.00 / proceedings and arXiv verified |
+| R10 | A Distributional Perspective on Reinforcement Learning | Marc G. Bellemare; Will Dabney; Remi Munos | 2017 | ICML; PMLR 70, 449-458 | PMLR `v70/bellemare17a`; arXiv `1707.06887`; https://proceedings.mlr.press/v70/bellemare17a.html | A; return distributions; Bellman operators/probability; free | 1.00 / proceedings and arXiv verified |
+| R11 | Rainbow: Combining Improvements in Deep Reinforcement Learning | Matteo Hessel et al. | 2018 | AAAI 32(1) | DOI `10.1609/aaai.v32i1.11796`; arXiv `1710.02298`; https://ojs.aaai.org/index.php/AAAI/article/view/11796 | I-A; DQN synthesis/ablation; DQN extensions; free | 1.00 / AAAI DOI and arXiv verified |
+| R12 | IMPALA: Scalable Distributed Deep-RL with Importance Weighted Actor-Learner Architectures | Lasse Espeholt et al. | 2018 | ICML; PMLR 80, 1407-1416 | PMLR `v80/espeholt18a`; arXiv `1802.01561`; https://proceedings.mlr.press/v80/espeholt18a.html | A; distributed actors/V-trace; actor-critic/importance sampling; free | 1.00 / proceedings and arXiv verified |
 | R13 | Mastering the Game of Go with Deep Neural Networks and Tree Search | David Silver et al. | 2016 | Article; *Nature* 529, 484-489 | DOI `10.1038/nature16961`; https://www.nature.com/articles/nature16961 | A; applied planning/self-play; DNN/MCTS/RL; abstract free, access may vary | 1.00 / Crossref and publisher verified |
-| R14 | A General Reinforcement Learning Algorithm that Masters Chess, Shogi, and Go through Self-Play | David Silver et al. | 2018 | Article; *Science* 362, 1140-1144 | DOI `10.1126/science.aar6404`; https://doi.org/10.1126/science.aar6404 | A; applied self-play; search/model-based RL; abstract access varies | 1.00 / Crossref DOI verified |
-| R15 | Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model | Julian Schrittwieser et al. | 2020 | Article; *Nature* 588, 604-609 | DOI `10.1038/s41586-020-03051-4`; https://www.nature.com/articles/s41586-020-03051-4 | A; MuZero/model-based RL; planning/value/policy networks; abstract free, access may vary | 1.00 / Crossref and publisher verified |
+| R14 | A General Reinforcement Learning Algorithm that Masters Chess, Shogi, and Go through Self-Play | David Silver et al. | 2018 | Article; *Science* 362, 1140-1144 | DOI `10.1126/science.aar6404`; related preprint arXiv `1712.01815`, titled *Mastering Chess and Shogi by Self-Play with a General Reinforcement Learning Algorithm*; https://doi.org/10.1126/science.aar6404 | A; applied self-play; search/model-based RL; abstract access varies | 1.00 / Crossref DOI and related-preprint identity verified |
+| R15 | Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model | Julian Schrittwieser et al. | 2020 | Article; *Nature* 588, 604-609 | DOI `10.1038/s41586-020-03051-4`; arXiv `1911.08265`; https://www.nature.com/articles/s41586-020-03051-4 | A; MuZero/model-based RL; planning/value/policy networks; abstract free, access may vary | 1.00 / Crossref, publisher, and arXiv verified |
 | R16 | Offline Reinforcement Learning: Tutorial, Review, and Perspectives on Open Problems | Sergey Levine; Aviral Kumar; George Tucker; Justin Fu | 2020 | Tutorial/review; arXiv | arXiv `2005.01643`; https://arxiv.org/abs/2005.01643 | I-A; offline RL map; off-policy RL/statistics; free | 0.99 / arXiv metadata verified |
 | R17 | Conservative Q-Learning for Offline Reinforcement Learning | Aviral Kumar; Aurick Zhou; George Tucker; Sergey Levine | 2020 | NeurIPS 33 | arXiv `2006.04779`; https://proceedings.neurips.cc/paper/2020/hash/0d2b2061826a5df3221116a5085a6052-Abstract.html | A; conservative offline values; Q-learning/distribution shift; free | 1.00 / proceedings verified |
 | R18 | Decision Transformer: Reinforcement Learning via Sequence Modeling | Lili Chen et al. | 2021 | NeurIPS 34 | arXiv `2106.01345`; https://proceedings.neurips.cc/paper_files/paper/2021/hash/7f489f642a0ddb10272b5c31057f0663-Abstract.html | A; sequence-model view; Transformers/offline RL; free | 1.00 / proceedings verified |
-| R19 | Offline Reinforcement Learning with Implicit Q-Learning | Ilya Kostrikov; Ashvin Nair; Sergey Levine | 2022 | ICLR 2022 | OpenReview `68n2s9ZJWF8`; https://openreview.net/forum?id=68n2s9ZJWF8 | A; avoids explicit OOD action evaluation; offline actor-critic; free | 0.99 / OpenReview record verified |
+| R19 | Offline Reinforcement Learning with Implicit Q-Learning | Ilya Kostrikov; Ashvin Nair; Sergey Levine | 2022 | ICLR 2022 | OpenReview `68n2s9ZJWF8`; arXiv `2110.06169`; https://openreview.net/forum?id=68n2s9ZJWF8 | A; avoids explicit OOD action evaluation; offline actor-critic; free | 1.00 / OpenReview and arXiv verified |
 | R20 | D4RL: Datasets for Deep Data-Driven Reinforcement Learning | Justin Fu et al. | 2020 | Dataset/benchmark; arXiv | arXiv `2004.07219`; https://arxiv.org/abs/2004.07219 | I-A; offline benchmark design; Gym/off-policy evaluation; free, dataset licenses vary by component | 0.99 / arXiv metadata verified |
 | R21 | A Comprehensive Survey on Safe Reinforcement Learning | Javier Garcia; Fernando Fernandez | 2015 | Survey; JMLR 16, 1437-1480 | https://jmlr.org/papers/v16/garcia15a.html | I-A; safety taxonomy; MDP/risk basics; free | 1.00 / journal verified |
-| R22 | Deep Reinforcement Learning That Matters | Peter Henderson et al. | 2018 | AAAI 32(1) | DOI `10.1609/aaai.v32i1.11694`; https://doi.org/10.1609/aaai.v32i1.11694 | I; reproducibility/evaluation; experimental statistics; free | 1.00 / Crossref and AAAI DOI verified |
+| R22 | Deep Reinforcement Learning That Matters | Peter Henderson et al. | 2018 | AAAI 32(1) | DOI `10.1609/aaai.v32i1.11694`; arXiv `1709.06560`; https://doi.org/10.1609/aaai.v32i1.11694 | I; reproducibility/evaluation; experimental statistics; free | 1.00 / Crossref, AAAI DOI, and arXiv verified |
 | R23 | Stable-Baselines3: Reliable Reinforcement Learning Implementations | Antonin Raffin et al. | 2021 | Software paper; JMLR 22(268), 1-8 | https://www.jmlr.org/papers/v22/20-1364.html | F-I; reference implementations; Python/PyTorch/Gymnasium; free | 1.00 / journal verified |
-| R24 | CleanRL: High-quality Single-file Implementations of Deep Reinforcement Learning Algorithms | Shengyi Huang et al. | 2022 | Software paper; JMLR 23 | https://www.jmlr.org/papers/v23/21-1342.html | I; inspectable implementations; Python/PyTorch; free | 1.00 / journal verified |
+| R24 | CleanRL: High-quality Single-file Implementations of Deep Reinforcement Learning Algorithms | Shengyi Huang et al. | 2022 | Software paper; JMLR 23 | arXiv `2111.08819`; https://www.jmlr.org/papers/v23/21-1342.html | I; inspectable implementations; Python/PyTorch; free | 1.00 / journal and arXiv verified |
 | R25 | Gymnasium: a standard interface for reinforcement learning environments | Farama Foundation / Mark Towers et al. | 2024 | Official docs and software paper | arXiv `2407.17032`; https://gymnasium.farama.org/ | F; correct environment API; Python; free | 0.99 / official documentation verified |
-| R26 | Mastering Diverse Control Tasks through World Models | Danijar Hafner; Jurgis Pasukonis; Jimmy Ba; Timothy Lillicrap | 2025 | Article; *Nature* 640, 647-653 | DOI `10.1038/s41586-025-08744-2`; https://www.nature.com/articles/s41586-025-08744-2 | A; modern world models/DreamerV3; model-based DRL; free/open access | 1.00 / publisher verified |
+| R26 | Mastering Diverse Control Tasks through World Models | Danijar Hafner; Jurgis Pasukonis; Jimmy Ba; Timothy Lillicrap | 2025 | Article; *Nature* 640, 647-653 | DOI `10.1038/s41586-025-08744-2`; related preprint arXiv `2301.04104`, titled *Mastering Diverse Domains through World Models*; https://www.nature.com/articles/s41586-025-08744-2; official code https://github.com/danijar/dreamerv3 | A; modern world models/DreamerV3; model-based DRL; free/open access | 1.00 / publisher, related-preprint, and author-code identities verified |
+| R27 | Spinning Up in Deep RL | OpenAI | 2018 | Authoritative tutorial and reference implementations | https://spinningup.openai.com/en/latest/ | F-I; equations, exercises, and compact implementations; Python/PyTorch; free | 0.98 / official OpenAI resource verified; current code versions require compatibility review |
+| R28 | High-Dimensional Continuous Control Using Generalized Advantage Estimation | John Schulman et al. | 2015 | ICLR 2016; arXiv preprint | arXiv `1506.02438`; https://arxiv.org/abs/1506.02438 | I-A; GAE derivation and continuous-control evaluation; policy gradients/value functions; free | 1.00 / arXiv metadata verified |
+| R29 | Model-based Reinforcement Learning: A Survey | Thomas M. Moerland; Joost Broekens; Aske Plaat; Catholijn M. Jonker | 2023 | *Foundations and Trends in Machine Learning* 16(1), 1-118 | DOI `10.1561/2200000086`; arXiv `2006.16712`; https://arxiv.org/abs/2006.16712 | I-A; model-learning/planning taxonomy; MDPs/deep learning; free preprint | 1.00 / DOI and arXiv metadata verified |
+| R30 | CORL: Research-oriented Deep Offline Reinforcement Learning Library | Denis Tarasov et al. | 2023 | NeurIPS Datasets and Benchmarks | arXiv `2210.07105`; https://arxiv.org/abs/2210.07105 | I-A; benchmarked single-file offline implementations; offline RL/D4RL; free | 1.00 / NeurIPS and arXiv metadata verified |
 
 ### Resource-selection cautions
 
@@ -361,7 +378,7 @@ metadata confidence, not a quality score.
 7. **R11 Rainbow** - component combination plus ablation.
 8. **R12 IMPALA** - actor/learner separation and off-policy correction.
 
-### Modern and advanced directions (7)
+### Modern and advanced directions (6)
 
 1. **R15 MuZero** - learned model for planning without reconstructing all
    observations.
@@ -370,15 +387,18 @@ metadata confidence, not a quality score.
 4. **R19 IQL** - offline learning without directly evaluating unseen actions.
 5. **R20 D4RL** - dataset design and benchmark limitations.
 6. **R26 DreamerV3** - robust world-model learning across diverse domains.
-7. **R16 Offline RL tutorial** - use as the bridge connecting R17-R20.
 
-### Survey/tutorial path (3)
+This path contains six research papers. R16 is deliberately not counted here:
+it is a tutorial/review and belongs in the next category.
+
+### Survey/tutorial path (4)
 
 1. **R01** for the broad RL foundation;
 2. **R16** for offline RL;
-3. **R21** for safe RL.
+3. **R21** for safe RL;
+4. **R29** for model-based RL.
 
-### Applied and industry-oriented path (5)
+### Applied and industry-oriented path (6)
 
 1. **R13 AlphaGo** - deep policy/value learning plus tree search.
 2. **R14 AlphaZero** - general self-play algorithm across board games.
@@ -386,23 +406,35 @@ metadata confidence, not a quality score.
 4. **R22 Deep RL That Matters** - evidence and reproducibility requirements.
 5. **R23/R24/R25** - reliable baselines, readable implementations, and correct
    environment APIs.
+6. **R30 CORL** - research-oriented, benchmarked offline-RL implementations.
 
 ### Chapter-to-reading map
 
-| Chapter | Foundation | Modern/established | Survey/tutorial | Implementation |
+The four columns are intentionally different categories. A survey is not
+relabeled as a foundational paper, and software is not relabeled as a research
+method. “Modern” means a later paper that demonstrates, tests, or extends the
+chapter's ideas; it does not mean that the paper is the current state of the
+art. Where a mixed topic has no defensible single origin, the foundation cell
+says `N/A` and names the authoritative tutorial that explains the lineage.
+
+| Chapter | Truly foundational resource | Modern paper | Survey/tutorial/authoritative resource | Implementation resource |
 |---:|---|---|---|---|
-| 1 | R01 | R25 | R01 | R25 |
-| 2 | R01 | R13 | R01 | small custom MDP |
-| 3 | R02 | R04 | R01 | R25 |
-| 4 | R01 | R22 | R01 | R24 |
-| 5 | R04 | R10, R11 | R01 | R24 |
-| 6 | R03 | R05 | R01 | R24 |
-| 7 | R05, R06 | R07 | R22 | R23, R24 |
-| 8 | R08 | R09 | R01 | R23 |
-| 9 | R13 | R15, R26 | R01 | author repositories after license check |
-| 10 | R16 | R17, R18, R19 | R16 | R20 |
-| 11 | R22 | R21 | R21 | R23/R24 evaluation harness |
-| 12 | R06 | R12 | R22 | R25 vector environments |
+| 1 | R01, for the agent-environment and episodic interaction formalism | R25, the 2024 Gymnasium software paper | R25 official API documentation, especially termination versus truncation | R25 official examples and environment checker |
+| 2 | R01, for MDPs, value functions, and Bellman equations | R15, as a modern learned-model/value/planning application | R01 worked MDP and dynamic-programming chapters | R25 Toy Text environments plus a tested custom finite-MDP solver |
+| 3 | R02, the foundational Q-learning article | R11, a later controlled combination of Q-learning extensions | R01 Monte Carlo, TD, SARSA, and Q-learning chapters | R24 inspectable DQN code, used only after the tabular implementation is tested |
+| 4 | R01, for semi-gradient methods and the function-approximation stability lineage | R22, a modern empirical warning about implementation and evaluation sensitivity | R01 function-approximation and off-policy chapters | R24 single-file implementations for tracing replay, targets, clipping, and normalization |
+| 5 | R04, the canonical DQN transition to deep value learning | R11, Rainbow component combination and ablation | R01 value-learning chapters, with R10 for distributional Bellman context | R24 DQN-family single-file implementations |
+| 6 | R03, the foundational REINFORCE article | R28, generalized advantage estimation for deep continuous control | R01 policy-gradient chapter | R27 VPG implementation and exercises, cross-checked against R24 |
+| 7 | R05 for trust-region updates and R06 for asynchronous actor-critic | R07, PPO as a later practical surrogate method | R27 policy-optimization explanations; R22 for reproducibility cautions | R23 and R24 PPO/A2C implementations and tests |
+| 8 | R08, the foundational deep deterministic continuous-control reference | R09, stochastic maximum-entropy actor-critic | R27 DDPG/SAC derivations and exercises | R23 and R24 DDPG/TD3/SAC implementations |
+| 9 | **N/A:** model-based DRL combines several older planning, Dyna, search, and learned-dynamics lineages; R29 is the authoritative survey used to prevent a false single-origin claim | R26, the modern DreamerV3 journal article | R29 model-based RL survey | R26 author's DreamerV3 repository, accepted only after commit, dependency, and license pinning |
+| 10 | **N/A:** offline RL emerged from batch RL, off-policy learning, imitation, and distribution-shift research; R16 explicitly provides the authoritative lineage and rationale | R19 IQL; R17 and R18 provide contrasting modern objectives | R16 offline-RL tutorial/review | R30 CORL benchmarked implementations; R20 supplies dataset/benchmark context |
+| 11 | **N/A:** this chapter intentionally joins exploration, constrained/safe RL, and empirical evaluation; R21's survey and R22's evaluation study document distinct lineages | R22, the modern DRL reproducibility study | R21 safe-RL survey; R01 exploration chapters | R23/R24 evaluation harnesses with seed-level raw metrics |
+| 12 | R06 for the asynchronous deep actor-learner strand; no single foundational MARL paper is claimed in this bounded overview | R12, IMPALA and V-trace | R25 vector-environment documentation; R01 supplies the common RL formalism | R25 vector environments plus the R12 implementation links after version/license review |
+
+The N/A decisions are positive provenance decisions, not missing work. Chapter
+authors must preserve the accompanying rationale and may replace N/A only after
+verifying a source whose scope genuinely covers the entire mixed chapter.
 
 ## 10. Project portfolio - six complete contracts
 
@@ -702,19 +734,56 @@ responsible reporting 15%.
 
 ## 11. Workload arithmetic
 
+### Selection policy
+
+The six project specifications form a **choice portfolio**, not six cumulative
+requirements. A learner completes exactly one selected project:
+
+| Project | Level | Credible selected-project budget |
+|---|---|---:|
+| B1 Tiny MDP Solver | Beginner | 24 hours |
+| B2 Gymnasium Experiment Harness | Beginner | 24 hours |
+| I1 DQN Reproduction and Ablation | Intermediate | 36 hours |
+| I2 PPO versus SAC | Intermediate | 36 hours |
+| A1 Offline RL Dataset Shift | Advanced | 44 hours |
+| R1 Model-Free versus World-Model Reproduction | Research | 56 hours |
+
+The **core chapter path** is Chapters 1-8 and 11: 98 hours. Chapter 11 is core
+because safe evaluation and reproducibility apply to every algorithm family.
+Chapters 9, 10, and 12 are selectable extensions totaling 11, 11, and 8 hours
+respectively. The standard M.Tech planning path selects exactly one extension;
+the worked total below selects Chapter 10 and one 36-hour intermediate project.
+The research-intensive path may select all three extensions and R1, but its
+larger total must be approved against compute and credit constraints.
+
+Hours are non-overlapping:
+
+- chapter hours cover reading, derivations, worked examples, and chapter
+  exercises, but exclude guided laboratories, dedicated paper annotations,
+  project implementation, and assessed quizzes;
+- laboratory hours cover supervised code experiments only;
+- paper hours cover close reading and annotation outside chapter exposition;
+- project hours cover the selected capstone's implementation and report only;
+- assessment hours cover quizzes, review, and oral defense only.
+
 | Activity | Calculation | Hours |
 |---|---:|---:|
-| Principal chapters | sum of chapter estimates | 128 |
+| Core chapters | Ch. 1-8 and Ch. 11: 7 + 11 + 10 + 10 + 13 + 11 + 13 + 13 + 10 | 98 |
+| Selected core extension | standard path selects Ch. 10 | 11 |
 | Prerequisite diagnostics and P7-P8 bridge | 4 diagnostics + 2 short bridges | 8 |
 | Guided laboratories | 7 labs x 4 hours | 28 |
 | Paper reading and annotation | 12 guided papers x 2 hours | 24 |
-| Project work | B1 5 + B2 5 + I1 7 + I2 7 + A1 7 + R1 7 | 38 |
+| Selected project | one intermediate project, I1 or I2 | 36 |
 | Quizzes, assignment review, oral defense | 8 + 4 | 12 |
-| **Estimated total learning time** | **128 + 8 + 28 + 24 + 38 + 12** | **238 hours** |
+| **Standard selected-path total** | **98 + 11 + 8 + 28 + 24 + 36 + 12** | **217 hours** |
 
 This is a planning estimate, not an official credit-hour statement. The research
-project is scoped as a small reproducibility study; full-paper reproduction may
-require substantially more compute and time.
+project is scoped as a reduced-scale reproducibility study; full-paper
+reproduction may require substantially more compute and time. For comparison,
+the core path with no extension and one intermediate project is 206 hours. The
+research-intensive path with all three extensions and R1 is
+`98 + 30 + 8 + 28 + 24 + 56 + 12 = 256` hours. These alternatives are not added
+to the standard total.
 
 ## 12. Proposed assessment architecture
 
@@ -741,12 +810,13 @@ limitations. A single favorable learning curve is insufficient evidence.
 - [x] Ownership boundaries with mathematics, statistics, ML, DNN, robotics,
   distributed systems, and MLOps are explicit.
 - [x] Knowledge graph uses typed relationships.
-- [x] 26 preliminary resources use primary/official records.
+- [x] 30 preliminary resources use primary/official records.
 - [x] DOI/arXiv/OpenReview identifiers were checked where used.
 - [x] Reading path contains foundational, established, modern, survey, and
   applied resources.
 - [x] Six projects include complete required contracts.
-- [x] Workload arithmetic is explicit and sums to 238 hours.
+- [x] Workload arithmetic has non-overlapping categories, explicit project and
+  extension selection rules, and a 217-hour standard selected path.
 - [ ] Independent curriculum/editorial review.
 - [ ] Independent citation review of chapter-level claim placement.
 - [ ] Any future detailed official syllabus reconciliation.
@@ -784,8 +854,10 @@ plan. Resource inclusion does not imply endorsement of every claim.
 
 1. **Official-detail risk:** the brochure is title-only. A detailed syllabus may
    require chapter reordering, deletion, or reclassification.
-2. **Scope risk:** 238 hours is ambitious. A credit-linked official workload may
-   require a core/extension split.
+2. **Scope risk:** the standard selected path is 217 hours, while the core-only
+   and research-intensive alternatives are 206 and 256 hours. These are
+   auditable planning scenarios, not official credit mappings, and must be
+   reconciled when the institution provides credit/contact-hour guidance.
 3. **Compute risk:** Atari, MuJoCo, Dreamer, MuZero, and multi-seed studies can
    exceed student hardware. Reduced-scale alternatives and explicit budgets are
    mandatory.
@@ -802,6 +874,10 @@ plan. Resource inclusion does not imply endorsement of every claim.
    versions and distinguish termination from truncation.
 10. **Elective mapping:** relationships to Robotics, MLOps, Distributed ML, and
     trustworthy ML depend on the student's later elective choices.
+11. **Source-integrity risk:** the brochure SHA-256 binds this plan to the
+    visually inspected local PDF. A later brochure with the same filename but a
+    different hash must be treated as a new source and re-reconciled rather than
+    silently substituted.
 
 ## 16. Subject Lead recommendation
 
