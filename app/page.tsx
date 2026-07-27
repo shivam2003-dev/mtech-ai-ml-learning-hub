@@ -1,64 +1,67 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
+import Image from "next/image";
+
+const assetBase = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 const featuredPosts = [
   {
-    category: "DevOps",
-    title: "Building a Production-Ready Kubernetes Platform",
+    category: "AI/ML",
+    title: "Why Linear Algebra Is the Language of Machine Learning",
     description:
-      "A practical blueprint for secure clusters, GitOps delivery, and observable workloads.",
+      "Vectors, matrices, transformations, and the intuition behind modern learning systems.",
     readTime: "8 min read",
-    date: "Jul 24, 2026",
+    date: "Jul 28, 2026",
     art: "kubernetes",
   },
   {
-    category: "Cloud",
-    title: "A Complete AWS Roadmap for Cloud Engineers",
+    category: "Statistics",
+    title: "A Practical Roadmap from Probability to Inference",
     description:
-      "From core services to resilient architectures, with a project-first learning path.",
+      "A connected path through random variables, estimation, testing, and uncertainty.",
     readTime: "10 min read",
-    date: "Jul 18, 2026",
+    date: "Jul 26, 2026",
     art: "cloud",
   },
   {
-    category: "SRE",
-    title: "SRE Basics: From Signals to Sustainable Systems",
+    category: "Research",
+    title: "How to Read an AI Research Paper Without Getting Lost",
     description:
-      "SLIs, SLOs, incident response, and the habits that keep production dependable.",
+      "A repeatable method for understanding claims, equations, experiments, and limitations.",
     readTime: "7 min read",
-    date: "Jul 12, 2026",
+    date: "Jul 24, 2026",
     art: "sre",
   },
 ];
 
 const materials = [
-  { icon: "⌁", title: "Cloud", body: "AWS, GCP, architecture & networking", count: "12 resources", color: "mint" },
-  { icon: "▥", title: "Kubernetes", body: "Containers, clusters, Helm & GitOps", count: "18 resources", color: "orange" },
-  { icon: "∞", title: "DevOps", body: "CI/CD, automation, infra as code", count: "14 resources", color: "violet" },
-  { icon: "⌘", title: "SRE", body: "Reliability, alerts, SLOs & incidents", count: "10 resources", color: "blue" },
-  { icon: "▤", title: "Research Notes", body: "Experiments, patterns & paper notes", count: "20 notes", color: "rose" },
-  { icon: "▣", title: "Study Guides", body: "Cheat sheets, summaries & quick guides", count: "15 guides", color: "cyan" },
-  { icon: "☷", title: "Projects", body: "Hands-on labs and build journals", count: "11 builds", color: "amber" },
+  { icon: "∑", title: "Mathematics", body: "Linear algebra, calculus & optimization", count: "4 subjects", color: "mint" },
+  { icon: "▥", title: "Machine Learning", body: "Statistical learning and core algorithms", count: "8 subjects", color: "orange" },
+  { icon: "∞", title: "Deep Learning", body: "Neural networks, graphs and multimodal AI", count: "10 subjects", color: "violet" },
+  { icon: "⌘", title: "AI Systems", body: "Agents, reasoning, cloud and MLOps", count: "9 subjects", color: "blue" },
+  { icon: "▤", title: "Research Papers", body: "Verified reading paths and paper notes", count: "curated paths", color: "rose" },
+  { icon: "▣", title: "Study Guides", body: "Derivations, quizzes and revision notes", count: "45 subjects", color: "cyan" },
+  { icon: "☷", title: "Projects", body: "Beginner to research-level builds", count: "6 per subject", color: "amber" },
 ];
 
 const roadmap = [
-  { label: "Foundation", items: ["Linux & Networking", "Git & Shell", "Cloud Fundamentals"], done: true },
-  { label: "Automation", items: ["Python", "Ansible", "GitHub Actions"] },
-  { label: "Infrastructure", items: ["Terraform", "AWS & GCP", "Cloud Security"] },
-  { label: "Platform (Current)", items: ["Kubernetes", "GitOps", "Observability"], current: true },
-  { label: "Reliability", items: ["SLO Engineering", "Incident Response", "Capacity Planning"] },
-  { label: "Leadership", items: ["Platform Strategy", "Architecture", "Knowledge Sharing"] },
+  { label: "Prerequisites", items: ["Python", "Algebra", "Probability"], done: true },
+  { label: "Semester 1", items: ["Math Foundations", "Statistics", "Machine Learning"], current: true },
+  { label: "Semester 2", items: ["Deep Networks", "Reinforcement Learning", "Electives"] },
+  { label: "Semester 3", items: ["Specialization", "Research Methods", "Electives"] },
+  { label: "Semester 4", items: ["Dissertation", "Experiments", "Defense"] },
+  { label: "Beyond", items: ["Paper Reproduction", "Open Source", "Publication"] },
 ];
 
 const categories = [
-  ["Cloud Engineering", 18, "☁"],
-  ["Kubernetes", 24, "⎈"],
-  ["DevOps", 12, "∞"],
-  ["SRE", 9, "⌁"],
-  ["Infrastructure as Code", 14, "◇"],
-  ["Study Guides", 16, "▣"],
-  ["Career & Learning", 8, "✦"],
+  ["Mathematical Foundations", 12, "∑"],
+  ["Machine Learning", 14, "⌁"],
+  ["Deep Learning", 11, "∞"],
+  ["Natural Language Processing", 8, "Aa"],
+  ["Audio & Vision", 7, "◇"],
+  ["AI Systems & MLOps", 9, "▣"],
+  ["Research Practice", 6, "✦"],
 ];
 
 const recentPosts = featuredPosts.map((post, index) => ({
@@ -72,7 +75,7 @@ function Brand({ footer = false }: { footer?: boolean }) {
       <span className="brand-mark">S</span>
       <span>
         <strong>Shivam Kumar</strong>
-        <small>{footer ? "DevOps & Cloud Engineer" : "LEARN · BUILD · SHARE"}</small>
+        <small>{footer ? "M.Tech AI & ML Learner" : "LEARN · BUILD · RESEARCH"}</small>
       </span>
     </a>
   );
@@ -123,11 +126,12 @@ export default function Home() {
           {menuOpen ? "×" : "☰"}
         </button>
         <nav className={menuOpen ? "nav open" : "nav"} aria-label="Primary navigation">
-          {["Home", "Blog", "Learning Hub", "Notes", "Projects", "About", "Contact"].map((item, index) => (
-            <a className={index === 0 ? "active" : ""} href={`#${item.toLowerCase().replaceAll(" ", "-")}`} key={item}>
-              {item}
-            </a>
-          ))}
+          <a className="active" href="#home">Home</a>
+          <a href={`${assetBase}/subjects/`}>Subjects</a>
+          <a href={`${assetBase}/roadmap/`}>Roadmap</a>
+          <a href={`${assetBase}/papers/`}>Papers</a>
+          <a href={`${assetBase}/projects/`}>Projects</a>
+          <a href={`${assetBase}/about/`}>About</a>
         </nav>
         <label className="search-box">
           <span>⌕</span>
@@ -150,30 +154,31 @@ export default function Home() {
         <section className="primary-column">
           <section className="hero" aria-labelledby="hero-title">
             <div className="hero-copy">
-              <span className="eyebrow">DevOps · SRE · Cloud Engineering</span>
-              <h1 id="hero-title">Learning deeply.<br /><span>Building reliably.</span></h1>
-              <p>Documenting my journey through cloud and platform engineering—sharing practical insights, field notes, and projects that help systems and people grow.</p>
+              <span className="eyebrow">M.Tech Student · Artificial Intelligence & Machine Learning</span>
+              <h1 id="hero-title">Learning deeply.<br /><span>Building purposefully.</span></h1>
+              <p>A verified, master&apos;s-level learning hub that turns difficult AI and ML ideas into intuitive explanations, mathematics, Python, projects, and research reading paths.</p>
               <div className="hero-actions">
-                <a className="button button-primary" href="#blog"><span>▤</span> Read the Blog</a>
-                <a className="button button-secondary" href="#learning-hub"><span>◇</span> Explore Learning Materials</a>
+                <a className="button button-primary" href={`${assetBase}/subjects/`}><span>▤</span> Explore 45 Subjects</a>
+                <a className="button button-secondary" href={`${assetBase}/roadmap/`}><span>◇</span> Open Study Roadmap</a>
               </div>
             </div>
             <div className="hero-profile">
               <div className="orbit orbit-one" />
               <div className="orbit orbit-two" />
-              <div className="avatar" aria-label="Shivam Kumar monogram">
-                <span>SK</span>
+              <div className="avatar toon-avatar" aria-label="Animated cartoon portrait of Shivam Kumar">
+                <Image src={`${assetBase}/toon-shivam.png`} width={190} height={190} priority alt="Cartoon portrait of Shivam Kumar" />
+                <span className="toon-status">●</span>
               </div>
               <strong className="signature">Shivam</strong>
-              <p>DevOps & Cloud Engineer</p>
-              <small>Automating infrastructure. Engineering reliability.</small>
+              <p>M.Tech in Artificial Intelligence & Machine Learning</p>
+              <small>Understanding foundations. Building intelligent systems.</small>
             </div>
           </section>
 
           <section className="content-section" id="blog">
             <div className="section-heading">
               <h2>Featured Blog Posts</h2>
-              <a href="#blog">View all posts <span>→</span></a>
+              <a href={`${assetBase}/blog/`}>View all posts <span>→</span></a>
             </div>
             <div className="post-grid">
               {visiblePosts.length ? visiblePosts.map((post, index) => (
@@ -181,8 +186,9 @@ export default function Home() {
                   <div className={`post-art ${post.art}`}>
                     <span className="category-pill">{post.category}</span>
                     <span className="art-symbol" aria-hidden="true">
-                      {post.art === "kubernetes" ? "⎈" : post.art === "cloud" ? "☁" : "⌁"}
+                      {post.art === "kubernetes" ? "∑" : post.art === "cloud" ? "𝑃" : "⌁"}
                     </span>
+                    <Image className="post-toon" src={`${assetBase}/toon-shivam.png`} width={55} height={55} alt="" aria-hidden="true" />
                     <button
                       className={bookmarked.includes(index) ? "bookmark saved" : "bookmark"}
                       onClick={() => toggleBookmark(index)}
@@ -197,13 +203,13 @@ export default function Home() {
                     <footer><span>◷ &nbsp;{post.readTime}</span><time>{post.date}</time></footer>
                   </div>
                 </article>
-              )) : <div className="empty-state">No featured posts match “{search}”. Try cloud, DevOps, or SRE.</div>}
+              )) : <div className="empty-state">No featured posts match “{search}”. Try mathematics, statistics, or research.</div>}
             </div>
           </section>
 
           <section className="content-section learning-section" id="learning-hub">
             <div className="section-heading">
-              <h2>Learning Materials & Engineering Resources</h2>
+              <h2>Learning Materials & Master&apos;s Resources</h2>
             </div>
             <div className="materials-grid">
               {materials.map((item) => (
@@ -218,8 +224,8 @@ export default function Home() {
 
           <section className="roadmap" id="projects">
             <div className="roadmap-heading">
-              <div><h2>Cloud Engineering Roadmap</h2><p>A practical path through my learning journey</p></div>
-              <a href="#projects">View full roadmap →</a>
+              <div><h2>M.Tech Study Roadmap</h2><p>A structured path from prerequisites to dissertation</p></div>
+              <a href={`${assetBase}/roadmap/`}>View full roadmap →</a>
             </div>
             <div className="roadmap-track">
               {roadmap.map((step) => (
@@ -234,7 +240,7 @@ export default function Home() {
 
         <aside className="sidebar" aria-label="Reading and blog sidebar">
           <section className="side-card progress-card">
-            <div className="side-heading"><h2>Reading Progress</h2><a href="#blog">View all</a></div>
+            <div className="side-heading"><h2>Reading Progress</h2><a href={`${assetBase}/progress/`}>View all</a></div>
             <div className="progress-label"><span>This Month</span><span>12 / 20 articles</span></div>
             <div className="progress-bar"><span /></div>
             <strong className="progress-number">60%</strong>
@@ -258,7 +264,7 @@ export default function Home() {
           <section className="side-card recent">
             <div className="side-heading"><h2>Recent Posts</h2></div>
             {recentPosts.map((post, index) => (
-              <a className="recent-row" href="#blog" key={post.title}>
+              <a className="recent-row" href={`${assetBase}/blog/`} key={post.title}>
                 <span className={`recent-thumb thumb-${index}`}>{post.thumb}</span>
                 <span><strong>{post.title}</strong><small>{post.date} &nbsp;·&nbsp; {post.readTime}</small></span>
               </a>
@@ -267,7 +273,7 @@ export default function Home() {
 
           <section className="side-card newsletter" id="contact">
             <div className="side-heading"><h2>Stay in the Loop</h2></div>
-            <p>Get new articles, engineering notes, and resources straight to your inbox.</p>
+            <p>Get new chapters, research notes, and learning resources straight to your inbox.</p>
             <Subscribe />
           </section>
         </aside>
@@ -275,13 +281,14 @@ export default function Home() {
 
       <footer className="footer" id="about">
         <div className="footer-brand">
+          <Image className="footer-toon" src={`${assetBase}/toon-shivam.png`} width={43} height={43} alt="Shivam cartoon avatar" />
           <Brand footer />
-          <p>Building reliable systems.<br />Sharing to uplift others.</p>
+          <p>Learning deeply.<br />Sharing to help others grow.</p>
           <small>© 2026 Shivam Kumar. All rights reserved.</small>
         </div>
         <div className="footer-links">
           <strong>Quick Links</strong>
-          <div><a href="#home">Home</a><a href="#notes">Notes</a><a href="#blog">Blog</a><a href="#projects">Projects</a><a href="#learning-hub">Learning Hub</a><a href="#about">About</a></div>
+          <div><a href="#home">Home</a><a href={`${assetBase}/research-notes/`}>Notes</a><a href={`${assetBase}/blog/`}>Blog</a><a href={`${assetBase}/projects/`}>Projects</a><a href={`${assetBase}/subjects/`}>Learning Hub</a><a href={`${assetBase}/about/`}>About</a></div>
         </div>
         <div className="footer-connect">
           <strong>Let’s Connect</strong>
@@ -295,7 +302,7 @@ export default function Home() {
         </div>
         <div className="footer-newsletter">
           <strong>Newsletter</strong>
-          <p>Join fellow engineers improving every day.</p>
+          <p>Join learners building deeper AI understanding.</p>
           <Subscribe compact />
         </div>
       </footer>

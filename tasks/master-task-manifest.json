@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "programme": "Shivam's M.Tech AI & ML Learning Hub",
+  "manifestId": "mtech-ai-ml-hub-master-v1",
+  "createdAt": "2026-07-28",
+  "updatedAt": "2026-07-28",
+  "status": "in-progress",
+  "curriculumSource": {
+    "path": "/Users/shivamkumar/Downloads/mtech-ai-ml.pdf",
+    "sha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "verificationStatus": "visually-verified",
+    "authoritativeFor": ["programme structure", "subject names", "specialization groups", "published course descriptions"],
+    "limitation": "Subjects without brochure descriptions must not receive invented official topics."
+  },
+  "concurrency": {
+    "maximumTotalAgents": 4,
+    "maximumWorkerAgents": 3,
+    "reservedOrchestratorSlots": 1,
+    "scheduling": "dependency-aware bounded queue",
+    "fileIsolationRequired": true
+  },
+  "phaseOrder": [
+    "phase-0",
+    "phase-1",
+    "phase-2",
+    "phase-3",
+    "phase-4",
+    "phase-5",
+    "phase-6",
+    "phase-7",
+    "phase-8"
+  ],
+  "phases": [
+    {
+      "id": "phase-0",
+      "name": "Repository and system design",
+      "status": "in-progress",
+      "dependencies": [],
+      "deliverables": [
+        "docs/architecture.md",
+        "docs/content-strategy.md",
+        "docs/multi-agent-plan.md",
+        "content schemas",
+        "design tokens",
+        "agent registry",
+        "task queue",
+        "validation scripts",
+        "CI workflow",
+        "project README"
+      ],
+      "completionGate": "Architecture, task manifests, schemas, and validation plan are reviewed."
+    },
+    {
+      "id": "phase-1",
+      "name": "Curriculum extraction",
+      "status": "in-progress",
+      "dependencies": ["phase-0:architecture-baseline"],
+      "deliverables": [
+        "content/curriculum/official-curriculum.yaml",
+        "content/curriculum/subject-registry.yaml",
+        "content/curriculum/prerequisite-graph.yaml",
+        "specialization mapping",
+        "semester roadmap",
+        "uncertainty register"
+      ],
+      "completionGate": "All 45 subjects reconcile with the verified brochure and uncertainty is explicit."
+    },
+    {
+      "id": "phase-2",
+      "name": "Semester 1 pilot",
+      "status": "planned",
+      "dependencies": ["phase-0", "phase-1"],
+      "deliverables": [
+        "Four Semester 1 subject plans",
+        "chapter outlines",
+        "learning outcomes",
+        "prerequisite maps",
+        "preliminary resource lists",
+        "paper reading paths",
+        "project plans",
+        "validated reference subject page and chapter"
+      ],
+      "completionGate": "All four outlines pass syllabus, citation, scope, and editorial planning review before full chapter drafting."
+    },
+    {
+      "id": "phase-3",
+      "name": "Semester 2",
+      "status": "planned",
+      "dependencies": ["phase-2"],
+      "deliverables": [
+        "Deep Neural Networks subject plan and content",
+        "Deep Reinforcement Learning subject plan and content",
+        "Configured Semester 2 elective plans"
+      ],
+      "completionGate": "Compulsory Semester 2 plans and configured electives pass subject-level validation."
+    },
+    {
+      "id": "phase-4",
+      "name": "Semester 3 elective library",
+      "status": "planned",
+      "dependencies": ["phase-2", "elective-semester-mapping-configured"],
+      "deliverables": [
+        "General elective plans",
+        "NLP specialization plans",
+        "Deep Learning specialization plans",
+        "Audio and Vision specialization plans"
+      ],
+      "completionGate": "Every remaining verified elective has exactly one approved Subject Lead plan."
+    },
+    {
+      "id": "phase-5",
+      "name": "Full content generation",
+      "status": "planned",
+      "dependencies": ["phase-2", "phase-3", "phase-4"],
+      "deliverables": [
+        "chapters",
+        "projects",
+        "assignments",
+        "quizzes",
+        "paper notes",
+        "datasets",
+        "references",
+        "glossaries"
+      ],
+      "completionGate": "Only content passing all mandatory quality gates enters the approved integration queue."
+    },
+    {
+      "id": "phase-6",
+      "name": "Website integration",
+      "status": "planned",
+      "dependencies": ["phase-0", "phase-2:reference-vertical-slice", "phase-5:approved-batches"],
+      "deliverables": [
+        "route hierarchy",
+        "MDX rendering",
+        "search",
+        "bookmarks",
+        "reading progress",
+        "equation and code rendering",
+        "responsive accessible layouts"
+      ],
+      "completionGate": "Approved content renders correctly and all required interactive controls work."
+    },
+    {
+      "id": "phase-7",
+      "name": "Cross-subject validation",
+      "status": "planned",
+      "dependencies": ["phase-5", "phase-6"],
+      "deliverables": [
+        "terminology consistency report",
+        "notation consistency report",
+        "prerequisite integrity report",
+        "duplicate-content report",
+        "duplicate-paper report",
+        "navigation and search coverage report"
+      ],
+      "completionGate": "No blocking cross-subject, navigation, or provenance defects remain."
+    },
+    {
+      "id": "phase-8",
+      "name": "Publication",
+      "status": "planned",
+      "dependencies": ["phase-7"],
+      "deliverables": [
+        "sitemap",
+        "RSS feed",
+        "robots configuration",
+        "social metadata",
+        "schema.org metadata",
+        "analytics configuration",
+        "GitHub Pages deployment documentation"
+      ],
+      "completionGate": "Reviewed static build passes CI and the deployed GitHub Pages URL is verified."
+    }
+  ],
+  "qualityGates": {
+    "mandatoryForChapterApproval": [
+      "At least 3000 meaningful prose words",
+      "Matches the official syllabus or labels additions as prerequisite, supplementary, advanced extension, or industry application",
+      "Original writing",
+      "No fabricated references",
+      "External links valid at verification time",
+      "DOI or paper identifier verified where available",
+      "Mathematical notation validated",
+      "Code tested",
+      "Heading structure valid",
+      "Metadata valid",
+      "Accessibility checks passed",
+      "Grammar and readability review passed",
+      "Research-paper recommendations relevant",
+      "Claims supported by citations",
+      "No repeated filler",
+      "No unresolved placeholders",
+      "No internal agent instructions in published text"
+    ],
+    "requiredStatuses": [
+      "planned",
+      "researching",
+      "drafting",
+      "technical-review",
+      "citation-review",
+      "editorial-review",
+      "approved",
+      "published",
+      "needs-update",
+      "blocked"
+    ],
+    "mergePolicy": {
+      "directPushToMain": false,
+      "subjectLeadApprovalRequired": true,
+      "academicEditorApprovalRequired": true,
+      "citationVerifierApprovalRequired": true,
+      "fullSiteChecksBeforeMain": true
+    }
+  },
+  "resumability": {
+    "enabled": true,
+    "taskStateStore": "tasks/master-task-manifest.json",
+    "subjectRegistry": "tasks/subject-agent-registry.json",
+    "checkpointRoot": "tasks/checkpoints",
+    "completionReportRoot": "tasks/agent-reports",
+    "lockRoot": "tasks/locks",
+    "integrationQueue": "tasks/integration-queue",
+    "checkpointAfter": [
+      "research",
+      "outline",
+      "draft",
+      "technical-review",
+      "citation-review",
+      "editorial-review",
+      "integration"
+    ],
+    "retryPolicy": {
+      "maximumAttempts": 3,
+      "backoff": "exponential",
+      "reduceTaskSizeAfterRepeatedFailure": true,
+      "preserveCompletedWork": true,
+      "releaseLocksOnFailure": true,
+      "reassignWorkerWhenSafe": true,
+      "escalateAfterExhaustion": true
+    },
+    "deduplicationKeys": [
+      "taskId",
+      "allowedOutputRoot",
+      "DOI",
+      "arXiv ID",
+      "Semantic Scholar paper ID",
+      "normalized title plus first author"
+    ],
+    "requiredTaskFields": [
+      "status",
+      "attempts",
+      "dependencies",
+      "allowedOutputRoot",
+      "filesCreated",
+      "filesModified",
+      "validationResults",
+      "openIssues",
+      "recommendedNextTasks"
+    ],
+    "lastCheckpoint": {
+      "phase": "phase-0",
+      "event": "master and subject-agent manifests created",
+      "date": "2026-07-28"
+    }
+  },
+  "currentBlockers": [
+    "No Git remote is configured.",
+    "Existing application tests target a removed starter skeleton.",
+    "Elective subjects are not assigned to fixed Semester 2 or Semester 3 slots by the brochure.",
+    "Official topic lists are unavailable for brochure-undescribed subjects."
+  ]
+}

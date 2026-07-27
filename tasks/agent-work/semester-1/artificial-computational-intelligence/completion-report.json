@@ -1,0 +1,67 @@
+{
+  "agentId": "subject-lead-003",
+  "subject": "Artificial and Computational Intelligence",
+  "task": "Semester 1 subject planning",
+  "status": "completed",
+  "filesCreated": [
+    "tasks/agent-work/semester-1/artificial-computational-intelligence/plan.md",
+    "tasks/agent-work/semester-1/artificial-computational-intelligence/completion-report.json"
+  ],
+  "filesModified": [],
+  "sourcesUsed": [
+    "content/curriculum/official-curriculum.yaml",
+    "/Users/shivamkumar/Downloads/mtech-ai-ml.pdf",
+    "IEEE Computational Intelligence Society",
+    "Stanford CS221",
+    "UC Berkeley CS188",
+    "AIMA author site",
+    "Crossref REST metadata",
+    "official DOI publisher pages",
+    "official NeurIPS proceedings",
+    "arXiv",
+    "NIST",
+    "official project documentation for PyTorch, DEAP, scikit-fuzzy, NetworkX, and SWI-Prolog"
+  ],
+  "citationsVerified": 32,
+  "citationsRejected": 1,
+  "wordCount": 6436,
+  "testsRun": [
+    "manual brochure scope check",
+    "official-source web verification",
+    "Crossref DOI metadata verification",
+    "chapter-label audit",
+    "resource-count audit",
+    "project-tier audit",
+    "JSON parse validation",
+    "git diff whitespace validation"
+  ],
+  "validationResults": {
+    "officialTitleVerified": true,
+    "officialTopicLevelSyllabusAvailable": false,
+    "proposedTopicsPresentedAsOfficial": false,
+    "chapterCount": 12,
+    "resourceCount": 28,
+    "foundationalReadingCount": 5,
+    "establishedReadingCount": 6,
+    "modernReadingCount": 5,
+    "surveyTutorialReadingCount": 3,
+    "appliedIndustryReadingCount": 4,
+    "projectCount": 7,
+    "estimatedCoreHours": 168,
+    "fullChaptersGenerated": 0
+  },
+  "openIssues": [
+    "No official topic-level syllabus is available",
+    "Final balance between symbolic AI and computational intelligence requires academic approval",
+    "Some per-chapter modern and survey resources remain intentionally unselected",
+    "Free or paid access must be rechecked at publication time",
+    "Cross-subject notation and overlap review is pending"
+  ],
+  "recommendedNextTasks": [
+    "Run curriculum and technical review",
+    "Run cross-subject overlap review",
+    "Resolve open per-chapter paper selections",
+    "Promote approved metadata into the shared resource schema",
+    "Create front matter and reference chapter task manifests only after plan approval"
+  ]
+}

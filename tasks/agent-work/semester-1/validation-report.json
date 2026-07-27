@@ -1,0 +1,176 @@
+{
+  "reportVersion": "1.0.0",
+  "reviewer": "independent-semester-1-plan-quality-reviewer",
+  "reviewDate": "2026-07-28",
+  "status": "needs-remediation",
+  "scope": [
+    "tasks/agent-work/semester-1/mathematical-foundations/plan.md",
+    "tasks/agent-work/semester-1/mathematical-foundations/completion-report.json",
+    "tasks/agent-work/semester-1/statistical-methods/plan.md",
+    "tasks/agent-work/semester-1/statistical-methods/completion-report.json"
+  ],
+  "decisions": {
+    "mathematicalFoundationsForMachineLearning": {
+      "planningArtifact": "pass-with-remediation",
+      "referenceContentGeneration": "conditional-hold",
+      "safeNow": [
+        "subject-page metadata",
+        "roadmap card",
+        "provisional outline display",
+        "prerequisite diagnostic specification",
+        "Chapter 1 task specification after scope ownership is recorded"
+      ],
+      "notApproved": [
+        "bulk chapter generation",
+        "independent probability chapter generation",
+        "project-page generation"
+      ]
+    },
+    "introductionToStatisticalMethods": {
+      "planningArtifact": "pass-with-remediation",
+      "referenceContentGeneration": "hold",
+      "safeNow": [
+        "subject-page metadata",
+        "provisional outline display",
+        "knowledge-graph integration",
+        "research-resource catalogue"
+      ],
+      "notApproved": [
+        "full chapter generation",
+        "final project publication"
+      ]
+    }
+  },
+  "validationResults": {
+    "jsonContractsParse": true,
+    "mandatoryContractKeysPresent": true,
+    "sourceTruthLabels": "pass-both",
+    "chapterCounts": {
+      "mathematicalFoundations": 12,
+      "statisticalMethods": 12,
+      "requiredRange": "8-16",
+      "pass": true
+    },
+    "resources": {
+      "mathematicalFoundations": 26,
+      "statisticalMethods": 26,
+      "exactDuplicateDoisWithinRegistries": 0,
+      "crossPlanDuplicateDois": 0,
+      "metadataCompleteness": "pass-with-normalization-advisory"
+    },
+    "identifierAudit": {
+      "uniqueDois": 38,
+      "crossrefHttp200": 28,
+      "crossrefHttp429RateLimited": 10,
+      "uniqueExternalUrls": 54,
+      "urlHttp200": 31,
+      "urlHttp202": 1,
+      "urlHttp403AccessControlled": 22,
+      "urlHttp404": 0,
+      "urlHttp410": 0,
+      "urlConnectionFailures": 0
+    },
+    "projects": {
+      "tierCountsPassBoth": true,
+      "mathematicalFoundationsFieldCompleteness": "fail",
+      "statisticalMethodsFieldCompleteness": "pass-with-dataset-advisory"
+    },
+    "hours": {
+      "mathematicalFoundations": {
+        "chapterHours": 116,
+        "totalHours": 160,
+        "arithmetic": "pass"
+      },
+      "statisticalMethods": {
+        "chapterHours": 196,
+        "statedTotalHours": 196,
+        "separateActivityBreakdownAlsoTotals": 196,
+        "arithmetic": "ambiguous-fail"
+      }
+    },
+    "crossSubjectOverlap": "major-remediation-required",
+    "fullChaptersPresent": 0
+  },
+  "findings": [
+    {
+      "id": "VAL-S1-001",
+      "severity": "major",
+      "subjects": [
+        "Mathematical Foundations for Machine Learning",
+        "Introduction to Statistical Methods"
+      ],
+      "summary": "Probability, random variables, distributions, expectation, LLN, and CLT scope is duplicated.",
+      "blocksReferenceContentGeneration": true
+    },
+    {
+      "id": "VAL-S1-002",
+      "severity": "major",
+      "subjects": [
+        "Introduction to Statistical Methods"
+      ],
+      "summary": "The chapter-hour total and activity-hour decomposition both equal 196 without defining whether they overlap.",
+      "blocksReferenceContentGeneration": true
+    },
+    {
+      "id": "VAL-S1-003",
+      "severity": "major-for-project-generation",
+      "subjects": [
+        "Mathematical Foundations for Machine Learning"
+      ],
+      "summary": "Projects omit explicit learning objectives, prerequisites, extension ideas, and deployment guidance.",
+      "blocksReferenceContentGeneration": false,
+      "blocksProjectGeneration": true
+    },
+    {
+      "id": "VAL-S1-004",
+      "severity": "minor",
+      "subjects": [
+        "Introduction to Statistical Methods"
+      ],
+      "summary": "Several public datasets are not yet named, versioned, licensed, or linked."
+    },
+    {
+      "id": "VAL-S1-005",
+      "severity": "minor",
+      "subjects": [
+        "Mathematical Foundations for Machine Learning",
+        "Introduction to Statistical Methods"
+      ],
+      "summary": "Resource metadata should be normalized into a common machine-readable schema."
+    },
+    {
+      "id": "VAL-S1-006",
+      "severity": "minor",
+      "subjects": [
+        "Introduction to Statistical Methods"
+      ],
+      "summary": "The completion report aggregates resource sources instead of listing resource IDs individually."
+    }
+  ],
+  "reReviewRequired": true,
+  "acceptanceTests": [
+    "Create a cross-subject ownership matrix for overlapping probability concepts.",
+    "Recalculate Statistical Methods hours using one additive activity schema.",
+    "Complete every required field for all six Mathematical Foundations projects.",
+    "Record exact identity, version, license, and URL for non-synthetic Statistical Methods datasets.",
+    "Validate both catalogues against one resource metadata schema.",
+    "Update completion reports with remediation evidence."
+  ],
+  "filesCreated": [
+    "tasks/agent-work/semester-1/validation-report.md",
+    "tasks/agent-work/semester-1/validation-report.json"
+  ],
+  "filesModified": [],
+  "testsRun": [
+    "read both planning bundles in full",
+    "parse both completion-report JSON files",
+    "validate 12 chapter rows in each plan",
+    "sum chapter and total hours",
+    "compare DOI sets within and across plans",
+    "probe 38 DOI identifiers through Crossref",
+    "probe 54 external URLs with redirects",
+    "inspect six project specifications per plan",
+    "compare both completion contracts with the required output keys",
+    "review source-of-truth and non-official labeling"
+  ]
+}

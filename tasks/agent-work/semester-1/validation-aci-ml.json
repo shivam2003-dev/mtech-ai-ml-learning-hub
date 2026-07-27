@@ -1,0 +1,238 @@
+{
+  "reportVersion": "1.0.0",
+  "reviewer": "independent-aci-ml-plan-quality-reviewer",
+  "reviewDate": "2026-07-28",
+  "status": "needs-remediation",
+  "scope": [
+    "tasks/agent-work/semester-1/artificial-computational-intelligence/plan.md",
+    "tasks/agent-work/semester-1/artificial-computational-intelligence/completion-report.json",
+    "tasks/agent-work/semester-1/machine-learning/plan.md",
+    "tasks/agent-work/semester-1/machine-learning/completion-report.json"
+  ],
+  "decisions": {
+    "artificialAndComputationalIntelligence": {
+      "planningArtifact": "pass-with-remediation",
+      "referenceContentGeneration": "conditional-hold",
+      "safeNow": [
+        "subject-page metadata",
+        "provisional outline display",
+        "prerequisite map",
+        "knowledge-graph edges",
+        "project task specifications",
+        "Chapter 1 task specification"
+      ],
+      "notApproved": [
+        "full Chapter 2-12 prose",
+        "bulk chapter generation",
+        "final citation pages"
+      ]
+    },
+    "machineLearning": {
+      "planningArtifact": "pass-with-remediation",
+      "referenceContentGeneration": "hold",
+      "safeNow": [
+        "subject-page metadata",
+        "provisional outline display",
+        "resource catalogue",
+        "knowledge-graph integration"
+      ],
+      "notApproved": [
+        "full reference chapter prose",
+        "project-page generation"
+      ]
+    }
+  },
+  "validationResults": {
+    "jsonContractsParse": true,
+    "mandatoryContractKeysPresent": true,
+    "sourceTruthLabels": "pass-both",
+    "chapterCounts": {
+      "artificialAndComputationalIntelligence": 12,
+      "machineLearning": 12,
+      "requiredRange": "8-16",
+      "pass": true
+    },
+    "machineLearningOfficialTopicAudit": {
+      "sourceRegistryTopicCount": 21,
+      "planMappingRowCount": 21,
+      "mappedTopicCount": 21,
+      "contentCoverage": "pass-21-of-21",
+      "completionReportClaim": "passed-20-of-20",
+      "claimAccurate": false
+    },
+    "resources": {
+      "artificialAndComputationalIntelligenceCatalogue": 28,
+      "artificialAndComputationalIntelligenceExtraReadingPathItems": 4,
+      "machineLearningCatalogue": 26,
+      "exactDuplicateDoisWithinRegistries": 0,
+      "crossPlanDuplicateDois": [
+        "10.1037/h0042519",
+        "10.1145/3287560.3287596"
+      ],
+      "duplicateTreatment": "shared-registry-advisory",
+      "metadataCompleteness": "pass-with-traceability-remediation"
+    },
+    "identifierAudit": {
+      "uniqueDois": 33,
+      "crossrefHttp200": 32,
+      "crossrefHttp429RateLimited": 1,
+      "rateLimitedDoiResolvedSeparately": "10.1006/jcss.1997.1504",
+      "rateLimitedDoiResolverHttpStatus": 200,
+      "uniqueArxivIds": 9,
+      "arxivMetadataMatches": 9,
+      "uniqueExternalUrls": 51,
+      "urlHttp200": 36,
+      "urlHttp202": 4,
+      "urlHttp403AccessControlled": 9,
+      "urlHttp429RateLimited": 2,
+      "confirmedDeadCanonicalUrls": 0,
+      "parserFalsePositiveExcluded": "The parenthesized Zadeh DOI was initially truncated; the complete DOI returned HTTP 200."
+    },
+    "paperPath": {
+      "artificialAndComputationalIntelligence": {
+        "categoryCountsPass": true,
+        "chapterLevelReadiness": "fail-for-full-chapters"
+      },
+      "machineLearning": {
+        "categoryCountsPass": true,
+        "chapterLevelReadiness": "pass-for-planning"
+      }
+    },
+    "projects": {
+      "tierCountsPassBoth": true,
+      "artificialAndComputationalIntelligenceFieldCompleteness": "pass-with-dataset-advisory",
+      "machineLearningFieldCompleteness": "fail-for-project-generation"
+    },
+    "hours": {
+      "artificialAndComputationalIntelligence": {
+        "chapterHours": 168,
+        "activityBreakdownHours": 168,
+        "relationship": "two-views-of-same-core-plan",
+        "arithmetic": "pass"
+      },
+      "machineLearning": {
+        "readinessHours": 4,
+        "chapterHours": 136,
+        "practicalAssessmentHours": 24,
+        "revisionHours": 16,
+        "totalHours": 180,
+        "arithmetic": "pass",
+        "allocationClarity": "needs-remediation"
+      }
+    },
+    "crossSubjectOverlap": "major-remediation-required",
+    "completionTraceability": {
+      "artificialAndComputationalIntelligence": "fail-itemization-and-rejection-detail",
+      "machineLearning": "fail-inaccurate-topic-count-and-scope-isolation-result"
+    },
+    "fullChaptersPresent": 0
+  },
+  "findings": [
+    {
+      "id": "VAL-ACI-ML-001",
+      "severity": "major",
+      "subjects": [
+        "Machine Learning"
+      ],
+      "summary": "The source registry and plan map 21 official topics, while the checklist and completion report claim 20 of 20.",
+      "blocksReferenceContentGeneration": true
+    },
+    {
+      "id": "VAL-ACI-ML-002",
+      "severity": "major",
+      "subjects": [
+        "Artificial and Computational Intelligence",
+        "Machine Learning"
+      ],
+      "summary": "Cross-subject boundaries are described but no ownership matrix controls neural/backpropagation, Bayesian/statistical evaluation, or MDP/RL overlap.",
+      "blocksReferenceContentGeneration": true
+    },
+    {
+      "id": "VAL-ACI-ML-003",
+      "severity": "major",
+      "subjects": [
+        "Artificial and Computational Intelligence"
+      ],
+      "summary": "Chapter-level modern, survey, implementation, or foundational source selections remain unresolved for Chapters 2, 3, 5, and 7-11.",
+      "blocksReferenceContentGeneration": true
+    },
+    {
+      "id": "VAL-ACI-ML-004",
+      "severity": "major-for-project-generation",
+      "subjects": [
+        "Machine Learning"
+      ],
+      "summary": "The six project specifications omit explicit required fields, including prerequisites, objectives, tests, extensions, and deployment guidance.",
+      "blocksReferenceContentGeneration": false,
+      "blocksProjectGeneration": true
+    },
+    {
+      "id": "VAL-ACI-ML-005",
+      "severity": "moderate",
+      "subjects": [
+        "Artificial and Computational Intelligence",
+        "Machine Learning"
+      ],
+      "summary": "ACI does not itemize 32 accepted and one rejected source; ML overclaims topic-count and scope-isolation validation.",
+      "blocksReferenceContentGeneration": true
+    },
+    {
+      "id": "VAL-ACI-ML-006",
+      "severity": "minor",
+      "subjects": [
+        "Artificial and Computational Intelligence",
+        "Machine Learning"
+      ],
+      "summary": "Selectable external datasets still require exact identity, version, licence, URL, and intended-field records."
+    },
+    {
+      "id": "VAL-ACI-ML-007",
+      "severity": "minor",
+      "subjects": [
+        "Artificial and Computational Intelligence",
+        "Machine Learning"
+      ],
+      "summary": "Two legitimate cross-plan DOI overlaps should be represented once in a shared resource registry."
+    },
+    {
+      "id": "VAL-ACI-ML-008",
+      "severity": "moderate",
+      "subjects": [
+        "Machine Learning"
+      ],
+      "summary": "The 180-hour arithmetic passes, but the meaning and realism of 24 hours for six project or practical assessments is underdefined."
+    }
+  ],
+  "reReviewRequired": true,
+  "acceptanceTests": [
+    "Report 21 official Machine Learning topics and 21-of-21 coverage everywhere.",
+    "Create a cross-subject ownership matrix for neural/backpropagation, Bayesian foundations, evaluation/statistics, and the MDP/RL bridge.",
+    "Resolve every ACI chapter-level source placeholder with verified metadata.",
+    "Complete every required field for all six Machine Learning projects.",
+    "Record exact identity, version, licence, URL, and intended fields for selected external datasets.",
+    "Itemize ACI's 32 accepted and one rejected source with identifiers and rejection reason.",
+    "Define what the Machine Learning 24-hour practical allocation includes.",
+    "Update completion reports with remediation evidence and supported validation statuses."
+  ],
+  "filesCreated": [
+    "tasks/agent-work/semester-1/validation-aci-ml.md",
+    "tasks/agent-work/semester-1/validation-aci-ml.json"
+  ],
+  "filesModified": [],
+  "testsRun": [
+    "read both planning bundles in full",
+    "parse both completion-report JSON files",
+    "verify mandatory output-contract keys",
+    "compare brochure-backed curriculum records with plan claims",
+    "audit all 21 Machine Learning topic mappings",
+    "validate 12 chapter rows in each plan",
+    "sum chapter and overall workload hours",
+    "inspect seven ACI and six Machine Learning project specifications",
+    "compare DOI sets within and across plans",
+    "probe 33 DOI identifiers through Crossref with rate-limit-aware interpretation",
+    "probe nine arXiv identifiers in one bounded API request",
+    "probe 51 external URLs with redirects and short timeouts",
+    "review completion-report source traceability",
+    "review cross-subject scope boundaries"
+  ]
+}

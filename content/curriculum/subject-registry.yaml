@@ -1,0 +1,1035 @@
+schemaVersion: 1
+registryStatus: source-verified
+subjectCount: 45
+source:
+  type: programme-brochure
+  institution: BITS Pilani Work Integrated Learning Programmes
+  title: M.Tech. AI & ML_New Brochure_2026 copy
+  localPath: /Users/shivamkumar/Downloads/mtech-ai-ml.pdf
+  sha256: fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b
+  physicalPages: 23
+  curriculumPages:
+    physical: [12, 13]
+    printed: [10, 11]
+  topicDescriptionPages:
+    physical: [14, 15, 16, 17]
+    printed: [12, 13, 14, 15]
+registryNotes:
+  - Exactly 45 taught subjects are registered; the Semester 4 dissertation is a project and is not a subject entry.
+  - Named electives are not assigned by the brochure to Semester 2 versus Semester 3.
+  - officialTopics are present only for the 15 subjects described in the brochure's Courses Wise Syllabus section.
+  - A title-only subject must not have generated topics represented as official syllabus content.
+subjects:
+  - id: SUBJ-001
+    title: Mathematical Foundations for Machine Learning
+    slug: mathematical-foundations-for-machine-learning
+    aliases: []
+    subjectType: compulsory
+    semester: 1
+    electivePool: null
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-002
+    title: Introduction to Statistical Methods
+    slug: introduction-to-statistical-methods
+    aliases: []
+    subjectType: compulsory
+    semester: 1
+    electivePool: null
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-003
+    title: Artificial and Computational Intelligence
+    slug: artificial-and-computational-intelligence
+    aliases: []
+    subjectType: compulsory
+    semester: 1
+    electivePool: null
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-004
+    title: Machine Learning
+    slug: machine-learning
+    aliases: []
+    subjectType: compulsory
+    semester: 1
+    electivePool: null
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+      topics:
+        physicalPdfPage: 14
+        printedPage: 12
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - Introduction to Machine Learning
+      - Various kinds of learning
+      - Supervised Learning
+      - Unsupervised Learning
+      - Machine Learning workflow
+      - Bayesian Learning
+      - MAP Hypothesis
+      - Bayes Optimal Classifier
+      - Naive Bayes Classifier
+      - Linear Models for Regression
+      - Linear Models for Classification
+      - Non-Linear models
+      - Decision trees
+      - MDL Principle
+      - Instance Based Learning
+      - Support Vector Machines
+      - Ensemble Learning
+      - Clustering
+      - k-means
+      - GMM
+      - Machine Learning Model Evaluation/Comparison
+    uncertaintyFlags: []
+
+  - id: SUBJ-005
+    title: Deep Neural Networks
+    slug: deep-neural-networks
+    aliases: []
+    subjectType: compulsory
+    semester: 2
+    electivePool: null
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+      topics:
+        physicalPdfPage: 14
+        printedPage: 12
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - Introduction to neural networks
+      - Linear neural networks for regression and classification
+      - Deep feedforward neural networks
+      - Backpropagation
+      - Deep network training
+      - Regularization and optimization
+      - Transfer learning and fine-tuning
+      - Convolutional neural networks
+      - Recurrent neural networks
+      - Attention mechanisms
+      - Transformers
+      - Vision transformers
+    uncertaintyFlags: []
+
+  - id: SUBJ-006
+    title: Deep Reinforcement Learning
+    slug: deep-reinforcement-learning
+    aliases: []
+    subjectType: compulsory
+    semester: 2
+    electivePool: null
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-007
+    title: AI and ML for Robotics
+    slug: ai-and-ml-for-robotics
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-008
+    title: AI and ML Techniques for Cyber Security
+    slug: ai-and-ml-techniques-for-cyber-security
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+      topics:
+        physicalPdfPage: 16
+        printedPage: 14
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - Introduction to AI and ML in Cybersecurity
+      - Cybersecurity fundamentals including vulnerabilities, threats, attack vectors, and defense strategies
+      - Vulnerability management using Gradient Boosting algorithms
+      - Code security and vulnerability detection using graph-based static analysis
+      - Graph Neural Networks for malware call graphs, attack paths, and code vulnerability analysis
+      - Malware detection and classification using supervised learning and deep learning
+      - Phishing and email security using NLP and Transformer models
+      - Network security monitoring using deep learning for traffic analysis
+      - User and Entity Behavior Analytics using autoencoders for anomaly detection
+      - Robustness and defense using Adversarial Machine Learning
+      - GenAI and LLMs in Security Operations
+      - Automated security response using Reinforcement Learning
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+
+  - id: SUBJ-009
+    title: Advanced Data Mining
+    slug: advanced-data-mining
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+      topics:
+        physicalPdfPage: 17
+        printedPage: 15
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - Foundations of Data Mining and Record Data Mining
+      - Association Analysis and Pattern Discovery
+      - Topics beyond conventional record data mining
+      - Mining complex data structures
+      - Tree and graph mining
+      - Sequence mining
+      - Web and text data mining
+      - Stream data mining
+      - Spatiotemporal data mining
+      - Mining multivariate time-series data
+      - High-dimensional data clustering
+      - Mining social networking sites
+      - Multi-relational Data Mining
+      - Privacy preserving Data Mining
+      - Distributed computing solutions for data-intensive data mining
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+
+  - id: SUBJ-010
+    title: API-driven Cloud Native Solutions
+    slug: api-driven-cloud-native-solutions
+    aliases:
+      - API-Driven Cloud-Native Solutions
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-011
+    title: Automated Reasoning
+    slug: automated-reasoning
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-012
+    title: Architecting AI Systems
+    slug: architecting-ai-systems
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+      topics:
+        physicalPdfPage: 17
+        printedPage: 15
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - End-to-end AI system design and architecture patterns
+      - AI system components
+      - Architectural styles
+      - Agentic AI architecture
+      - ADLC
+      - MCP/A2A gateways and agent protocols
+      - System-level design principles
+      - Scalability patterns
+      - Performance optimization
+      - Resiliency patterns
+      - Domain-specific architectural blueprints
+      - Infrastructure integration
+      - Production considerations
+      - Governance
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+
+  - id: SUBJ-013
+    title: Agentic AI Systems
+    slug: agentic-ai-systems
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+      topics:
+        physicalPdfPage: 16
+        printedPage: 14
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - Foundations of Agentic AI
+      - Industry use cases of agentic systems
+      - LLMs as Autonomous Agents
+      - Prompt engineering for agents
+      - ReAct
+      - Plan-and-Execute
+      - Reflexion agents
+      - Memory and context management
+      - Knowledge-Grounded Agentic Systems
+      - Multi-Agent Systems and Collaboration
+      - Safety, Governance, and Explainability
+      - Evaluation, Deployment, and MLOps
+      - Build a goal-driven LLM agent with tool calling
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+
+  - id: SUBJ-014
+    title: Design of Algorithms
+    slug: design-of-algorithms
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-015
+    title: Data Management for Machine Learning
+    slug: data-management-for-machine-learning
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-016
+    title: Introduction to Parallel and Distributed Programming
+    slug: introduction-to-parallel-and-distributed-programming
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-017
+    title: MLOps
+    slug: mlops
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-018
+    title: Metaheuristics for Optimization
+    slug: metaheuristics-for-optimization
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-019
+    title: Multimodal AI
+    slug: multimodal-ai
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+      topics:
+        physicalPdfPage: 17
+        printedPage: 15
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - Foundations of Multi-modal ML
+      - Different input modalities
+      - Multimodal Fusion and Fission
+      - Multimodal Models and Pretraining
+      - Cross-Modal Alignment and Grounding
+      - Visual Understanding and Reasoning
+      - Generative Multimodal AI
+      - Temporal Intelligence
+      - Embodied AI
+      - Ethics and safety
+      - Advanced Topics
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+
+  - id: SUBJ-020
+    title: Multimodal Information Retrieval
+    slug: multimodal-information-retrieval
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-021
+    title: Probabilistic Graphical Models
+    slug: probabilistic-graphical-models
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-022
+    title: Quantum Machine Learning
+    slug: quantum-machine-learning
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-023
+    title: Software Engineering for Machine Learning
+    slug: software-engineering-for-machine-learning
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: general
+    specialization: null
+    brochureEvidence:
+      title:
+        physicalPdfPage: 12
+        printedPage: 10
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-024
+    title: Advanced Reasoning and Planning
+    slug: advanced-reasoning-and-planning
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: nlp-specialization
+    specialization: nlp
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+      topics:
+        physicalPdfPage: 16
+        printedPage: 14
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - Introduction to Reasoning and Planning
+      - LLM Reasoning
+      - Large Reasoning Models
+      - Reasoning-oriented Prompting
+      - Inference-Time Scaling
+      - Verification
+      - RL for Reasoning
+      - Knowledge Representation and Memory
+      - Hybrid Reasoning
+      - LLM-based Planning
+      - Multi-LLM Collaboration
+      - Evaluation
+      - Safety
+      - State of the Art
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+
+  - id: SUBJ-025
+    title: Conversational AI
+    slug: conversational-ai
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: nlp-specialization
+    specialization: nlp
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+      topics:
+        physicalPdfPage: 15
+        printedPage: 13
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - Design and build real-world conversational AI agents that can think, plan, and act autonomously
+      - Large Language Models
+      - Memory
+      - Tool integration
+      - Information retrieval
+      - System architecture
+      - Security
+      - Ethical considerations
+      - Cost optimization
+      - Performance monitoring
+      - Design, implementation, evaluation, and deployment of scalable enterprise conversational AI agents
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+
+  - id: SUBJ-026
+    title: Information Retrieval
+    slug: information-retrieval
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: nlp-specialization
+    specialization: nlp
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-027
+    title: Large Language Models for Generative AI
+    slug: large-language-models-for-generative-ai
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: nlp-specialization
+    specialization: nlp
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+      topics:
+        physicalPdfPage: 15
+        printedPage: 13
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - Foundations of Large Language Models
+      - Pre-trained LLMs
+      - Inference using LLM
+      - Fine-tuning techniques
+      - Preference alignment
+      - Prompt Engineering and Reasoning
+      - Scaling and Optimizing LLMs
+      - Retrieval-Augmented and Retrieval-Enhanced Language Models
+      - LLMs as Agents
+      - Structured Data Handling
+      - Evaluation
+      - Challenges
+      - Security and privacy
+      - Advanced Topics
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+
+  - id: SUBJ-028
+    title: Natural Language Processing
+    slug: natural-language-processing
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: nlp-specialization
+    specialization: nlp
+    specializationRequirementMarker: "#"
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-029
+    title: NLP Applications
+    slug: nlp-applications
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: nlp-specialization
+    specialization: nlp
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+      topics:
+        physicalPdfPage: 15
+        printedPage: 13
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - Sentiment Analysis and Opinion Mining
+      - Machine Translation including Indic Languages
+      - Question answering and Conversational AI
+      - Information extraction
+      - Knowledge graph RAG Applications
+      - Security, Privacy and Ethics in NLP
+      - Scalable and Efficient NLP Systems
+      - Implementation using state-of-the-art Generative AI and Agentic AI technologies
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+
+  - id: SUBJ-030
+    title: Speech Processing
+    slug: speech-processing
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: nlp-specialization
+    specialization: nlp
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-031
+    title: Social Media Analytics
+    slug: social-media-analytics
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: nlp-specialization
+    specialization: nlp
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+      topics:
+        physicalPdfPage: 16
+        printedPage: 14
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - Social media data collection, preprocessing, and analysis
+      - Social network analysis
+      - Influencer detection
+      - Sentiment analysis
+      - Trend discovery
+      - User behavior and information diffusion
+      - Multimodal analytics
+      - Visualization techniques
+      - Fake account, bot, spam, and misinformation detection
+      - Data privacy
+      - Ethical use
+      - Regulatory compliance
+      - Responsible management of social media analytics systems
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+
+  - id: SUBJ-032
+    title: Computational Learning Theory
+    slug: computational-learning-theory
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: deep-learning-specialization
+    specialization: deep-learning
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-033
+    title: Distributed Machine Learning
+    slug: distributed-machine-learning
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: deep-learning-specialization
+    specialization: deep-learning
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-034
+    title: Fair, Interpretable, Trustworthy Machine Learning
+    slug: fair-interpretable-trustworthy-machine-learning
+    aliases:
+      - Fair, Interpretable and Trustworthy Machine Learning
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: deep-learning-specialization
+    specialization: deep-learning
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-035
+    title: Graph Neural Networks
+    slug: graph-neural-networks
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: deep-learning-specialization
+    specialization: deep-learning
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-036
+    title: ML System Optimization
+    slug: ml-system-optimization
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: deep-learning-specialization
+    specialization: deep-learning
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-037
+    title: Machine Learning on the Edge
+    slug: machine-learning-on-the-edge
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: deep-learning-specialization
+    specialization: deep-learning
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-038
+    title: Unsupervised Deep Learning
+    slug: unsupervised-deep-learning
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: deep-learning-specialization
+    specialization: deep-learning
+    specializationRequirementMarker: "#"
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+
+  - id: SUBJ-039
+    title: Audio Analysis
+    slug: audio-analysis
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: audio-and-vision
+    specialization: audio-and-vision
+    specializationRequirementMarker: "#"
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+      topics:
+        physicalPdfPage: 15
+        printedPage: 13
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - Introduction to audio analysis and applications
+      - Audio fundamentals and feature extraction
+      - Acoustic AI applications including healthcare monitoring, industrial predictive maintenance, and ultrasound applications
+      - Deep learning models for audio including CNNs, RNNs/LSTMs, and audio transformers
+      - Audio classification and tagging
+      - Speech-language models including ASR, TTS, and voice assistants
+      - Music analysis and recommendation
+      - Audio-language models including audio captioning and audio question answering
+      - Audio generation including GANs, diffusion models, text-to-audio, and music generation
+      - Agentic AI for audio
+      - Ethics and privacy in audio analysis
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - audio-vision-pool-specialization-label-uncertain
+      - audio-vision-required-marker-rule-ambiguous
+
+  - id: SUBJ-040
+    title: Computer Vision
+    slug: computer-vision
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: audio-and-vision
+    specialization: audio-and-vision
+    specializationRequirementMarker: "#"
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+      topics:
+        physicalPdfPage: 14
+        printedPage: 12
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - Introduction to computer vision and applications
+      - Vision fundamentals
+      - Image features including edges, corners, texture, and keypoint descriptors
+      - CNNs for vision
+      - Image classification architectures including ResNet and EfficientNet
+      - Object detection including YOLO and R-CNN families
+      - Semantic and instance segmentation including U-Net and Mask R-CNN
+      - Visual transformers including ViT
+      - Image generation using GANs and diffusion models
+      - Vision-language models
+      - Image captioning using attention-based and transformer models
+      - Visual question answering
+      - Agentic AI for vision tasks
+      - Ethics and privacy in computer vision
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - audio-vision-pool-specialization-label-uncertain
+      - audio-vision-required-marker-rule-ambiguous
+
+  - id: SUBJ-041
+    title: Computational Photography
+    slug: computational-photography
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: audio-and-vision
+    specialization: audio-and-vision
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+      - audio-vision-pool-specialization-label-uncertain
+
+  - id: SUBJ-042
+    title: Computational Imaging
+    slug: computational-imaging
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: audio-and-vision
+    specialization: audio-and-vision
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+      - audio-vision-pool-specialization-label-uncertain
+
+  - id: SUBJ-043
+    title: Contemporary Computer Graphics
+    slug: contemporary-computer-graphics
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: audio-and-vision
+    specialization: audio-and-vision
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+      - audio-vision-pool-specialization-label-uncertain
+
+  - id: SUBJ-044
+    title: 3D Computer Vision
+    slug: 3d-computer-vision
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: audio-and-vision
+    specialization: audio-and-vision
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+    officialDescriptionAvailability: title-only
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - official-detailed-syllabus-unavailable
+      - audio-vision-pool-specialization-label-uncertain
+
+  - id: SUBJ-045
+    title: Video Analysis
+    slug: video-analysis
+    aliases: []
+    subjectType: elective
+    semester: configurable-2-3
+    electivePool: audio-and-vision
+    specialization: audio-and-vision
+    brochureEvidence:
+      title:
+        physicalPdfPage: 13
+        printedPage: 11
+      topics:
+        physicalPdfPage: 14
+        printedPage: 12
+    officialDescriptionAvailability: course-topic-description
+    officialTopics:
+      - Introduction to video analysis and applications
+      - Video fundamentals including spatial, temporal, motion, optical-flow, and spatio-temporal features
+      - Temporal and spatio-temporal models including 3D CNNs and video transformers
+      - Action recognition and temporal action detection
+      - Video object detection and tracking
+      - Video segmentation
+      - Video anomaly detection including deepfake detection
+      - Video captioning and video question answering
+      - Video generation using GANs, diffusion models, and text-to-video
+      - Video summarization
+      - Agentic AI for video
+      - Ethics and privacy in video analysis
+    uncertaintyFlags:
+      - named-elective-semester-unassigned
+      - audio-vision-pool-specialization-label-uncertain

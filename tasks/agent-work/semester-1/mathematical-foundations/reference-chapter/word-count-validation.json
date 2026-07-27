@@ -1,0 +1,19 @@
+{
+  "contractVersion": "1.0.0",
+  "reportId": "math-foundations-ch01-word-count-2026-07-28",
+  "status": "passed",
+  "sourcePath": "content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
+  "validatedAt": "2026-07-28",
+  "command": "node scripts/calculate-word-count/chapter-word-count.mjs content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
+  "counterPath": "scripts/calculate-word-count/chapter-word-count.mjs",
+  "meaningfulProseWords": 4548,
+  "minimumMeaningfulProseWords": 3000,
+  "excludes": [
+    "frontmatter",
+    "fenced code",
+    "references section",
+    "navigation and headings",
+    "LaTeX commands"
+  ],
+  "frontmatterMatches": true
+}

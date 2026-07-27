@@ -1,0 +1,142 @@
+{
+  "agentId": "subject-lead-sem1-introduction-to-statistical-methods",
+  "subject": "Introduction to Statistical Methods",
+  "task": "Create a source-transparent Semester 1 subject plan without inventing an official syllabus",
+  "status": "completed",
+  "filesCreated": [
+    "tasks/agent-work/semester-1/statistical-methods/plan.md",
+    "tasks/agent-work/semester-1/statistical-methods/completion-report.json"
+  ],
+  "filesModified": [],
+  "sourcesUsed": [
+    {
+      "type": "official-programme-brochure",
+      "title": "M.Tech. AI & ML_New Brochure_2026 copy",
+      "path": "/Users/shivamkumar/Downloads/mtech-ai-ml.pdf",
+      "evidence": "physical PDF page 12, printed page 10"
+    },
+    {
+      "type": "verified-resource-catalogue",
+      "count": 26,
+      "accessDate": "2026-07-28",
+      "resourceIds": [
+        "STAT-R01",
+        "STAT-R02",
+        "STAT-R03",
+        "STAT-R04",
+        "STAT-R05",
+        "STAT-R06",
+        "STAT-R07",
+        "STAT-R08",
+        "STAT-R09",
+        "STAT-R10",
+        "STAT-R11",
+        "STAT-R12",
+        "STAT-R13",
+        "STAT-R14",
+        "STAT-R15",
+        "STAT-R16",
+        "STAT-R17",
+        "STAT-R18",
+        "STAT-R19",
+        "STAT-R20",
+        "STAT-R21",
+        "STAT-R22",
+        "STAT-R23",
+        "STAT-R24",
+        "STAT-R25",
+        "STAT-R26"
+      ],
+      "details": "IDs follow resource order in plan.md Verified authoritative resources"
+    },
+    {
+      "type": "verified-dataset-catalogue",
+      "count": 3,
+      "accessDate": "2026-07-28",
+      "datasetIds": [
+        "DS-STAT-001",
+        "DS-STAT-002",
+        "DS-STAT-003"
+      ],
+      "details": "UCI Adult, Bike Sharing, and Heart Disease identity, DOI, version context, and CC BY 4.0 licence verified on official UCI pages"
+    }
+  ],
+  "citationsVerified": 29,
+  "citationsRejected": 0,
+  "wordCount": 4590,
+  "testsRun": [
+    "official-syllabus boundary review",
+    "26-resource metadata and URL review",
+    "21 resource DOI metadata lookups through Crossref",
+    "probability scope ownership and cross-link review",
+    "chapter-count and additive hour validation",
+    "project-tier validation",
+    "three-dataset official identity, DOI, and licence verification",
+    "resource source-ID traceability validation",
+    "JSON syntax validation",
+    "scope and file-isolation check"
+  ],
+  "validationResults": {
+    "officialTitleVerified": true,
+    "officialTopicLevelSyllabusAvailable": false,
+    "proposedTopicsClearlyLabeled": true,
+    "chapterCount": 11,
+    "chapterCountWithinRequiredRange": true,
+    "probabilityFoundationsOwnedByMathematicalFoundations": true,
+    "probabilityTreatment": "brief-diagnostic-and-cross-link",
+    "statisticalMethodsOwnership": [
+      "sampling and study design",
+      "sampling distributions",
+      "estimation and likelihood",
+      "interval estimation and resampling",
+      "hypothesis testing and power",
+      "categorical, nonparametric, and multiple inference",
+      "linear models and ANOVA",
+      "Bayesian statistical modelling and diagnostics",
+      "robustness and missing-data sensitivity",
+      "production experimentation and governance"
+    ],
+    "learningOutcomesIncluded": true,
+    "prerequisiteMapIncluded": true,
+    "knowledgeGraphIncluded": true,
+    "researchQueries": 16,
+    "verifiedAuthoritativeResources": 26,
+    "resourceCountWithinRequiredRange": true,
+    "verifiedNamedDatasets": 3,
+    "datasetLicencesRecorded": true,
+    "resourceIdsTraceable": true,
+    "paperReadingPathIncluded": true,
+    "projects": {
+      "beginner": 2,
+      "intermediate": 2,
+      "advanced": 1,
+      "research": 1
+    },
+    "assignmentPlanIncluded": true,
+    "quizPlanIncluded": true,
+    "estimatedHours": 187,
+    "hourModel": {
+      "theoryReadingDerivation": 95,
+      "guidedPythonLabs": 42,
+      "assignmentsAndQuizzes": 30,
+      "selectedProjectIncrements": 20,
+      "fullRoute": 187,
+      "semesterCoreChapters1To8": 122,
+      "advancedExtensionChapters9To11": 65,
+      "doubleCountingDetected": false
+    },
+    "fullChaptersWritten": 0
+  },
+  "openIssues": [
+    "Detailed official BITS course handout is not available",
+    "Official unit boundaries, assessment weights, and prescribed texts remain unknown",
+    "The remediated plan requires independent re-review before full chapter drafting"
+  ],
+  "recommendedNextTasks": [
+    "Obtain and parse the official detailed subject handout",
+    "Run the independent re-review acceptance tests",
+    "Run citation verifier against all selected chapter-level references and datasets",
+    "Approve Chapters 1-8 as the 122-hour semester core before full drafting",
+    "Prototype the Chapter 1 subject-page experience without asserting official unit status"
+  ]
+}
