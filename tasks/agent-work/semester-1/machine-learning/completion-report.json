@@ -1,186 +1,63 @@
 {
-  "contractVersion": "1.0.0",
   "agentId": "subject-lead:machine-learning",
   "subject": "Machine Learning",
-  "subjectId": "SUBJ-004",
   "task": "Create the Semester 1 Machine Learning subject planning bundle without drafting a full chapter",
-  "status": "completed",
+  "status": "partial",
   "filesCreated": [
     "tasks/agent-work/semester-1/machine-learning/plan.md",
     "tasks/agent-work/semester-1/machine-learning/completion-report.json"
   ],
   "filesModified": [],
   "sourcesUsed": [
-    {
-      "id": "official-brochure",
-      "title": "M.Tech. Artificial Intelligence and Machine Learning for working professionals",
-      "organisation": "BITS Pilani Work Integrated Learning Programmes",
-      "path": "/Users/shivamkumar/Downloads/mtech-ai-ml.pdf",
-      "sha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
-      "locators": [
-        "physical PDF page 12, printed page 10",
-        "physical PDF page 14, printed page 12"
-      ],
-      "verificationStatus": "verified-local-source"
-    },
-    {
-      "id": "R01",
-      "url": "https://doi.org/10.1007/978-0-387-45528-0",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R02",
-      "url": "https://hastie.su.domains/ElemStatLearn/",
-      "verificationStatus": "verified-author-site"
-    },
-    {
-      "id": "R03",
-      "url": "https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/understanding-machine-learning-theory-algorithms.pdf",
-      "verificationStatus": "verified-author-institutional-site"
-    },
-    {
-      "id": "R04",
-      "url": "https://mitpress.mit.edu/9780262046824/probabilistic-machine-learning/",
-      "verificationStatus": "verified-publisher"
-    },
-    {
-      "id": "R05",
-      "url": "https://cs229.stanford.edu/materials.html-full",
-      "verificationStatus": "verified-institutional-course"
-    },
-    {
-      "id": "R06",
-      "url": "https://scikit-learn.org/stable/user_guide",
-      "verificationStatus": "verified-official-documentation"
-    },
-    {
-      "id": "R07",
-      "url": "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R08",
-      "url": "https://doi.org/10.1037/h0042519",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R09",
-      "url": "https://doi.org/10.1109/TIT.1967.1053964",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R10",
-      "url": "https://projecteuclid.org/euclid.bsmsp/1200512992",
-      "verificationStatus": "verified-project-euclid"
-    },
-    {
-      "id": "R11",
-      "url": "https://doi.org/10.1111/j.2517-6161.1977.tb01600.x",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R12",
-      "url": "https://doi.org/10.1007/BF00116251",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R13",
-      "url": "https://doi.org/10.1007/BF00994018",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R14",
-      "url": "https://doi.org/10.1007/BF00058655",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R15",
-      "url": "https://doi.org/10.1006/jcss.1997.1504",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R16",
-      "url": "https://doi.org/10.1023/A:1010933404324",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R17",
-      "url": "https://doi.org/10.1145/2939672.2939785",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R18",
-      "url": "https://doi.org/10.1145/2939672.2939778",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R19",
-      "url": "https://papers.nips.cc/paper/2017/hash/8a20a8621978632d76c43dfd28b67767-Abstract.html",
-      "verificationStatus": "verified-official-proceedings"
-    },
-    {
-      "id": "R20",
-      "url": "https://doi.org/10.1016/j.patter.2023.100804",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R21",
-      "url": "https://doi.org/10.1145/3287560.3287596",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R22",
-      "url": "https://doi.org/10.1145/2347736.2347755",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R23",
-      "url": "https://doi.org/10.1007/s10462-007-9052-3",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R24",
-      "url": "https://doi.org/10.1007/s11222-007-9033-z",
-      "verificationStatus": "verified-crossref-and-publisher"
-    },
-    {
-      "id": "R25",
-      "url": "https://www.jmlr.org/papers/v12/pedregosa11a.html",
-      "verificationStatus": "verified-official-journal"
-    },
-    {
-      "id": "R26",
-      "url": "https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html",
-      "verificationStatus": "verified-official-proceedings"
-    }
+    "/Users/shivamkumar/Downloads/mtech-ai-ml.pdf#sha256=fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b&physical-pages=12,14",
+    "https://doi.org/10.1007/978-0-387-45528-0",
+    "https://hastie.su.domains/ElemStatLearn/",
+    "https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/understanding-machine-learning-theory-algorithms.pdf",
+    "https://mitpress.mit.edu/9780262046824/probabilistic-machine-learning/",
+    "https://cs229.stanford.edu/materials.html-full",
+    "https://scikit-learn.org/stable/user_guide",
+    "https://doi.org/10.1111/j.1469-1809.1936.tb02137.x",
+    "https://doi.org/10.1037/h0042519",
+    "https://doi.org/10.1109/TIT.1967.1053964",
+    "https://projecteuclid.org/euclid.bsmsp/1200512992",
+    "https://doi.org/10.1111/j.2517-6161.1977.tb01600.x",
+    "https://doi.org/10.1007/BF00116251",
+    "https://doi.org/10.1007/BF00994018",
+    "https://doi.org/10.1007/BF00058655",
+    "https://doi.org/10.1006/jcss.1997.1504",
+    "https://doi.org/10.1023/A:1010933404324",
+    "https://doi.org/10.1145/2939672.2939785",
+    "https://doi.org/10.1145/2939672.2939778",
+    "https://papers.nips.cc/paper/2017/hash/8a20a8621978632d76c43dfd28b67767-Abstract.html",
+    "https://doi.org/10.1016/j.patter.2023.100804",
+    "https://doi.org/10.1145/3287560.3287596",
+    "https://doi.org/10.1145/2347736.2347755",
+    "https://doi.org/10.1007/s10462-007-9052-3",
+    "https://doi.org/10.1007/s11222-007-9033-z",
+    "https://www.jmlr.org/papers/v12/pedregosa11a.html",
+    "https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html"
   ],
   "citationsVerified": 26,
   "citationsRejected": 2,
-  "rejectedSources": [
-    {
-      "candidate": "Probabilistic Machine Learning with DOI 10.7551/mitpress/13811.001.0001",
-      "reason": "Crossref resolves that DOI to Ethem Alpaydin's Machine Learning, not Kevin Murphy's book; the incorrect DOI was excluded."
-    },
-    {
-      "candidate": "API Design for Machine Learning Software with DOI 10.1007/978-3-642-40994-3_35",
-      "reason": "Crossref resolves that DOI to an unrelated electronic-health-record paper; the incorrect citation was excluded."
-    }
-  ],
-  "wordCount": 5781,
+  "wordCount": 5810,
   "testsRun": [
     "jq empty tasks/agent-work/semester-1/machine-learning/completion-report.json",
     "git diff --check -- tasks/agent-work/semester-1/machine-learning/",
-    "official-topic mapping count: 20",
+    "official-topic mapping count: 21 atomic rows",
     "chapter-outline count: 12",
     "resource-heading count: 26",
     "paper-reading-path count: 20",
-    "project-level count: 6",
+    "project-level count: 6; mandatory project-field audit recorded as blocked",
+    "19 accepted DOI/title identities rechecked through Crossref; seven non-DOI resources rechecked on official publisher, institutional, journal, or proceedings pages",
+    "two rejected DOI/title mismatches rechecked through Crossref and preserved in validationResults.citationRejections",
     "HTTP resolution check for 26 unique external URLs; direct 2xx where permitted, publisher 403 responses recorded as access-control behavior and identity independently checked through Crossref or official indexed pages"
   ],
   "validationResults": {
+    "contractVersion": "1.0.0",
+    "subjectId": "SUBJ-004",
     "officialCourseIdentity": "passed",
     "officialTopicTranscription": "passed",
-    "officialTopicCoverage": "passed-20-of-20",
+    "officialTopicCoverage": "passed-21-of-21-atomic-rows",
     "additionClassification": "passed",
     "chapterCount": "passed-12",
     "learningOutcomes": "passed-provisional",
@@ -191,15 +68,27 @@
     "paperReadingPath": "passed-20",
     "paperCategoryMix": "passed-4-foundational-6-established-5-modern-3-survey-2-applied",
     "projectLevels": "passed-2-beginner-2-intermediate-1-advanced-1-research",
+    "projectContractFields": "blocked-missing-explicit-learning-objectives-prerequisites-testing-requirements-extension-ideas-and-marking-rubric-fields",
     "estimatedHours": "passed-180",
     "fullChapterDraft": "not-created-as-required",
     "citationMetadata": "passed-with-2-rejections-documented",
+    "citationRejections": [
+      {
+        "candidate": "Probabilistic Machine Learning with DOI 10.7551/mitpress/13811.001.0001",
+        "reason": "Crossref resolves that DOI to Ethem Alpaydin's Machine Learning, not Kevin Murphy's book; the incorrect DOI was excluded."
+      },
+      {
+        "candidate": "API Design for Machine Learning Software with DOI 10.1007/978-3-642-40994-3_35",
+        "reason": "Crossref resolves that DOI to an unrelated electronic-health-record paper; the incorrect citation was excluded."
+      }
+    ],
     "scopeIsolation": "passed"
   },
   "openIssues": [
     "The brochure provides topic coverage but no official numbered units, outcomes, hours, tools, or assessment scheme.",
     "The concrete scope chosen under the broad official non-linear-models topic needs academic-review confirmation.",
     "Scope coordination with Mathematical Foundations and Introduction to Statistical Methods is required before drafting.",
+    "All six project sketches require remediation into the mandatory project contract: explicit learning objectives, prerequisites, testing requirements, extension ideas, and marking-rubric fields are missing or combined too loosely to validate.",
     "Project datasets remain candidates until licence, provenance, sensitive-attribute, and split-suitability checks pass."
   ],
   "recommendedNextTasks": [

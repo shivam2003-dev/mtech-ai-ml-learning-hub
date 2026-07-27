@@ -62,6 +62,8 @@ The brochure does not specify subject-level prerequisites, learning outcomes, ho
 | GMM | Chapter 11 | Official topic |
 | Model evaluation and comparison | Chapter 12 | Official topic |
 
+The audit expands the brochure's combined phrases “Supervised Learning, Unsupervised Learning” and “Linear Models for Regression; Linear Models for Classification” into separate instructional rows, yielding **21 atomic official-topic rows**.
+
 Coverage rule: no official topic may disappear during later editorial restructuring. Additions must retain their labels in navigation, metadata, and prose.
 
 ## 2. Proposed learning outcomes
@@ -601,7 +603,7 @@ All projects are non-official educational additions.
 The plan must pass before drafting:
 
 - [ ] official title, placement, brochure pages, and source hash match the curriculum record;
-- [ ] all 20 official brochure topics map to at least one chapter;
+- [ ] all 21 atomic official-topic rows map to at least one chapter;
 - [ ] proposed chapters are not described as official units;
 - [ ] every addition is labeled Prerequisite, Supplementary, Advanced extension, or Industry application;
 - [ ] chapter count is 12 and total study estimate is 180 hours;
