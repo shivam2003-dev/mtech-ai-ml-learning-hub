@@ -35,7 +35,7 @@ authors:
 reviewers:
   - "review-report:math-foundations-ch01-subject-lead-2026-07-28"
   - "review-report:math-foundations-ch01-citation-review-2026-07-28"
-wordCount: 4548
+wordCount: 4944
 citationStatus: "partial"
 codeStatus: "tested"
 mathReviewStatus: "pending"
@@ -63,6 +63,49 @@ mathematical coordinate vectors are column vectors. A batch is stored as a
 matrix whose rows are examples. A NumPy array with shape `(d,)` is treated as a
 one-axis coordinate representation, not as a literal row or column matrix.
 
+## 01 Begin with the problem, not the notation
+
+### The one-minute version
+
+Machine-learning mathematics becomes much easier when every expression answers
+four questions: **what objects exist, what shapes they have, what operation is
+allowed, and what evidence would reveal a mistake**. In this chapter, a student
+named Mira must turn a batch of feature records into two model scores. The
+calculation is short:
+
+$$
+\mathbf{Y}=\mathbf{X}\mathbf{W}+\mathbf{1}_b\mathbf{c}^{\mathsf T}.
+$$
+
+The difficult part is not multiplying numbers. It is deciding what every axis
+means, proving that the expression is defined, translating the same contract
+into code, and refusing inputs that only *look* compatible. Sets and functions
+name the objects. Logic and quantifiers make claims precise. Indices expose the
+calculation. Shapes connect the mathematical statement to NumPy. By the end,
+the formula will be a small, testable story about inputs, transformations,
+outputs, and failure conditions rather than a wall of symbols.
+
+### Mira's first shape bug
+
+Mira receives two records. Each record has three measured features, and the
+model must produce two scores. She writes a weight table and a bias, runs one
+line of NumPy, and gets an answer. Her reviewer asks a more uncomfortable
+question: *why is that answer meaningful?*
+
+Mira can point to the numbers, but not yet to their roles. Is the first axis a
+person, a feature, or an output? Does a one-dimensional bias align with records
+or scores? Would the same program still appear to work if the batch size
+happened to equal the output width? What happens if an untrusted request
+contains a Python integer too large to convert to `float64`? Successful
+execution has not answered any of these questions.
+
+That is the running problem of this chapter. We will give names to the objects,
+derive one output entry, implement that derivation twice, and make the input
+boundary reject ambiguous, non-finite, oversized, ragged, and unrepresentable
+values. The point is broader than one affine map: the same reading discipline
+will recur in linear algebra, probability, optimization, neural networks, and
+research papers.
+
 The word *language* is deliberate. Mathematics is not merely a collection of calculations. It is a compact system for naming objects, stating relationships, and deriving consequences. Machine learning uses this system together with software arrays. A reader must therefore move fluently among three layers:
 
 1. the mathematical object, such as a function or vector;
@@ -79,7 +122,7 @@ well-defined for every real vector even when an implementation deliberately
 rejects values outside its input contract. The goal of this chapter is to make
 those distinctions habitual.
 
-## 1. Why this topic matters
+### The chapter promise
 
 Consider a compact model statement:
 
@@ -128,7 +171,7 @@ organizes its early study around systems, vectors, and transformations. This
 chapter prepares that transition without yet teaching the later linear algebra
 or probability content in full.
 
-## 2. Learning objectives
+### What you will be able to do
 
 After studying this chapter, you should be able to:
 
@@ -147,7 +190,7 @@ After studying this chapter, you should be able to:
 
 The objectives are intentionally observable. “Understand notation” is too vague to assess. “Infer the output shape and justify every matched dimension” describes evidence of understanding.
 
-## 3. Prerequisites
+### What you need before starting
 
 You need secondary-school algebra and basic Python. You should be comfortable with:
 
@@ -174,7 +217,7 @@ When notation feels dense, use a **symbol table**:
 
 Creating this table is not remedial busywork. It is a professional technique for preventing ambiguity.
 
-## 4. Big-picture explanation
+## 02 The chapter's conceptual map
 
 Mathematical communication begins with **objects**. A set groups objects by membership. A tuple orders objects. A relation records which tuples satisfy a relationship. A function is a special relation that associates each permitted input with exactly one output. Logic combines statements, and quantifiers say how widely a statement applies.
 
@@ -202,9 +245,9 @@ identify objects
 
 This workflow prevents a common failure: calculating before deciding what the calculation means.
 
-## 5. Core concepts
+### Four layers in the map
 
-### Sets and membership
+#### Sets and membership
 
 A set is an unordered collection characterized by membership. If $x$ belongs to $S$, write $x \in S$; otherwise write $x \notin S$. Common number sets include the natural numbers $\mathbb{N}$, integers $\mathbb{Z}$, and real numbers $\mathbb{R}$. Because conventions differ on whether $0 \in \mathbb{N}$, define the convention when it matters.
 
@@ -218,7 +261,7 @@ The colon means “such that.” It does not perform division.
 
 The union $A \cup B$ contains elements in either set. The intersection $A \cap B$ contains elements in both. The difference $A \setminus B$ contains elements in $A$ but not $B$. A subset statement $A \subseteq B$ means every element of $A$ is also an element of $B$.
 
-### Ordered tuples and Cartesian products
+#### Ordered tuples and Cartesian products
 
 Order matters in a tuple: generally $(x,y)\neq(y,x)$. The Cartesian product
 
@@ -228,7 +271,7 @@ $$
 
 contains ordered pairs whose first entry comes from $A$ and second from $B$. If $A$ and $B$ are finite, with $|A|=m$ and $|B|=n$, then $|A\times B|=mn$.
 
-### Relations and functions
+#### Relations and functions
 
 A binary relation from $A$ to $B$ is a subset of $A\times B$. A function $f:A\to B$ assigns each $a\in A$ exactly one value $f(a)\in B$. Here:
 
@@ -238,7 +281,7 @@ A binary relation from $A$ to $B$ is a subset of $A\times B$. A function $f:A\to
 
 The image can be a strict subset of the codomain. For $f:\mathbb{R}\to\mathbb{R}$ with $f(x)=x^2$, the codomain is $\mathbb{R}$ but the image is the set of nonnegative reals.
 
-### Logic and quantifiers
+#### Logic and quantifiers
 
 A proposition is a statement that is true or false under a given interpretation. Important connectives are negation $\neg P$, conjunction $P\land Q$, disjunction $P\lor Q$, implication $P\Rightarrow Q$, and equivalence $P\Leftrightarrow Q$.
 
@@ -256,7 +299,7 @@ $$
 
 is false over real numbers because no single real number exceeds every real number.
 
-### Index notation and shape
+#### Index notation and shape
 
 If $\mathbf{x}\in\mathbb{R}^{d}$, then $x_j$ denotes its $j$th coordinate. If $\mathbf{X}\in\mathbb{R}^{b\times d}$, then $X_{ij}$ denotes the value at row $i$, column $j$. We use one-based mathematical indices:
 
@@ -268,7 +311,7 @@ Python uses zero-based positions, so mathematical $X_{ij}$ corresponds to `X[i -
 
 Shape is an ordered tuple. A matrix in $\mathbb{R}^{b\times d}$ has $b$ rows and $d$ columns. Swapping those numbers changes the object’s interface even if the total number of entries remains $bd$.
 
-## 6. Intuitive explanation
+## 03 Build intuition, then state the formal model
 
 Think of a mathematical expression as a typed sentence.
 
@@ -285,11 +328,11 @@ This type analogy has limits. Mathematical equality is not a programming type ch
 
 Sets also behave like explicit contracts. If a function is declared $f:\mathbb{R}^{d}\to\mathbb{R}^{k}$, then a length-$d$ input is expected and a length-$k$ output is promised. A software function should make the same contract visible through type hints, documentation, validation, and tests.
 
-## 7. Formal definition
+### Formal definitions that remove ambiguity
 
 We fix the following conventions for this chapter.
 
-### Set
+#### Set
 
 A set $S$ is treated extensionally: two sets are equal exactly when they have the same members.
 
@@ -297,11 +340,11 @@ $$
 A=B \quad\Longleftrightarrow\quad \forall x\,(x\in A \Leftrightarrow x\in B).
 $$
 
-### Relation
+#### Relation
 
 A relation $R$ from $A$ to $B$ is any subset $R\subseteq A\times B$. Writing $aRb$ means $(a,b)\in R$.
 
-### Function
+#### Function
 
 A function $f:A\to B$ is a relation satisfying:
 
@@ -311,7 +354,7 @@ $$
 
 The symbol $\exists!$ means “there exists exactly one.”
 
-### Vector, matrix, and software array
+#### Vector, matrix, and software array
 
 For this introductory coordinate treatment:
 
@@ -326,7 +369,7 @@ element representation
 This is an implementation definition, not a full mathematical definition of
 a tensor.
 
-### Equality and approximation
+#### Equality and approximation
 
 Mathematical equality $a=b$ asserts that two expressions denote the same object. Assignment in Python uses `=` to bind a name. Floating-point comparisons often need a tolerance:
 
@@ -339,7 +382,7 @@ reference value; it is not a universal tolerance definition and it is not
 mathematical equality
 ([NumPy 2.5 `isclose`](https://numpy.org/doc/2.5/reference/generated/numpy.isclose.html)).
 
-## 8. Mathematical formulation
+### From symbols to Mira's model
 
 Let a batch of $b$ examples, each with $d$ features, be represented by
 
@@ -383,7 +426,7 @@ $$
 
 which is nonzero for a nonzero bias.
 
-## 9. Step-by-step derivation
+## 04 Derive the affine map and follow one case
 
 Take
 
@@ -478,7 +521,7 @@ $$
 
 Adding them yields $\mathbf{Y}$. Notice that bias addition is described mathematically by an explicit $2\times2$ matrix, while NumPy can implement it by broadcasting a shape `(2,)` vector across the batch axis.
 
-## 10. Geometric or visual intuition
+### A geometric picture
 
 A vector $\mathbf{x}\in\mathbb{R}^{d}$ can be imagined as a directed displacement once a coordinate system and basis are chosen. A matrix $\mathbf{W}$ describes how coordinates are combined to produce new coordinates. For $d=2$ and $k=2$, the linear part may rotate, reflect, stretch, shear, or collapse the plane. The bias then translates every transformed point by the same amount.
 
@@ -494,17 +537,17 @@ Shapes can be visualized as interfaces. The right side of $\mathbf{X}$ exposes $
 
 For index notation, imagine a three-loop calculation. The batch loop chooses $i$, the output loop chooses $\ell$, and the feature loop sums over $j$. The feature index disappears because it is reduced; batch and output indices survive.
 
-## 11. Worked examples
+### Worked cases that test the language
 
-### Example A: set equality
+#### Example A: set equality
 
 Let $A=\{1,2,2,3\}$ and $B=\{3,2,1\}$. Sets ignore repeated listings and order, so $A=B$. By contrast, tuples $(1,2,3)$ and $(3,2,1)$ are not equal.
 
-### Example B: domain versus image
+#### Example B: domain versus image
 
 Let $f:\mathbb{R}\to\mathbb{R}$ be $f(x)=x^2$. The value $-1$ belongs to the codomain, but no real input maps to $-1$. Thus the image is not the entire codomain. Saying “range” without clarifying whether it means codomain or image can cause confusion.
 
-### Example C: quantifier order
+#### Example C: quantifier order
 
 Over $\mathbb{R}$:
 
@@ -520,7 +563,7 @@ $$
 
 is false. One fixed $y$ cannot equal $x+1$ for every $x$.
 
-### Example D: counterexample
+#### Example D: counterexample
 
 Claim: for every pair of matrices $\mathbf{A}$ and $\mathbf{B}$ for which both products exist, $\mathbf{A}\mathbf{B}=\mathbf{B}\mathbf{A}$.
 
@@ -542,7 +585,7 @@ $$
 
 Then $\mathbf{A}\mathbf{B}=\mathbf{B}$ but $\mathbf{B}\mathbf{A}=\mathbf{0}$. One counterexample disproves the universal claim.
 
-### Example E: sum expansion
+#### Example E: sum expansion
 
 If $d=3$, then
 
@@ -553,11 +596,11 @@ $$
 
 The symbol $j$ is local to the summation. Reusing it outside without a new definition is ambiguous.
 
-### Example F: shape failure
+#### Example F: shape failure
 
 If $\mathbf{X}\in\mathbb{R}^{4\times3}$ and $\mathbf{W}\in\mathbb{R}^{2\times5}$, then $\mathbf{X}\mathbf{W}$ is undefined because $3\neq2$. Reshaping one array merely to silence software is not a mathematical solution; the intended features and axes must be investigated.
 
-## 12. Python implementation
+## 05 Turn the mathematics into tested Python
 
 The following implementation uses Python 3.12 as its documented baseline and
 NumPy 2.x APIs. The exact published blocks were executed on Python 3.14.6 with
@@ -605,8 +648,10 @@ def affine_batch(
         x_arr = np.asarray(x, dtype=np.float64)
         w_arr = np.asarray(weights, dtype=np.float64)
         c_arr = np.asarray(bias, dtype=np.float64)
-    except (TypeError, ValueError) as exc:
-        raise TypeError("x, weights, and bias must be numeric") from exc
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise TypeError(
+            "x, weights, and bias must be numeric and representable as float64"
+        ) from exc
 
     if x_arr.ndim != 2:
         raise ValueError(f"x must have rank 2; received shape {x_arr.shape}")
@@ -658,7 +703,16 @@ Expected output:
 
 The function deliberately converts supported numeric inputs to `float64`. In a production numerical library, dtype policy may need to preserve `float32`, support accelerators, or reject lossy conversion. That policy should be explicit rather than accidental.
 
-## 13. Implementation from scratch where useful
+The conversion boundary catches `OverflowError` as well as `TypeError` and
+`ValueError`. This matters for Python integers: integers have arbitrary
+precision, but `float64` does not. A value such as `10**1000` is syntactically
+numeric yet cannot be represented by the declared array dtype. The function
+normalizes that low-level conversion failure into the same documented
+`TypeError` family used for other unsupported inputs. It does not silently
+replace the value with infinity or clip it, because either choice would change
+Mira's mathematical input without authorization.
+
+### First-principles loop implementation
 
 An explicit-loop version mirrors the indexed formula. For ordinary nontrivial
 dense arrays it is typically slower than vectorized NumPy because it performs
@@ -713,7 +767,7 @@ $$
 
 This version validates rectangular nested sequences but does not define a general-purpose object-ingestion boundary. As repository engineering guidance, production callers should accept narrow numeric formats, validate them before derived allocation, and keep arbitrary custom Python objects outside this function's trusted input contract.
 
-## 14. Library-based implementation
+### NumPy implementation and the published tests
 
 NumPy’s matrix multiplication and broadcasting give the compact expression:
 
@@ -782,6 +836,11 @@ class AffineBatchTests(unittest.TestCase):
         with self.assertRaisesRegex(TypeError, "must be numeric"):
             affine_batch([["not-a-number"]], [[1.0]], [0.0])
 
+    def test_rejects_huge_integer_conversion(self) -> None:
+        huge_integer = 10**1000
+        with self.assertRaisesRegex(TypeError, "representable as float64"):
+            affine_batch([[huge_integer]], [[1.0]], [0.0])
+
     def test_loop_rejects_ragged_input(self) -> None:
         with self.assertRaisesRegex(ValueError, "rectangular"):
             affine_batch_loops(
@@ -799,14 +858,14 @@ Abbreviated expected success summary (the default runner also prints progress
 characters and elapsed time):
 
 ```text
-Ran 7 tests
+Ran 8 tests
 
 OK
 ```
 
 The seeded test is deterministic for a fixed NumPy random-generator implementation. The known-example test does not depend on random generation and anchors the intended mathematics.
 
-## 15. Real-world application
+### Where the same pattern appears
 
 The following are educational examples of where affine transformations occur
 in machine-learning architectures:
@@ -837,48 +896,50 @@ $$
 
 The shape contract reveals where batches and features live, which dimension the bias matches, and what downstream code should expect.
 
-## 16. Common mistakes
+## 06 What usually goes wrong
 
-### Treating notation as decoration
+### Failure modes in reasoning and code
+
+#### Treating notation as decoration
 
 Boldface and capitalization carry conventions. If a source uses $\mathbf{x}$ for a vector and $x_i$ for a coordinate, dropping boldface can erase a useful distinction.
 
-### Confusing elementwise and matrix multiplication
+#### Confusing elementwise and matrix multiplication
 
 In NumPy, `X * W` is elementwise multiplication with broadcasting; `X @ W`
 invokes matrix multiplication. The two operations have different definitions
 and shape rules
 ([NumPy 2.5 `matmul`](https://numpy.org/doc/2.5/reference/generated/numpy.matmul.html)).
 
-### Forgetting the domain
+#### Forgetting the domain
 
 The expression $f(x)=1/x$ is incomplete without excluding $x=0$. A function is not merely a formula; its domain is part of its identity.
 
-### Reversing implication
+#### Reversing implication
 
 From $P\Rightarrow Q$, one cannot infer $Q\Rightarrow P$. If “square implies rectangle,” observing a rectangle does not prove it is a square.
 
-### Reversing quantifiers
+#### Reversing quantifiers
 
 “Every example has some best label” does not say “one label is best for every example.” Move quantifiers only with proof.
 
-### Confusing a one-dimensional array with a column vector
+#### Confusing a one-dimensional array with a column vector
 
 NumPy shape `(d,)` has one axis. Its transpose has the same shape
 ([NumPy 2.5 `transpose`](https://numpy.org/doc/2.5/reference/generated/numpy.transpose.html)).
 If a literal column axis is required, use `(d, 1)` and document why.
 
-### Silencing a shape error with `reshape`
+#### Silencing a shape error with `reshape`
 
 Reshaping preserves element count but changes axis interpretation. A successful reshape can still corrupt sample, feature, channel, or time semantics.
 
-### Using tests as proof
+#### Using tests as proof
 
 A thousand passing cases do not prove a universal algebraic identity. Tests complement, rather than replace, derivation.
 
-## 17. Edge cases
+### Boundary cases worth designing before coding
 
-### Empty axes
+#### Empty axes
 
 Mathematically, matrices with a zero-length dimension can be defined. NumPy
 shapes contain nonnegative axis lengths, so arrays such as `(0, 3)` are valid
@@ -892,21 +953,21 @@ tested NumPy 2.3.4 runtime,
 pipeline that requires a defined batch mean should therefore reject an empty
 batch explicitly.
 
-### Singleton axes
+#### Singleton axes
 
 Shape `(b, 1)` and `(b,)` contain the same number of values but broadcast
 differently under NumPy's trailing-dimension rules. Singleton axes can be
 semantically essential
 ([NumPy 2.5 broadcasting](https://numpy.org/doc/2.5/user/basics.broadcasting.html)).
 
-### Non-finite values
+#### Non-finite values
 
 The reference implementation uses `np.isfinite` and rejects any value for
 which that predicate is false. This is a local input-contract decision rather
 than a claim that every numerical pipeline must reject the same values
 ([NumPy 2.5 `isfinite`](https://numpy.org/doc/2.5/reference/generated/numpy.isfinite.html)).
 
-### Integer conversion
+#### Integer conversion
 
 The sample function deliberately converts inputs to `float64`, whose finite
 precision is described by `np.finfo`. The conversion is a stated storage and
@@ -914,21 +975,24 @@ calculation policy, not a promise of exact arbitrary-precision integer
 arithmetic
 ([NumPy 2.5 `finfo`](https://numpy.org/doc/2.5/reference/generated/numpy.finfo.html)).
 
-### Duplicate set entries
+#### Duplicate set entries
 
 Writing `{1,1,2}` still denotes `{1,2}`. A Python list preserves duplicates; a Python set removes them. The representation chosen affects semantics.
 
-### Vacuous truth
+#### Vacuous truth
 
 A universal statement over an empty domain is conventionally true. For example, “every element of the empty set is positive” has no counterexample. This convention makes many logical rules consistent, but it can surprise practitioners when an empty filtered dataset silently passes an “all” check.
 
-### Ambiguous axes
+#### Ambiguous axes
 
 An image array might use `(height, width, channels)` or `(channels, height, width)`. Shape alone does not name axes. Documentation or labelled-array tooling is necessary.
 
-## 18. Computational complexity
+## 07 Evaluate evidence, cost, and research connections
 
-For $\mathbf{X}\in\mathbb{R}^{b\times d}$ and $\mathbf{W}\in\mathbb{R}^{d\times k}$, the conventional dense computation evaluates $bdk$ scalar products/additions up to constant factors:
+For $\mathbf{X}\in\mathbb{R}^{b\times d}$ and
+$\mathbf{W}\in\mathbb{R}^{d\times k}$, the conventional dense matrix product
+uses $bdk$ scalar multiplications and $bk(d-1)$ additions; adding the bias uses
+another $bk$ scalar additions. Its asymptotic cost is therefore:
 
 $$
 T(b,d,k)=\Theta(bdk).
@@ -940,7 +1004,7 @@ The returned output needs $\Theta(bk)$ storage. The loop implementation also sto
 
 Validation scans the inputs for finite values, taking $\Theta(bd+dk+k)$ time. That cost can be significant for small $k$ or when repeated unnecessarily. Boundary validation should be placed thoughtfully: validate untrusted or newly loaded data, preserve trustworthy invariants internally, and measure the cost.
 
-## 19. Scalability considerations
+### Scalability and system behaviour
 
 At large sizes, mathematical equivalence does not imply equal system performance.
 
@@ -964,11 +1028,11 @@ accidental resource exhaustion. As local deployment guidance for this
 repository, a service wrapper should also define request-size limits,
 timeouts, quotas, monitoring, and cancellation.
 
-## 20. Security, ethics or privacy considerations where relevant
+### Security, privacy, ethics, and communication
 
 Mathematical notation can hide operational risks.
 
-### Security
+#### Security
 
 The following bullets are repository engineering guidance for this learning
 platform's implementation boundary; they are not attributed to the chapter's
@@ -980,19 +1044,19 @@ academic references:
 - return errors that are useful without exposing confidential schema details;
 - enforce request-size limits, quotas, and monitoring at service boundaries.
 
-### Privacy
+#### Privacy
 
 A matrix row may represent a person and a column may encode a sensitive characteristic. Calling the data merely $\mathbf{X}$ does not remove its human meaning. Documentation should state provenance, purpose, retention, and access controls outside the equation.
 
-### Ethics
+#### Ethics
 
 An affine layer combines features according to learned weights, but a clean mathematical form does not make the application fair or appropriate. Feature definitions, labels, missingness, and deployment decisions can encode inequity. Dimension checks prevent technical errors; they do not validate social assumptions.
 
-### Communication
+#### Communication
 
 Avoid claiming that a tensor “understands” a feature or that a geometric picture proves behaviour in all dimensions. Explain where analogies stop.
 
-## 21. Industry practices
+### Industry evidence and review habits
 
 As repository engineering guidance, treat shapes and assumptions as interfaces:
 
@@ -1008,7 +1072,7 @@ As repository engineering guidance, treat shapes and assumptions as interfaces:
 
 Model cards and system documentation should define inputs and outputs in reader-facing language. A shape like `(None, 128)` is not enough: explain that the first axis is variable batch size and the second contains 128 ordered features produced by a named preprocessing version.
 
-## 22. Research connection
+### Research connection
 
 Research compresses complex pipelines into notation. The
 [NumPy paper by Harris and colleagues](https://doi.org/10.1038/s41586-020-2649-2)
@@ -1030,19 +1094,19 @@ When reading a paper:
 
 This process often reveals underspecified details before implementation begins.
 
-## 23. Recommended papers
+### A reading path
 
-### Modern implementation paper
+#### Modern implementation paper
 
 Charles R. Harris et al., “Array programming with NumPy,” *Nature* 585, 357–362 (2020), DOI [10.1038/s41586-020-2649-2](https://doi.org/10.1038/s41586-020-2649-2).
 
 Read it to understand why homogeneous multidimensional arrays and vectorized operations became central infrastructure for numerical Python. Separate the paper’s software/ecosystem claims from this chapter’s educational interpretation.
 
-### Foundational-paper note
+#### Foundational-paper note
 
 No single foundational research paper is assigned for basic set, function, and quantifier notation. These are longstanding mathematical language conventions better learned from a coherent textbook and course. Inventing a “foundational paper” merely to fill a slot would weaken the source trail.
 
-## 24. Recommended articles
+#### Articles and documentation
 
 - NumPy Developers, [“The N-dimensional array (`ndarray`)”](https://numpy.org/doc/2.5/reference/arrays.ndarray.html), NumPy 2.5 Reference, updated 28 June 2026. Focus on `shape`, `ndim`, and `dtype`.
 - NumPy Developers, [“Broadcasting”](https://numpy.org/doc/2.5/user/basics.broadcasting.html), NumPy 2.5 User Guide, updated 28 June 2026. Trace the trailing-axis compatibility rules and the memory warning.
@@ -1050,7 +1114,7 @@ No single foundational research paper is assigned for basic set, function, and q
 
 These are authoritative technical and university resources, not random practitioner summaries.
 
-## 25. Recommended books or chapters
+#### Books and chapters
 
 Marc Peter Deisenroth, A. Aldo Faisal, and Cheng Soon Ong, *Mathematics for Machine Learning* (Cambridge University Press, 2020), DOI [10.1017/9781108679930](https://doi.org/10.1017/9781108679930).
 
@@ -1062,7 +1126,7 @@ Recommended sequence:
 
 The authors’ official companion site keeps a free version and frames the text as the mathematical preparation needed to read advanced ML material.
 
-## 26. Practical exercise
+## 08 Study lab and assignment
 
 Create a notation ledger for:
 
@@ -1085,9 +1149,9 @@ Tasks:
 
 Do not use random personal data. Explicit small synthetic arrays are enough.
 
-## 27. Assignment
+### Assignment
 
-### Dimension Contract and Counterexample Clinic
+#### Dimension Contract and Counterexample Clinic
 
 **Part A — formal reading**
 
@@ -1125,7 +1189,9 @@ Disprove three false claims:
 - tests and edge cases: 15%;
 - explanation, security, and limitations: 10%.
 
-## 28. Quiz
+## 09 Oral-exam questions, summary, and next step
+
+### Oral-exam questions
 
 1. If $A\subseteq B$, which quantified statement is equivalent?
 2. What is the difference between codomain and image?
@@ -1138,7 +1204,7 @@ Disprove three false claims:
 9. Give one counterexample to the commutativity of matrix multiplication.
 10. Why can broadcasting be mathematically valid but operationally undesirable?
 
-## 29. Answers or solution guidance
+### Answer guidance
 
 1. $\forall x\,(x\in A\Rightarrow x\in B)$.
 2. The codomain is the declared target set; the image contains values actually produced.
@@ -1153,7 +1219,7 @@ Disprove three false claims:
 
 For the assignment, solution guidance should emphasize reasoning rather than a single code listing. A correct derivation names $b,d,k$, shows the matched $d$ dimension, expands the bias explicitly, and identifies the output as $\mathbb{R}^{b\times k}$. A strong counterexample is minimal, calculated, and directly contradicts the universal claim.
 
-## 30. Chapter summary
+### Complete chapter summary
 
 Mathematical notation is an interface for thought. Sets define membership; tuples preserve order; relations connect objects; functions map each domain element to one codomain element; logic and quantifiers state the reach of claims. Scalars, vectors, matrices, and arrays require explicit conventions. Indices reveal which components are selected, summed, or retained.
 
@@ -1173,7 +1239,7 @@ $$
 
 Its index form, matrix form, loop implementation, and NumPy implementation describe the same intended computation at different layers.
 
-## 31. Key terms
+### Key terms
 
 - set
 - element
@@ -1208,7 +1274,7 @@ Its index form, matrix form, loop implementation, and NumPy implementation descr
 - invariant
 - approximate equality
 
-## 32. What to study next
+### What to study next
 
 Proceed to **Vectors, Matrices, Linear Systems, and Subspaces** after you can:
 
@@ -1221,7 +1287,7 @@ Proceed to **Vectors, Matrices, Linear Systems, and Subspaces** after you can:
 
 The next chapter will deepen vector spaces, linear combinations, span, independence, bases, systems of equations, rank, and subspaces. Probability content is not the next step in this scoped reference sequence.
 
-## 33. References
+## 10. References
 
 1. BITS Pilani Work Integrated Learning Programmes. (2026). *M.Tech. AI & ML_New Brochure_2026 copy*. Curriculum placement evidence: PDF page 12, printed page 10. Repository record: `content/curriculum/official-curriculum.yaml`, SHA-256 `d61e6d875dfd4fcbbc0e2bd18cc11e5749a0efe9aa816c540d8498d5b0037975`; source-PDF SHA-256 `fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b`. Visually verified 2026-07-28.
 2. Deisenroth, M. P., Faisal, A. A., & Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. [https://doi.org/10.1017/9781108679930](https://doi.org/10.1017/9781108679930).

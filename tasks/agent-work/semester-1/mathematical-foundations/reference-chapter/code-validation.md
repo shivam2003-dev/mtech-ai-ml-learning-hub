@@ -22,14 +22,15 @@ mathematics, or citation approval.
 
 - Python: `3.14.6`
 - NumPy: `2.3.4`
-- Test count: 7
+- Chapter SHA-256: `dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952`
+- Test count: 8
 - Exit code: 0
 
 ## Published-block hashes
 
-- `affine_batch`: `b13e137ef16dd57a4196c94b4d38c195b99a6bebc8ac959294e931dc7ee0bc21`
+- `affine_batch`: `a3401d0b3645ea119b4632370f843896b0afa004a551c6df79c1a1febaa92e0e`
 - `affine_batch_loops`: `f739f834097024e330ca8464fbdf360e90bf04376dcb4241a360052df2b3cf61`
-- `AffineBatchTests`: `6634876ad548d5f15fea8eecb9d0ec0ad96c0668babf38cf619a142485e9ce37`
+- `AffineBatchTests`: `1281ed64d45544d98ad2a23d53fd9123d9e4e6efd867daadf40834c6f5ee7e00`
 
 ## Full captured output
 
@@ -37,15 +38,17 @@ Standard output was empty. The standard `unittest` runner wrote this complete
 result to standard error:
 
 ```text
-.......
+........
 ----------------------------------------------------------------------
-Ran 7 tests in 0.071s
+Ran 8 tests in 0.095s
 
 OK
 ```
 
-The same seven published tests were rerun after the citation/editorial
-corrections. The three code-block hashes were unchanged.
+The published tests were rerun byte-for-byte after the narrative rewrite. The
+main implementation and test hashes changed because the conversion boundary
+now catches `OverflowError` and the suite includes the reported huge-integer
+regression.
 
 The passing cases cover:
 
@@ -55,4 +58,6 @@ The passing cases cover:
 4. non-finite input;
 5. excessive output size;
 6. nonnumeric conversion;
-7. malformed/ragged loop input.
+7. a Python integer too large for `float64`, normalized to the documented
+   `TypeError`;
+8. malformed/ragged loop input.
