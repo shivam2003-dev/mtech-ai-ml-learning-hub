@@ -1,0 +1,220 @@
+{
+  "agentId": "subject-lead-sem-02-deep-neural-networks",
+  "subject": "Deep Neural Networks",
+  "task": "Create the Semester 2 subject planning bundle without drafting full chapters",
+  "status": "completed",
+  "filesCreated": [
+    "tasks/agent-work/semester-2/deep-neural-networks/plan.md",
+    "tasks/agent-work/semester-2/deep-neural-networks/completion-report.json"
+  ],
+  "filesModified": [],
+  "sourcesUsed": [
+    {
+      "id": "official-brochure",
+      "title": "M.Tech. Artificial Intelligence and Machine Learning for working professionals",
+      "organisation": "BITS Pilani Work Integrated Learning Programmes",
+      "path": "/Users/shivamkumar/Downloads/mtech-ai-ml.pdf",
+      "sha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+      "locators": [
+        "physical PDF page 12, printed page 10",
+        "physical PDF page 14, printed page 12"
+      ],
+      "verificationStatus": "verified-local-source"
+    },
+    {
+      "id": "R01",
+      "url": "https://www.deeplearningbook.org/",
+      "verificationStatus": "verified-official-author-site"
+    },
+    {
+      "id": "R02",
+      "url": "https://d2l.ai/",
+      "verificationStatus": "verified-official-project-site"
+    },
+    {
+      "id": "R03",
+      "url": "https://docs.pytorch.org/tutorials/",
+      "verificationStatus": "verified-official-documentation"
+    },
+    {
+      "id": "R04",
+      "url": "https://www.tensorflow.org/guide/keras",
+      "verificationStatus": "verified-official-documentation"
+    },
+    {
+      "id": "R05",
+      "url": "https://cs231n.stanford.edu/",
+      "verificationStatus": "verified-institutional-course"
+    },
+    {
+      "id": "R06",
+      "url": "https://web.stanford.edu/class/cs224n/",
+      "verificationStatus": "verified-institutional-course"
+    },
+    {
+      "id": "R07",
+      "url": "https://doi.org/10.1037/h0042519",
+      "verificationStatus": "verified-crossref-and-resolver"
+    },
+    {
+      "id": "R08",
+      "url": "https://doi.org/10.1038/323533a0",
+      "verificationStatus": "verified-crossref-and-resolver"
+    },
+    {
+      "id": "R09",
+      "url": "https://doi.org/10.1016/0893-6080(89)90020-8",
+      "verificationStatus": "verified-crossref-and-resolver"
+    },
+    {
+      "id": "R10",
+      "url": "https://doi.org/10.1109/5.726791",
+      "verificationStatus": "verified-crossref-and-resolver"
+    },
+    {
+      "id": "R11",
+      "url": "https://doi.org/10.1162/neco.1997.9.8.1735",
+      "verificationStatus": "verified-crossref-and-resolver"
+    },
+    {
+      "id": "R12",
+      "url": "https://papers.neurips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks",
+      "verificationStatus": "verified-official-proceedings"
+    },
+    {
+      "id": "R13",
+      "url": "https://jmlr.org/papers/v15/srivastava14a.html",
+      "verificationStatus": "verified-official-journal"
+    },
+    {
+      "id": "R14",
+      "url": "https://proceedings.mlr.press/v37/ioffe15.html",
+      "verificationStatus": "verified-official-proceedings-and-arxiv"
+    },
+    {
+      "id": "R15",
+      "url": "https://arxiv.org/abs/1412.6980",
+      "verificationStatus": "verified-arxiv-and-venue"
+    },
+    {
+      "id": "R16",
+      "url": "https://doi.org/10.1109/CVPR.2016.90",
+      "verificationStatus": "verified-crossref-and-resolver"
+    },
+    {
+      "id": "R17",
+      "url": "https://papers.neurips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks",
+      "verificationStatus": "verified-official-proceedings-and-arxiv"
+    },
+    {
+      "id": "R18",
+      "url": "https://papers.neurips.cc/paper/7181-attention-is-all-you-need",
+      "verificationStatus": "verified-official-proceedings-and-arxiv"
+    },
+    {
+      "id": "R19",
+      "url": "https://openreview.net/forum?id=YicbFdNTTy",
+      "verificationStatus": "verified-accepted-openreview-and-arxiv"
+    },
+    {
+      "id": "R20",
+      "url": "https://openreview.net/forum?id=nZeVKeeFYf9",
+      "verificationStatus": "verified-accepted-openreview-and-arxiv"
+    },
+    {
+      "id": "R21",
+      "url": "https://arxiv.org/abs/2001.08361",
+      "verificationStatus": "verified-arxiv"
+    },
+    {
+      "id": "R22",
+      "url": "https://arxiv.org/abs/2203.15556",
+      "verificationStatus": "verified-arxiv-and-venue"
+    },
+    {
+      "id": "R23",
+      "url": "https://doi.org/10.1038/nature14539",
+      "verificationStatus": "verified-crossref-and-resolver"
+    },
+    {
+      "id": "R24",
+      "url": "https://doi.org/10.1109/TKDE.2009.191",
+      "verificationStatus": "verified-crossref-and-resolver"
+    },
+    {
+      "id": "R25",
+      "url": "https://doi.org/10.1137/16M1080173",
+      "verificationStatus": "verified-crossref-and-resolver"
+    },
+    {
+      "id": "R26",
+      "url": "https://arxiv.org/abs/1312.6199",
+      "verificationStatus": "verified-arxiv-and-venue"
+    },
+    {
+      "id": "R27",
+      "url": "https://doi.org/10.1145/3287560.3287596",
+      "verificationStatus": "verified-crossref-and-resolver"
+    }
+  ],
+  "citationsVerified": 27,
+  "citationsRejected": 2,
+  "rejectedSources": [
+    {
+      "candidate": "DOI 10.1145/3065386 as the original 2012 NeurIPS AlexNet citation",
+      "reason": "Crossref identifies a 2017 Communications of the ACM republication; the official 2012 NeurIPS record is used instead."
+    },
+    {
+      "candidate": "DOI 10.48550/arXiv.1207.0580 as the identifier for the 2014 JMLR Dropout paper",
+      "reason": "The identifier belongs to a related 2012 preprint with a different title and author record; the official JMLR article is used."
+    }
+  ],
+  "wordCount": 6358,
+  "testsRun": [
+    "verified brochure SHA-256 and page locators",
+    "transcribed and mapped all 12 official topic phrases",
+    "checked chapter count is within 8-16",
+    "summed 12 chapter-hour rows to 184",
+    "validated additive total workload 8 + 82 + 50 + 30 + 22 + 32 + 12 = 236",
+    "checked 27 canonical resource URLs with redirects and bounded concurrency",
+    "queried DOI metadata through Crossref",
+    "queried arXiv identifiers in bounded batches",
+    "verified accepted OpenReview records for ViT and LoRA",
+    "inspected all six projects for every required contract field",
+    "validated completion-report JSON",
+    "confirmed no full chapter was created"
+  ],
+  "validationResults": {
+    "officialCourseIdentity": "passed",
+    "officialTopicTranscription": "passed-exact",
+    "officialTopicCoverage": "passed-12-of-12",
+    "additionClassification": "passed",
+    "chapterCount": "passed-12",
+    "learningOutcomes": "passed-provisional",
+    "prerequisiteMap": "passed-provisional",
+    "knowledgeGraph": "passed-provisional",
+    "crossSubjectBoundaries": "passed-provisional-ownership-matrix-required-before-prose",
+    "researchQueries": "passed-15",
+    "academicResources": "passed-27",
+    "paperReadingPath": "passed-21",
+    "paperCategoryMix": "passed-5-foundational-6-established-5-modern-3-survey-2-applied",
+    "projectLevels": "passed-2-beginner-2-intermediate-1-advanced-1-research",
+    "projectContractFields": "passed-all-six",
+    "estimatedHours": "passed-236",
+    "citationMetadata": "passed-with-2-rejections-documented",
+    "fullChapterDraft": "not-created-as-required"
+  },
+  "openIssues": [
+    "External project datasets need immutable snapshots, checksums, and a final licence record before implementation.",
+    "Cross-subject ownership must be frozen before DNN prose is generated.",
+    "Claim-level paper verification remains a chapter-authoring gate.",
+    "Current documentation and link availability must be rechecked at publication."
+  ],
+  "recommendedNextTasks": [
+    "Integrate provisional subject metadata and the outline.",
+    "Create and approve a cross-subject concept ownership matrix.",
+    "Create Chapter 1 and Chapter 4 task specifications.",
+    "Finalize project dataset snapshots and licences.",
+    "Run independent mathematics, code, citation, accessibility, and editorial reviews before any chapter approval."
+  ]
+}
