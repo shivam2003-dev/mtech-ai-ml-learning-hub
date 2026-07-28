@@ -13,7 +13,7 @@
     "validate:links": "node scripts/validate-links/internal-static-links.mjs out",
     "count:chapter": "node scripts/calculate-word-count/chapter-word-count.mjs",
     "test": "GITHUB_PAGES=true GITHUB_REPOSITORY=shivam2003-dev/mtech-ai-ml-learning-hub npm run build:pages && node --test tests/rendered-html.test.mjs",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next"
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern .worktrees"
   },
   "dependencies": {
     "@shikijs/rehype": "^4.3.1",
