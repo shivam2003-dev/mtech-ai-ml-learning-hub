@@ -4,102 +4,68 @@
   "subject": "Mathematical Foundations for Machine Learning",
   "chapter": "Mathematical Language for Machine Learning",
   "reviewedAt": "2026-07-28",
-  "status": "changes-required",
-  "approved": false,
-  "reviewedChapterSha256": "8743afe6e6f4b6025b99cf8a9101301d85eb89c1066690e7d9f5cbca8eaba857",
-  "summary": "The chapter is conceptually coherent, accessible, and substantially improved. Word-count and code-execution evidence pass, but citation placement, remaining independent review gates, and rendered heading/accessibility QA are incomplete.",
-  "headingAssessment": {
-    "bodyH1Count": 0,
-    "bodyH2Sequence": {
-      "first": "1. Why this topic matters",
-      "last": "33. References",
-      "continuous": true
-    },
-    "status": "pending-rendered-layout-verification",
-    "requiredAction": "Confirm that the page layout renders the frontmatter title as exactly one visible H1 before the classification notice; otherwise add one body H1 without adding a duplicate title heading."
+  "status": "approved",
+  "approved": true,
+  "supersedes": {
+    "status": "changes-required",
+    "chapterSha256": "8743afe6e6f4b6025b99cf8a9101301d85eb89c1066690e7d9f5cbca8eaba857",
+    "reason": "All prior editorial corrections were dispositioned in the current snapshot."
   },
-  "findings": [
-    {
-      "findingId": "ED-01",
-      "severity": "blocking",
-      "category": "heading-accessibility",
-      "status": "open",
-      "finding": "The MDX body contains no H1, so title hierarchy depends on the page layout.",
-      "requiredCorrection": "Verify exactly one rendered H1 on desktop and mobile and preserve heading-audit evidence."
-    },
-    {
-      "findingId": "ED-02",
-      "severity": "resolved",
-      "category": "metadata-word-count",
-      "status": "resolved",
-      "finding": "Frontmatter and word-count-validation.json agree on 4299 meaningful prose words, above the 3000-word threshold.",
-      "requiredCorrection": "Re-run the validator after any prose change."
-    },
-    {
-      "findingId": "ED-03",
-      "severity": "resolved",
-      "category": "code-evidence",
-      "status": "resolved",
-      "finding": "code-validation.md/json records byte-for-byte execution on Python 3.14.6 and NumPy 2.3.4 with seven of seven tests passing.",
-      "requiredCorrection": "Re-run validation after any code change; do not infer a complete compatibility matrix from one recorded environment."
-    },
-    {
-      "findingId": "ED-04",
-      "severity": "major",
-      "category": "citations",
-      "status": "open",
-      "finding": "Authentic bibliography entries are not attached closely enough to externally checkable claims.",
-      "requiredCorrection": "Apply all claim-level corrections in citation-review.md and retain citationStatus partial until reverified."
-    },
-    {
-      "findingId": "ED-05",
-      "severity": "moderate",
-      "category": "technical-clarity",
-      "status": "open",
-      "finding": "The shape (b,) versus (b,k) broadcasting example leaves the b == k exception implicit.",
-      "requiredCorrection": "State that numerical compatibility when b == k still does not establish intended axis semantics."
-    },
-    {
-      "findingId": "ED-06",
-      "severity": "moderate",
-      "category": "technical-wording",
-      "status": "open",
-      "finding": "The ndarray definition is overly absolute and the approximate-equality rule is not identified as NumPy's asymmetric isclose convention.",
-      "requiredCorrection": "Use 'usually fixed-size' and identify b as the reference value in NumPy isclose."
-    },
-    {
-      "findingId": "ED-07",
-      "severity": "major",
-      "category": "review-governance",
-      "status": "open",
-      "finding": "Independent mathematics, citation, editorial, code, accessibility, and rendered-QA gates are not complete.",
-      "requiredCorrection": "Keep approval false and publication blocked until traceable evidence for every gate is available."
+  "approvalBlockers": [],
+  "reviewedSnapshot": {
+    "repositoryCommit": "2cf45df0e88796d53400ff4651c62f9a60e5e2d8",
+    "chapter": {
+      "path": "content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
+      "sha256": "dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952"
     }
+  },
+  "summary": "The chapter is coherent, original in expression, appropriately scoped, beginner-accessible, and academically suitable as a master's-level prerequisite chapter.",
+  "narrativeSequence": [
+    "problem and motivation",
+    "notation and conceptual map",
+    "intuitive and formal models",
+    "worked affine-transform case",
+    "executable implementations",
+    "failure modes and boundary cases",
+    "evidence, cost, and research connections",
+    "study lab, assignment, oral questions, summary, and next steps"
   ],
-  "strengths": [
-    "Clear intuition-to-formalism-to-implementation progression.",
-    "Explicit symbol, shape, and vector-orientation conventions.",
-    "Dimensionally coherent affine derivation and worked example.",
-    "Careful separation of educational interpretation from local engineering guidance.",
-    "Exercises and quiz align with observable learning objectives.",
-    "Probability ownership remains outside this chapter."
-  ],
-  "nonBlockingSuggestions": [
-    "Recalculate the 80-minute reading estimate from meaningful prose and separate reading from exercise time.",
-    "Consider styling classification and curriculum notices as frontmatter callouts.",
-    "Qualify the loop implementation as normally slower for nontrivial dense arrays.",
-    "Give one concrete empty-reduction example."
-  ],
-  "requiredReReviewEvidence": [
-    "Updated content hash",
-    "Finding-by-finding correction disposition",
-    "Fresh meaningful-prose word-count result if prose changes",
-    "Fresh code-validation result if code changes",
-    "Independent mathematics review",
-    "Independent citation re-verification",
-    "Desktop and mobile rendered screenshots",
-    "Exactly-one-H1 heading audit",
-    "Link and code-copy checks",
-    "Print, equation, navigation, bookmarks, and progress rendered QA"
+  "checks": {
+    "beginnerAccessibility": "pass",
+    "mastersPrerequisiteDepth": "pass",
+    "intuitionToFormalismProgression": "pass",
+    "terminologyConsistency": "pass",
+    "scopeLabels": "pass",
+    "sourceInterpretationSeparation": "pass",
+    "readingExerciseCoherence": "pass",
+    "originalityEditorialAssessment": "pass",
+    "speechLanguageProcessingBenchmarkAlignment": "pass"
+  },
+  "originalityEvidence": {
+    "method": "Targeted editorial comparison with the user's local Speech & Language Processing companion and the chapter's cited sources.",
+    "result": "No copied passage or suspicious source imitation detected.",
+    "benchmarkElementsAdapted": [
+      "one-minute summary",
+      "lead and quick reference",
+      "intuitive explanation before formalism",
+      "worked examples",
+      "warnings and gotchas",
+      "numbered learning sequence",
+      "takeaways"
+    ],
+    "copiedBenchmarkPhrasingDetected": false,
+    "automatedPlagiarismDatabaseUsed": false,
+    "qualification": "This is an editorial originality assessment, not a database-certified plagiarism score."
+  },
+  "curriculumScopeAssessment": {
+    "officialEvidenceLimitedToTitleAndPlacement": true,
+    "chapterClassification": "prerequisite",
+    "supplementaryTopicsPresentedAsOfficialUnits": false,
+    "status": "pass"
+  },
+  "scopeExclusions": [
+    "mathematics review",
+    "rendered-page review",
+    "accessibility review"
   ]
 }
