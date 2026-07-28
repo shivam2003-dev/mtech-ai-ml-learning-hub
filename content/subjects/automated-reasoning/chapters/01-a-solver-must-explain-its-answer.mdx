@@ -1,0 +1,543 @@
+---
+title: "A Solver Must Explain Its Answer"
+slug: "a-solver-must-explain-its-answer"
+subject: "automated-reasoning"
+subjectTitle: "Automated Reasoning"
+chapterNumber: 1
+classification: "supplementary"
+summary: "A source-bounded introduction to satisfiability, resolution, DPLL search, and auditable solver answers, with a tested Python implementation."
+learningObjectives:
+  - "Separate syntax, semantics, satisfiability, validity, and entailment."
+  - "Perform and justify a resolution step and explain why refutation proves unsatisfiability."
+  - "Trace a DPLL search and connect branching, propagation, and backtracking to a proof object."
+  - "Run a deterministic bounded solver implemented from first principles and inspect its limitations."
+  - "Design a responsible reasoning experiment that reports assumptions, timeouts, and evidence."
+prerequisites:
+  - "Prerequisite: propositional logic, sets, functions, and proof by contradiction"
+  - "Prerequisite: Python recursion, immutable tuples, and unit-test assertions"
+  - "Supplementary: first-order logic, graph search, and computational complexity"
+estimatedReadingMinutes: 125
+difficulty: "advanced"
+tags:
+  - "supplementary"
+  - "automated-reasoning"
+  - "sat"
+  - "resolution"
+  - "dpll"
+  - "verification"
+  - "mathjax"
+relatedChapters:
+  - "terms-formulas-and-unification"
+  - "resolution-and-refutation-in-first-order-logic"
+  - "sat-dpll-and-conflict-driven-search"
+recommendedPapers:
+  - "10.1145/321250.321253"
+  - "10.1145/378239.379017"
+  - "10.1007/s10817-018-9455-7"
+authors:
+  - "Shivam Kumar"
+reviewers:
+  - "Subject Lead: Automated Reasoning"
+wordCount: 4300
+citationStatus: "pending-review"
+codeStatus: "pending-review"
+mathReviewStatus: "pending-review"
+editorialStatus: "pending-review"
+createdAt: "2026-07-28"
+updatedAt: "2026-07-28"
+lastVerifiedAt: "2026-07-28"
+---
+
+**Curriculum label:** This chapter is a **Supplementary interpretation** of the
+title *Automated Reasoning*. The BITS Pilani WILP brochure verifies the title
+and elective-pool placement, but does not publish a unit list. Propositional
+logic, resolution, SAT, DPLL, certificates, and SMT are therefore proposed
+teaching structure. **Prerequisite** and **Industry application** labels make
+the boundary visible; they are not claims about the university syllabus.
+
+## 01. Begin with the question a solver can defend
+
+Suppose an engineering team asks, “Can these access rules ever let an
+unapproved service reach the payment database?” A human can discuss the rules,
+but a reliable answer needs more than a plausible sentence. We need a language
+for assumptions, a meaning for each sentence, a search procedure, and evidence
+that another person can check. Automated reasoning is the discipline of making
+that chain explicit.
+
+The useful first distinction is between a **claim** and a **certificate**. A
+solver may return `sat`, meaning that it found an assignment satisfying the
+encoded constraints, or `unsat`, meaning that it established that no such
+assignment exists under the chosen semantics. The words are only as trustworthy
+as the encoding and the algorithm. If “service is approved” was accidentally
+represented as a free variable instead of a policy consequence, a fast result
+can still answer the wrong question.
+
+Let $\Gamma$ be a set of assumptions and let $\varphi$ be a proposed
+conclusion. Semantic entailment is written
+
+$$
+\Gamma \models \varphi \quad\Longleftrightarrow\quad
+\text{every model that satisfies every formula in }\Gamma\text{ also satisfies }\varphi.
+$$
+
+This is different from asking whether $\Gamma\cup\{\varphi\}$ is satisfiable.
+To test entailment with a refutation procedure, negate the conclusion and ask
+whether $\Gamma\cup\{\neg\varphi\}$ is unsatisfiable. If no countermodel can
+exist, the conclusion follows. If the set is satisfiable, the returned model is
+a counterexample and should be shown to the person making the claim.
+
+This chapter uses a small propositional world because it makes every step
+visible. That is a **Prerequisite/Supplementary** foundation for larger systems,
+not a promise that real access control, hardware verification, or planning can
+be reduced safely without domain analysis. The central habit scales, however:
+state the vocabulary, state the semantics, choose a sound procedure, and retain
+an explanation of the answer.
+
+## 02. Map syntax, semantics, and search
+
+A proposition is a sentence that is either true or false in a model. Write
+$p$ for “the request is authenticated,” $q$ for “the device is trusted,” and
+$r$ for “the database is reachable.” A **literal** is a proposition or its
+negation, such as $p$ or $\neg p$. A **clause** is a disjunction of literals,
+for example $(\neg p\lor q)$. A formula in conjunctive normal form (CNF) is a
+conjunction of clauses:
+
+$$
+F=(\neg p\lor q)\land(p\lor r)\land(\neg q\lor r).
+$$
+
+An assignment $M$ maps each variable to `true` or `false`. It satisfies a
+clause when at least one literal in that clause is true, and it satisfies a CNF
+formula when it satisfies every clause. The **SAT** problem asks whether a
+formula has at least one model. A model is constructive evidence: it is a
+small table that can be checked by evaluating each clause.
+
+The word **valid** means true under every assignment. A tautology such as
+$p\lor\neg p$ is valid. A contradiction such as $p\land\neg p$ has no model.
+Satisfiability, validity, and entailment are related but should not be mixed:
+
+| Question | Positive evidence | Negative evidence |
+| --- | --- | --- |
+| Is $F$ satisfiable? | a model of $F$ | a sound refutation of $F$ |
+| Is $F$ valid? | a proof of validity | a countermodel of $F$ |
+| Does $\Gamma$ entail $\varphi$? | a proof of $\Gamma\models\varphi$ | a model of $\Gamma\land\neg\varphi$ |
+
+The search layer manipulates syntax while preserving semantics. Resolution
+combines two clauses that contain complementary literals. DPLL branches on a
+variable, simplifies clauses, propagates forced choices, and backtracks after a
+conflict. Modern CDCL solvers add learned clauses and restart policies. SMT
+solvers add theory reasoning for integers, arrays, or bit-vectors. These are
+different engineering choices around the same contract: no accepted answer
+should violate the formal semantics.
+
+The map also explains why a natural-language prompt is not automatically a
+logic problem. “Only trusted services may write” needs a decision about whether
+“trusted” is a fact, a policy predicate, or a conclusion derived from evidence.
+If time, identity, exceptions, or incomplete observations matter, propositional
+logic may be too weak. A responsible modeller writes those limitations beside
+the formula rather than quietly hiding them in a solver call.
+
+## 03. Build intuition before writing a proof
+
+Think of a CNF formula as a room of doors. Each clause says that at least one
+of its literals must be true. If a clause becomes a single literal, that literal
+is forced: this is a **unit clause**. If one literal in a clause is already true,
+the clause is satisfied and can be removed. If every literal in a clause is
+false, we have a conflict. DPLL repeatedly applies these three observations and
+branches only when no immediate consequence remains.
+
+For
+
+$$
+F=(p\lor q)\land(\neg p\lor r)\land(\neg r),
+$$
+
+the last clause forces $r=\mathrm{false}$. The second clause then forces
+$p=\mathrm{false}$, and the first clause forces $q=\mathrm{true}$. The model
+$(p=false,q=true,r=false)$ can be checked without replaying the search. Notice
+that propagation is not a heuristic guess: it is an equivalence-preserving
+simplification under the current partial assignment.
+
+Now change the first clause to $(p\lor\neg q)$. The same propagation gives
+$p=false$, then the first clause forces $q=false$. Still satisfiable. If instead
+we add $(q)$, propagation forces $q=true$ and the first clause conflicts. The
+conflict tells us that the assumptions cannot all hold together; it does not
+identify which assumption is morally wrong. Unsatisfiable cores and proof
+traces can help a reviewer inspect that question.
+
+Resolution offers a second intuition. If one rule says “$p$ or $q$” and another
+says “not $p$ or $r$,” then regardless of $p$, at least one of $q$ or $r$ must
+hold. The resolvent is $(q\lor r)$. We eliminate a temporary choice while
+preserving every model of the parent clauses. Repeating this operation can
+derive the empty clause, written $\square$, which has no satisfying assignment.
+Deriving $\square$ is a refutation of the original set.
+
+The geometric picture for SAT is a hypercube: with $n$ variables there are
+$2^n$ corners, one per total assignment. A clause removes a face containing
+the assignments that make all its literals false. A SAT solver avoids visiting
+most corners by using logical consequences. This picture is useful for
+intuition, but it does not make worst-case search easy. The number of corners
+still grows exponentially, and an apparently simple encoding can create a hard
+branching structure.
+
+## 04. State the formal rules and derive a refutation
+
+For literals $\ell$ and $\neg\ell$, the propositional resolution rule is
+
+$$
+\frac{(\ell\lor A)\qquad(\neg\ell\lor B)}{A\lor B}.
+$$
+
+Here $A$ and $B$ are disjunctions of the remaining literals. The rule is
+**sound**: if an assignment satisfies both parent clauses, then either it
+makes $\ell$ true, in which case $B$ must be true, or it makes $\ell$ false, in
+which case $A$ must be true. Thus it satisfies $A\lor B$. The rule is also
+complete for propositional refutation when applied with suitable search: every
+unsatisfiable CNF has a resolution proof of the empty clause.
+
+Consider
+
+$$
+C_1=(p\lor q),\quad C_2=(\neg p\lor q),\quad
+C_3=(p\lor\neg q),\quad C_4=(\neg p\lor\neg q).
+$$
+
+Resolve $C_1$ and $C_2$ on $p$ to obtain $C_5=(q)$. Resolve $C_3$ and $C_4$
+on $p$ to obtain $C_6=(\neg q)$. Resolve $C_5$ and $C_6$ on $q$ to obtain
+$C_7=\square$. Each step is locally checkable, so a small proof checker can
+verify the conclusion even if a more complicated prover produced the proof.
+
+The derivation also exposes an important distinction between a procedure and a
+certificate. A solver can search using watched literals, activity scores, and
+parallel workers, while its final proof is a sequence of resolution steps.
+Search speed and proof trust are related but not identical. A fast unverified
+binary result is weaker evidence than a slightly slower result accompanied by a
+checker-readable certificate, especially in safety-critical use.
+
+Resolution has limits. Naively generating all resolvents can cause a large
+clause explosion. First-order resolution adds variables and unification, where
+terms such as $f(x)$ and $f(a)$ can match by substituting $x\mapsto a$. A
+substitution must respect variable scope, and the occurs-check prevents an
+invalid infinite term such as $x=f(x)$. These are **Advanced extension** topics
+for later chapters. They are mentioned here so that “resolution” is not
+mistaken for one universal algorithm with one complexity profile.
+
+## 05. Implement a bounded solver from first principles
+
+The following Python 3.12+ program uses only the standard library. A clause is
+a `frozenset` of signed integers: `3` means $x_3$ and `-3` means $\neg x_3$.
+The solver returns a model or `None`. It performs unit propagation and chooses
+the first unassigned variable; it is intentionally small enough to inspect.
+Input validation rejects a clause containing both a literal and its negation,
+because such a clause is already a tautology and needs a deliberate policy.
+
+```python
+from __future__ import annotations
+
+from typing import Iterable
+
+Clause = frozenset[int]
+Formula = tuple[Clause, ...]
+Model = dict[int, bool]
+
+
+def normalise(clauses: Iterable[Iterable[int]]) -> Formula:
+    """Validate a CNF and remove duplicate literals and clauses."""
+    result: set[Clause] = set()
+    for raw in clauses:
+        clause = frozenset(raw)
+        if any(literal == 0 for literal in clause):
+            raise ValueError("literal 0 is not supported")
+        if any(-literal in clause for literal in clause):
+            continue  # tautology: it imposes no restriction
+        result.add(clause)
+    return tuple(sorted(result, key=lambda item: (len(item), tuple(sorted(item)))))
+
+
+def simplify(formula: Formula, model: Model) -> Formula | None:
+    """Apply a partial model; None denotes an encountered empty clause."""
+    reduced: list[Clause] = []
+    for clause in formula:
+        if any(model.get(abs(literal)) == (literal > 0) for literal in clause):
+            continue
+        residual = frozenset(
+            literal for literal in clause if abs(literal) not in model
+        )
+        if not residual:
+            return None
+        reduced.append(residual)
+    return tuple(reduced)
+
+
+def solve(clauses: Iterable[Iterable[int]]) -> Model | None:
+    """Return a satisfying assignment, or None when the CNF is unsatisfiable."""
+    formula = normalise(clauses)
+
+    def search(current: Formula, model: Model) -> Model | None:
+        while True:
+            reduced = simplify(current, model)
+            if reduced is None:
+                return None
+            if not reduced:
+                return dict(model)
+            units = [next(iter(clause)) for clause in reduced if len(clause) == 1]
+            if not units:
+                current = reduced
+                break
+            for literal in units:
+                variable, value = abs(literal), literal > 0
+                if variable in model and model[variable] != value:
+                    return None
+                model[variable] = value
+            current = reduced
+        variable = min(abs(literal) for clause in current for literal in clause)
+        for value in (True, False):
+            candidate = dict(model)
+            candidate[variable] = value
+            result = search(current, candidate)
+            if result is not None:
+                return result
+        return None
+
+    return search(formula, {})
+
+
+sat = ((1, 2), (-1, 2), (1, -2))
+unsat = ((1, 2), (-1, 2), (1, -2), (-1, -2))
+model = solve(sat)
+assert model is not None and all(
+    any(model[abs(literal)] == (literal > 0) for literal in clause)
+    for clause in sat
+)
+assert solve(unsat) is None
+print(model)
+```
+
+The main invariant is simple: `model` contains assignments already committed,
+and `simplify` preserves exactly the completions that can still satisfy the
+formula. A `None` return means that one clause has no remaining true literal;
+an empty formula means all clauses are satisfied. The recursion is complete for
+finite propositional formulas because it eventually assigns every variable in
+the absence of an earlier model or conflict.
+
+This is not a production solver. Its naive scan costs repeated work, its
+variable heuristic is weak, it records no proof, and Python recursion limits
+bound depth. Those limitations are pedagogically useful: they make the
+correctness contract visible before optimisations obscure it.
+
+## 06. Compare library reasoning and inspect failure modes
+
+For a library baseline, a solver such as Z3 can express the same small question
+with a higher-level API. The following is a supplementary implementation, not a
+replacement for understanding the clauses. Install a pinned, supported Z3
+package in a virtual environment, then compare its model with the from-scratch
+result.
+
+```python
+from z3 import Bool, Solver, Or, Not, sat
+
+p, q = Bool("p"), Bool("q")
+solver = Solver()
+solver.add(Or(p, q), Or(Not(p), q), Or(p, Not(q)))
+status = solver.check()
+assert status == sat
+print(solver.model())
+```
+
+The library brings robust propagation, theories, diagnostics, and decades of
+engineering. It does not choose the right abstraction for the user. If the
+policy includes an unmodelled emergency override, a solver can return `sat`
+while the deployed system behaves differently. If a timeout is treated as
+`unsat`, an operational wrapper can turn uncertainty into a dangerous false
+claim. Always keep the status vocabulary distinct: `sat`, `unsat`, `unknown`,
+and `timeout` are not interchangeable.
+
+Common modelling mistakes deserve their own tests. **Vacuous truth** appears
+when an implication is true because its premise was never made possible. A
+policy “if a request is privileged, then it is logged” says nothing about
+whether any request is privileged. **Inconsistent assumptions** make every
+conclusion entailed, which is logically valid but operationally unhelpful.
+**Name collisions** silently identify two entities that should be distinct.
+**Unbounded integers** in an SMT model can differ from machine arithmetic with
+overflow. **Closed-world assumptions** can turn missing evidence into a false
+statement. Each failure should be represented by a regression test and a
+written modelling decision.
+
+The complexity story is also easy to misread. Brute-force SAT takes
+$O(2^n\,m)$ evaluations for $n$ variables and $m$ clauses in the worst case.
+DPLL can be dramatically faster on structured instances, but SAT is NP-complete
+and no general polynomial-time guarantee is known. A benchmark result should
+therefore include instance family, encoding, random seed, hardware, timeout,
+and whether preprocessing was enabled. Reporting only the fastest successful
+case hides the search distribution.
+
+## 07. Make the result auditable, safe, and useful
+
+An automated-reasoning system has at least four layers of responsibility. The
+**semantic layer** defines what symbols mean. The **algorithmic layer** must be
+sound for the claimed result. The **evidence layer** retains a model, proof,
+unsatisfiable core, or trace. The **operational layer** controls timeouts,
+resource limits, versioning, and human review. A weakness in any layer can
+invalidate an otherwise elegant theorem.
+
+For security, never let a solver output directly become a privileged action
+without a policy boundary. Treat formulas and proof files as untrusted input;
+limit memory and CPU, validate parser behavior, and isolate native solver
+dependencies. Proof-carrying results reduce the trust placed in the search
+engine, but the checker itself still needs testing. A model can disclose
+identifiers or secrets if the encoding includes them, so logs should minimize
+sensitive assignments and apply access controls.
+
+For fairness and accountability, an explanation must be understandable to the
+person affected by a decision. A ten-thousand-step proof is not a useful user
+message. Keep a short explanation (the decisive rules or counterexample) beside
+the complete machine certificate. If a rule encodes a social policy, automated
+consistency does not establish that the policy is just. Review the premises,
+exceptions, and impact separately.
+
+In industry, solver services are usually wrapped with a versioned schema,
+canonical serialization, deterministic options where possible, and an audit
+record containing input hash, solver version, status, duration, and certificate
+hash. A change in preprocessing can change a model witness without changing
+logical satisfiability, so downstream systems should consume the status and
+contract rather than compare raw model text. CI should include known SAT,
+known UNSAT, malformed-input, timeout, and regression instances.
+
+Research connections include CDCL clause learning, SMT DPLL(T), model checking,
+planning, proof assistants, and neuro-symbolic guidance. Modern learned
+heuristics can choose variables or clauses, but learning a heuristic does not
+remove the need for a sound checker. A useful experiment compares a learned
+choice policy to a fixed baseline on held-out instance families and reports
+both speed and proof validity. The paper’s claim, the implementation’s result,
+and this chapter’s educational interpretation should be labelled separately.
+
+It is worth making the word **proof** precise in an engineering handoff. A
+proof is not merely a sequence of messages saying that the solver “considered”
+some alternatives. A checker needs enough information to reconstruct each
+inference, and it must reject malformed or out-of-order steps. For a resolution
+trace, that can mean the identifiers of two parent clauses, the pivot literal,
+and the derived clause. For a model, it means a complete assignment for every
+variable relevant to the formula, plus a checker that evaluates every original
+clause rather than trusting a solver's pretty-printer. This small distinction
+prevents an observability log from being confused with a certificate.
+
+Proofs also have a lifecycle. A preprocessor may remove a variable, reorder
+clauses, or substitute an equivalent formula before search. If the certificate
+is generated for the transformed instance, the system needs a replay map back
+to the user's original rules. Otherwise a reviewer can verify a true theorem
+about an object they never approved. In a research notebook, store the original
+text, canonical CNF, transformation options, and certificate hash together.
+In a deployed service, make that bundle immutable and include the solver and
+checker versions. Reproducibility is not clerical overhead; it is part of the
+reasoning claim.
+
+A countermodel deserves the same care as a proof. If a policy conclusion is
+not entailed, print the smallest useful witness: the assumptions that are true,
+the conclusion that is false, and the rules that remain inactive. Do not call a
+single witness “the reason” when many witnesses exist. Minimising a witness is
+an optimisation problem and may introduce a tie-breaking bias. Present the
+selected witness with its selection rule and retain the raw model for audit.
+
+Finally, separate logical uncertainty from operational uncertainty. `unknown`
+may mean that a theory procedure is incomplete; `timeout` means the resource
+budget expired; a parser error means no formula was accepted. A dashboard that
+maps all three to “policy safe” destroys the semantics of the result. The
+wrapper should propagate each status, alert on unexpected frequencies, and
+require a human or a conservative fallback for actions that depend on a proof.
+
+## 08. Study lab: turn a claim into an experiment
+
+Choose a small access-control, scheduling, or configuration question that can
+be stated with ten or fewer Boolean variables. Write a glossary before writing
+clauses. For each rule, record its source, polarity, and whether it is a fact,
+assumption, or desired conclusion. Encode the question as $\Gamma\land\neg
+\varphi$, run the bounded solver, and independently evaluate any returned model.
+If the result is unsatisfiable, add a proof-trace extension or compare with a
+library solver; do not call a timeout a proof.
+
+Measure at least: number of variables, clauses, propagation steps, branch
+nodes, wall-clock time, and status. Vary one modelling choice, such as an
+optional exception, and explain how the model or proof changes. Include a
+negative test with a deliberately inconsistent assumption. The deliverable is
+not a polished screenshot; it is a repository containing code, tests, input
+hashes, environment versions, a short semantic specification, and a limitations
+paragraph.
+
+For a stronger study, create a tiny benchmark matrix instead of one hand-picked
+formula. Include a satisfiable family with a planted model, an unsatisfiable
+family formed by adding a conflicting clause, and a family with duplicated or
+tautological clauses. Record whether normalisation changes the result and how
+many branch nodes the baseline explores. Then add a variable-ordering heuristic
+as a separate commit. The comparison should state whether a speedup comes from
+fewer nodes, cheaper propagation, or simply a lucky order. This habit mirrors
+larger solver papers, where an average runtime without instance distribution
+can be misleading.
+
+The lab can also ask for a minimal proof object. Extend `solve` with an event
+log for decisions, unit implications, and conflicts. A student need not produce
+a complete industrial DRAT certificate in this first exercise; they should be
+able to replay each event and demonstrate that a reported model satisfies the
+original clauses. For an UNSAT instance, mark the log as an explanatory trace
+unless a checker validates a formal proof. This wording protects against a
+common overclaim: a trace that explains the search is valuable, but it is not
+automatically a sound proof of unsatisfiability.
+
+The six-project ladder for this subject is proposed, not official: (1) a
+beginner CNF truth-table checker; (2) a beginner DPLL visualiser; (3) an
+intermediate DIMACS parser and benchmark runner; (4) an intermediate Sudoku or
+schedule encoding with counterexample explanations; (5) an advanced SMT-backed
+configuration verifier with proof/status logging; and (6) a research project
+reproducing a CDCL heuristic paper on held-out instances. Every project should
+state its data licence, threat model, metrics, tests, deployment boundary,
+ethical considerations, and marking rubric.
+
+## 09. Oral questions, summary, and what comes next
+
+1. Why does a model prove satisfiability but not entailment? Explain the role of
+   $\Gamma\land\neg\varphi$.
+2. What makes resolution sound? Give the two cases for the pivot literal.
+3. Why is a timeout neither `sat` nor `unsat`?
+4. Which invariant does unit propagation preserve?
+5. When would a proof certificate be more valuable than a fast model witness?
+6. How can an inconsistent assumption set make every conclusion appear true?
+7. What changes when machine integers replace mathematical integers?
+8. Which part of your encoding is a documented interpretation rather than an
+   official syllabus fact?
+
+The durable idea is modest but powerful: a solver is not an oracle. It is a
+program operating on a formal language under assumptions. A trustworthy answer
+therefore pairs status with semantics and evidence. SAT gives us a constructive
+model; refutation gives us an absence argument; DPLL exposes search; resolution
+provides a local proof rule; and engineering practice turns these ideas into
+bounded, versioned, reviewable services. The next chapter can add terms,
+predicates, and unification, where modelling becomes richer and proof search
+must manage substitutions. Before moving on, rerun the code, break one clause,
+and write down exactly which claim changed.
+
+## References and reading path
+
+- Robinson, J. A. (1965). *A Machine-Oriented Logic Based on the Resolution
+  Principle*. Journal of the ACM, 12(1), 23–41. DOI:
+  [10.1145/321250.321253](https://doi.org/10.1145/321250.321253). Foundational
+  resolution and unification paper.
+- Davis, M., & Putnam, H. (1960). *A Computing Procedure for Quantification
+  Theory*. Journal of the ACM, 7(3), 201–215. DOI:
+  [10.1145/321033.321043](https://doi.org/10.1145/321033.321043). Foundational
+  elimination procedure; verify venue metadata before a formal citation export.
+- Moskewicz, M. W., Madigan, C. F., Zhao, Y., Zhang, L., & Malik, S. (2001).
+  *Chaff: Engineering an Efficient SAT Solver*. DAC, 530–535. DOI:
+  [10.1145/378239.379017](https://doi.org/10.1145/378239.379017). Established
+  watched-literal and activity-engineering reading.
+- de Moura, L., & Bjørner, N. (2008). *Z3: An Efficient SMT Solver*. TACAS,
+  337–340. DOI: [10.1007/978-3-540-78800-3_24](https://doi.org/10.1007/978-3-540-78800-3_24).
+  Authoritative SMT architecture reading.
+- Blanchette, J. C., Fleury, M., Lasserre, M., & Weidenbach, C. (2018). *A
+  Verified SAT Solver Framework with Learn, Forget, Restart, and
+  Incrementality*. Journal of Automated Reasoning, 61, 31–61. DOI:
+  [10.1007/s10817-018-9455-7](https://doi.org/10.1007/s10817-018-9455-7).
+  Verification and certificate perspective.
+
+The first, third, fourth, and fifth entries were checked against DOI landing
+pages or publisher metadata on 2026-07-28. The Davis–Putnam DOI is retained as
+a scholarly lead and must be rechecked by the citation reviewer before
+publication; no citation-count or state-of-the-art claim depends on it.

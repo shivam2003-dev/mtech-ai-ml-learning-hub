@@ -1,0 +1,78 @@
+---
+title: "Automated Reasoning"
+slug: "automated-reasoning"
+semester: "configurable-2-3"
+subjectType: "elective"
+specialization: null
+officialSyllabusSource:
+  document: "BITS Pilani WILP M.Tech. Artificial Intelligence and Machine Learning brochure"
+  pdfPage: 12
+  printedPage: 10
+  verificationStatus: "verified-title-only"
+summary: "A source-bounded reference book about turning logical questions into checkable proofs, models, and explanations."
+prerequisites:
+  - "Prerequisite: propositional and first-order logic notation"
+  - "Prerequisite: discrete mathematics, sets, relations, and proof by contradiction"
+  - "Prerequisite: Python, recursion, and basic data structures"
+learningOutcomes:
+  - "Translate a small domain into propositions, clauses, and explicit assumptions."
+  - "Explain resolution, DPLL, CDCL, and theory combination as different proof-search designs."
+  - "Implement and test a bounded propositional solver from first principles."
+  - "Interpret a solver result as a model or a proof certificate, including its limits."
+  - "Design an auditable reasoning experiment with reproducible inputs and failure cases."
+difficulty: "advanced"
+estimatedHours: 175
+chapterCount: 1
+projectCount: 6
+paperCount: 12
+authors:
+  - "Shivam Kumar"
+reviewers:
+  - "Subject Lead: Automated Reasoning"
+tools:
+  - "Python 3.12+"
+  - "NumPy 2.x (optional for experiments)"
+  - "PySAT (supplementary library implementation)"
+  - "Z3 (supplementary SMT implementation)"
+tags:
+  - "logic"
+  - "theorem-proving"
+  - "sat"
+  - "smt"
+  - "verification"
+  - "mathjax"
+status: "technical-review"
+createdAt: "2026-07-28"
+updatedAt: "2026-07-28"
+lastVerifiedAt: "2026-07-28"
+version: "0.1.0"
+---
+
+# Automated Reasoning
+
+> **Curriculum boundary:** The official BITS Pilani WILP brochure verifies
+> *Automated Reasoning* as an elective title in the configurable Semester 2–3
+> pool, but provides no unit list, outcomes, prerequisites, or tools for this
+> title. The roadmap below is therefore a proposed educational interpretation.
+> Every topic is labelled **Prerequisite**, **Supplementary**, **Advanced
+> extension**, or **Industry application**; none is presented as an official
+> university unit.
+
+## Reference chapter
+
+1. [A Solver Must Explain Its Answer](./chapters/01-a-solver-must-explain-its-answer/) — **Supplementary interpretation** of automated reasoning through propositional proof search, resolution, and model checking.
+
+## Proposed book sequence
+
+1. A Solver Must Explain Its Answer
+2. Terms, Formulas, and Unification
+3. Resolution and Refutation in First-Order Logic
+4. SAT, DPLL, and Conflict-Driven Search
+5. SMT and Theory-Aware Reasoning
+6. Model Checking, Planning, and Verification
+7. Proof Certificates and Trustworthy Solvers
+8. Reproducible Automated-Reasoning Research
+
+Only Chapter 1 is authored in this vertical slice. Future chapters remain
+planned until their source, mathematics, code, editorial, rendering, and
+accessibility reviews pass.
