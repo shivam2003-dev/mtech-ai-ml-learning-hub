@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "verifiedAt": "2026-07-28",
+  "sources": [
+    {"id": "curriculum", "url": "local supplied BITS Pilani brochure", "status": "hash-and-page-verified"},
+    {"id": "nist-csf", "url": "https://www.nist.gov/cyberframework", "status": "official-page-verified"},
+    {"id": "nist-ai-rmf", "url": "https://doi.org/10.6028/NIST.AI.100-1", "status": "DOI-and-official-page-verified"},
+    {"id": "attack", "url": "https://attack.mitre.org/techniques/", "status": "official-page-verified"},
+    {"id": "atlas", "url": "https://atlas.mitre.org/", "status": "official-project-verified"},
+    {"id": "ember", "url": "https://doi.org/10.48550/arXiv.1804.04637", "status": "identifier-and-repository-verified"},
+    {"id": "deeplog", "url": "https://doi.org/10.1145/3133956.3134015", "status": "DOI-verified"},
+    {"id": "choi-survey", "url": "https://doi.org/10.1186/s42400-020-00055-5", "status": "DOI-verified"},
+    {"id": "macas-survey", "url": "https://doi.org/10.1016/j.comnet.2022.109032", "status": "DOI-verified"}
+  ],
+  "rejected": []
+}

@@ -1,0 +1,560 @@
+---
+title: "From a Security Question to an ML Evidence Contract"
+slug: "from-security-question-to-ml-evidence-contract"
+subject: "ai-and-ml-techniques-for-cyber-security"
+subjectTitle: "AI and ML Techniques for Cyber Security"
+chapterNumber: 1
+classification: "official-topic"
+officialTopic: "Introduction to AI and ML in Cybersecurity"
+summary: "A narrative introduction to security-aware machine learning: turn an ambiguous alert request into an explicit threat, data, decision, cost, and evaluation contract before fitting a model."
+learningObjectives:
+  - "Separate an asset, threat, vulnerability, observation, model score, alert, and response action."
+  - "Write a compact ML evidence contract with a population, label, time split, threshold, and human review boundary."
+  - "Derive expected decision cost and explain why prevalence changes the meaning of a metric."
+  - "Implement and test a deterministic triage baseline without executing hostile artifacts or taking autonomous action."
+  - "Connect the contract to NIST, MITRE ATT&CK, MITRE ATLAS, and the later official topics in this subject."
+prerequisites:
+  - "Prerequisite: binary classification, confusion matrices, and precision/recall"
+  - "Prerequisite: Python, NumPy, and basic unit testing"
+  - "Prerequisite: networking, operating-system, and security vocabulary"
+estimatedReadingMinutes: 105
+difficulty: "advanced"
+tags:
+  - "official-topic"
+  - "cyber-security"
+  - "security-analytics"
+  - "threat-modeling"
+  - "machine-learning"
+relatedChapters:
+  - "vulnerabilities-threats-attack-vectors-and-defensive-data"
+  - "gradient-boosting-for-vulnerability-management"
+  - "adversarial-machine-learning-and-robust-defence"
+recommendedPapers:
+  - "10.48550/arXiv.1804.04637"
+  - "10.1145/3133956.3134015"
+  - "10.6028/NIST.AI.100-1"
+authors:
+  - "Shivam Kumar"
+reviewers:
+  - "Subject Lead: AI and ML Techniques for Cyber Security"
+wordCount: 3255
+citationStatus: "verified-primary-metadata"
+codeStatus: "tested"
+mathReviewStatus: "pending-independent-review"
+editorialStatus: "draft-complete"
+createdAt: "2026-07-28"
+updatedAt: "2026-07-28"
+lastVerifiedAt: "2026-07-28"
+---
+
+**Classification:** **Official topic — Introduction to AI and ML in
+Cybersecurity.** Threat-model vocabulary and the small baseline are
+**Prerequisite/Supplementary** teaching depth. Monitoring, access control, and
+human approval are **Industry application** guidance. The example is for
+defensive learning only; it does not scan hosts, execute files, exploit a
+service, or prescribe an incident response.
+
+**Curriculum notice:** the BITS Pilani Work Integrated Learning Programmes
+brochure names this elective and provides a course-topic description on
+physical PDF page 16 (printed page 14). It does not assign the elective to one
+of Semester 2 or Semester 3. It does not prescribe the chapter order,
+prerequisites, outcomes, hours, or tools used here. The source PDF SHA-256 is
+`fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b`; the
+verified curriculum record is `content/curriculum/official-curriculum.yaml`.
+
+## 01. Begin with the security question, not the algorithm
+
+### The one-minute version
+
+Security teams rarely ask for “a classifier.” They ask questions such as:
+“Which login events deserve review?”, “Which package releases deserve a second
+look?”, or “Which traffic windows deserve investigation?” Each question has a
+protected asset, an adversary or failure mode, an observation process, a person
+who can act, and a cost when the action is wrong. Machine learning can rank or
+classify observations, but it cannot supply those missing definitions.
+
+Imagine Noor, an analyst responsible for a small organisation's software
+inventory. A weekly scanner produces records containing a package name, a
+version, an advisory severity, whether the package is internet-facing, and the
+number of systems on which it appears. The manager asks Noor to “use AI to
+find critical vulnerabilities.” Noor first asks what *critical* means. Does it
+mean a high CVSS score, likely exploitation this week, a service that cannot be
+patched quickly, or a combination? The answer changes the label, features,
+evaluation period, and response.
+
+The same discipline applies to malware, phishing, traffic, and user behaviour.
+A model may estimate a score; a security process turns that score into an alert,
+queue position, containment action, or no action. The chapter's central claim
+is modest but powerful: write the evidence contract before selecting the model.
+
+### Mira's running example
+
+Mira receives one record per login attempt. The approved defensive goal is to
+prioritise unusual attempts for human review. The system is not authorised to
+lock an account automatically. Features are a synthetic, privacy-safe vector:
+hour-of-day, a binary indicator for a new device, a binary indicator for a new
+country, and a count of recent failed attempts. A historical investigation label
+$y=1$ means “an analyst confirmed this attempt as requiring investigation under
+the organisation's documented policy.” It does *not* mean “the user is a
+criminal.”
+
+The model emits a score $s=f_\theta(\mathbf{x})$. A threshold $\tau$ creates a
+review queue, $\hat y=\mathbf{1}[s\ge\tau]$. The score is not a probability
+unless calibration has been checked. A threshold is not an incident response
+plan. These distinctions prevent a common and harmful slide from a statistical
+signal to an accusation.
+
+### What this chapter promises
+
+You will build a terminology map, write the evidence contract, derive a
+cost-sensitive threshold argument, implement a tiny baseline twice in spirit
+(transparent rule and logistic model), inspect failure modes, and design a
+bounded study lab. You will also see why the official later topics—gradient
+boosting, graphs, malware, phishing, traffic, autoencoders, adversarial ML,
+LLMs, and reinforcement learning—are model choices inside a common security
+workflow rather than isolated magic tricks.
+
+## 02. Map assets, threats, evidence, and actions
+
+### A security event is not a label
+
+An **asset** is something whose confidentiality, integrity, availability, or
+accountability matters: an account, package, host, model, log stream, or
+service. A **threat** is a potential cause of harm, including a malicious actor
+or an accidental failure. A **vulnerability** is a weakness that can be
+exploited or otherwise lead to harm. An **attack vector** is a route through
+which that weakness is reached. An **observation** is what a sensor records;
+it is always a partial view of reality. An **indicator** is a signal associated
+with a hypothesis, not proof of intent. An **alert** is an operational decision
+to ask someone to inspect an observation.
+
+The distinctions matter mathematically. If the label is “analyst review was
+required,” a model is learning the historical queue policy. If the label is
+“confirmed compromise,” the dataset may contain only rare and delayed cases.
+If a feature is copied from the remediation ticket created after discovery,
+the model has access to future information. A large score can then be a
+measurement of leakage rather than security.
+
+### Threat-informed framing
+
+MITRE ATT&CK provides a knowledge base for describing adversary tactics and
+techniques. Its role in a learning project is to make the threat hypothesis
+explicit and to provide a vocabulary for coverage; it is not a ready-made
+training label. MITRE ATLAS applies a similar threat-informed perspective to
+attacks on AI systems. NIST Cybersecurity Framework 2.0 gives an organisational
+structure for govern, identify, protect, detect, respond, and recover work.
+NIST AI RMF 1.0 adds a lifecycle view of trustworthy AI. These frameworks do
+not choose a model for Noor. They help her say what the model is meant to
+support and what evidence is still missing.
+
+### The four-way boundary
+
+For each proposed feature, ask four questions. Is it available before the
+decision? Is its collection authorised and privacy-respecting? Can an analyst
+interpret or challenge it? Does it describe the event, or does it encode a
+previous decision? A hostname can be useful and sensitive; a threat-intel
+indicator can be stale; a user identifier can create discriminatory shortcuts.
+Security data is not automatically safe to reuse because it came from a log.
+
+## 03. Write the ML evidence contract
+
+### A compact contract
+
+An evidence contract is a short, testable statement containing:
+
+1. **Decision:** what ranking, alert, or estimate is produced?
+2. **Asset and threat:** what is protected and from which failure or adversary?
+3. **Population:** whose events and which environments are included?
+4. **Observation time:** when can each feature be known?
+5. **Label:** who assigned it, under which policy, and with what delay?
+6. **Action:** who reviews the result and what are they permitted to do?
+7. **Metrics and costs:** which errors matter and how are they measured?
+8. **Boundaries:** when does the model abstain, expire, or require escalation?
+
+For Mira: “For login attempts from the approved identity provider during the
+next calendar month, rank events for a human review queue using features known
+at authentication time. Evaluate temporal generalisation and analyst workload.
+The model may recommend review; it may not lock accounts or contact users.
+Report recall at a fixed daily review budget, precision, calibration, subgroup
+error analysis, and drift. Retrain or disable it when the data contract breaks.”
+This is longer than “detect suspicious logins,” but every clause can be tested.
+
+### From contract to table
+
+Suppose a one-day evaluation has 10,000 attempts and 100 confirmed review
+labels. A model raises 80 true positives, 40 false positives, 20 false
+negatives, and 9,860 true negatives. Recall is $80/(80+20)=0.80$. Precision is
+$80/(80+40)=0.667$. The accuracy, $(80+9860)/10000=0.994$, sounds impressive
+and says little about the 100 cases that matter. A review budget of 120 alerts
+also matters: adding more alerts can improve recall while exhausting analysts.
+
+### Label delay and selective feedback
+
+Security labels often arrive after investigation. Events a team did not review
+cannot be treated as clean negatives; they are “unknown under this process.”
+The queue itself changes future labels because reviewed events receive more
+attention. A model trained on its own historical alerts can learn to reproduce
+its blind spots. Keep an unlabeled or delayed slice, record the label source,
+and avoid pretending that absence of an incident ticket proves benignity.
+
+## 04. Derive decisions, thresholds, and a baseline
+
+### Expected cost
+
+Let $C_{FP}$ be the cost of reviewing a benign event, and $C_{FN}$ the cost of
+missing a harmful event. For a threshold $\tau$, an empirical decision cost is
+
+$$
+\widehat C(\tau)=C_{FP}\,FP(\tau)+C_{FN}\,FN(\tau)+C_R\,R(\tau),
+$$
+
+where $C_R$ represents the marginal cost of review and $R(\tau)$ is the number
+of alerts. This is not a universal economic truth; it is a transparent model
+of a particular operational conversation. If a model returns a calibrated
+probability $p=P(y=1\mid\mathbf{x})$ and the only choices are review or no
+review, a simplified Bayes rule reviews when the expected cost of missing is
+larger than the cost of review. In practice, calibration, changing prevalence,
+and human workload make threshold selection an empirical exercise.
+
+### A logistic baseline
+
+For feature vector $\mathbf{x}$, weights $\mathbf{w}$, and intercept $b$,
+
+$$
+z=\mathbf{w}^{\mathsf T}\mathbf{x}+b,\qquad
+p=\sigma(z)=\frac{1}{1+e^{-z}}.
+$$
+
+With binary labels, the average log loss is
+
+$$
+\mathcal L(\mathbf{w},b)= -\frac1n\sum_{i=1}^{n}
+\left[y_i\log p_i+(1-y_i)\log(1-p_i)\right].
+$$
+
+The gradient with respect to weights is
+$\nabla_{\mathbf w}\mathcal L=\frac1n\mathbf X^{\mathsf T}(\mathbf p-\mathbf y)$
+when rows of $\mathbf X$ are examples. This derivation is useful because it
+connects an error on a review label to a parameter update; it does not confer
+causal or forensic meaning on a coefficient. Standardisation, regularisation,
+and a chronological split are part of the experiment, not afterthoughts.
+
+### Transparent code
+
+The following fixture is synthetic. It intentionally omits hostnames, payloads,
+credentials, and network access. It uses a fixed seed and validates shapes.
+The function returns probabilities, not accusations, and the chosen threshold
+is supplied by the caller.
+
+```python
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Final
+
+import numpy as np
+
+Array: Final = np.ndarray
+
+
+@dataclass(frozen=True)
+class LogisticModel:
+    weights: Array
+    bias: float
+
+    def predict_probability(self, features: Array) -> Array:
+        x = np.asarray(features, dtype=np.float64)
+        if x.ndim != 2 or x.shape[1] != self.weights.shape[0]:
+            raise ValueError("features must have shape (n_examples, n_features)")
+        logits = x @ self.weights + self.bias
+        logits = np.clip(logits, -40.0, 40.0)
+        return 1.0 / (1.0 + np.exp(-logits))
+
+
+def fit_logistic(features: Array, labels: Array, steps: int = 1200,
+                 learning_rate: float = 0.25) -> LogisticModel:
+    x = np.asarray(features, dtype=np.float64)
+    y = np.asarray(labels, dtype=np.float64)
+    if x.ndim != 2 or y.ndim != 1 or x.shape[0] != y.size:
+        raise ValueError("features must be 2-D and labels must match rows")
+    if not np.all(np.isin(y, (0.0, 1.0))):
+        raise ValueError("labels must be 0 or 1")
+    if steps <= 0 or learning_rate <= 0:
+        raise ValueError("steps and learning_rate must be positive")
+    weights = np.zeros(x.shape[1], dtype=np.float64)
+    bias = 0.0
+    for _ in range(steps):
+        probability = LogisticModel(weights, bias).predict_probability(x)
+        error = probability - y
+        weights -= learning_rate * (x.T @ error) / x.shape[0]
+        bias -= learning_rate * float(error.mean())
+    return LogisticModel(weights, bias)
+
+
+def confusion_counts(labels: Array, probabilities: Array,
+                    threshold: float = 0.5) -> tuple[int, int, int, int]:
+    y = np.asarray(labels, dtype=np.int64)
+    p = np.asarray(probabilities, dtype=np.float64)
+    if y.ndim != 1 or p.shape != y.shape or not 0.0 <= threshold <= 1.0:
+        raise ValueError("labels/probabilities shape or threshold is invalid")
+    predicted = p >= threshold
+    return (int(np.sum(predicted & (y == 1))),
+            int(np.sum(predicted & (y == 0))),
+            int(np.sum(~predicted & (y == 1))),
+            int(np.sum(~predicted & (y == 0))))
+
+
+rng = np.random.default_rng(7)
+features = rng.normal(size=(240, 4))
+logits = 1.3 * features[:, 1] + 0.9 * features[:, 2] - 0.4
+labels = (logits > 0.0).astype(np.int64)
+model = fit_logistic(features[:180], labels[:180])
+probabilities = model.predict_probability(features[180:])
+assert probabilities.shape == (60,)
+tp, fp, fn, tn = confusion_counts(labels[180:], probabilities, threshold=0.6)
+assert tp + fp + fn + tn == 60
+print({"tp": tp, "fp": fp, "fn": fn, "tn": tn})
+```
+
+The leading training cost is $O(Tnd)$ for $T$ gradient steps, $n$ examples,
+and $d$ features; prediction is $O(nd)$. Memory is $O(nd+d)$. These are
+algorithmic costs, not promises about a production pipeline. The assertion
+checks a shape and a conservation identity. It cannot check whether the label
+policy is fair, the split is temporal, or an attacker will adapt.
+
+## 05. Interpret evidence without overclaiming
+
+### The split is part of the threat model
+
+A random split can place near-duplicate files, sessions from one incident, or
+future indicators in training and test. For vulnerability management, train on
+older disclosures and test on newer ones. For traffic, hold out a later time
+window or a network segment. For user behaviour, separate identities or
+organisations when the deployment target is a new population. Report the
+split rule in plain language and keep preprocessing fit only on training data.
+
+### Metrics answer different questions
+
+Precision asks how much review capacity is consumed by useful alerts. Recall
+asks how much of the chosen label was surfaced. A precision-recall curve is
+often more informative than ROC AUC for rare positives, but neither metric
+specifies analyst time. Calibration asks whether a score of 0.8 means roughly
+eight out of ten comparable cases are positive; it is not the same as
+discrimination. A confusion matrix should be accompanied by prevalence,
+threshold, time window, confidence interval or repeated-seed range, and a
+description of unknown or delayed labels.
+
+### Baselines are security controls
+
+Compare the learned model with a documented rule, a recent-known-indicator
+lookup, a random or prevalence baseline where appropriate, and a simple
+linear model. A complex detector that does not beat the existing control under
+the same review budget may increase operational risk. Conversely, a baseline
+that performs well on an old benchmark may fail when an adversary changes a
+file, domain, protocol, or user population. The question is not “is the model
+accurate?” but “does this evidence justify this bounded action under this
+threat model?”
+
+### Security and privacy boundaries
+
+Logs can contain credentials, personal data, precise location, and sensitive
+business events. Minimise collection, hash identifiers only when the analysis
+still works, restrict access, and document retention. A model that infers
+“risky person” from nationality, shift, or job title can create discriminatory
+surveillance while appearing statistically useful. Keep behaviour and identity
+separate where possible, offer an appeal path, and never expose raw sensitive
+records in a notebook or paper screenshot. Defensive research still requires
+authorisation, responsible disclosure, and safe handling.
+
+### What an analyst needs to see
+
+An alert is useful only when it arrives with enough context to be challenged.
+Mira's queue item should show the observation time, the features used, the
+model version, the threshold, a plain-language reason for ranking, and a link
+to the approved evidence—not an unexplained red badge. The explanation must be
+honest about scope. A coefficient or feature attribution can describe what the
+model used; it cannot prove that the feature caused the event. A system should
+also allow an analyst to mark “insufficient evidence,” “benign change,” or
+“needs more data.” Those outcomes are valuable labels for improving the process
+and safer than forcing every observation into a binary accusation.
+
+Operational context changes the mathematics. If one analyst can review 30
+events an hour, a detector that emits 500 alerts is not simply “high recall.”
+It is a queue with a predictable abandonment risk. If the most expensive error
+is a missed compromise, a second independent signal or a staged review may be
+better than lowering a threshold indefinitely. If a deployment serves several
+teams, each team may have a different prevalence and action cost; a global
+threshold can be unfairly calibrated. Treat threshold selection as a governed
+policy with an owner, a review date, and an emergency disable path.
+
+### Reproducibility as a control
+
+Security experiments should preserve the data checksum, code revision, package
+versions, random seed, split manifest, metric definitions, and decision
+threshold. A colleague must be able to tell whether a claimed improvement came
+from a new model or from a changed label window. Store rejected experiments and
+negative results as well as successful runs. When a model is updated, compare
+the old and new queue on a fixed holdout and inspect changed decisions. This is
+not bureaucracy: an untraceable detector is difficult to investigate after a
+miss, and an unrepeatable benchmark can hide a regression.
+
+## 06. Connect the introduction to the official techniques
+
+The later course topics are variations on the same contract. **Gradient
+boosting for vulnerability management** is appropriate when tabular advisory,
+asset, exploitability, and exposure features are available; it still needs a
+time-aware label and remediation-cost definition. **Graph-based static
+analysis** and **graph neural networks** represent code, call graphs, or
+attack paths; graph construction and family leakage can dominate model choice.
+**Supervised and deep malware detection** requires a safe feature pipeline,
+concept-drift plan, and a distinction between file family and maliciousness.
+
+**NLP and Transformers for phishing** must avoid treating a sender's language,
+accent, or legitimate urgency as evidence of intent. **Deep traffic analysis**
+must state encryption, aggregation window, sampling bias, and whether the
+deployment sees the same network. **Autoencoders for user/entity behaviour**
+learn a notion of normality that may encode an already-compromised baseline;
+anomaly is not guilt. **Adversarial ML** asks how data, queries, or model
+interfaces can be manipulated and which mitigations have evidence. **LLMs in
+security operations** can summarise or retrieve with approval but may invent
+facts, leak secrets, or follow hostile instructions. **Reinforcement learning
+for response** is a control problem with safety constraints; a lab policy must
+not quarantine real hosts or delete data.
+
+## 07. Study the failure modes and research connection
+
+### Six predictable failures
+
+First, a label is defined after the event. The model then predicts a ticket
+workflow rather than risk. Second, a feature leaks the future through a
+remediation field, threat-intelligence update, or post-incident tag. Third, a
+random split lets a campaign family appear in both sides. Fourth, alert volume
+is ignored, so a detector wins recall by overwhelming analysts. Fifth, an
+unbalanced benchmark hides a poor minority-class result. Sixth, automation
+silently converts a score into a punitive action. Each failure is a contract
+failure before it is an algorithm failure.
+
+### Recommended reading path
+
+Start with the NIST Cybersecurity Framework 2.0 and NIST AI RMF 1.0 for
+governance vocabulary. Read MITRE ATT&CK to understand threat-informed
+coverage and MITRE ATLAS for attacks against ML systems. Read Anderson and
+Roth's EMBER paper for a concrete malware benchmark, but inspect its collection
+period and feature assumptions. Read Du et al.'s DeepLog paper for sequence
+anomaly detection and ask which log process was treated as normal. Use Choi et
+al. and Macas et al. as survey maps, not as substitutes for primary studies.
+
+The papers' claims remain their claims. This chapter's interpretation is that
+security ML is a measurement-and-decision problem under an adaptive threat;
+that is an educational synthesis, not a result reported by each source.
+
+## 08. Run the bounded study lab and assignment
+
+### Practical exercise
+
+Generate the fixture in the code block and record the random seed, split, four
+confusion counts, and threshold. Then change only the threshold from 0.6 to
+0.3. Predict how review volume, precision, and recall will move before running
+the code. Add a chronological synthetic drift by shifting one feature in the
+last 60 rows. Write whether the model should be recalibrated, retrained,
+disabled, or left unchanged and why. Do not add real user identifiers.
+
+### Assignment
+
+Write a two-page evidence contract for one defensive use case: vulnerability
+prioritisation, phishing triage, malware feature classification, or log anomaly
+ranking. Include asset, threat, observation window, label authority, allowed
+action, privacy boundary, temporal split, baseline, metric at a fixed review
+budget, and a rollback trigger. Implement one deterministic baseline and one
+linear model on synthetic or approved public data. Test at least one leakage
+scenario and one prevalence shift. The deliverable must include a data card,
+model card, confusion matrix, error examples with sensitive fields removed, and
+a marking rubric: contract 25%, data and split 20%, implementation/tests 20%,
+cost-aware evidence 20%, safety and communication 15%.
+
+### Quiz and solution guidance
+
+1. Why can 99% accuracy be weak in a rare-event detector? **Because prevalence
+   and the cost of missed positives are hidden; compute precision, recall, and
+   workload on the relevant population.**
+2. Is an autoencoder anomaly score a proof of compromise? **No. It measures
+   deviation from its learned reference distribution; investigate drift,
+   novelty, and benign operational changes.**
+3. What makes a random split unsafe for a campaign dataset? **Near-duplicate or
+   related events can cross the split, giving future or family information to
+   training.**
+4. Why must a probability threshold be tuned with an action budget? **Because
+   the same score distribution can imply very different analyst capacity and
+   false-positive cost.**
+5. What is the safest default for an unreviewed ML alert? **A reversible,
+   human-reviewed queue entry with an explicit abstention path—not autonomous
+   containment.**
+
+## 09. Defend the chapter in an oral exam
+
+### Questions an examiner may ask
+
+Explain the difference between an asset, vulnerability, threat, indicator, and
+alert using one login example. Derive the logistic gradient and state its
+shape assumptions. Why is a score not automatically a probability? Design a
+temporal split for vulnerability data and identify two leakage paths. Compare
+precision at a fixed queue budget with recall at a fixed threshold. Explain how
+MITRE ATT&CK helps a threat hypothesis without becoming a label generator.
+Name one privacy risk in user/entity analytics and one safe mitigation. Finally,
+state when you would disable the model even if its offline metric improved.
+
+### Complete summary
+
+AI and ML in cybersecurity begins with a defensible question. The protected
+asset, threat, observation process, label, decision owner, allowed action,
+error costs, and boundaries define what a model is allowed to mean. A logistic
+baseline is valuable because it makes shapes, gradients, thresholds, and tests
+visible. Temporal splits, delayed labels, workload, privacy, drift, and
+adversarial adaptation are part of evidence, not operational decoration.
+
+The next chapter introduces vulnerabilities, threats, attack vectors, and
+defensive data in greater detail. Keep this contract beside it: every later
+architecture is only as trustworthy as the question and evidence it serves.
+
+### Key terms
+
+asset; threat; vulnerability; attack vector; observation; indicator; alert;
+label delay; data leakage; prevalence; calibration; review budget; abstention;
+concept drift; threat model; ATT&CK; ATLAS; evidence contract.
+
+## 10. References and reading path
+
+### Primary and authoritative resources
+
+1. BITS Pilani Work Integrated Learning Programmes. *M.Tech. Artificial
+   Intelligence and Machine Learning for working professionals* brochure,
+   2026. Verified local source and SHA-256 documented above.
+2. National Institute of Standards and Technology. *Cybersecurity Framework
+   (CSF) 2.0*, 2024. [Official framework](https://www.nist.gov/cyberframework).
+3. Tabassi, E. *Artificial Intelligence Risk Management Framework (AI RMF
+   1.0)*, NIST AI 100-1, 2023. DOI
+   [10.6028/NIST.AI.100-1](https://doi.org/10.6028/NIST.AI.100-1).
+4. MITRE. *ATT&CK Enterprise techniques*. [Official knowledge base](https://attack.mitre.org/techniques/).
+5. MITRE. *Adversarial Threat Landscape for AI Systems (ATLAS)*. [Official
+   project repository](https://github.com/mitre/advmlthreatmatrix).
+6. Anderson, H. S., & Roth, P. (2018). *EMBER: An Open Dataset for Training
+   Static PE Malware Machine Learning Models*. arXiv:1804.04637. [Paper](https://arxiv.org/abs/1804.04637)
+   and [dataset repository](https://github.com/elastic/ember).
+7. Du, M., Li, F., Zheng, G., & Srikumar, V. (2017). *DeepLog: Anomaly
+   Detection and Diagnosis from System Logs through Deep Learning*. ACM CCS.
+   DOI [10.1145/3133956.3134015](https://doi.org/10.1145/3133956.3134015).
+8. Choi, Y.-H., Liu, P., Shang, Z., et al. (2020). *Using deep learning to
+   solve computer security challenges: a survey*. Cybersecurity, 3, 15. DOI
+   [10.1186/s42400-020-00055-5](https://doi.org/10.1186/s42400-020-00055-5).
+9. Macas, M., Wu, C., & Fuertes, W. (2022). *A survey on deep learning for
+   cybersecurity: Progress, challenges, and opportunities*. Computer Networks,
+   212, 109032. DOI [10.1016/j.comnet.2022.109032](https://doi.org/10.1016/j.comnet.2022.109032).
+
+### Recommended order
+
+Read the two NIST frameworks first, then ATT&CK and ATLAS. Reproduce the
+synthetic baseline in this chapter. Read EMBER for a dataset and malware case,
+DeepLog for sequence anomaly detection, and the surveys last to identify the
+next primary papers. Future chapters add papers for each official technique;
+this chapter intentionally does not pretend that a survey proves a deployment
+claim.
