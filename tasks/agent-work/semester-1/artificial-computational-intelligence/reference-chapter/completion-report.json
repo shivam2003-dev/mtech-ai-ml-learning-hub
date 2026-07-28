@@ -1,0 +1,80 @@
+{
+  "agentId": "subject-lead-artificial-and-computational-intelligence-reference",
+  "subject": "Artificial and Computational Intelligence",
+  "task": "Create the first production-quality narrative chapter and subject-book shell",
+  "status": "partial",
+  "filesCreated": [
+    "content/subjects/artificial-and-computational-intelligence/index.mdx",
+    "content/subjects/artificial-and-computational-intelligence/chapters/01-intelligence-as-computation.mdx",
+    "content/subjects/artificial-and-computational-intelligence/book/00-preface.md",
+    "content/subjects/artificial-and-computational-intelligence/book/01-how-to-use-this-book.md",
+    "content/subjects/artificial-and-computational-intelligence/book/02-prerequisites.md",
+    "content/subjects/artificial-and-computational-intelligence/book/03-learning-outcomes.md",
+    "content/subjects/artificial-and-computational-intelligence/book/04-subject-roadmap.md",
+    "content/subjects/artificial-and-computational-intelligence/book/05-mathematical-notation.md",
+    "content/subjects/artificial-and-computational-intelligence/research-papers/reading-path.yaml",
+    "content/subjects/artificial-and-computational-intelligence/references.bib",
+    "content/subjects/artificial-and-computational-intelligence/references.md",
+    "content/subjects/artificial-and-computational-intelligence/glossary.md",
+    "content/subjects/artificial-and-computational-intelligence/further-reading.md",
+    "content/subjects/artificial-and-computational-intelligence/projects/README.md",
+    "content/subjects/artificial-and-computational-intelligence/assignments/README.md",
+    "content/subjects/artificial-and-computational-intelligence/quizzes/README.md",
+    "content/subjects/artificial-and-computational-intelligence/datasets/README.md",
+    "tasks/agent-work/semester-1/artificial-computational-intelligence/reference-chapter/word-count-validation.json",
+    "tasks/agent-work/semester-1/artificial-computational-intelligence/reference-chapter/heading-validation.json",
+    "tasks/agent-work/semester-1/artificial-computational-intelligence/reference-chapter/code-validation.json",
+    "tasks/agent-work/semester-1/artificial-computational-intelligence/reference-chapter/completion-report.json"
+  ],
+  "filesModified": [],
+  "sourcesUsed": [
+    "BITS Pilani WILP M.Tech. AI & ML_New Brochure_2026 copy, PDF page 12, printed page 10",
+    "Turing 1950, DOI 10.1093/mind/LIX.236.433",
+    "Bezdek 2016, DOI 10.1109/MSMC.2016.2558778",
+    "Raji and Dobbe 2024, arXiv 2401.10899",
+    "UC Berkeley CS 188 online textbook",
+    "NIST AI RMF 1.0, DOI 10.6028/NIST.AI.100-1",
+    "Amodei et al. 2016, arXiv 1606.06565"
+  ],
+  "citationsVerified": 6,
+  "citationsRejected": 0,
+  "wordCount": 4302,
+  "testsRun": [
+    "Eight exact Python route-selection tests",
+    "MDX compilation for subject and chapter",
+    "Subject frontmatter validation against subject.schema.json",
+    "Chapter frontmatter validation against chapter.schema.json",
+    "Foundation registry validation: 45 subjects and 45 Subject Leads",
+    "Next.js production static build: 72 pages",
+    "ESLint repository validation",
+    "Heading-count validation",
+    "Meaningful-prose word-count validation",
+    "git diff --check"
+  ],
+  "validationResults": {
+    "brochureBoundary": "passed-title-and-placement-only",
+    "topicClassification": "passed",
+    "meaningfulProseWords": 4302,
+    "headingStructure": "passed-10-h2-no-body-h1",
+    "python": "passed-8-of-8",
+    "mdx": "passed",
+    "subjectSchema": "passed",
+    "chapterSchema": "passed",
+    "foundationRegistry": "passed",
+    "productionBuild": "passed",
+    "eslint": "passed",
+    "publicationStatus": "pending-independent-review"
+  },
+  "openIssues": [
+    "Independent mathematics review is pending.",
+    "Independent citation and claim review is pending.",
+    "Independent academic editorial review is pending.",
+    "The official brochure does not provide a detailed subject syllabus; proposed topics remain classified educational interpretations."
+  ],
+  "recommendedNextTasks": [
+    "Run independent mathematics, citation, and academic editorial review.",
+    "Render and visually inspect the chapter at desktop and mobile widths.",
+    "Approve or revise the reference style before generating Chapters 2 through 12.",
+    "Add full project, assignment, quiz, and paper-note sets only after reference approval."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "file": "content/subjects/artificial-and-computational-intelligence/chapters/01-intelligence-as-computation.mdx",
+  "h1CountInBody": 0,
+  "h2Count": 10,
+  "expectedH2Minimum": 8,
+  "expectedH2Maximum": 10,
+  "result": "passed",
+  "headings": [
+    "01 Begin with the decision, not the label",
+    "02 Map the agent problem before choosing a method",
+    "03 Classify the environment and choose an honest abstraction",
+    "04 Derive a constrained decision rule and follow one case",
+    "05 Turn the contract into tested Python",
+    "06 Learn from what goes wrong",
+    "07 Evaluate evidence, cost, and responsibility",
+    "08 Convert the chapter into study evidence",
+    "09 Defend the chapter orally and carry it forward",
+    "10 References"
+  ],
+  "validatedAt": "2026-07-28"
+}

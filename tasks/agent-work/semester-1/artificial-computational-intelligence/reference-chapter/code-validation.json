@@ -1,0 +1,22 @@
+{
+  "file": "content/subjects/artificial-and-computational-intelligence/chapters/01-intelligence-as-computation.mdx",
+  "pythonVersion": "3.12-compatible",
+  "runtimeUsed": "python3",
+  "codeBlocksExecuted": 3,
+  "testsPassed": 8,
+  "testsFailed": 0,
+  "expectedOutput": "8 route-selection tests passed",
+  "actualOutput": "8 route-selection tests passed",
+  "coverage": [
+    "hand-worked route and score",
+    "first-principles and NumPy equivalence",
+    "empty input rejection",
+    "duplicate route rejection",
+    "non-finite input rejection",
+    "invalid probability rejection",
+    "no-feasible-route failure",
+    "deterministic tie-breaking"
+  ],
+  "result": "passed",
+  "validatedAt": "2026-07-28"
+}
