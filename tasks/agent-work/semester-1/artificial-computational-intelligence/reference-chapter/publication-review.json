@@ -1,0 +1,68 @@
+{
+  "agentId": "aci-independent-publication-reviewer",
+  "subject": "Artificial and Computational Intelligence",
+  "task": "Independent publication review of the reference chapter",
+  "status": "completed",
+  "verdict": "approved-after-corrections",
+  "filesCreated": [
+    "tasks/agent-work/semester-1/artificial-computational-intelligence/reference-chapter/publication-review.md",
+    "tasks/agent-work/semester-1/artificial-computational-intelligence/reference-chapter/publication-review.json"
+  ],
+  "filesModified": [
+    "content/subjects/artificial-and-computational-intelligence/chapters/01-intelligence-as-computation.mdx",
+    "content/subjects/artificial-and-computational-intelligence/references.bib",
+    "content/subjects/artificial-and-computational-intelligence/research-papers/reading-path.yaml"
+  ],
+  "sourcesUsed": [
+    "BITS Pilani WILP M.Tech. AI and ML brochure, physical PDF page 12",
+    "Crossref metadata for 10.1093/mind/LIX.236.433",
+    "Crossref metadata for 10.1109/MSMC.2016.2558778",
+    "Crossref metadata for 10.6028/NIST.AI.100-1",
+    "arXiv 1606.06565",
+    "arXiv 2401.10899",
+    "UC Berkeley CS 188 online textbook"
+  ],
+  "citationsVerified": 6,
+  "citationsRejected": 1,
+  "wordCount": 4305,
+  "testsRun": [
+    "Exact extraction and execution of three Python blocks",
+    "npm run count:chapter",
+    "npm run validate:foundation",
+    "npm run lint",
+    "npm test",
+    "Rendered ACI HTML inspection",
+    "git diff --check"
+  ],
+  "validationResults": {
+    "brochureBoundary": "passed-title-and-placement-only",
+    "narrativeStructure": "passed-1-h1-10-h2",
+    "meaningfulProseWords": 4305,
+    "mathematics": "passed",
+    "python": "passed-8-of-8",
+    "citations": "passed-after-replacing-one-incorrect-bibliographic-record",
+    "editorial": "passed",
+    "renderedUx": "passed",
+    "foundationRegistry": "passed-45-subjects-45-leads",
+    "eslint": "passed",
+    "productionBuild": "passed-74-pages",
+    "renderedHtmlTests": "passed-3-of-3"
+  },
+  "evidence": {
+    "brochureSha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "curriculumSha256": "d61e6d875dfd4fcbbc0e2bd18cc11e5749a0efe9aa816c540d8498d5b0037975",
+    "chapterSha256": "9b88c260050a43c9d5648e4f0f0101c676f34d6ef09bca4baf04491887368625",
+    "pythonOutput": "8 route-selection tests passed",
+    "renderedH1Count": 1,
+    "renderedH2Count": 10,
+    "renderedCodeBlockCount": 5,
+    "renderedMathContainerCount": 44
+  },
+  "openIssues": [
+    "The official brochure provides no unit-level syllabus for this subject, so future proposed topics must remain explicitly classified."
+  ],
+  "recommendedNextTasks": [
+    "Use the approved narrative structure and evidence gates for subsequent ACI chapters.",
+    "Seek an official unit-level syllabus before reclassifying proposed topics as official."
+  ]
+}

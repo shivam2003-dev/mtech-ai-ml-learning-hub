@@ -38,11 +38,12 @@ reviewers:
   - "Artificial and Computational Intelligence Subject Lead"
   - "Mathematics Reviewer"
   - "Citation Verifier"
-wordCount: 4302
-citationStatus: "partial"
+  - "Independent Publication Reviewer"
+wordCount: 4305
+citationStatus: "verified"
 codeStatus: "tested"
-mathReviewStatus: "pending"
-editorialStatus: "review"
+mathReviewStatus: "approved"
+editorialStatus: "approved"
 createdAt: "2026-07-28"
 updatedAt: "2026-07-28"
 lastVerifiedAt: "2026-07-28"
@@ -477,8 +478,6 @@ constant factors for a large batch, but it does not change the policy or repair
 invalid estimates.
 
 ```python
-from __future__ import annotations
-
 from typing import Sequence
 
 import numpy as np
@@ -518,8 +517,6 @@ ties. They are ordinary assertions so the chapter can be tested without a
 framework.
 
 ```python
-from __future__ import annotations
-
 from math import isclose
 
 
@@ -657,9 +654,10 @@ when the difference matters.
 A benchmark compresses a task into data, procedure, and metrics. It makes
 comparison possible, but it also creates an incentive to optimise what is
 measured. A route planner that excels on static maps may fail when sensor
-latency and human motion are introduced. Raji and Dobbe argue for reasoning
-about the boundaries and validity of AI evaluation rather than treating a
-leaderboard score as universally informative [ACI-S02].
+latency and human motion are introduced. Raji and Dobbe's analysis of
+real-world incidents argues that technical problem vocabularies alone are
+insufficient: evaluation also needs the surrounding socio-technical conditions
+that influence whether safety mechanisms fail or succeed [ACI-S02].
 
 For each benchmark result, write a claim card:
 
@@ -916,9 +914,8 @@ successors, path costs, and heuristics for search.
   Safety, Revisited. arXiv:2401.10899.
   [https://arxiv.org/abs/2401.10899](https://arxiv.org/abs/2401.10899).
   Modern evaluation resource; identifier verified in the subject planning audit.
-- **[ACI-S03]** Bezdek, J. C. (2016). On the Relationship between Neural
-  Networks, Pattern Recognition and Intelligence. *IEEE Systems, Man, and
-  Cybernetics Magazine, 2*(2), 2–7.
+- **[ACI-S03]** Bezdek, J. C. (2016). (Computational) Intelligence: What's in
+  a Name? *IEEE Systems, Man, and Cybernetics Magazine, 2*(2), 4–14.
   [https://doi.org/10.1109/MSMC.2016.2558778](https://doi.org/10.1109/MSMC.2016.2558778).
   Historical tutorial on computational-intelligence boundaries; verified DOI.
 - **[ACI-R04]** University of California, Berkeley. *CS 188: Introduction to
