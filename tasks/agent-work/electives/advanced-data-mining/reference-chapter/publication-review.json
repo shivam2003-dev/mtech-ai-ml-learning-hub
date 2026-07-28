@@ -104,7 +104,7 @@
     "renderedHeadingStructure": "passed-1-H1-10-H2",
     "mathJaxAccessibility": "passed-38-expressions-with-accessible-svg-titles",
     "shikiCode": "passed-2-Python-blocks",
-    "desktopRenderedUx": "passed-1440x900-preview",
+    "desktopRenderedUx": "passed-1200x900-preview",
     "mobileRenderedUx": "passed-390x844-preview-no-visible-overflow",
     "readingTools": "passed-static-bookmark-citation-dark-mode-print-controls",
     "browserConsoleErrors": "none-after-base-path-correct-local-export"
