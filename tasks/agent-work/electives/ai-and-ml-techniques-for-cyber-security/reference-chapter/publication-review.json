@@ -1,0 +1,103 @@
+{
+  "agentId": "independent-ai-ml-cyber-security-publication-reviewer",
+  "reviewId": "ai-ml-cyber-security-ch01-publication-review-2026-07-28",
+  "subject": "AI and ML Techniques for Cyber Security",
+  "chapter": "From a Security Question to an ML Evidence Contract",
+  "task": "Independent publication review",
+  "reviewedAt": "2026-07-28",
+  "status": "approved-after-correction",
+  "approved": true,
+  "approvalBlockers": [],
+  "reviewedSnapshot": {
+    "developCommit": "f0055c587be8a0d1253f895bd4650492027d64e6",
+    "chapterSha256": "06aa03d3eb286f375604a8d177db25e3d6c4b38837ba9a7c846d29bd36182560",
+    "subjectIndexSha256": "4bc8a1a200bcbe85a89fc6478bcfc58add140ce9aab04272fa53a0069393a002",
+    "referencesBibSha256": "cd15149fdfba219e19da9505fa4ca8549e7ef550bb5fc42b378a86e0943f2bd1"
+  },
+  "correctionsApplied": [
+    {
+      "file": "content/subjects/ai-and-ml-techniques-for-cyber-security/references.bib",
+      "finding": "The Choi et al. survey BibTeX record abbreviated eight authors as 'and others'.",
+      "correction": "Replaced the abbreviation with the complete eight-author Crossref record.",
+      "chapterContentChanged": false
+    },
+    {
+      "file": "content/subjects/ai-and-ml-techniques-for-cyber-security/chapters/01-from-security-question-to-ml-evidence-contract.mdx",
+      "finding": "Chapter metadata still represented pre-review state.",
+      "correction": "Advanced citationStatus to verified, mathReviewStatus to passed, and editorialStatus to approved.",
+      "chapterContentChanged": false
+    },
+    {
+      "file": "content/subjects/ai-and-ml-techniques-for-cyber-security/index.mdx",
+      "finding": "Reader-facing copy called the reference chapter reviewed-in-progress.",
+      "correction": "Recorded the independent approval while retaining technical-review for the incomplete subject.",
+      "chapterContentChanged": false
+    }
+  ],
+  "curriculumEvidence": {
+    "sourcePdfSha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "officialCurriculumSha256": "d61e6d875dfd4fcbbc0e2bd18cc11e5749a0efe9aa816c540d8498d5b0037975",
+    "placement": "physical PDF page 12, printed page 10",
+    "topicDescription": "physical PDF page 16, printed page 14",
+    "exactOfficialTopic": "Introduction to AI and ML in Cybersecurity",
+    "visualInspection": "passed: the rendered brochure places the twelve topic phrases under the named course",
+    "inventedOfficialDetailsFound": false,
+    "additionsLabelled": true
+  },
+  "checks": {
+    "compactEditorialStructure": "passed-10-H2",
+    "readerFacingH1": "passed-1-H1",
+    "runningExample": "passed-Noor-and-Mira",
+    "meaningfulProseWords": 3255,
+    "minimumProseWords": 3000,
+    "wordCountGate": "passed",
+    "mathematicalNotation": "passed-logistic-gradient-cost-and-complexity",
+    "publishedPythonBlocks": "passed-exact-execution",
+    "pythonOutput": "{'tp': 21, 'fp': 0, 'fn': 0, 'tn': 39}",
+    "officialAndPrimarySources": "passed-9-of-9",
+    "crossrefMetadata": "passed-4-of-4-queried-dois",
+    "officialSourceEndpoints": "passed-8-of-8-http-200-or-identifier-resolved",
+    "completeBibtexAuthors": "passed-after-correction",
+    "fabricatedReferences": "none-found",
+    "originalityCorpusScan": "passed-42-paragraphs-against-118-local-content-files-no-exact-matches",
+    "foundation": "passed-45-subjects-45-leads",
+    "internalStaticLinks": "passed-603-links",
+    "lint": "passed",
+    "typecheck": "passed",
+    "productionBuild": "passed-76-static-pages",
+    "renderedTests": "passed-3-of-3",
+    "renderedHeadingStructure": "passed-1-H1-10-H2",
+    "mathJaxAccessibility": "passed-27-expressions-27-svg-titles",
+    "shikiCode": "passed-1-block",
+    "mobileOverflow": "passed-390px-scrollWidth-equals-viewport",
+    "desktopRenderedUx": "passed-1440x1000",
+    "mobileRenderedUx": "passed-390x844",
+    "bookmarkInteraction": "passed-state-and-live-status",
+    "darkModeInteraction": "passed-control-changed-to-light-mode",
+    "browserConsoleErrors": "none-after-base-path-correct-local-export"
+  },
+  "verifiedSources": [
+    "https://www.nist.gov/cyberframework",
+    "https://doi.org/10.6028/NIST.AI.100-1",
+    "https://attack.mitre.org/techniques/",
+    "https://atlas.mitre.org/",
+    "https://doi.org/10.48550/arXiv.1804.04637",
+    "https://doi.org/10.1145/3133956.3134015",
+    "https://doi.org/10.1186/s42400-020-00055-5",
+    "https://doi.org/10.1016/j.comnet.2022.109032"
+  ],
+  "openIssues": [
+    "Only Chapter 1 is authored; the remaining eleven official-topic chapters remain planned.",
+    "The subject remains technical-review until its complete book and project/resource library are authored and reviewed."
+  ],
+  "scopeExclusions": [
+    "the eleven unauthored chapters",
+    "production use of the synthetic login fixture",
+    "future chapter or bibliography revisions with different hashes"
+  ],
+  "recommendedNextTasks": [
+    "Integrate this approved reference chapter and bibliography correction into develop.",
+    "Author Chapter 2 only after preserving the same source boundary and review gates.",
+    "Re-run this gate whenever the approved chapter or bibliography hash changes."
+  ]
+}
