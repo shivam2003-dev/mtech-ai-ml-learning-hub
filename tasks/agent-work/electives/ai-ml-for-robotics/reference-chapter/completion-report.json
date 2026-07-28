@@ -33,10 +33,11 @@
     "BITS Pilani WILP M.Tech. Artificial Intelligence and Machine Learning brochure, verified SHA-256 fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
     "Kober, Bagnell, and Peters (2013), Reinforcement Learning in Robotics: A Survey, DOI 10.1177/0278364913495721",
     "Tobin et al. (2017), Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World, DOI 10.1109/IROS.2017.8202133",
+    "Kalashnikov et al. (2018), QT-Opt: Scalable Deep Reinforcement Learning for Vision-Based Robotic Manipulation, arXiv:1806.10293",
     "Thrun, Burgard, and Fox (2005), Probabilistic Robotics, MIT Press",
     "Sutton and Barto (2018), Reinforcement Learning: An Introduction, second edition, MIT Press"
   ],
-  "citationsVerified": 0,
+  "citationsVerified": 5,
   "citationsRejected": 0,
   "wordCount": 3043,
   "testsRun": [
@@ -61,10 +62,12 @@
     "mdxAndMathJaxBuild": "passed",
     "staticRoutes": "passed-75-pages",
     "internalLinks": "passed-593",
-    "independentMathReview": "pending",
-    "independentCitationReview": "pending",
-    "independentEditorialReview": "pending",
-    "independentRenderedAccessibilityReview": "pending"
+    "independentMathReview": "passed: PD error equation, dimensions, roots, saturation example",
+    "independentCitationReview": "passed: 2 DOI records, arXiv record, 2 publisher/free-book URLs; corrected Kober DOI and added QT-Opt bibliography",
+    "independentEditorialReview": "passed: source boundary, 10-H2 compact narrative, no authored H1, one running example",
+    "independentOriginalityReview": "passed: 50 prose paragraphs against 99 local Markdown/MDX files with no exact matches",
+    "independentRenderedAccessibilityReview": "passed: desktop 1440px and mobile 390px, no horizontal overflow, MathJax SVG titles present",
+    "subjectScope": "incomplete-by-design: one authored chapter; remaining chapters and full project contracts are pending"
   },
   "openIssues": [
     "The official brochure does not provide a detailed robotics syllabus; the chapter is a provisional educational interpretation.",
@@ -72,8 +75,8 @@
     "Only the first reference chapter is authored; the remaining proposed chapters, full project contracts, assignments, quizzes, and paper notes remain pending."
   ],
   "recommendedNextTasks": [
-    "Run independent review against the immutable chapter snapshot before publishing.",
-    "Inspect the subject and chapter at desktop, mobile, print, and dark-mode widths.",
-    "Author Chapter 2 only after the first chapter's review findings are dispositioned."
+    "Keep the subject in technical-review until the remaining proposed chapters and full project contracts are authored and independently gated.",
+    "Author Chapter 2 only after this approved reference chapter remains unchanged or is re-reviewed by hash.",
+    "Expand the reading path to the required subject-level breadth before subject publication."
   ]
 }

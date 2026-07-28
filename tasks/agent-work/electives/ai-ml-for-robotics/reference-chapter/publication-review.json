@@ -1,0 +1,103 @@
+{
+  "agentId": "independent-ai-ml-robotics-publication-reviewer",
+  "reviewId": "ai-ml-robotics-ch01-publication-review-2026-07-28",
+  "subject": "AI and ML for Robotics",
+  "chapter": "A Robot Learns in a Loop",
+  "task": "Independent publication review",
+  "reviewedAt": "2026-07-28",
+  "status": "approved",
+  "approved": true,
+  "approvalBlockers": [],
+  "reviewedSnapshot": {
+    "developCommit": "2e7124f",
+    "chapter": {
+      "path": "content/subjects/ai-and-ml-for-robotics/chapters/01-a-robot-learns-in-a-loop.mdx",
+      "sha256": "a6d110b6cf128d8d690c92ccac7dea99e69dd534c89c36a3ca651b65cde4cba"
+    },
+    "subjectIndex": {
+      "path": "content/subjects/ai-and-ml-for-robotics/index.mdx",
+      "sha256": "4fc2b74090abd00244eb41554c509ff89e5044a88edb31c6ed7f0bdbf942f072"
+    },
+    "referencesMarkdownSha256": "c7f56a0304f61a3ce84ea2a7ca898c2734e9d321a6a49f4a47d032c02d78e0b6",
+    "referencesBibSha256": "1597976934380bbcbd30c91f32d6994944ebc0c4696f359f133b60dbe222ec24"
+  },
+  "correctionsApplied": [
+    {
+      "file": "content/subjects/ai-and-ml-for-robotics/research-papers/README.md",
+      "finding": "The Kober survey entry used an unrelated or unresolved DOI (10.1109/MRA.2012.2226854).",
+      "correction": "Replaced it with the Crossref-verified DOI 10.1177/0278364913495721 and canonical resolver URL."
+    },
+    {
+      "file": "content/subjects/ai-and-ml-for-robotics/chapters/01-a-robot-learns-in-a-loop.mdx",
+      "finding": "QT-Opt was discussed and listed in frontmatter but had no terminal bibliography entry or URL.",
+      "correction": "Added the complete CoRL citation, arXiv identifier, and official arXiv URL; added DOI/publisher URLs for all cited resources."
+    },
+    {
+      "file": "content/subjects/ai-and-ml-for-robotics/chapters/01-a-robot-learns-in-a-loop.mdx",
+      "finding": "Review status fields still reflected pre-review state.",
+      "correction": "Advanced citationStatus to verified, mathReviewStatus to passed, and editorialStatus to approved after all gates passed."
+    }
+  ],
+  "curriculumEvidence": {
+    "sourcePdfSha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "placement": "physical PDF page 12, printed page 10",
+    "exactOfficialBoundary": "AI and ML for Robotics title and configurable Semester 2-3 elective-pool placement only",
+    "topicDescription": "none published for this title-only elective",
+    "visualInspection": "passed",
+    "inventedOfficialDetailsFound": false,
+    "supplementaryLabels": "passed: perception, estimation, planning, control, reinforcement learning, and sim-to-real are labelled proposed/supplementary or prerequisite"
+  },
+  "checks": {
+    "compactEditorialStructure": "passed-10-H2, no authored H1",
+    "runningExample": "passed-one-dimensional point-mass robot",
+    "meaningfulProseWords": 3043,
+    "minimumProseWords": 3000,
+    "wordCountGate": "passed",
+    "mathematicalNotationAndDimensions": "passed-PD error equation, objective and safety constraints; independent root check passed",
+    "publishedPythonBlock": "passed-exact-extraction, Python 3.14.6, NumPy 2.3.4, seeded output initial=0.000 final=1.211 max_command=0.800",
+    "doiResolvers": "passed-2-of-2 canonical DOI redirects (SAGE returned 403 after resolver; Crossref metadata matched)",
+    "crossrefMetadata": "passed-2-of-2 DOI records",
+    "arxivMetadata": "passed-1806.10293 official arXiv record",
+    "officialAndPublisherUrls": "passed-6-of-6 reachable or resolver-verified endpoints",
+    "inlineToTerminalBibliography": "passed-QT-Opt now appears in chapter references and BibTeX",
+    "fabricatedReferences": "none-found",
+    "originalityCorpusScan": "passed-50 prose paragraphs against 99 local Markdown/MDX files with no exact matches",
+    "mdxProductionBuild": "passed-75 static routes",
+    "foundationValidation": "passed-45 subjects and 45 subject leads",
+    "internalLinks": "passed-593 links",
+    "lint": "passed",
+    "typecheck": "passed",
+    "productionAudit": "passed-0 vulnerabilities",
+    "renderedTests": "passed-3-of-3",
+    "renderedHeadingStructure": "passed-1-H1-10-H2",
+    "mathJax": "passed-46 expressions with accessible SVG titles",
+    "shikiCode": "passed-1 block with 5 reader tools",
+    "desktopRenderedUx": "passed-1440x1000",
+    "mobileRenderedUx": "passed-390x844-no-horizontal-overflow",
+    "browserConsoleErrors": "none after root-path static build"
+  },
+  "verifiedSources": [
+    "https://bits-pilani-wilp.ac.in/sites/default/files/pdf/mtech-ai-ml.pdf",
+    "10.1177/0278364913495721",
+    "10.1109/IROS.2017.8202133",
+    "https://arxiv.org/abs/1806.10293",
+    "https://mitpress.mit.edu/9780262201629/probabilistic-robotics/",
+    "http://incompleteideas.net/book/the-book-2nd.html"
+  ],
+  "openIssues": [
+    "The official brochure remains title-only for this elective; the chapter is approved as a supplementary interpretation, not an official unit guide.",
+    "Only the first reference chapter is authored; subject-level publication remains blocked until the remaining proposed chapters and full project contracts are completed and reviewed.",
+    "The DOI resolver for the SAGE article returned HTTP 403 to curl, but Crossref metadata and the resolver's canonical redirect were verified."
+  ],
+  "scopeExclusions": [
+    "the seven unauthored robotics chapters",
+    "subject-level requirement for 15-30 resources and full paper notes",
+    "production use of the educational toy controller",
+    "future chapter revisions with a different SHA-256"
+  ],
+  "recommendedNextTasks": [
+    "Integrate this report and bibliography corrections into develop.",
+    "Keep the subject metadata at technical-review while chapter 1 can be treated as approved.",
+    "Re-run this gate whenever the approved chapter or bibliography hashes change."
+  ]
+}
