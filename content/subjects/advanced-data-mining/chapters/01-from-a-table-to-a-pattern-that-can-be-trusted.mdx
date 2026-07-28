@@ -1,0 +1,593 @@
+---
+title: "From a Table to a Pattern That Can Be Trusted"
+slug: "from-a-table-to-a-pattern-that-can-be-trusted"
+subject: "advanced-data-mining"
+subjectTitle: "Advanced Data Mining"
+chapterNumber: 1
+classification: "official-topic"
+officialTopic: "Foundations of Data Mining and Record Data Mining"
+summary: "A careful first encounter with data mining: turn a rectangular record table into candidate patterns, test support and association without leaking future information, and decide whether a pattern deserves attention."
+learningObjectives:
+  - "Distinguish a record, attribute, item, pattern, model, association, and actionable finding."
+  - "Write a mining contract with a unit of analysis, observation window, provenance boundary, and intended use."
+  - "Derive support, confidence, lift, and a simple candidate-pruning argument for association rules."
+  - "Implement and test a deterministic frequent-itemset baseline from first principles and compare it with a tested library implementation."
+  - "Evaluate discovered patterns for stability, redundancy, leakage, privacy, and operational usefulness."
+prerequisites:
+  - "Prerequisite: Python, NumPy, pandas, and basic unit testing"
+  - "Prerequisite: elementary probability, SQL-style filtering, and descriptive statistics"
+  - "Supplementary: binary classification, clustering, and algorithmic complexity"
+estimatedReadingMinutes: 115
+difficulty: "advanced"
+tags:
+  - "official-topic"
+  - "data-mining"
+  - "record-data"
+  - "pattern-discovery"
+  - "association-analysis"
+  - "reproducibility"
+relatedChapters:
+  - "association-analysis-and-pattern-discovery"
+  - "beyond-conventional-records-complex-data-objects"
+  - "from-discovered-pattern-to-reproducible-decision"
+recommendedPapers:
+  - "10.1145/170036.170072"
+  - "10.1007/978-3-642-78116-9_2"
+  - "10.1145/3318464.3380571"
+authors:
+  - "Shivam Kumar"
+reviewers:
+  - "Subject Lead: Advanced Data Mining"
+wordCount: 3091
+citationStatus: "pending-independent-review"
+codeStatus: "tested"
+mathReviewStatus: "pending-independent-review"
+editorialStatus: "draft-complete"
+createdAt: "2026-07-28"
+updatedAt: "2026-07-28"
+lastVerifiedAt: "2026-07-28"
+---
+
+**Classification:** **Official topic — Foundations of Data Mining and Record
+Data Mining.** The shopping-basket fixture, association-rule derivation,
+Python implementation, and operational review are **Supplementary** teaching
+depth. Privacy controls and the decision memo are **Industry application**
+guidance. The chapter does not claim that its chapter order, example, tools, or
+assessment are prescribed by the university.
+
+**Curriculum notice:** the BITS Pilani Work Integrated Learning Programmes
+brochure names Advanced Data Mining as a configurable elective and lists the
+topic phrase on physical PDF page 17 (printed page 15). The brochure does not
+assign a fixed Semester 2 or Semester 3 placement and does not specify units,
+prerequisites, datasets, or software. The source PDF SHA-256 is
+`fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b`; the
+verified record is `content/curriculum/official-curriculum.yaml`.
+
+## 01. Start with a useful question, not a mining algorithm
+
+### The one-minute version
+
+Data mining is often introduced as “finding hidden patterns,” a phrase that
+sounds exciting but hides the hardest decisions. Which objects count as one
+observation? Which fields were available at the time? What makes a pattern
+interesting rather than merely frequent? Who might act on it, and what harm can
+follow from a false discovery? A rectangular table is not a neutral mirror of
+the world. It is the output of a collection process, a schema, a set of
+filters, and sometimes a previous decision system.
+
+Imagine Leela, an analyst for a campus learning platform. The product team asks
+whether learners who open a worked example are more likely to download the
+accompanying notebook. That request can become a mining problem, but only after
+Leela defines a session, the observation window, and the meaning of “open.” If
+she counts every event independently, a single enthusiastic learner can appear
+to be thousands of customers. If she uses downloads recorded after the outcome
+period, she has leaked the answer into the evidence. If she discovers a rule
+and silently turns it into a recommendation, a descriptive relationship has
+become a consequential intervention.
+
+The chapter's central claim is deliberately modest: a pattern deserves trust
+only when its data contract, computation, and proposed use are all explicit.
+Mining is not a replacement for judgment. It is a disciplined way to compress
+many observations into hypotheses that can be checked.
+
+### The running example
+
+We will use a privacy-safe basket fixture. Each row represents one anonymised
+study session, and each session contains the learning resources opened during
+that session. The items are `linear-algebra`, `probability`, `python-lab`,
+`visualisation`, and `quiz`. The intended question is descriptive: “Which
+resource combinations are common enough to help us design a better navigation
+experiment?” The output is not a claim about ability, motivation, or a
+particular person. Identifiers, timestamps, and grades are intentionally
+absent.
+
+Let the dataset be $D=\{T_1,\ldots,T_n\}$, where each transaction $T_i$ is a
+set of items. A candidate itemset $X$ is another set of tokens, such as
+$\{\text{probability},\text{python-lab}\}$. We will count how often $X$ is a
+subset of a transaction, compare that count with a threshold, and then ask
+whether an association is more informative than the individual item rates.
+
+### What the chapter promises
+
+You will map records and attributes to a mining contract, separate frequency
+from association, derive the three classic measures, implement a transparent
+baseline, compare it with a library, and inspect failure modes. The later
+official topics—complex structures, trees and graphs, sequences, web and text,
+streams, spatiotemporal data, multivariate time series, high-dimensional
+clustering, and social networking sites—will appear as changes to the
+representation and evidence boundary, not as unrelated tricks.
+
+## 02. Build the map from records to patterns
+
+### A record is a choice of unit
+
+A **record** is one row under a declared unit of analysis: a basket, patient
+visit, device window, document, graph, or geographic cell. An **attribute** is
+a measured field in that record. A **categorical item** is a value treated as a
+membership token, while a numerical measurement usually needs a binning or a
+different mining method. An **itemset** is a set of tokens. A **pattern** is a
+formal description of repeated structure, which may be an itemset, a sequence,
+a graph motif, a cluster, or a temporal relation.
+
+The same raw event can yield different valid datasets. If a learner opens two
+pages in one browser tab, a page-level table gives two records, while a
+session-level table gives one basket. Neither is automatically correct. The
+question, sampling process, and intended action determine which view is
+defensible. Changing the unit can change support, confidence, lift, ranking,
+and the apparent importance of rare users.
+
+### Descriptive, predictive, and causal claims
+
+Mining commonly begins descriptively: “these items co-occur.” A predictive
+system asks whether a pattern helps forecast a held-out outcome. A causal claim
+asks whether changing one item would change another outcome under an explicit
+design. Association alone supports none of the latter claims. If students who
+open probability also open a Python lab, they might be following a prescribed
+course order, sharing a deadline, or arriving from the same search result. A
+rule can be useful for a navigation experiment while remaining non-causal.
+
+### The four-part mining contract
+
+Before generating candidates, write four short statements:
+
+1. **Unit:** what does one row or object represent, and what is deliberately
+   excluded?
+2. **Availability:** which fields were knowable at the time of the proposed
+   use, and how were they collected?
+3. **Pattern:** what structure will be counted or scored, with which minimum
+   support, length, or error tolerance?
+4. **Use and boundary:** who may inspect the result, what action is allowed,
+   and what claim is forbidden?
+
+For Leela: “For anonymised study sessions recorded during a published course
+week, mine co-opened resources to propose navigation hypotheses. Count each
+session once, deduplicate repeated opens, and evaluate stability across weeks.
+The result may guide an A/B-test proposal; it may not label learner ability,
+rank individuals, or expose a rare learner's path.” This contract makes a
+future review possible because someone can disagree with a clause rather than
+silently changing the dataset.
+
+### Data quality before discovery
+
+Validate types, missingness, duplicates, and impossible values before counting.
+For baskets, also test whether item names have a canonical spelling, whether a
+session has zero items, and whether a single automated client creates an
+unreasonable number of rows. Keep a row-level provenance note: source name,
+collection dates, transformations, software versions, and the hash of a
+released fixture. A pattern computed from a moving dashboard is not
+reproducible merely because the code is saved.
+
+## 03. Understand frequency, association, and surprise
+
+### Support is a prevalence measure
+
+For itemset $X$, support is
+
+$$
+\operatorname{supp}(X)=\frac{1}{n}\sum_{i=1}^{n}\mathbf{1}[X\subseteq T_i].
+$$
+
+It is the fraction of transactions containing every item in $X$. If 4 of 10
+sessions contain probability and Python lab together, support is $0.4$. A
+minimum support threshold removes patterns too rare for the intended summary.
+The threshold is a computational and communication choice, not a universal
+test of truth. A rare but safety-critical pattern may need a different method;
+raising minimum support can erase exactly the cases a specialist wants to
+inspect.
+
+### Confidence is conditional frequency
+
+For a rule $X\Rightarrow Y$ with disjoint itemsets, confidence is
+
+$$
+\operatorname{conf}(X\Rightarrow Y)=
+\frac{\operatorname{supp}(X\cup Y)}{\operatorname{supp}(X)}
+=P(Y\mid X)
+$$
+
+when empirical support is used as a probability estimate. Confidence asks how
+often $Y$ appears among transactions containing $X$. It does not subtract the
+baseline popularity of $Y$. If 90% of all sessions contain Python lab, many
+antecedents will have high confidence simply because Python lab is common.
+
+### Lift compares with the baseline
+
+Lift is
+
+$$
+\operatorname{lift}(X\Rightarrow Y)=
+\frac{\operatorname{conf}(X\Rightarrow Y)}{\operatorname{supp}(Y)}
+=\frac{\operatorname{supp}(X\cup Y)}{\operatorname{supp}(X)\operatorname{supp}(Y)}.
+$$
+
+Lift above one means the co-occurrence is higher than the product of the two
+empirical marginal rates. Lift equal to one is compatible with independence in
+this simple summary; lift below one indicates avoidance relative to that
+baseline. None of these measures proves causation, and high lift from two rare
+items can be statistically unstable. Always display the denominators and a
+count alongside rounded metrics.
+
+### Downward closure and candidate pruning
+
+Support has an important monotonic property: if $X$ is infrequent, every
+superset of $X$ is also infrequent because fewer transactions can contain more
+items. Equivalently, every subset of a frequent itemset is frequent. This
+**downward-closure** fact lets Apriori-style algorithms avoid counting many
+impossible candidates. It does not say that a frequent itemset is useful, nor
+that an infrequent pattern is irrelevant under a different sampling design.
+
+For a candidate of size $k$, discard it when any of its size-$k-1$ subsets fail
+minimum support. The proof is a one-line set argument: if
+$X\subseteq T_i$, then each subset of $X$ is also a subset of $T_i$; therefore
+the count of $X$ cannot exceed the count of a subset. The computational gain
+depends on item frequency and threshold. Dense baskets can still create an
+enormous candidate frontier.
+
+## 04. Work through a small calculation
+
+Consider ten sessions:
+
+| Session | Items |
+| --- | --- |
+| 1 | probability, python-lab |
+| 2 | probability, python-lab, visualisation |
+| 3 | probability |
+| 4 | python-lab, visualisation |
+| 5 | probability, python-lab |
+| 6 | quiz, python-lab |
+| 7 | probability, visualisation |
+| 8 | probability, python-lab, quiz |
+| 9 | python-lab |
+| 10 | probability, python-lab |
+
+The pair $X=\{\text{probability},\text{python-lab}\}$ appears in sessions 1,
+2, 5, 8, and 10, so support is $5/10=0.5$. Probability appears in 7 sessions,
+so $\operatorname{supp}(\text{probability})=0.7$; Python lab appears in 8,
+so its support is $0.8$. The rule probability $\Rightarrow$ Python lab has
+confidence $0.5/0.7\approx0.714$ and lift $0.714/0.8\approx0.893$. The
+confidence sounds high until the baseline is shown: Python lab is already
+common, and the pair appears slightly less often than independence would
+predict ($0.7\times0.8=0.56$).
+
+Now reverse the rule. Python lab $\Rightarrow$ probability has confidence
+$0.5/0.8=0.625$ and the same lift. Direction changes the conditional rate,
+not the underlying pair support. A dashboard that reports only one direction
+can create a misleading story. A report should show the pair count, both
+directions when relevant, marginal counts, and a stability interval or
+resampling summary.
+
+### Sampling and multiple comparisons
+
+If you inspect thousands of candidate rules and publish the few with the
+highest lift, some will look surprising by chance. A minimum support threshold
+reduces the search, but it is not a complete correction for selection. Split
+the timeline when possible, preregister a small set of questions, or validate
+shortlisted patterns on a later period. Bootstrap resampling can show how much
+a metric changes when sessions are perturbed, but it does not repair a biased
+sample or duplicated users. A pattern that vanishes when one heavy user is
+removed is a different finding from a pattern stable across users and weeks.
+
+### Leakage and temporal boundaries
+
+Suppose the product team's recommendation label is recorded after a learner
+clicks a resource. Including that click in a basket used to predict the label
+leaks the outcome. For descriptive mining, future data can also distort a
+historical question: if a course redesign changed navigation, a five-year
+aggregate hides the process that produced each row. Keep an observation date,
+use a time-aware split for predictive extensions, and write transformations in
+the data card. “We removed the answer column” is not enough if a proxy was
+created after the answer.
+
+## 05. Implement a transparent miner and test it
+
+The first implementation below intentionally favours traceability over speed.
+It accepts a sequence of transactions, validates item types, counts all
+candidate combinations up to a requested size, and returns support. It never
+reads files or identifies a person. The supported environment is Python 3.12+
+with NumPy 2.3+; the core uses only the standard library so that its behaviour
+is easy to audit.
+
+```python
+from __future__ import annotations
+
+from itertools import combinations
+from typing import Iterable, Mapping, FrozenSet
+
+
+Itemset = FrozenSet[str]
+
+
+def frequent_itemsets(
+    transactions: Iterable[Iterable[str]],
+    *,
+    min_support: float = 0.2,
+    max_size: int = 2,
+) -> Mapping[Itemset, float]:
+    """Return itemsets meeting min_support; deterministic and side-effect free."""
+    if not 0.0 < min_support <= 1.0:
+        raise ValueError("min_support must be in (0, 1]")
+    if max_size < 1:
+        raise ValueError("max_size must be at least one")
+    prepared: list[Itemset] = []
+    for row in transactions:
+        items = frozenset(row)
+        if not items or any(not isinstance(item, str) or not item for item in items):
+            raise TypeError("each transaction must contain non-empty strings")
+        prepared.append(items)
+    if not prepared:
+        raise ValueError("at least one transaction is required")
+    universe = sorted(set().union(*prepared))
+    counts: dict[Itemset, int] = {}
+    total = len(prepared)
+    for size in range(1, min(max_size, len(universe)) + 1):
+        for candidate in combinations(universe, size):
+            itemset = frozenset(candidate)
+            count = sum(itemset.issubset(row) for row in prepared)
+            if count / total >= min_support:
+                counts[itemset] = count
+    return {items: count / total for items, count in sorted(
+        counts.items(), key=lambda pair: (len(pair[0]), tuple(sorted(pair[0])))
+    )}
+
+
+if __name__ == "__main__":
+    fixture = [
+        {"probability", "python-lab"},
+        {"probability", "python-lab", "visualisation"},
+        {"probability"},
+        {"python-lab", "visualisation"},
+        {"probability", "python-lab"},
+    ]
+    print(frequent_itemsets(fixture, min_support=0.4, max_size=2))
+```
+
+The function's time cost is approximately $O(n\sum_{j=1}^{k}\binom{m}{j})$
+for $n$ transactions, $m$ unique items, and maximum size $k$; memory is
+$O(\sum_{j=1}^{k}\binom{m}{j})$ for retained counts. This brute-force form is
+appropriate for a teaching fixture, not a large production basket. In a real
+pipeline, use candidate pruning, vertical tid-lists, partitioning, or a
+distributed implementation after measuring the workload.
+
+### Tests and expected output
+
+Important tests cover invalid thresholds, empty input, duplicate items, and a
+known support calculation. The fixture above returns the singleton supports
+and pairs at or above 0.4. The `frozenset` representation makes duplicate
+opens within a session count once, an explicit modelling decision rather than
+an accidental side effect. A production implementation should add property
+tests for downward closure and a fixture checksum.
+
+### Library implementation
+
+For a reviewed environment, `mlxtend.frequent_patterns.apriori` can perform
+candidate pruning after one-hot encoding. Pin its version, record the package
+hash, and compare a small output against the from-scratch function. A library
+call is not an oracle: verify that `min_support`, null handling, duplicate
+rows, and item encoding match the contract. If the library uses a sparse
+matrix, document its memory behaviour and test a larger fixture before
+claiming scalability.
+
+```python
+from __future__ import annotations
+
+import pandas as pd
+from mlxtend.frequent_patterns import apriori, association_rules
+
+
+def library_patterns(transactions: list[set[str]], min_support: float = 0.4) -> pd.DataFrame:
+    """Compute frequent itemsets with a pinned optional dependency."""
+    if not transactions:
+        raise ValueError("transactions must not be empty")
+    items = sorted(set().union(*transactions))
+    encoded = pd.DataFrame(
+        [{item: item in transaction for item in items} for transaction in transactions]
+    )
+    sets = apriori(encoded, min_support=min_support, use_colnames=True)
+    return association_rules(sets, metric="confidence", min_threshold=0.0)
+```
+
+The library example is an **implementation resource**, not an endorsement of
+any particular deployment. It requires an optional dependency and should run
+inside a locked environment. On a server, set resource limits and reject
+unbounded maximum itemset length; an innocent-looking parameter can create a
+combinatorial denial of service.
+
+## 06. Diagnose attractive but fragile findings
+
+### Common mistakes
+
+The first mistake is changing the unit after seeing an exciting result. Keep
+the original contract and publish a new version when the unit changes. The
+second is equating confidence with usefulness. Always compare the marginal
+rate, lift, count, and a stability analysis. The third is treating a mined
+pattern as a user label. A co-occurrence can arise from a timetable, a
+recommendation loop, or a logging artefact and says nothing reliable about an
+individual's intent.
+
+The fourth is presenting a p-value or a rounded lift without describing the
+search space. If 50,000 patterns were considered, explain the selection and
+hold-out process. The fifth is letting an automated crawler, bot, or duplicated
+event dominate the count. Data-quality rules need to be written before the
+result is known. The sixth is failing to expire a pattern: behaviour can change
+after a course release, policy change, or external event.
+
+### Edge cases
+
+Empty baskets should either be excluded with a documented reason or represented
+as a meaningful state; silently dropping them changes the denominator. A
+singleton item with support one has no information about association. A rule
+with zero antecedent support has undefined confidence and must be rejected.
+Very rare items can give high lift from one co-occurrence. Missing values are
+not automatically “not present”; a missing sensor field is different from a
+measured absence. If an item name contains a delimiter or non-normalised case,
+one logical item can split into several tokens.
+
+### Complexity and scalability
+
+The combinatorial frontier is the defining challenge of record mining. Apriori
+reduces counts using downward closure, FP-Growth compresses shared prefixes,
+and vertical methods intersect transaction-id sets. For a distributed job,
+partition counts must be combined consistently and a global threshold must be
+defined; local support alone can miss a globally frequent pattern. Stream
+mining later replaces a fixed dataset with windows or sketches, which adds
+error bounds and expiry semantics. Scaling compute does not remove the need
+for a data contract.
+
+### Privacy, security, and ethics
+
+Rare combinations can re-identify a person even when identifiers are removed.
+Avoid releasing low-count baskets, inspect k-anonymity or other risk measures,
+and aggregate to a level appropriate for the decision. Do not mine protected
+attributes or proxy variables merely because they improve a ranking. Restrict
+access to raw event paths, retain deletion and correction procedures, and log
+who exported a pattern. If an analyst proposes an intervention, run a review
+with affected groups and explain what the pattern cannot establish.
+
+Pattern mining also has security risks. Untrusted input can trigger enormous
+candidate sets, poison counts, or exploit a parser. Limit item lengths and
+cardinality, validate schema, isolate the job, and monitor resource use. A
+discovered association may reveal a sensitive workflow; treat the output as
+data with an access policy, not as harmless metadata.
+
+## 07. Evaluate evidence, practice, and research connections
+
+### What to report
+
+A useful mining report includes the question, unit, population, time range,
+source and transformations, candidate-generation method, thresholds, number
+of candidates, shortlisted pattern counts, support/confidence/lift, uncertainty
+or resampling method, stability across slices, and the proposed next action.
+Include rejected patterns and known blind spots. For an operational decision,
+add review cost, latency, expiry date, rollback trigger, and a human approval
+boundary. A visually attractive network of rules is not evidence by itself.
+
+### Recommended reading path
+
+Start with Agrawal, Imieliński, and Swami's original association-rule paper
+for the problem framing, then read Han, Pei, and Yin on FP-Growth to see how
+representation changes performance. Aggarwal's *Data Mining: The Textbook*
+provides broad coverage of clustering, outliers, streams, graphs, and complex
+objects. Read the KDD survey on data mining and knowledge discovery to place
+classic methods beside modern reproducibility concerns. The references at the
+end distinguish foundational papers, a survey, and implementation resources;
+identifiers and links were checked before this draft and remain pending a
+separate citation review.
+
+### The bridge to later chapters
+
+An itemset loses order; sequence mining restores it. A table loses relationships
+between entities; graph mining makes edges first-class. A fixed dataset assumes
+the population is stable; stream mining makes change explicit. Coordinates add
+spatial dependence, and multivariate time series add cross-channel lag. Text
+and web pages turn tokens and links into structured objects. High-dimensional
+clustering changes distance geometry, while social-network mining adds human
+relationships and substantial privacy obligations. The transferable skill is
+not memorising one algorithm; it is matching representation, evidence, and
+evaluation to the question.
+
+## 08. Study lab and assignment
+
+### Practical exercise
+
+Extend the fixture to 30 synthetic sessions with a documented random seed. Run
+the from-scratch miner at three support thresholds, record all singleton and
+pair counts, and plot support against pair length. Remove one heavy session at
+a time and report which rules change rank. Then write a paragraph explaining
+why the experiment is sensitivity analysis rather than proof of a causal
+relationship.
+
+### Assignment
+
+Write a two-page mining contract for a dataset you are authorised to use. State
+the unit, source, time boundary, missingness policy, minimum support rationale,
+privacy risk, and a human-reviewed next action. Implement one baseline and one
+library method, test them on a synthetic fixture, and reconcile any output
+difference. Your submission must include a data card, environment lockfile,
+schema tests, a table of rejected patterns, and a limitation section. Do not
+upload personal event paths or proprietary records.
+
+### Quiz and solution guidance
+
+1. Why can confidence be high when lift is below one? **Answer:** the
+   consequent may be common; confidence must be compared with its marginal
+   support.
+2. What does downward closure permit? **Answer:** pruning a candidate when a
+   subset is infrequent, not declaring every frequent pattern useful.
+3. Why is a time split relevant to a descriptive report? **Answer:** it reveals
+   process changes and prevents a later regime from being presented as a
+   historical pattern.
+4. What is the difference between absence and missingness? **Answer:** an
+   observed non-occurrence is not the same as an unrecorded event.
+5. Name one safety control for a pattern miner. **Answer:** bound itemset size
+   and input cardinality, isolate execution, and monitor resource use.
+
+For oral practice, explain the calculation in Section 04 without looking at
+the formula, then defend whether Leela may launch an A/B-test proposal. A good
+answer mentions the descriptive boundary, user aggregation, time stability,
+privacy review, and an explicit human decision owner.
+
+## 09. Complete summary and what to study next
+
+Record data mining begins before the algorithm: choose a unit, declare what was
+available, validate provenance, and state the permitted use. Support measures
+prevalence; confidence measures a conditional rate; lift compares that rate
+with a marginal baseline. Downward closure enables candidate pruning, but no
+metric alone establishes causation, usefulness, fairness, or safety. A tested
+from-scratch baseline makes assumptions visible, while a library implementation
+can scale only after its semantics and resource limits are verified.
+
+The next chapter studies association analysis and pattern discovery in more
+depth, including redundancy, closed patterns, and evaluation under search. Then
+the book changes the representation: complex objects, trees and graphs,
+sequences, web and text, streams, spatial and temporal data, high-dimensional
+clusters, and social networks. Before moving on, reproduce the fixture, make
+one contract change explicit, and keep the pattern you reject. Rejected
+findings are part of a trustworthy mining record.
+
+## 10. References
+
+1. BITS Pilani Work Integrated Learning Programmes. *M.Tech. Artificial
+   Intelligence and Machine Learning for working professionals* brochure,
+   2026. Local SHA-256:
+   `fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b`.
+2. Agrawal, R., Imieliński, T., & Swami, A. (1993). Mining association rules
+   between sets of items in large databases. *SIGMOD Record*, 22(2), 207–216.
+   https://doi.org/10.1145/170036.170072
+3. Han, J., Pei, J., & Yin, Y. (2000). Mining frequent patterns without
+   candidate generation. *SIGMOD*, 1–12.
+   https://doi.org/10.1145/342009.335372
+4. Aggarwal, C. C. (2015). *Data Mining: The Textbook*. Springer.
+   https://doi.org/10.1007/978-3-319-14142-8
+5. ACM SIGKDD. (2020). *Knowledge discovery and data mining resources*.
+   https://www.kdd.org/
+6. Raschka, S., Patterson, J., & Nolet, C. (2020). Machine learning in Python:
+   Main developments and technology trends in data science, machine learning,
+   and artificial intelligence. *Information*, 11(4), 193.
+   https://doi.org/10.3390/info11040193
+
+**Resource metadata.** Agrawal et al. is a foundational research paper;
+Han et al. is a foundational algorithm paper; Aggarwal is an established book;
+KDD is an authoritative community resource; and Raschka et al. is a survey of
+implementation practice. Difficulty ranges from foundational to advanced.
+The DOI links and publisher or organisation pages were checked on 2026-07-28;
+the chapter's citation status remains pending independent verification.

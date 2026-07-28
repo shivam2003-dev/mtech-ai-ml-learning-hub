@@ -1,0 +1,77 @@
+{
+  "agentId": "subject-lead-elective-advanced-data-mining",
+  "subject": "Advanced Data Mining",
+  "task": "Create a production-quality narrative reference chapter and subject book scaffold within the title-only elective boundary",
+  "status": "completed",
+  "filesCreated": [
+    "content/subjects/advanced-data-mining/index.mdx",
+    "content/subjects/advanced-data-mining/book/00-preface.md",
+    "content/subjects/advanced-data-mining/book/01-how-to-use-this-book.md",
+    "content/subjects/advanced-data-mining/book/02-prerequisites.md",
+    "content/subjects/advanced-data-mining/book/03-learning-outcomes.md",
+    "content/subjects/advanced-data-mining/book/04-subject-roadmap.md",
+    "content/subjects/advanced-data-mining/book/05-mathematical-notation.md",
+    "content/subjects/advanced-data-mining/book/06-research-reading.md",
+    "content/subjects/advanced-data-mining/book/07-assessment.md",
+    "content/subjects/advanced-data-mining/chapters/01-from-a-table-to-a-pattern-that-can-be-trusted.mdx",
+    "content/subjects/advanced-data-mining/projects/README.md",
+    "content/subjects/advanced-data-mining/assignments/README.md",
+    "content/subjects/advanced-data-mining/datasets/README.md",
+    "content/subjects/advanced-data-mining/glossary.md",
+    "content/subjects/advanced-data-mining/further-reading.md",
+    "content/subjects/advanced-data-mining/papers/README.md",
+    "content/subjects/advanced-data-mining/research-papers/reading-path.yaml",
+    "content/subjects/advanced-data-mining/research-papers/resource-registry.yaml",
+    "content/subjects/advanced-data-mining/quizzes/README.md",
+    "content/subjects/advanced-data-mining/references.md",
+    "content/subjects/advanced-data-mining/references.bib",
+    "tasks/agent-work/electives/advanced-data-mining/completion-report.json"
+  ],
+  "filesModified": [],
+  "sourcesUsed": [
+    "content/curriculum/official-curriculum.yaml#SUBJ-009",
+    "content/curriculum/subject-registry.yaml#SUBJ-009",
+    "/Users/shivamkumar/Downloads/mtech-ai-ml.pdf#sha256=fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b#physical-page-17",
+    "https://doi.org/10.1145/170036.170072",
+    "https://doi.org/10.1145/342009.335372",
+    "https://doi.org/10.1007/978-3-319-14142-8",
+    "https://doi.org/10.3390/info11040193"
+  ],
+  "citationsVerified": 11,
+  "citationsRejected": 0,
+  "wordCount": 3091,
+  "testsRun": [
+    "node scripts/calculate-word-count/chapter-word-count.mjs: 3091 meaningful prose words",
+    "python 3.12 baseline miner fixture and invalid-input tests: passed",
+    "npx tsc --noEmit --incremental false: passed",
+    "npm test: 78 static routes and 3 rendered tests passed",
+    "GITHUB_REPOSITORY=shivam2003-dev/mtech-ai-ml-learning-hub npm run validate:links: 623 links passed",
+    "npm run lint: passed",
+    "npm audit --omit=dev --audit-level=high: 0 production vulnerabilities",
+    "git diff --check: passed"
+  ],
+  "validationResults": {
+    "officialBoundary": "passed-title-only-topic-labelled",
+    "chapterStructure": "passed-10-reader-facing-h2-sections",
+    "chapterWordMinimum": "passed-3091-meaningful-prose-words",
+    "codeStatus": "tested-baseline-independent-library-runtime-pending",
+    "mathStatus": "pending-independent-review",
+    "citationStatus": "pending-independent-review",
+    "editorialStatus": "draft-complete-review-pending",
+    "projectContracts": "passed-2-beginner-2-intermediate-1-advanced-1-research",
+    "subjectScaffold": "passed-required-book-resource-directories",
+    "resourceRegistry": "passed-16-resource-records-with-identifiers-or-canonical-official-pages"
+  },
+  "openIssues": [
+    "Independent mathematics, citation, editorial, originality, and rendered UX reviews are pending.",
+    "The official brochure provides topic phrases but no detailed unit sequence or fixed elective semester.",
+    "The optional mlxtend implementation must be run only in a pinned environment before publication.",
+    "External dataset licences and checksums must be verified before any project uses real data."
+  ],
+  "recommendedNextTasks": [
+    "Run the chapter's Python snippets and compare the library output with the from-scratch baseline.",
+    "Perform independent DOI and claim-level citation review.",
+    "Run MathJax, accessibility, rendered mobile, and link validation gates.",
+    "Subject Lead and Academic Editor review before integration into develop."
+  ]
+}
