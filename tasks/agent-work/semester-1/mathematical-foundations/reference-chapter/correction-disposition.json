@@ -1,73 +1,81 @@
 {
   "contractVersion": "1.0.0",
   "reportId": "math-foundations-ch01-correction-disposition-2026-07-28",
-  "basedOnReviewId": "math-foundations-ch01-citation-review-2026-07-28",
-  "status": "author-corrections-complete-independent-recheck-required",
-  "approvalClaimed": false,
+  "basedOnReviewIds": [
+    "math-foundations-ch01-citation-review-2026-07-28",
+    "math-foundations-ch01-editorial-review-2026-07-28",
+    "math-foundations-ch01-math-runtime-review-2026-07-28",
+    "math-foundations-ch01-subject-lead-2026-07-28"
+  ],
+  "status": "approved-independent-rechecks-complete",
+  "approvalClaimed": true,
+  "reviewedContentSnapshotSha256": "dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952",
+  "publicationArtifactSha256": "f5c87bee018c27a171639f68d0c313c795d790383f10e62cf530f9098b634af4",
+  "publicationArtifactDelta": "Governance frontmatter only; explanatory prose, citations, equations, and code are unchanged.",
   "chapterStatuses": {
-    "citationStatus": "partial",
-    "mathReviewStatus": "pending",
-    "editorialStatus": "review"
+    "citationStatus": "verified",
+    "mathReviewStatus": "passed",
+    "editorialStatus": "approved",
+    "subjectStatus": "published"
   },
   "dispositions": [
     {
       "item": "curriculum-provenance",
-      "status": "corrected",
-      "evidence": "Brochure title, issuer, record hash, source-PDF hash, PDF page 12, printed page 10, and verification date are recorded."
+      "status": "corrected-and-approved",
+      "evidence": "Brochure title, issuer, record hash, source-PDF hash, PDF page 12, printed page 10, and verification date are recorded and independently approved."
     },
     {
-      "item": "numpy-version-pinning",
-      "status": "corrected",
-      "evidence": "ndarray and broadcasting use NumPy 2.5 URLs and the verified 2026-06-28 update date."
+      "item": "numpy-version-pinning-and-claims",
+      "status": "corrected-and-approved",
+      "evidence": "Versioned NumPy 2.5 documentation and claim-level links cover ndarray, broadcasting, isclose, matmul, transpose, isfinite, and finfo."
     },
     {
-      "item": "claim-level-links",
-      "status": "corrected",
-      "evidence": "Inline links cover ndarray, broadcasting, isclose, matmul, transpose, isfinite, and finfo."
+      "item": "technical-qualifications",
+      "status": "corrected-and-approved",
+      "evidence": "Broadcasting axis intent, float64 conversion, local deployment guidance, Python-loop performance, and empty-batch behavior are qualified."
     },
     {
-      "item": "broadcast-b-equals-k",
-      "status": "corrected",
-      "evidence": "Exceptional numeric-shape compatibility and semantic-axis risk are explicit."
+      "item": "word-count",
+      "status": "passed",
+      "evidence": "The repository counter and frontmatter agree on 4,944 meaningful prose words."
     },
     {
-      "item": "floating-point-and-dtype",
-      "status": "narrowed-and-sourced",
-      "evidence": "Claims are limited to the local isfinite and float64 contracts with official NumPy links."
+      "item": "published-code",
+      "status": "passed",
+      "evidence": "Eight of eight exact published-code tests pass, including huge-integer conversion normalization."
     },
     {
-      "item": "deployment-advice",
-      "status": "corrected",
-      "evidence": "Advice is explicitly local repository deployment guidance."
+      "item": "citation-review",
+      "status": "approved",
+      "evidence": "The independent citation verifier approves the exact dd6654b content snapshot with no blockers."
     },
     {
-      "item": "python-loop-performance",
-      "status": "qualified",
-      "evidence": "The prose disclaims a universal benchmark and names size, layout, runtime, and hardware."
+      "item": "editorial-review",
+      "status": "approved",
+      "evidence": "The independent academic editor approves the exact dd6654b content snapshot with no blockers."
     },
     {
-      "item": "empty-batch-mean",
-      "status": "added",
-      "evidence": "Tested NumPy 2.3.4 output and warnings are recorded."
+      "item": "mathematics-runtime-accessibility",
+      "status": "approved",
+      "evidence": "Independent mathematics and runtime QA approves the exact dd6654b content snapshot, including 390-pixel reflow and 255 of 255 MathJax accessible names."
     },
     {
-      "item": "reading-time",
-      "status": "adjusted",
-      "evidence": "Estimated reading time is 100 minutes."
-    },
-    {
-      "item": "reviewer-evidence",
-      "status": "corrected",
-      "evidence": "Subject Lead and citation-review IDs are present without an approval claim."
+      "item": "subject-lead-publication",
+      "status": "approved",
+      "evidence": "All prior Subject Lead findings RC-SL-001 through RC-SL-005 are closed."
     }
   ],
-  "postCorrectionEvidence": {
-    "meaningfulProseWords": 4548,
-    "publishedCodeTestsPassed": 7,
+  "currentEvidence": {
+    "meaningfulProseWords": 4944,
+    "publishedCodeTestsPassed": 8,
     "python": "3.14.6",
     "numpy": "2.3.4",
-    "chapterSha256": "18c1e969716e46f2996f84b4cf65e4b5099a109a3483f8efc338a567dac96fb6",
+    "reviewedContentSnapshotSha256": "dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952",
+    "publicationArtifactSha256": "f5c87bee018c27a171639f68d0c313c795d790383f10e62cf530f9098b634af4",
     "referencesMarkdownSha256": "4fa7afe62da0f9f538cd6b4326ee569be343305b7f307899fda0a90b9c032833",
-    "referencesBibSha256": "5db20ce2d5ec2b6f5b33f5a2fb1cf5315fc823414fddc2d4cd3291650e5a35b1"
-  }
+    "referencesBibSha256": "5db20ce2d5ec2b6f5b33f5a2fb1cf5315fc823414fddc2d4cd3291650e5a35b1",
+    "mobileDocumentWidth": "390/390",
+    "mathJaxAccessibleNames": "255/255"
+  },
+  "unresolvedBlockers": []
 }
