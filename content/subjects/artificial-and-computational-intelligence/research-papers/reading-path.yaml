@@ -1,0 +1,65 @@
+subject: "Artificial and Computational Intelligence"
+status: "preliminary"
+accessDate: "2026-07-28"
+sourceBoundary: "Official brochure provides title and Semester 1 compulsory placement only."
+resources:
+  - id: "ACI-R14"
+    title: "Computing Machinery and Intelligence"
+    authors: ["Alan M. Turing"]
+    year: 1950
+    resourceType: "foundational paper"
+    url: "https://doi.org/10.1093/mind/LIX.236.433"
+    doi: "10.1093/mind/LIX.236.433"
+    arxivId: null
+    venue: "Mind"
+    difficulty: "intermediate"
+    relevance: "Historical operational framing of machine intelligence; not treated as the sole definition."
+    prerequisiteTopics: ["history of AI", "argument analysis"]
+    access: "paid-or-institutional"
+    confidenceScore: 0.99
+    verificationStatus: "identifier-verified"
+  - id: "ACI-S03"
+    title: "On the Relationship between Neural Networks, Pattern Recognition and Intelligence"
+    authors: ["James C. Bezdek"]
+    year: 2016
+    resourceType: "tutorial article"
+    url: "https://doi.org/10.1109/MSMC.2016.2558778"
+    doi: "10.1109/MSMC.2016.2558778"
+    arxivId: null
+    venue: "IEEE Systems, Man, and Cybernetics Magazine"
+    difficulty: "intermediate"
+    relevance: "Historical and conceptual boundaries of computational intelligence."
+    prerequisiteTopics: ["neural networks", "pattern recognition"]
+    access: "paid-or-institutional"
+    confidenceScore: 0.96
+    verificationStatus: "identifier-verified"
+  - id: "ACI-S02"
+    title: "Concrete Problems in AI Safety, Revisited"
+    authors: ["Inioluwa Deborah Raji", "Roel Dobbe"]
+    year: 2024
+    resourceType: "modern paper"
+    url: "https://arxiv.org/abs/2401.10899"
+    doi: null
+    arxivId: "2401.10899"
+    venue: "arXiv"
+    difficulty: "advanced"
+    relevance: "Examines evaluation boundaries and how system claims can exceed evidence."
+    prerequisiteTopics: ["AI evaluation", "sociotechnical systems"]
+    access: "free"
+    confidenceScore: 0.97
+    verificationStatus: "identifier-verified"
+  - id: "ACI-R04"
+    title: "CS 188: Introduction to Artificial Intelligence — Online Textbook"
+    authors: ["University of California, Berkeley"]
+    year: null
+    resourceType: "implementation resource"
+    url: "https://inst.eecs.berkeley.edu/~cs188/textbook/"
+    doi: null
+    arxivId: null
+    venue: "UC Berkeley"
+    difficulty: "foundation"
+    relevance: "Authoritative teaching and implementation material for agents, search, games, and uncertainty."
+    prerequisiteTopics: ["Python", "discrete mathematics"]
+    access: "free"
+    confidenceScore: 0.98
+    verificationStatus: "official-page-verified"

@@ -1,0 +1,8 @@
+{
+  "file": "content/subjects/artificial-and-computational-intelligence/chapters/01-intelligence-as-computation.mdx",
+  "meaningfulProseWords": 4302,
+  "minimumRequired": 3000,
+  "result": "passed",
+  "validator": "scripts/calculate-word-count/chapter-word-count.mjs",
+  "validatedAt": "2026-07-28"
+}

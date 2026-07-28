@@ -1,0 +1,939 @@
+---
+title: "Intelligence as Computation: Problems, Agents, and Evidence"
+slug: "intelligence-as-computation"
+subject: "artificial-and-computational-intelligence"
+chapterNumber: 1
+classification: "prerequisite"
+summary: "A narrative foundation for translating a claim about intelligence into an agent, environment, objective, constrained decision rule, tested implementation, and appropriately limited evidence."
+learningObjectives:
+  - "Translate a vague automation idea into observations, actions, environment dynamics, constraints, and a performance measure."
+  - "Distinguish rational action, human imitation, learning ability, and computational-intelligence paradigms."
+  - "Classify environments by observability, uncertainty, sequential dependence, dynamics, and representation."
+  - "Derive and critique a constrained weighted decision rule."
+  - "Implement equivalent first-principles and NumPy decision procedures with validation and tests."
+  - "Design an evaluation that separates task performance from unsupported claims of general intelligence."
+prerequisites:
+  - "Prerequisite: functions, finite sets, weighted sums, and basic probability"
+  - "Prerequisite: basic Python programming and unit testing"
+  - "Supplementary: argmin notation and elementary computational complexity"
+estimatedReadingMinutes: 47
+difficulty: "foundation"
+tags:
+  - "intelligent-agents"
+  - "problem-formulation"
+  - "rationality"
+  - "environments"
+  - "multi-objective-decisions"
+  - "evaluation"
+relatedChapters:
+  - "state-space-search-and-heuristics"
+  - "reasoning-under-uncertainty"
+  - "responsible-evaluation-of-intelligent-systems"
+recommendedPapers:
+  - "ACI-R14"
+  - "ACI-S02"
+authors:
+  - "Shivam Kumar"
+reviewers:
+  - "Artificial and Computational Intelligence Subject Lead"
+  - "Mathematics Reviewer"
+  - "Citation Verifier"
+wordCount: 4302
+citationStatus: "partial"
+codeStatus: "tested"
+mathReviewStatus: "pending"
+editorialStatus: "review"
+createdAt: "2026-07-28"
+updatedAt: "2026-07-28"
+lastVerifiedAt: "2026-07-28"
+---
+
+> **Classification and source boundary:** this is a **Prerequisite**
+> educational chapter from the verified subject plan. The programme brochure
+> confirms the subject title and Semester 1 placement but does not list these
+> topics as official units. The constrained-score derivation is
+> **Supplementary**. The operational audit is an **Industry application**.
+
+## 01 Begin with the decision, not the label
+
+### The one-minute version
+
+Calling software “intelligent” does not specify what it should do. A usable
+specification names a situation, the information available in that situation,
+the actions the system may take, the consequences that can follow, the
+constraints that must never be traded away, and the evidence by which success
+will be judged. Only after this contract exists should an engineer choose
+search, logic, probability, evolution, neural learning, or a hybrid method.
+
+This chapter treats intelligence as a question about **competent computation
+under a stated task contract**, not as a magical substance inside a machine.
+That framing is deliberately modest. A program may choose good delivery routes
+without understanding a city as a person does. Another system may imitate
+human conversation while making unsafe decisions in a warehouse. Performance
+on one benchmark is evidence about that benchmark under its test conditions; it
+is not automatic evidence of general competence.
+
+Three questions discipline the discussion:
+
+1. What decision must be made, and for whom?
+2. What information and actions are genuinely available at decision time?
+3. Which observations would support or refute the claim that the system helps?
+
+### Mira's campus-delivery agent
+
+Mira operates small delivery robots on a university campus. A robot must carry
+lab samples from a collection point to a processing room. At one junction it
+can take the **atrium**, **garden**, or **service corridor**. The atrium is
+short but crowded. The garden is longer and may be wet. The service corridor
+uses more battery but has controlled access.
+
+“Choose the best route” sounds simple until “best” is unpacked. Does lateness
+matter more than energy? Is a 20 percent obstruction risk acceptable for a
+routine parcel but forbidden for a fragile sample? Does the map describe the
+current building or yesterday's building? Can the robot turn back after seeing
+a blocked door? What happens when every route violates the safety threshold?
+
+The route selector is small enough to understand completely, yet it exposes
+the same design obligations as a larger AI system. A model does not decide
+which harms are acceptable; people encode that policy through constraints,
+objectives, operating procedures, and oversight. A high test score cannot
+repair a poorly chosen task.
+
+### Four meanings that should not be collapsed
+
+**Human imitation** asks whether behaviour resembles human behaviour. Turing's
+1950 paper is historically important because it replaced an unproductive
+debate over the word “think” with an operational imitation game [ACI-R14]. It
+did not prove that linguistic imitation is the only definition of
+intelligence.
+
+**Rational agency** asks whether an action is expected to perform well relative
+to specified information and goals. “Rational” here does not mean morally
+right, all-knowing, or always successful. It means appropriately selected
+under a model and evidence set. If the model is wrong or the objective omits a
+harm, a locally rational action can still be a bad real-world action.
+
+**Learning ability** asks whether performance improves through experience.
+Learning is one route to competent behaviour, not a requirement for every
+intelligent procedure. A carefully designed search algorithm can solve new
+instances without fitting model parameters from examples.
+
+**Computational intelligence** commonly groups adaptive paradigms such as
+neural, evolutionary, and fuzzy computation. Bezdek describes the history and
+contested boundaries of computational intelligence rather than presenting a
+single universally accepted border [ACI-S03]. In this book, the phrase helps
+compare families of methods; it is not used to exclude symbolic or
+probabilistic reasoning.
+
+The practical lesson is not to win a definition contest. It is to say which
+meaning a claim uses. “The route agent is intelligent” is weak. “Under the
+declared map, congestion estimates, and risk cap, the agent selects the
+lowest-scored feasible route and fails safely when none exists” is inspectable.
+
+## 02 Map the agent problem before choosing a method
+
+An **agent** is an entity considered as receiving observations and producing
+actions. The **environment** is everything relevant outside that decision
+boundary. The boundary is chosen for analysis: the same robot can be treated
+as one agent, as a controller plus several subsystem agents, or as part of a
+human-robot team.
+
+A useful task card contains six fields.
+
+| Field | Delivery example | Question to audit |
+|---|---|---|
+| Stakeholder and decision | laboratory operations chooses a route | who benefits, bears risk, or can override? |
+| Observation | predicted minutes, obstruction risk, energy estimate | was each value available before action? |
+| Action | choose one legal route or request help | are unsafe actions excluded? |
+| Environment response | movement, delay, obstruction, battery use | which outcomes are uncertain or delayed? |
+| Performance measure | timely delivery subject to risk policy | does the measure represent the real purpose? |
+| Evidence plan | replay logs, simulation, supervised pilot | which claim can each test support? |
+
+This resembles the familiar performance-environment-actuators-sensors, or
+PEAS, checklist used in introductory AI texts. The names are less important
+than closing the gaps between them. A “sensor” field that says only “camera”
+does not state whether darkness, occlusion, calibration drift, or privacy
+filtering changes the observation. A “performance” field that says “fast” does
+not state the unit, comparison, or safety constraint.
+
+### Separate observation from hidden state
+
+Let $s_t$ denote the relevant state of the environment at time $t$, and let
+$o_t$ denote what the agent observes. These are equal only in an idealised,
+fully observable task. The actual obstruction may be part of $s_t$; a camera
+classification and yesterday's access log may be components of $o_t$.
+
+Confusing observation with state produces confident but brittle designs. A
+green light may be observed, while a pedestrian hidden behind a vehicle
+remains part of the state. A low congestion prediction is an observation
+generated by a model, not the congestion itself. Every observation has a
+source, timestamp, resolution, and possible error.
+
+Let $\mathcal{A}(o_t)$ be the set of actions legal after observation $o_t$.
+The set can be smaller than the robot's physical capabilities. A robot may be
+capable of entering a restricted corridor but forbidden by policy. Encoding
+that rule as a hard legality or feasibility check is different from assigning
+a small numerical penalty that speed could outweigh.
+
+### Write the claim before building the system
+
+Mira's first claim is:
+
+> For a logged decision containing three route estimates, the selector returns
+> the feasible route with minimum declared cost, rejects invalid inputs, and
+> reports when no route meets the risk policy.
+
+This is a software claim. Unit and property tests can support it. A second
+claim might say:
+
+> In a supervised four-week pilot on eligible daytime deliveries, the full
+> routing system reduces median completion time without increasing
+> obstruction interventions or low-battery incidents relative to the current
+> dispatcher.
+
+That is an empirical system claim. It needs a baseline, sampling and assignment
+plan, enough observations, uncertainty reporting, and a review of incidents.
+Passing the first claim does not establish the second. Even a successful
+pilot does not establish performance at night, in another building, or after
+sensor maintenance changes.
+
+### A lightweight knowledge graph
+
+The task card also reveals prerequisite links:
+
+```text
+observations -> state estimation -> decision rule -> action
+       |                                  |
+       +-> provenance                     +-> constraints
+
+environment dynamics -> outcomes -> evaluation -> updated model or policy
+```
+
+Search becomes relevant when actions lead through many states. Probability
+becomes relevant when state or outcomes are uncertain. Logic becomes useful
+when relationships and rules must be represented explicitly. Learning becomes
+useful when experience can improve predictions or policies. Evolutionary and
+swarm methods become candidates when conventional optimisation is difficult
+and approximate population-based search is acceptable. The formulation comes
+first because it determines which capability is actually needed.
+
+## 03 Classify the environment and choose an honest abstraction
+
+Environment labels are not decorative taxonomy. They predict which assumptions
+will fail and which computational tools may help.
+
+### Fully observable versus partially observable
+
+In a **fully observable** abstraction, the current observation contains all
+state information needed to choose optimally. A board-game position can often
+be modelled this way, though clocks, hidden bugs, or an opponent's psychology
+may be omitted intentionally. The campus is **partially observable** because
+crowds, wet surfaces, and temporary obstructions are not measured perfectly.
+The agent may need a belief about possible states or a conservative fallback.
+
+### Deterministic versus stochastic
+
+In a **deterministic** model, a state and action fix the next state. In a
+**stochastic** model, several next states have probabilities. Code can be
+deterministic while its environment is stochastic: given identical inputs the
+route selector returns the same route, but actual travel time still varies.
+Randomness is not the only source of uncertainty; an incomplete model and an
+unobserved adversary can also make outcomes uncertain.
+
+### Episodic versus sequential
+
+An **episodic** decision can be evaluated largely independently of earlier
+actions. Image classification is sometimes abstracted this way. A
+**sequential** decision changes later options. Choosing the garden route uses
+battery and changes the robot's location, so a later route cannot be evaluated
+as though nothing happened. Greedy one-step scoring may then be inadequate;
+planning or reinforcement learning may be needed.
+
+### Static versus dynamic
+
+A **static** environment does not change while the agent deliberates. A
+**dynamic** campus does: people move, doors close, and deadlines approach.
+Computation time is therefore part of performance. An exact optimiser that
+takes ten minutes to choose a five-minute route is operationally worse than a
+safe approximation returned promptly.
+
+### Discrete versus continuous
+
+The three named routes create a **discrete** action set. Steering angle,
+velocity, time, and battery voltage are naturally **continuous**. Real systems
+often combine both. A high-level planner selects a corridor; a low-level
+controller produces continuous motor commands. The abstraction should preserve
+the variables needed for the decision while omitting detail that only increases
+cost.
+
+### Single-agent versus multi-agent
+
+Mira's initial model treats other people and robots as environment dynamics. A
+multi-agent model becomes useful when their goals and adaptations matter. Two
+delivery robots may cooperate over charging slots, compete for a narrow path,
+or communicate intentions. Once other agents react strategically, the
+transition model cannot safely treat them as passive noise.
+
+No classification is permanently true of a domain. It is true of a model for a
+purpose. A simulator may expose its complete internal state while the deployed
+robot sees only sensors. A route can be deterministic in a frozen test map and
+stochastic during live operation. Good documentation records the abstraction,
+its reason, and the warning signs that require revision.
+
+## 04 Derive a constrained decision rule and follow one case
+
+Suppose the current observation is $o$, and $F(o)$ is the set of routes
+that meet non-negotiable policy constraints. For each feasible route $a$, the
+agent receives three estimates:
+
+- $t(a \mid o)$: expected travel time in minutes;
+- $r(a \mid o)$: obstruction risk, represented here as a number from $0$
+  to $1$;
+- $e(a \mid o)$: expected energy use in watt-hours.
+
+We define a transparent score
+
+$$
+J(a \mid o)
+= w_t\,t(a \mid o)
++ w_r\,r(a \mid o)
++ w_e\,e(a \mid o),
+$$
+
+where $w_t$, $w_r$, and $w_e$ are non-negative policy weights. Their units
+matter. If $J$ is interpreted as a monetary-equivalent cost, then $w_t$
+has cost per minute, $w_r$ has cost per unit risk, and $w_e$ has cost per
+watt-hour. Alternatively, all attributes can be normalised to dimensionless
+scales before dimensionless weights are used. Quietly adding unlike physical
+units without such an interpretation creates a number with no defensible
+meaning.
+
+The decision rule is
+
+$$
+a^\star(o) \in \underset{a \in F(o)}{\arg\min}\; J(a \mid o).
+$$
+
+The star marks a selected action, not a universally optimal route. The result
+is conditional on the observation, estimates, feasible set, and weights. If
+two routes have the same minimum score, the expression returns a set. Software
+must define a stable tie policy; our implementation chooses the
+lexicographically smaller name so replays are deterministic.
+
+### Why risk is both a constraint and a score term
+
+Let the maximum accepted obstruction risk be $\rho_{\max}$. Then
+
+$$
+F(o)=\{a\in\mathcal{A}(o):r(a\mid o)\leq\rho_{\max}\}.
+$$
+
+The hard cap prevents time or energy benefits from purchasing an explicitly
+forbidden risk. The risk weight still distinguishes feasible routes below the
+cap. This separation is important. Setting a very large penalty is not
+identical to a prohibition because some combination of other terms can
+eventually outweigh any finite penalty.
+
+### Hand-worked delivery
+
+Assume the following observed estimates:
+
+| Route | Time $t$ | Risk $r$ | Energy $e$ |
+|---|---:|---:|---:|
+| atrium | 8 min | 0.28 | 18 Wh |
+| garden | 11 min | 0.08 | 16 Wh |
+| service | 10 min | 0.04 | 25 Wh |
+
+Let $\rho_{\max}=0.20$, $w_t=1.0$, $w_r=30.0$, and $w_e=0.10$.
+The atrium is excluded because $0.28>0.20$. For the two feasible routes,
+
+$$
+\begin{aligned}
+J(\text{garden}\mid o)
+  &=1.0(11)+30.0(0.08)+0.10(16)\\
+  &=11+2.4+1.6=15.0,\\
+J(\text{service}\mid o)
+  &=1.0(10)+30.0(0.04)+0.10(25)\\
+  &=10+1.2+2.5=13.7.
+\end{aligned}
+$$
+
+The service corridor is selected. Notice that it consumes more energy than the
+garden, yet its lower predicted time and risk produce the smaller declared
+cost. This is not an objective fact that service is “best.” It is the
+consequence of Mira's stated policy model.
+
+### Where the derivation stops being adequate
+
+Weighted scalarisation assumes that a fixed exchange rate between objectives
+is meaningful. Stakeholders may reject that assumption. A two-minute saving
+may be valuable near a laboratory deadline but irrelevant otherwise. Risk
+estimates may be poorly calibrated. A single expected value can hide a small
+chance of catastrophic delay. The one-step rule ignores how the route affects
+future battery state. These limitations point toward constrained optimisation,
+Pareto analysis, robust decisions, planning, and sequential decision theory in
+later chapters. Formalism helps because its failure conditions are visible.
+
+## 05 Turn the contract into tested Python
+
+The implementation below supports Python 3.12. The first block uses only the
+standard library. It validates domain assumptions, separates infeasibility from
+ordinary selection, and returns enough detail for an audit log.
+
+```python
+from __future__ import annotations
+
+from dataclasses import dataclass
+from math import isfinite
+from typing import Sequence
+
+
+@dataclass(frozen=True)
+class RouteOption:
+    name: str
+    minutes: float
+    risk: float
+    energy_wh: float
+
+
+@dataclass(frozen=True)
+class DecisionWeights:
+    time: float
+    risk: float
+    energy: float
+
+
+@dataclass(frozen=True)
+class DecisionResult:
+    route_name: str
+    score: float
+    feasible_count: int
+
+
+def _require_finite_nonnegative(value: float, label: str) -> None:
+    if not isfinite(value) or value < 0:
+        raise ValueError(f"{label} must be finite and non-negative")
+
+
+def _validate_inputs(
+    options: Sequence[RouteOption],
+    weights: DecisionWeights,
+    max_risk: float,
+) -> None:
+    if not options:
+        raise ValueError("at least one route option is required")
+    if not isfinite(max_risk) or not 0 <= max_risk <= 1:
+        raise ValueError("max_risk must be between 0 and 1")
+
+    names: set[str] = set()
+    for option in options:
+        if not option.name.strip():
+            raise ValueError("route names must be non-empty")
+        if option.name in names:
+            raise ValueError("route names must be unique")
+        names.add(option.name)
+        _require_finite_nonnegative(option.minutes, "minutes")
+        _require_finite_nonnegative(option.energy_wh, "energy_wh")
+        if not isfinite(option.risk) or not 0 <= option.risk <= 1:
+            raise ValueError("risk must be between 0 and 1")
+
+    for label, value in (
+        ("time weight", weights.time),
+        ("risk weight", weights.risk),
+        ("energy weight", weights.energy),
+    ):
+        _require_finite_nonnegative(value, label)
+    if weights.time + weights.risk + weights.energy == 0:
+        raise ValueError("at least one weight must be positive")
+
+
+def select_route_first_principles(
+    options: Sequence[RouteOption],
+    weights: DecisionWeights,
+    max_risk: float,
+) -> DecisionResult:
+    """Return the minimum-score feasible route with a stable name tie-break."""
+    _validate_inputs(options, weights, max_risk)
+    feasible = [option for option in options if option.risk <= max_risk]
+    if not feasible:
+        raise RuntimeError("no route satisfies the risk policy")
+
+    scored = [
+        (
+            weights.time * option.minutes
+            + weights.risk * option.risk
+            + weights.energy * option.energy_wh,
+            option.name,
+        )
+        for option in feasible
+    ]
+    score, name = min(scored)
+    return DecisionResult(name, score, len(feasible))
+```
+
+A library implementation can express the same operation over arrays. It
+requires NumPy 2.x in addition to Python 3.12. Vectorisation can improve the
+constant factors for a large batch, but it does not change the policy or repair
+invalid estimates.
+
+```python
+from __future__ import annotations
+
+from typing import Sequence
+
+import numpy as np
+
+
+def select_route_numpy(
+    options: Sequence[RouteOption],
+    weights: DecisionWeights,
+    max_risk: float,
+) -> DecisionResult:
+    """Vectorised equivalent of the first-principles selector."""
+    _validate_inputs(options, weights, max_risk)
+    values = np.asarray(
+        [(item.minutes, item.risk, item.energy_wh) for item in options],
+        dtype=np.float64,
+    )
+    feasible_indices = np.flatnonzero(values[:, 1] <= max_risk)
+    if feasible_indices.size == 0:
+        raise RuntimeError("no route satisfies the risk policy")
+
+    weight_vector = np.asarray(
+        [weights.time, weights.risk, weights.energy],
+        dtype=np.float64,
+    )
+    scores = values[feasible_indices] @ weight_vector
+    candidates = sorted(
+        (float(scores[position]), options[index].name)
+        for position, index in enumerate(feasible_indices)
+    )
+    score, name = candidates[0]
+    return DecisionResult(name, score, int(feasible_indices.size))
+```
+
+The executable tests below include the hand calculation, cross-implementation
+agreement, boundary behaviour, invalid data, infeasibility, and deterministic
+ties. They are ordinary assertions so the chapter can be tested without a
+framework.
+
+```python
+from __future__ import annotations
+
+from math import isclose
+
+
+def _expect_exception(error_type: type[BaseException], action: object) -> None:
+    try:
+        action()  # type: ignore[operator]
+    except error_type:
+        return
+    raise AssertionError(f"expected {error_type.__name__}")
+
+
+def run_tests() -> None:
+    options = [
+        RouteOption("atrium", 8.0, 0.28, 18.0),
+        RouteOption("garden", 11.0, 0.08, 16.0),
+        RouteOption("service", 10.0, 0.04, 25.0),
+    ]
+    weights = DecisionWeights(time=1.0, risk=30.0, energy=0.10)
+
+    basic = select_route_first_principles(options, weights, 0.20)
+    assert basic.route_name == "service"
+    assert isclose(basic.score, 13.7)
+    assert basic.feasible_count == 2
+
+    vectorised = select_route_numpy(options, weights, 0.20)
+    assert vectorised == basic
+
+    _expect_exception(
+        ValueError,
+        lambda: select_route_first_principles([], weights, 0.20),
+    )
+    _expect_exception(
+        ValueError,
+        lambda: select_route_first_principles(
+            [options[0], RouteOption("atrium", 9.0, 0.10, 12.0)],
+            weights,
+            0.20,
+        ),
+    )
+    _expect_exception(
+        ValueError,
+        lambda: select_route_first_principles(
+            [RouteOption("bad", float("nan"), 0.10, 12.0)],
+            weights,
+            0.20,
+        ),
+    )
+    _expect_exception(
+        ValueError,
+        lambda: select_route_first_principles(
+            [RouteOption("bad", 9.0, 1.10, 12.0)],
+            weights,
+            0.20,
+        ),
+    )
+    _expect_exception(
+        RuntimeError,
+        lambda: select_route_first_principles(options, weights, 0.01),
+    )
+
+    tied = [
+        RouteOption("zeta", 5.0, 0.10, 5.0),
+        RouteOption("alpha", 5.0, 0.10, 5.0),
+    ]
+    assert select_route_first_principles(tied, weights, 0.20).route_name == "alpha"
+
+
+if __name__ == "__main__":
+    run_tests()
+    print("8 route-selection tests passed")
+```
+
+Expected output:
+
+```text
+8 route-selection tests passed
+```
+
+For $n$ routes and $k=3$ attributes, the explicit implementation takes
+$O(nk)$, conventionally simplified to $O(n)$ because $k$ is fixed. It
+stores $O(n)$ feasible and scored entries. A streaming implementation could
+reduce auxiliary space to $O(1)$ while retaining the current best route.
+The NumPy version also performs $O(nk)$ arithmetic and allocates an
+$n\times k$ array. For only three routes, clear standard-library code is
+likely preferable; vectorisation becomes useful when many decisions are
+evaluated in batches.
+
+Tests establish conformance to the declared rule, not the truth of the inputs.
+They cannot prove that a congestion model is calibrated, a risk cap is ethical,
+or a route remains open. The production system must record model versions,
+observation timestamps, chosen route, rejected alternatives, constraint
+results, and any human override without retaining unnecessary personal data.
+
+## 06 Learn from what goes wrong
+
+### Proxy failure
+
+An objective is a proxy for a purpose. If Mira optimises only travel time, the
+robot may choose crowded paths, accelerate abruptly, or arrive with too little
+battery for a safe return. Adding terms does not automatically solve the
+problem: the selected metrics may still omit discomfort, accessibility, or
+rare severe events. Amodei and colleagues catalogue concrete safety problems
+that can arise when learning systems pursue imperfect objectives or encounter
+distribution shift [ACI-R26]. Their examples motivate analysis; they do not
+imply that every route selector is a learning agent.
+
+The remedy begins with a hierarchy:
+
+1. define non-negotiable constraints;
+2. define measurable objectives inside the feasible region;
+3. monitor side effects not captured by the objective;
+4. provide an escalation path when the model is uncertain or infeasible.
+
+### Partial observability disguised as certainty
+
+The score accepts one risk number per route. In reality that number is an
+estimate with uncertainty. If the camera is offline, replacing the missing
+value with zero silently converts ignorance into safety. A safer interface
+might reject stale observations, attach confidence intervals, or route the
+decision to a human. Missingness has operational meaning and must not be
+treated as a formatting inconvenience.
+
+### Distribution shift
+
+A garden-risk model trained in dry weather may fail during monsoon conditions.
+A new building layout changes travel times. Students leaving an event produce
+crowd patterns absent from historical logs. The input still has the correct
+shape, so validation passes, but the relationship between features and
+outcomes has changed. Monitoring should therefore compare operating conditions
+with the conditions represented in evaluation and trigger a conservative mode
+when the difference matters.
+
+### Benchmark overreach
+
+A benchmark compresses a task into data, procedure, and metrics. It makes
+comparison possible, but it also creates an incentive to optimise what is
+measured. A route planner that excels on static maps may fail when sensor
+latency and human motion are introduced. Raji and Dobbe argue for reasoning
+about the boundaries and validity of AI evaluation rather than treating a
+leaderboard score as universally informative [ACI-S02].
+
+For each benchmark result, write a claim card:
+
+- system and version tested;
+- population or scenario represented;
+- input information supplied;
+- intervention or action permitted;
+- primary and safety metrics;
+- baseline and uncertainty;
+- exclusions and known gaps;
+- conditions under which the claim should not be reused.
+
+### Automation bias and responsibility gaps
+
+People may follow a system recommendation because it looks precise. Displaying
+“13.700” can create unwarranted confidence when the travel estimate itself is
+uncertain by several minutes. Interfaces should communicate the decision basis,
+meaningful uncertainty, and the availability of override. Override logs should
+be studied as evidence, not treated as disobedience.
+
+Responsibility cannot be delegated to an equation. Product owners set the
+purpose and acceptable risk; domain experts define operational constraints;
+engineers implement and test; operators supervise; reviewers examine impacts;
+and an accountable authority decides whether deployment remains justified.
+The NIST AI Risk Management Framework is a useful industry-oriented structure
+for governing, mapping, measuring, and managing such risks [ACI-R08].
+
+## 07 Evaluate evidence, cost, and responsibility
+
+Evaluation should proceed from the narrowest claim to the broadest, stopping
+when evidence no longer supports the next step.
+
+### Level 1: software correctness
+
+Unit tests verify input validation, score calculation, feasibility, ties, and
+failure behaviour. Property tests could add invariants: tightening the risk cap
+must never make an infeasible route feasible; increasing one route's time while
+holding everything else fixed must not improve its score. Static analysis and
+dependency scanning address implementation quality. None of these tests
+validate the environment model.
+
+### Level 2: model and data validity
+
+Replay historical decisions while preserving the information available at
+each original decision time. Compare predicted and realised time, energy, and
+obstruction outcomes. Examine calibration across route, time of day, weather,
+and accessibility conditions. Separate a tuning set from the final evaluation
+set. Record exclusions and missing outcomes. Averages should be accompanied by
+distributions and rare-event counts.
+
+Historical replay remains counterfactual: logs reveal the outcome of the route
+that was taken, not necessarily outcomes for rejected routes. Simulation can
+exercise alternatives but inherits simulator assumptions. This is why multiple
+forms of evidence are stronger than one large retrospective score.
+
+### Level 3: supervised pilot
+
+Begin with low-consequence deliveries and a human supervisor. Compare against
+the current dispatch method using a predeclared primary metric and safety
+guardrails. Report uncertainty and operational incidents, not only statistical
+significance. A pilot should include a stop condition for sensor failure,
+unexpected interaction, or degraded battery behaviour.
+
+### Level 4: monitored operation
+
+Deployment changes the environment. People adapt to robot routes, maintenance
+changes sensors, and usage expands. Monitor inputs, outcomes, overrides,
+near-misses, latency, and resource cost. Schedule review by time and by trigger.
+A stable dashboard is not proof of a stable world; logging failure can make
+incidents disappear from the metric.
+
+### Security, privacy, accessibility, and fairness
+
+Route observations may contain images or device identifiers. Collect only what
+the decision and audit require, restrict access, define retention, and avoid
+publishing traces that reveal personal routines. Authenticate map and policy
+updates because a manipulated risk estimate could redirect robots. Rate-limit
+and validate external inputs. Fail closed for prohibited spaces and fail
+safely, through stop or escalation, when all routes are infeasible.
+
+Accessibility is part of the environment contract. A robot that repeatedly
+occupies ramps or narrows a passage can impose unequal costs even if average
+delivery time improves. Evaluation should stratify relevant outcomes and invite
+affected users to review the operating policy. “Fairness” is not one universal
+number; the metric must correspond to a stated harm, group, and decision.
+
+### Reproducibility ledger
+
+For each evaluation retain:
+
+- code commit and dependency lock;
+- policy, weights, thresholds, and model versions;
+- dataset or simulator version and inclusion rules;
+- deterministic seeds where randomness is used;
+- environment configuration and hardware class;
+- metrics, uncertainty method, and baseline;
+- failed runs, incidents, and manual interventions;
+- reviewer, date, limitations, and approved claim text.
+
+This ledger turns “the system worked” into evidence another reviewer can
+inspect. It also enables rollback when a later change degrades performance.
+
+## 08 Convert the chapter into study evidence
+
+### Study lab: route policy under uncertainty
+
+**Industry application.** Build a small decision notebook or command-line tool
+around the tested selector.
+
+1. Create at least twenty synthetic decisions with three to six routes each.
+   Include stale observations, missing values, infeasible cases, and exact
+   ties. Do not silently impute invalid values.
+2. Declare two stakeholder policies with different weights and risk caps.
+   Explain the units or normalisation behind each weight.
+3. Run both policies and report how often their selected routes differ.
+4. Perturb each estimate by a plausible error range. Identify decisions whose
+   route changes; label them sensitive rather than pretending the point
+   estimate is decisive.
+5. Design a fallback for no feasible route and for unavailable risk evidence.
+6. Produce a one-page claim card that states what your experiment establishes
+   and what it does not.
+
+Deliverables are typed Python, automated tests, a machine-readable decision
+log, a concise analysis, and a threat-and-limitation register. Do not include
+real personal movement data.
+
+### Assignment
+
+You are asked to deploy a campus scheduling assistant that allocates shared
+laboratory rooms. Write a 1,200–1,800 word design review containing:
+
+1. the agent and environment boundary;
+2. observations available at allocation time;
+3. legal actions and hard constraints;
+4. at least three stakeholder objectives;
+5. a mathematical decision rule with every symbol and unit defined;
+6. an environment classification with qualifications;
+7. one offline test, one pilot design, and one monitoring trigger;
+8. a privacy, security, accessibility, and fairness analysis;
+9. two ways a high benchmark score could mislead;
+10. a final claim that is no broader than the proposed evidence.
+
+### Marking guidance
+
+| Criterion | Weight | Evidence of strong work |
+|---|---:|---|
+| Problem formulation | 20% | boundary, information timing, actions, and affected stakeholders are precise |
+| Formal model | 20% | symbols, units, assumptions, constraints, and failure case are explicit |
+| Evidence design | 20% | baseline, scope, uncertainty, and claim limits align |
+| Risk analysis | 20% | concrete privacy, security, accessibility, and distribution-shift controls |
+| Critical reasoning | 15% | competing objectives and abstraction limits are examined |
+| Communication | 5% | concise structure, original synthesis, and traceable references |
+
+### Solution guidance
+
+A strong answer will not choose weights before describing stakeholder conflict.
+It will distinguish a room being free in the database from being usable in the
+physical world. Accessibility and safety constraints should not be purchasable
+with a scheduling-efficiency gain. The rule may minimise a cost, maximise a
+utility, or solve a constrained allocation, but it must include an infeasible
+case. Evaluation should compare with the current allocation process and inspect
+outcomes across relevant groups and room types. The final claim should concern
+the tested scenario, not “intelligent scheduling” in general.
+
+## 09 Defend the chapter orally and carry it forward
+
+### Oral questions with concise answers
+
+**1. Is an agent necessarily a robot?**
+
+No. An agent is an analytical abstraction that maps information to action. A
+software scheduler, game program, robot, or human-software team can be modelled
+as an agent when that boundary helps answer the question.
+
+**2. Why is rationality not the same as intelligence?**
+
+Rationality evaluates action relative to specified information and goals.
+Intelligence has several contested meanings, including imitation, adaptation,
+reasoning, and competence across tasks. A rationality model is useful because
+its assumptions can be stated, not because it settles every definition.
+
+**3. Why not place every concern in one weighted score?**
+
+Some policies are constraints, not trade-offs. A finite safety penalty can be
+outweighed by enough benefit elsewhere. Hard feasibility checks express that
+certain actions are unacceptable regardless of their other score terms.
+
+**4. What makes the campus partially observable?**
+
+Relevant state such as temporary obstructions and human motion is not measured
+perfectly at decision time. Sensor output is evidence about state, not state
+itself.
+
+**5. What do the Python tests prove?**
+
+They support the claim that the implementation follows the declared rule for
+the tested cases and rejects specified invalid inputs. They do not prove that
+weights, estimates, or deployment policy are correct.
+
+**6. Why can a deterministic program have uncertain outcomes?**
+
+The program can return the same action for the same inputs while the
+environment responds stochastically or contains unobserved state.
+
+**7. When does one-step route scoring become inadequate?**
+
+When an action changes important future choices, outcomes have long horizons,
+uncertainty must be represented explicitly, or the exchange between objectives
+is not captured by fixed weights.
+
+**8. How should a no-feasible-route case be handled?**
+
+As an explicit operational state: stop, request help, or follow a separately
+approved safe fallback. Silently selecting the least unsafe prohibited action
+changes the policy.
+
+### Chapter summary
+
+An intelligent-system claim becomes useful when it is translated into a task
+contract. That contract names stakeholders, observations, hidden state,
+actions, environment responses, objectives, constraints, and evidence.
+Environment classifications expose modelling assumptions. A formal decision
+rule connects those assumptions to code, while validation and tests establish
+only software-level claims. Broader claims require calibrated data, baselines,
+pilots, uncertainty, incident review, and continuing monitoring.
+
+The delivery example also showed the boundaries of a weighted score. Units and
+tie policies must be explicit; non-negotiable risks belong in constraints; no
+feasible action needs a safe path; and point estimates can hide uncertainty.
+The next planned chapter uses the same task discipline to represent states,
+successors, path costs, and heuristics for search.
+
+### Key terms
+
+- **Action:** an intervention available to the agent.
+- **Agent:** a chosen decision boundary that maps observations to actions.
+- **Benchmark:** a specified dataset or environment, protocol, and metric used for comparison.
+- **Constraint:** a condition that an acceptable action or plan must satisfy.
+- **Environment:** external state and dynamics relevant to the agent's task.
+- **Feasible set:** actions satisfying the declared constraints.
+- **Observation:** information available to the agent, possibly incomplete or noisy.
+- **Performance measure:** declared evidence used to judge task outcomes.
+- **Proxy:** a measurable quantity used to represent a broader purpose.
+- **Rational action:** an action selected appropriately relative to stated information and objectives.
+- **State:** a representation of environment information relevant to future evolution or decisions.
+
+## 10 References
+
+- **[ACI-R14]** Turing, A. M. (1950). Computing Machinery and
+  Intelligence. *Mind, LIX*(236), 433–460.
+  [https://doi.org/10.1093/mind/LIX.236.433](https://doi.org/10.1093/mind/LIX.236.433).
+  Foundational historical paper; verified DOI.
+- **[ACI-S02]** Raji, I. D., & Dobbe, R. (2024). Concrete Problems in AI
+  Safety, Revisited. arXiv:2401.10899.
+  [https://arxiv.org/abs/2401.10899](https://arxiv.org/abs/2401.10899).
+  Modern evaluation resource; identifier verified in the subject planning audit.
+- **[ACI-S03]** Bezdek, J. C. (2016). On the Relationship between Neural
+  Networks, Pattern Recognition and Intelligence. *IEEE Systems, Man, and
+  Cybernetics Magazine, 2*(2), 2–7.
+  [https://doi.org/10.1109/MSMC.2016.2558778](https://doi.org/10.1109/MSMC.2016.2558778).
+  Historical tutorial on computational-intelligence boundaries; verified DOI.
+- **[ACI-R04]** University of California, Berkeley. *CS 188: Introduction to
+  Artificial Intelligence — online textbook*.
+  [https://inst.eecs.berkeley.edu/~cs188/textbook/](https://inst.eecs.berkeley.edu/~cs188/textbook/).
+  Free implementation-oriented teaching resource; accessed 2026-07-28.
+- **[ACI-R08]** Tabassi, E. (2023). *Artificial Intelligence Risk Management
+  Framework (AI RMF 1.0)*. National Institute of Standards and Technology.
+  [https://doi.org/10.6028/NIST.AI.100-1](https://doi.org/10.6028/NIST.AI.100-1).
+  Official industry risk framework; verified DOI.
+- **[ACI-R26]** Amodei, D., et al. (2016). Concrete Problems in AI Safety.
+  arXiv:1606.06565.
+  [https://arxiv.org/abs/1606.06565](https://arxiv.org/abs/1606.06565).
+  Foundational safety problem formulation; verified arXiv identifier.
+
+The cited works support historical, definitional, evaluation, and risk claims.
+The delivery example, derivation, code, exercises, and explanatory analogies are
+original educational synthesis rather than claims made by those sources.
