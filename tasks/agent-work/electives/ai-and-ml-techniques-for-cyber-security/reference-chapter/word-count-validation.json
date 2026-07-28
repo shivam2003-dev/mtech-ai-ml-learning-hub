@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "chapter": "content/subjects/ai-and-ml-techniques-for-cyber-security/chapters/01-from-security-question-to-ml-evidence-contract.mdx",
+  "meaningfulProseWords": 3255,
+  "minimum": 3000,
+  "method": "scripts/calculate-word-count/chapter-word-count.mjs",
+  "verifiedAt": "2026-07-28"
+}
