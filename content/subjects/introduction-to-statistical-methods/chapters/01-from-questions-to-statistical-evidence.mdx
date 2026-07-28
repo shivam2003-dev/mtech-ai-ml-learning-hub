@@ -1,0 +1,1126 @@
+---
+title: "From Questions to Statistical Evidence"
+slug: "from-questions-to-statistical-evidence"
+subject: "introduction-to-statistical-methods"
+chapterNumber: 1
+classification: "prerequisite"
+summary: "A narrative foundation for turning an applied AI question into a population, sample, measurement system, estimand, sampling argument, reproducible analysis, and appropriately limited claim."
+learningObjectives:
+  - "Translate a vague applied question into a population, unit, sampling frame, sample, variables, and estimand."
+  - "Explain how measurement and selection processes constrain the meaning of an analysis."
+  - "Derive why the sample mean is unbiased under simple random sampling from a finite population."
+  - "Distinguish an estimand from an estimator and a numerical estimate."
+  - "Separate exploratory analysis from confirmatory evidence."
+  - "Implement and test a small sampling audit while stating what it cannot prove."
+prerequisites:
+  - "Prerequisite: algebra, finite sums, and basic functions"
+  - "Prerequisite: basic Python programming"
+  - "Prerequisite: expectation notation from Mathematical Foundations for Machine Learning for the supplementary derivation"
+estimatedReadingMinutes: 44
+difficulty: "foundation"
+tags:
+  - "statistical-thinking"
+  - "population"
+  - "sample"
+  - "estimand"
+  - "measurement"
+  - "sampling-bias"
+  - "data-provenance"
+relatedChapters:
+  - "sampling-designs-and-sampling-distributions"
+  - "estimation-and-likelihood"
+recommendedPapers:
+  - "STAT-R17"
+  - "STAT-R23"
+authors:
+  - "Shivam Kumar"
+reviewers:
+  - "Statistical Methods Subject Lead"
+  - "Mathematics Reviewer"
+  - "Citation Verifier"
+wordCount: 4642
+citationStatus: "partial"
+codeStatus: "tested"
+mathReviewStatus: "pending"
+editorialStatus: "review"
+createdAt: "2026-07-28"
+updatedAt: "2026-07-28"
+lastVerifiedAt: "2026-07-28"
+---
+
+> **Classification and source boundary:** this is a **Prerequisite**
+> educational chapter from the verified subject plan. The programme brochure
+> confirms the subject title and Semester 1 placement but does not list this
+> topic as an official unit. The finite-population expectation derivation is
+> **Supplementary** depth. Probability notation is inherited from Mathematical
+> Foundations for Machine Learning rather than redeveloped here.
+
+## 01 Begin with the decision, not the dataset
+
+### The one-minute version
+
+A statistical analysis is a chain of meaning. A decision creates a question.
+The question identifies a population and a quantity of interest. A measurement
+process turns part of that population into recorded variables. A selection
+process determines which records reach the dataset. An estimator converts the
+sample into a number. Only then can an analyst discuss uncertainty and make a
+carefully limited claim.
+
+If any link is vague, more computation does not repair the chain. Ten million
+rows measured with the wrong definition still answer the wrong question. A
+beautiful confidence interval around a convenience sample can be precise about
+the sample while being misleading about the population. A predictive model
+evaluated on information copied from the future can score well without being
+useful in deployment.
+
+The central habit of this chapter is therefore simple:
+
+> Before calculating, write down who or what the data represent, how the
+> records were produced, which quantity answers the question, and what evidence
+> would expose a mistake.
+
+### Mira's alert-triage question
+
+Mira works on a cloud-operations team. The team has introduced a new alert
+summary intended to reduce the time between an alert arriving and an engineer
+starting a useful investigation. A dashboard shows that the average recorded
+triage time fell from 18 minutes to 12 minutes. A manager asks, “Did the new
+summary improve triage by six minutes?”
+
+The arithmetic is correct, but the conclusion is not yet licensed. The old
+summary was mostly used during night shifts, while the new summary was piloted
+by a trained day-shift group. Unresolved alerts have no final triage time. A
+recent logging change starts the clock later than the old system did. Several
+alerts from the same incident appear as separate rows. Engineers could see the
+new summary before deciding whether an alert was actionable.
+
+Each detail changes the question. Is the population all future alerts, only
+alerts handled by the pilot group, or incidents rather than alert rows? Is the
+outcome elapsed wall-clock time, active engineer time, or time to the first
+correct action? Does “improve” mean a descriptive change, an association after
+adjustment, or a causal effect of assigning the new summary? How should
+unresolved alerts be represented? Which version of the logging system produced
+each value?
+
+This chapter follows Mira as she turns the dashboard claim into an estimand
+card, checks the route from real events to recorded rows, derives what random
+sampling would buy, and builds a small Python audit. The chapter does not
+pretend that one audit proves causality. Its promise is more useful: by the end,
+you will know exactly what must be true before the six-minute difference can
+support a larger claim.
+
+### What you should be able to defend
+
+After the chapter, you should be able to answer these questions aloud:
+
+1. What is the target population?
+2. What is one observational unit?
+3. What sampling frame was actually available?
+4. How were units selected into the sample?
+5. What does each variable mean, in which units, and at what time was it known?
+6. What is the estimand?
+7. Which estimator produced the reported number?
+8. Which assumptions connect the estimate to the estimand?
+9. Which failure modes could reverse the conclusion?
+10. Is the result exploratory, confirmatory, descriptive, predictive, or causal?
+
+Those questions are not administrative overhead. They are the interface
+between an applied problem and statistical mathematics.
+
+## 02 See the complete evidence map
+
+Statistical vocabulary is easiest to remember as a map rather than a glossary.
+The map has five layers.
+
+```text
+decision and context
+  -> target population and unit
+  -> measurement and selection processes
+  -> estimand and estimator
+  -> uncertainty, evaluation, and claim
+```
+
+### Layer 1: decision and context
+
+A decision says what action may change after the analysis. Mira's team might
+keep the new summary, revise it, run a randomized trial, or abandon it. The
+costs of false optimism and false pessimism are different. Shipping an
+ineffective summary wastes attention; rejecting a useful summary loses time.
+The decision context therefore shapes the estimand, acceptable uncertainty,
+guardrails, and data requirements.
+
+An analysis without a decision can still be scientific or descriptive, but it
+needs a purpose. “Explore the data” is an activity, not a complete question.
+A stronger exploratory purpose is “identify plausible measurement failures and
+candidate relationships that a later study should test.”
+
+### Layer 2: population, unit, frame, and sample
+
+The **target population** is the collection of units about which the desired
+claim is made. A unit might be a person, incident, device, request, session,
+model run, organisation, or time window. The unit must match the claim. If
+Mira's outcome is time to investigate an incident, treating duplicate alert
+rows as independent units gives busy incidents extra weight.
+
+The **sampling frame** is the operational list or mechanism from which units
+could actually be selected. The target population might be all future
+production incidents, while the frame contains only incidents recorded by one
+logging service during a four-week pilot. The gap between population and frame
+is a coverage problem.
+
+The **sample** is the set of observed units used by the analysis. A large
+sample reduces some forms of random variation, but it does not automatically
+repair a narrow frame or a selective inclusion mechanism.
+
+### Layer 3: variables and measurement
+
+A variable is not merely a column name. It is a rule for turning an attribute
+or event into a recorded value. A useful data dictionary states:
+
+- conceptual meaning;
+- data type and legal values;
+- unit of measurement;
+- time of measurement;
+- source system and version;
+- missing-value meaning;
+- transformations and aggregation;
+- whether the value was available at the intended decision time.
+
+For Mira, `triage_minutes` could mean wall-clock time from alert creation to
+first ticket edit. If the clock starts at different events under two logger
+versions, the groups do not share one measurement rule. Renaming both columns
+to the same label does not make them comparable.
+
+### Layer 4: estimand, estimator, and estimate
+
+An **estimand** is the precise population quantity the analysis seeks. An
+**estimator** is a rule that uses sample data to estimate that quantity. An
+**estimate** is the numerical result obtained from one sample.
+
+Suppose Mira chooses a descriptive estimand:
+
+$$
+\theta
+=
+\mu_{\text{new,pilot}}
+-
+\mu_{\text{old,pilot}},
+$$
+
+where each $\mu$ is the mean recorded triage time among eligible pilot alerts
+under the corresponding logging definition. The difference of sample means is
+an estimator, $\hat{\theta}$. The observed value, perhaps $-6$ minutes, is an
+estimate. That estimate does not by itself equal the effect of assigning the
+new summary to all future incidents.
+
+The distinction prevents a common error: discussing the properties of a
+population target as if they were properties of a particular algorithm, or
+discussing one observed number as if it were the target itself.
+
+### Layer 5: uncertainty, evaluation, and claim
+
+An estimate changes across samples, measurement choices, model assumptions,
+and random seeds. Later chapters develop standard errors, intervals, tests,
+resampling, and model diagnostics. Chapter 1 asks the questions that those
+methods presuppose:
+
+- What source of variation is represented?
+- Which observations can reasonably be treated as separate units?
+- Which selection mechanism is assumed?
+- Which errors are random, and which are systematic?
+- Which analysis choices were fixed before seeing the outcomes?
+- What population and time period does the claim cover?
+
+The [NIST/SEMATECH Engineering Statistics Handbook](https://www.itl.nist.gov/div898/software/dataplot/handbook.htm)
+organises statistical work around problem definition, data, assumptions,
+methods, and diagnostics. The [MIT Statistics for Applications course](https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/)
+provides the later inferential machinery. Here we build the contract those
+methods need.
+
+## 03 Define the objects before choosing a method
+
+Let the finite target population be
+
+$$
+\mathcal{U}=\{1,2,\ldots,N\},
+$$
+
+where $N$ is the number of units. For unit $i$, let $Y_i$ denote the outcome
+defined by a fixed measurement rule. The population mean is
+
+$$
+\mu
+=
+\frac{1}{N}\sum_{i=1}^{N}Y_i.
+$$
+
+A sample $\mathcal{S}\subseteq\mathcal{U}$ contains $n$ units. Its sample mean
+is
+
+$$
+\bar{Y}_{\mathcal{S}}
+=
+\frac{1}{n}\sum_{i\in\mathcal{S}}Y_i.
+$$
+
+The formulas are short, but every symbol carries a substantive choice. If
+$i$ indexes alert rows rather than incidents, $\mu$ describes alert-weighted
+time. If unresolved alerts are excluded, $\mathcal{U}$ silently becomes the
+population of resolved alerts. If $Y_i$ is measured differently by logger
+version, the summands do not represent a stable construct.
+
+### The estimand card
+
+Mira writes an estimand card before opening the analysis notebook:
+
+| Field | Mira's provisional definition |
+|---|---|
+| Decision | Whether to run a controlled deployment of the new summary |
+| Target population | Eligible production incidents handled by the operations team during the next quarter |
+| Unit | One incident, after deduplicating linked alert rows |
+| Exposure | Assignment to old or new summary at incident creation |
+| Outcome | Minutes from a common incident-created timestamp to first verified investigation action |
+| Summary measure | Difference in population mean outcome between assignment policies |
+| Time horizon | Investigation action observed within 24 hours |
+| Missingness rule | Incidents without an action remain censored or unresolved; they are not silently deleted |
+| Guardrails | Wrong-action rate, unresolved rate, engineer workload, severe-incident subgroup |
+| Claim type | Causal only after a defensible assignment and analysis design; otherwise descriptive |
+
+The card exposes gaps. The current pilot used different shifts rather than a
+shared assignment mechanism, so it can support a descriptive comparison of the
+pilot groups but not the stated causal estimand without stronger assumptions.
+That is a productive conclusion: the analysis has identified the next study
+the team needs.
+
+### Units, clusters, and pseudo-replication
+
+Rows are not automatically independent observational units. Ten alerts from
+one incident may share a cause, engineer, deployment, and outcome. Treating
+them as ten unrelated incidents exaggerates the effective amount of
+information. Later chapters handle cluster-aware standard errors and design
+effects. At this stage, document the hierarchy:
+
+```text
+quarter
+  -> deployment
+    -> incident
+      -> alert
+        -> event log entry
+```
+
+Then choose the unit matching the estimand. Lower-level records may still be
+used to construct variables, but the analysis must not confuse event count
+with the number of independent incident-level units.
+
+### Variable roles are contextual
+
+The same column can play different roles:
+
+- an **outcome** if it measures the response of interest;
+- an **exposure** or treatment indicator if it records the policy applied;
+- a **confounder candidate** if it precedes both exposure and outcome;
+- a **mediator candidate** if the exposure may change it on the path to the outcome;
+- a **stratification variable** if the design intentionally balances it;
+- an **identifier** if it names a unit but should not become a numerical feature;
+- a **post-outcome variable** that can leak future information.
+
+These labels depend on time and question, not just dtype. `engineer_id` is a
+string identifier, but it may also reveal shift allocation. `incident_closed`
+is Boolean, but if it occurs after the triage decision, using it to predict
+triage success would leak future information.
+
+### Measurement error is not one generic problem
+
+Write a simple measurement model:
+
+$$
+X_i = Y_i + E_i,
+$$
+
+where $Y_i$ is the intended quantity, $X_i$ is the recorded value, and $E_i$
+is measurement error. If errors average to zero under a stable process, repeated
+measurement may reduce some noise. If a new logger systematically starts the
+clock three minutes later, then $E_i$ has a group-dependent component. A larger
+sample makes the systematic difference more precisely visible; it does not
+make the recorded groups comparable.
+
+This additive model is only an educational simplification. Real measurement
+can involve rounding, censoring, thresholds, category changes, missing values,
+and human judgement. Its purpose is to force the question: which part of the
+observed difference might come from how the variable was created?
+
+## 04 Derive what random sampling buys
+
+This section is **Supplementary**. It assumes expectation and indicator
+notation from Mathematical Foundations for Machine Learning.
+
+Suppose $\mathcal{U}$ is a fixed finite population of $N$ units with fixed
+values $Y_1,\ldots,Y_N$. Select a simple random sample of exactly $n$ distinct
+units, meaning that every size-$n$ subset is equally likely. Define the
+inclusion indicator
+
+$$
+I_i
+=
+\begin{cases}
+1, & \text{if unit } i \text{ is selected},\\
+0, & \text{otherwise}.
+\end{cases}
+$$
+
+The sample mean can be rewritten as
+
+$$
+\bar{Y}_{\mathcal{S}}
+=
+\frac{1}{n}\sum_{i=1}^{N}I_iY_i.
+$$
+
+Under simple random sampling, each unit has inclusion probability
+
+$$
+\Pr(I_i=1)=\frac{n}{N}.
+$$
+
+Take expectation over the sampling mechanism. The population values remain
+fixed:
+
+$$
+\begin{aligned}
+\mathbb{E}_{\mathcal{S}}\left[\bar{Y}_{\mathcal{S}}\right]
+&=
+\mathbb{E}_{\mathcal{S}}\left[
+\frac{1}{n}\sum_{i=1}^{N}I_iY_i
+\right] \\
+&=
+\frac{1}{n}\sum_{i=1}^{N}
+\mathbb{E}_{\mathcal{S}}[I_i]Y_i \\
+&=
+\frac{1}{n}\sum_{i=1}^{N}
+\frac{n}{N}Y_i \\
+&=
+\frac{1}{N}\sum_{i=1}^{N}Y_i \\
+&=
+\mu.
+\end{aligned}
+$$
+
+Therefore the sample mean is unbiased for the finite-population mean under this
+design:
+
+$$
+\mathbb{E}_{\mathcal{S}}
+\left[\bar{Y}_{\mathcal{S}}-\mu\right]=0.
+$$
+
+The result is conditional on the stated population, stable measurement, and
+simple random sampling. It does not say every realised sample mean equals
+$\mu$. It does not apply automatically to the first $n$ database rows, people
+who volunteer, records surviving a filter, or incidents with complete outcomes.
+It does not convert a descriptive population mean into a causal effect.
+
+### A hand-worked population
+
+Take six incident triage times:
+
+$$
+(4,6,8,10,12,20).
+$$
+
+The population mean is
+
+$$
+\mu=\frac{4+6+8+10+12+20}{6}=10.
+$$
+
+Suppose the table is sorted by severity and a convenience process takes the
+first three rows. The sample mean is
+
+$$
+\bar{Y}_{\text{first three}}
+=
+\frac{4+6+8}{3}
+=
+6.
+$$
+
+The four-minute difference is not random evidence from equal-probability
+sampling; it is a consequence of the selection rule applied to an ordered
+frame.
+
+Now list all size-three samples. There are
+
+$$
+\binom{6}{3}=20
+$$
+
+possible subsets. Under simple random sampling, their sample means vary, but
+their average equals 10. Some realised samples remain far from 10. Unbiasedness
+is a repeated-sampling property, not a guarantee for one sample.
+
+### Selection indicators reveal convenience bias
+
+For a general selection process, write
+
+$$
+\pi_i=\Pr(I_i=1).
+$$
+
+If inclusion probabilities differ and the ordinary mean is still used, then
+
+$$
+\mathbb{E}\left[
+\frac{1}{n}\sum_{i=1}^{N}I_iY_i
+\right]
+=
+\frac{1}{n}\sum_{i=1}^{N}\pi_iY_i,
+$$
+
+which need not equal $\mu$. Units with large $\pi_i$ contribute more in
+expectation. If easy incidents are more likely to be resolved and therefore
+recorded, the complete-case mean overrepresents easy incidents.
+
+Unequal-probability sampling can be principled when inclusion probabilities
+are known and appropriate weighting is used. Chapter 3 will develop sampling
+designs. The lesson here is narrower: an estimator must match the selection
+mechanism. “We have many rows” is not a design.
+
+### Sampling error versus selection bias
+
+Sampling error is the difference between an estimate and its target caused by
+which eligible units happen to be selected under the design. Selection bias
+arises when the expected estimate under the actual selection process misses
+the target. Increasing $n$ often reduces sampling variation. It may leave
+selection bias unchanged.
+
+That distinction explains why operational datasets can be enormous and still
+misleading. Their size is evidence about computational scale, not automatically
+about representation.
+
+## 05 Turn the design into tested Python
+
+The smallest useful implementation separates two jobs:
+
+1. compute a mean under an explicit numerical contract;
+2. compare a convenience selection with a seeded simple random sample when the
+   teaching population is fully known.
+
+The second job is a simulation audit, not a production proof. In real work the
+target population outcomes are usually not all observed, so population error
+cannot be calculated directly.
+
+### First-principles mean
+
+The following Python 3.12 function uses only the standard library. It rejects
+empty, Boolean, nonnumeric, non-finite, and unrepresentable inputs rather than
+silently manufacturing a result.
+
+```python
+from __future__ import annotations
+
+import math
+from collections.abc import Iterable
+
+
+def mean_from_scratch(values: Iterable[float]) -> float:
+    """Return the arithmetic mean of finite real values.
+
+    Time complexity: O(n). Additional space: O(1).
+    """
+    total = 0.0
+    count = 0
+
+    for position, value in enumerate(values):
+        if isinstance(value, bool):
+            raise TypeError(f"values[{position}] must be a real number, not bool")
+        try:
+            numeric = float(value)
+        except (TypeError, ValueError, OverflowError) as exc:
+            raise TypeError(
+                f"values[{position}] must be representable as a finite float"
+            ) from exc
+        if not math.isfinite(numeric):
+            raise ValueError(f"values[{position}] must be finite")
+
+        total += numeric
+        if not math.isfinite(total):
+            raise OverflowError("the running sum is not finite")
+        count += 1
+
+    if count == 0:
+        raise ValueError("values must contain at least one observation")
+
+    return total / count
+```
+
+For the six values above, the expected result is:
+
+```text
+10.0
+```
+
+Floating-point addition is not exact real arithmetic. For very long or
+ill-scaled sequences, `math.fsum` can reduce summation error. The explicit loop
+is retained here because it makes validation, accumulation, and complexity
+visible.
+
+### NumPy sampling audit
+
+NumPy supplies a tested random generator and array operations. The audit keeps
+the population one-dimensional, forbids replacement, sorts sampled indices
+only for readable evidence, and returns the indices so the selection can be
+reproduced.
+
+```python
+from __future__ import annotations
+
+from dataclasses import dataclass
+from collections.abc import Sequence
+
+import numpy as np
+from numpy.typing import NDArray
+
+
+@dataclass(frozen=True)
+class SamplingAudit:
+    population_mean: float
+    convenience_mean: float
+    random_sample_mean: float
+    convenience_error: float
+    random_sample_error: float
+    random_indices: tuple[int, ...]
+
+
+def sampling_audit(
+    outcomes: Sequence[float] | NDArray[np.floating],
+    sample_size: int,
+    *,
+    seed: int = 2026,
+) -> SamplingAudit:
+    """Compare first-row convenience selection with simple random sampling.
+
+    The full population is known only for this educational simulation.
+    Time complexity: O(N); additional space: O(N).
+    """
+    try:
+        population = np.asarray(outcomes, dtype=np.float64)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise TypeError(
+            "outcomes must be numeric and representable as float64"
+        ) from exc
+
+    if population.ndim != 1:
+        raise ValueError(
+            f"outcomes must have exactly one axis; received {population.shape}"
+        )
+    if population.size == 0:
+        raise ValueError("outcomes must contain at least one observation")
+    if not np.isfinite(population).all():
+        raise ValueError("outcomes must contain only finite values")
+    if isinstance(sample_size, bool) or not isinstance(sample_size, int):
+        raise TypeError("sample_size must be an integer")
+    if not 1 <= sample_size <= population.size:
+        raise ValueError("sample_size must be between 1 and the population size")
+    if isinstance(seed, bool) or not isinstance(seed, int):
+        raise TypeError("seed must be an integer")
+
+    population_mean = float(np.mean(population))
+    convenience = population[:sample_size]
+
+    generator = np.random.default_rng(seed)
+    random_indices_array = np.sort(
+        generator.choice(population.size, size=sample_size, replace=False)
+    )
+    random_sample = population[random_indices_array]
+
+    convenience_mean = float(np.mean(convenience))
+    random_sample_mean = float(np.mean(random_sample))
+
+    return SamplingAudit(
+        population_mean=population_mean,
+        convenience_mean=convenience_mean,
+        random_sample_mean=random_sample_mean,
+        convenience_error=convenience_mean - population_mean,
+        random_sample_error=random_sample_mean - population_mean,
+        random_indices=tuple(int(index) for index in random_indices_array),
+    )
+```
+
+For one seed, the random sample may be closer to 10 than the convenience sample
+or farther from it. That is not a contradiction. The derivation concerns the
+average over the sampling design, while this function produces one realised
+sample. A later simulation can repeat the function across seeds and inspect the
+distribution of estimates.
+
+### Exact published tests
+
+```python
+import unittest
+
+import numpy as np
+
+
+class StatisticalEvidenceTests(unittest.TestCase):
+    def test_mean_known_example(self) -> None:
+        self.assertEqual(mean_from_scratch([4, 6, 8, 10, 12, 20]), 10.0)
+
+    def test_mean_rejects_empty_input(self) -> None:
+        with self.assertRaisesRegex(ValueError, "at least one"):
+            mean_from_scratch([])
+
+    def test_mean_rejects_boolean(self) -> None:
+        with self.assertRaisesRegex(TypeError, "not bool"):
+            mean_from_scratch([1.0, True])
+
+    def test_mean_normalizes_huge_integer_failure(self) -> None:
+        with self.assertRaisesRegex(TypeError, "representable"):
+            mean_from_scratch([10**1000])
+
+    def test_audit_exposes_convenience_error(self) -> None:
+        result = sampling_audit([4, 6, 8, 10, 12, 20], 3, seed=7)
+        self.assertEqual(result.population_mean, 10.0)
+        self.assertEqual(result.convenience_mean, 6.0)
+        self.assertEqual(result.convenience_error, -4.0)
+
+    def test_audit_is_deterministic_and_without_replacement(self) -> None:
+        first = sampling_audit(np.arange(12.0), 5, seed=19)
+        second = sampling_audit(np.arange(12.0), 5, seed=19)
+        self.assertEqual(first.random_indices, second.random_indices)
+        self.assertEqual(len(set(first.random_indices)), 5)
+
+    def test_audit_rejects_nonfinite_outcome(self) -> None:
+        with self.assertRaisesRegex(ValueError, "finite"):
+            sampling_audit([1.0, np.nan], 1)
+
+    def test_audit_rejects_invalid_sample_size(self) -> None:
+        with self.assertRaisesRegex(ValueError, "between 1"):
+            sampling_audit([1.0, 2.0], 3)
+
+
+if __name__ == "__main__":
+    unittest.main()
+```
+
+Expected success summary:
+
+```text
+Ran 8 tests
+
+OK
+```
+
+The tests establish the published functions' behaviour for selected normal and
+failure cases. They do not establish that a real operational sample is random,
+that the measurement is valid, or that the observed difference is causal.
+
+### From notebook to evidence package
+
+A production analysis should keep:
+
+- an immutable input snapshot or reproducible query;
+- a data dictionary and provenance record;
+- inclusion and exclusion counts;
+- the estimand card and analysis plan;
+- dependency and runtime versions;
+- validation results and failed checks;
+- code, tests, configuration, and seed policy;
+- tables generated from code rather than hand-edited;
+- a claim-to-evidence ledger.
+
+For sensitive operational data, this does not mean publishing raw records.
+Reproducibility can use controlled access, aggregate outputs, synthetic
+examples, checksums, query identifiers, and privacy review.
+
+## 06 Learn from the ways an analysis fails
+
+### Selection bias
+
+Selection bias occurs when inclusion is related to the outcome or to variables
+that affect the comparison, and the analysis does not account for that
+mechanism. Mira's day-shift pilot has different engineers and incident patterns
+from the old-summary group. The six-minute difference entangles summary,
+shift, training, severity, and logging changes.
+
+Random sampling addresses representation of a defined population. Random
+assignment addresses comparability of treatment policies under a causal
+design. The two ideas solve different problems. A randomized sample with
+non-random treatment assignment can represent the population yet yield a
+confounded treatment comparison. A randomized experiment on a narrow volunteer
+sample can estimate an internal effect for that sample while generalization
+remains uncertain.
+
+### Measurement drift
+
+When definitions or instruments change over time, a trend can reflect the
+measurement system. Store schema versions and transformation versions with the
+data. Run overlap periods when possible. Compare raw events under both rules.
+Do not “standardize” incompatible definitions by renaming columns.
+
+### Leakage
+
+Leakage occurs when an analysis uses information unavailable at the intended
+decision time or transfers information across evaluation boundaries. Examples
+include:
+
+- computing a feature from an incident's final resolution;
+- fitting preprocessing on the full dataset before a train/test split;
+- allowing duplicate incidents to appear in both development and evaluation;
+- selecting a metric after inspecting which one improved;
+- repeatedly checking a holdout set until it becomes part of development.
+
+Leakage is a timing and information-flow problem. A variable can be
+statistically associated with the outcome and still be invalid for the
+intended use.
+
+### Missing data and censoring
+
+A missing value is not a single state. It may mean “not measured,” “not
+applicable,” “sensor failed,” “user declined,” “event has not happened yet,”
+or “record was removed.” Mira's unresolved alerts do not have a final triage
+time because the outcome process is incomplete. Dropping them changes the
+population to resolved alerts and may make the new summary look faster if it
+leaves difficult alerts unresolved.
+
+Chapter 10 develops missing-data mechanisms and sensitivity analysis. Chapter
+1 requires a missingness dictionary and an accounting table:
+
+```text
+eligible incidents
+  -> included incidents
+  -> outcome observed
+  -> outcome analysed
+```
+
+Every transition needs a count and reason.
+
+### Simpson's paradox and aggregation
+
+An overall comparison can move in a different direction from comparisons
+within relevant groups. If the new summary is used mostly for easy incidents
+and the old summary mostly for severe incidents, the overall mean can improve
+even if the new summary is slower within each severity group.
+
+This does not mean analysts should automatically condition on every column.
+Grouping variables must be justified by design, timing, and the estimand.
+Conditioning on a post-exposure variable can create a different bias.
+
+### Exploratory-confirmatory blur
+
+Exploratory analysis is essential for finding errors, learning distributions,
+and generating hypotheses. Confirmatory analysis asks whether a prespecified
+claim survives a defined procedure. Trouble begins when an exploratory choice
+is reported as though it had been fixed in advance.
+
+Suppose Mira tries twelve outcome definitions, five exclusions, and four
+subgroups, then reports the one comparison with the largest improvement. The
+final number does not carry the same error guarantees as one prespecified
+analysis. The solution is not to forbid exploration. Label it, preserve the
+analysis trail, and confirm important findings on new data or with an
+appropriate multiplicity-aware design.
+
+The [TOP Guidelines](https://doi.org/10.1126/science.aab2374) describe
+transparency practices for research materials, data, and design. The
+[APA statistical-methods guidance](https://doi.org/10.1037/0003-066X.54.8.594)
+emphasizes assumptions, effect sizes, uncertainty, and complete reporting.
+These sources support a general principle: a statistical result is more
+credible when readers can reconstruct how the question, data, analysis, and
+claim were connected.
+
+### Common language failures
+
+Avoid these shortcuts:
+
+- “The data say” when the data were produced by a selective process.
+- “Significant” without saying statistical, practical, or operational meaning.
+- “Random data” when only a pseudorandom split was used.
+- “Representative” without naming the population and selection design.
+- “The model caused” when the evidence is observational.
+- “No effect” when the analysis merely failed to detect one.
+- “Unbiased data” when only one estimator has an unbiasedness result under assumptions.
+
+Precise language is part of method, not decoration.
+
+## 07 Evaluate the evidence, cost, and responsibility
+
+### A claim-to-evidence ladder
+
+Different claims require different evidence.
+
+| Claim | Minimum evidence direction |
+|---|---|
+| “The pilot records have a lower mean” | Stable measurement, transparent exclusions, reproducible descriptive calculation |
+| “The pilot groups differ after adjustment” | Prespecified model, overlap and diagnostics, uncertainty, sensitivity to specification |
+| “Assigning the new summary reduces triage time” | Defensible causal design or assumptions, assignment integrity, outcome completeness, effect and uncertainty |
+| “The change will help next quarter” | Transportability argument, future-population monitoring, operational guardrails |
+| “The system is safe and fair” | Multi-dimensional risk evidence, subgroup uncertainty, governance, monitoring, human escalation; never one metric |
+
+Moving up the ladder requires new design evidence, not stronger adjectives.
+
+### Evaluate the data pipeline before the estimator
+
+For Mira's analysis, useful checks include:
+
+1. eligible incident counts by period and group;
+2. duplicate and linkage rates;
+3. logger and schema versions;
+4. missing outcome rates and reasons;
+5. exposure assignment by shift, severity, and engineer;
+6. timestamp ordering and impossible durations;
+7. subgroup sample sizes;
+8. analysis-plan timestamp relative to outcome inspection.
+
+Only after those checks should the team interpret a difference of means.
+
+### Computational complexity
+
+`mean_from_scratch` visits each of $n$ values once, so its time complexity is
+$\Theta(n)$ and additional space is $\Theta(1)$. The NumPy audit converts the
+full population to a `float64` array, validates it, and samples indices. Its
+dominant time and storage are $\Theta(N)$ for this teaching implementation.
+
+At production scale, avoid loading an unbounded population into memory merely
+to compute aggregates. Use validated streaming aggregates, database queries,
+or distributed reductions with reconciliation checks. A fast distributed mean
+still inherits the definition and selection problems of its inputs.
+
+Floating-point reduction order can change the last digits. Record dtype and
+library versions when small numerical differences matter. For financial,
+scientific, or safety-critical quantities, select an accumulation policy that
+matches the required error budget.
+
+### Scalability is also organisational
+
+A statistical workflow must survive changing schemas, rotating teams, and
+repeated decisions. Version:
+
+- metric definitions;
+- eligibility rules;
+- unit-of-analysis logic;
+- data contracts;
+- analysis plans;
+- code and environments;
+- report templates;
+- approval decisions.
+
+Monitoring should detect sample-ratio mismatch, missingness changes,
+measurement drift, distribution shifts, and guardrail deterioration. Logging
+more personal data “just in case” is not a neutral scalability strategy.
+
+### Privacy, fairness, and security
+
+An observational unit can represent a person even when the table uses an
+opaque identifier. Collect only fields needed for the declared purpose. Apply
+access controls, retention limits, aggregation, and privacy review. Never copy
+raw sensitive values into logs, test fixtures, or published notebooks.
+
+Fairness questions also depend on estimands and measurement. A subgroup mean
+with five observations is not stable evidence. A missing demographic field may
+reflect refusal, system design, or structural exclusion. Aggregated equality
+can hide harmful error patterns. Report subgroup denominators, uncertainty,
+data limitations, and the consequences of action.
+
+Security affects validity. An attacker or failing client can generate duplicate
+events, impossible timestamps, extreme values, or selectively missing
+outcomes. Input validation, lineage, anomaly monitoring, and immutable audit
+logs protect both systems and statistical conclusions.
+
+### Research connection
+
+Chapter 1 is a preparation chapter rather than a history survey. Three
+verified readings serve distinct roles:
+
+- [OpenIntro Statistics](https://www.openintro.org/book/os/) provides an
+  accessible treatment of data, study design, and inference vocabulary.
+- The [NIST/SEMATECH handbook](https://www.itl.nist.gov/div898/software/dataplot/handbook.htm)
+  connects statistical methods to engineering problem solving and diagnostics.
+- Nosek and colleagues' [Promoting an Open Research Culture](https://doi.org/10.1126/science.aab2374)
+  provides a primary standards proposal for transparent research practice.
+
+When reading, distinguish the source's claims from this chapter's educational
+interpretation. Do not use a reporting guideline as proof that a specific
+analysis is correct.
+
+## 08 Convert the chapter into study evidence
+
+### A 90-minute study lab
+
+Use a small synthetic incident table with these columns:
+
+```text
+incident_id
+summary_version
+shift
+severity
+logger_version
+created_at
+first_action_at
+resolved_at
+duplicate_group
+```
+
+Complete the lab in four stages.
+
+**Stage 1 — question and estimand**
+
+Write one descriptive question and one causal question. For each, name the
+population, unit, exposure, outcome, summary measure, time horizon, and claim
+type. Explain why the descriptive comparison does not automatically answer the
+causal question.
+
+**Stage 2 — provenance and measurement**
+
+Draw the path from alert generation to the analysis table. Mark which service
+creates each timestamp, which transformations deduplicate alerts, and which
+values are unavailable at incident creation. Create a data dictionary for at
+least six columns.
+
+**Stage 3 — adversarial audit**
+
+Inject:
+
+- one duplicate incident;
+- one negative duration;
+- two unresolved incidents;
+- a logger-version change;
+- shift imbalance between summary versions.
+
+Write validation checks that detect each problem. Do not automatically delete
+the records; record the reason and decide how the estimand should treat them.
+
+**Stage 4 — sampling simulation**
+
+Use `sampling_audit` on an ordered synthetic population. Repeat across 1,000
+seeds in a separate notebook, plot the random-sample means, and compare their
+average with the population mean. Then replace random sampling with a rule that
+favours small outcomes. Explain the difference between random sampling error
+and selection bias.
+
+### Assignment: the evidence contract
+
+Choose one scenario:
+
+- an A/B test for an onboarding change;
+- a latency comparison between two deployment systems;
+- a model evaluation using a historical dataset;
+- a defect-rate study for a data pipeline.
+
+Submit:
+
+1. a one-page estimand card;
+2. a population-frame-sample diagram;
+3. a variable and missingness dictionary;
+4. an inclusion/exclusion flow with counts;
+5. one hand-worked finite-population example;
+6. a tested implementation of a descriptive estimator;
+7. an exploratory-versus-confirmatory analysis ledger;
+8. a claim table that separates supported, unsupported, and future-study claims;
+9. a privacy, fairness, and security note;
+10. a reproducible environment file and command.
+
+### Marking rubric
+
+- question, population, unit, and estimand precision: 20%;
+- measurement and provenance reasoning: 20%;
+- selection and missingness analysis: 15%;
+- mathematical correctness: 15%;
+- code validation and tests: 15%;
+- claim discipline and limitations: 10%;
+- reproducibility and communication: 5%.
+
+An attractive dashboard cannot compensate for an undefined estimand. A complex
+model earns no credit unless it answers the stated question.
+
+## 09 Defend the chapter orally and carry it forward
+
+### Oral-exam questions
+
+1. Why is a row not automatically an observational unit?
+2. Distinguish target population, sampling frame, and sample.
+3. What is the difference between an estimand, estimator, and estimate?
+4. Under which design is the ordinary sample mean unbiased for a finite-population mean?
+5. Why does a larger convenience sample not necessarily reduce selection bias?
+6. Give one example of measurement drift creating an apparent treatment difference.
+7. How do random sampling and random assignment solve different problems?
+8. Why can deleting missing outcomes change the estimand?
+9. What makes an analysis exploratory rather than confirmatory?
+10. What additional evidence would Mira need before making a causal claim?
+11. Why can duplicate alerts exaggerate precision?
+12. Which parts of the Python audit are evidence, and which real-world assumptions remain untested?
+
+### Answer guidance
+
+1. Rows can be repeated or nested measurements from the same unit; the unit is
+   defined by the question and design.
+2. The population is the claim target, the frame is the operational source of
+   selectable units, and the sample is what was observed.
+3. The estimand is the population target, the estimator is the data-to-number
+   rule, and the estimate is one realised number.
+4. In the derivation, every fixed-size subset is equally likely under simple
+   random sampling and the measurement is stable.
+5. More selectively collected data can concentrate around the wrong target.
+6. A logger that starts one group's clock later creates a systematic recorded
+   improvement without changing real behaviour.
+7. Sampling supports population representation; assignment supports policy
+   comparability under a causal design.
+8. Complete cases may define a selected population related to difficulty or
+   outcome.
+9. Exploratory choices respond to observed data; confirmatory procedures fix
+   the main claim and method in advance or account for adaptation.
+10. She needs a defensible assignment or causal identification strategy,
+    common measurement, outcome accounting, integrity checks, uncertainty, and
+    guardrails.
+11. Correlated rows do not provide the same information as independent units.
+12. The tests support function behaviour for selected inputs. They do not test
+    real selection, measurement validity, independence, or causality.
+
+### Complete chapter summary
+
+Statistical reasoning begins by defining meaning. A target population names
+where the claim should apply. An observational unit says what is counted once.
+A sampling frame records who or what could enter the study. A sample records
+what actually entered. Variables need conceptual definitions, units, timing,
+source versions, and missing-value semantics.
+
+An estimand is a population target. An estimator is a rule applied to sample
+data. An estimate is one result. Keeping them distinct prevents a dashboard
+number from quietly becoming a universal claim.
+
+Under simple random sampling from a fixed finite population, the sample mean
+is unbiased for the population mean because every unit has inclusion
+probability $n/N$. This is a property of the sampling design over repetitions,
+not a promise that one sample equals the population and not a theorem about
+convenience data.
+
+Selection bias, measurement drift, leakage, missingness, duplicated units, and
+exploratory flexibility can all produce plausible but misleading results.
+Tests and code validate computations under their contracts; they do not prove
+that operational data satisfy the design assumptions.
+
+Mira's six-minute difference is therefore the beginning of an investigation,
+not its conclusion. The evidence map tells her how to design the next study,
+what to preserve, and how to report the current pilot honestly.
+
+### What to study next
+
+Proceed to the probability-readiness diagnostic and then to **Sampling Designs
+and Sampling Distributions**. Before moving on, you should be able to:
+
+- complete an estimand card without referring to a statistical test;
+- draw the population-frame-sample route;
+- identify unit, measurement, and timing errors;
+- reproduce the finite-population unbiasedness derivation;
+- explain why the Python simulation is illustrative rather than proof;
+- label a claim as descriptive, predictive, associational, or causal.
+
+Later chapters will add sampling distributions, standard errors, likelihood,
+intervals, tests, resampling, regression, Bayesian modelling, and production
+experimentation. Each method will reuse the evidence contract built here.
+
+## 10. References
+
+1. BITS Pilani Work Integrated Learning Programmes. (2026). *M.Tech. AI & ML_New Brochure_2026 copy*. Curriculum placement evidence: physical PDF page 12, printed page 10. Repository record: `content/curriculum/official-curriculum.yaml`. Source PDF SHA-256: `fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b`.
+2. Diez, D. M., Çetinkaya-Rundel, M., & Barr, C. D. (2019). *OpenIntro Statistics* (4th ed.). [https://www.openintro.org/book/os/](https://www.openintro.org/book/os/).
+3. National Institute of Standards and Technology & SEMATECH. (2001; updated 2023). *NIST/SEMATECH e-Handbook of Statistical Methods*. [https://www.itl.nist.gov/div898/software/dataplot/handbook.htm](https://www.itl.nist.gov/div898/software/dataplot/handbook.htm).
+4. Nosek, B. A., et al. (2015). Promoting an open research culture. *Science, 348*(6242), 1422–1425. [https://doi.org/10.1126/science.aab2374](https://doi.org/10.1126/science.aab2374).
+5. Rigollet, P. (2016). *18.650 Statistics for Applications*. MIT OpenCourseWare. [https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/](https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/).
+6. Wilkinson, L., & Task Force on Statistical Inference. (1999). Statistical methods in psychology journals: Guidelines and explanations. *American Psychologist, 54*(8), 594–604. [https://doi.org/10.1037/0003-066X.54.8.594](https://doi.org/10.1037/0003-066X.54.8.594).

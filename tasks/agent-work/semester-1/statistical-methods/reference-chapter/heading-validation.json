@@ -1,0 +1,36 @@
+{
+  "contractVersion": "1.0.0",
+  "reportId": "statistical-methods-ch01-heading-validation-2026-07-28",
+  "status": "passed-source-check",
+  "sourcePath": "content/subjects/introduction-to-statistical-methods/chapters/01-from-questions-to-statistical-evidence.mdx",
+  "chapterSha256": "79e0c6c8acb756203bd33661941c79f0c54587519950ad943f98e0a59c450a36",
+  "validatedAt": "2026-07-28",
+  "authoredH1Count": 0,
+  "authoredH2Count": 10,
+  "orderedSectionNumbers": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "headings": [
+    "01 Begin with the decision, not the dataset",
+    "02 See the complete evidence map",
+    "03 Define the objects before choosing a method",
+    "04 Derive what random sampling buys",
+    "05 Turn the design into tested Python",
+    "06 Learn from the ways an analysis fails",
+    "07 Evaluate the evidence, cost, and responsibility",
+    "08 Convert the chapter into study evidence",
+    "09 Defend the chapter orally and carry it forward",
+    "10. References"
+  ],
+  "renderingContract": "The application renders the chapter frontmatter title as the page H1.",
+  "renderedAccessibilityCheck": "pending application-level review"
+}
