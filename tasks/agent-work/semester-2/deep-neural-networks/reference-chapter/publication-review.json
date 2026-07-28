@@ -1,0 +1,92 @@
+{
+  "agentId": "independent-dnn-publication-reviewer",
+  "reviewId": "dnn-ch01-publication-review-2026-07-28",
+  "subject": "Deep Neural Networks",
+  "chapter": "Neural Networks as Differentiable Programs",
+  "task": "Independent publication review",
+  "reviewedAt": "2026-07-28",
+  "status": "approved",
+  "approved": true,
+  "approvalBlockers": [],
+  "reviewedSnapshot": {
+    "developCommit": "771273a6db8b3466a591bc3cab98d450c8e4b48c",
+    "chapter": {
+      "path": "content/subjects/deep-neural-networks/chapters/01-neural-networks-as-differentiable-programs.mdx",
+      "sha256": "3f26b095cb520ce90fadfba642ff5f8155d3da4841c6362d4adc7c4546532246"
+    },
+    "referencesMarkdown": {
+      "path": "content/subjects/deep-neural-networks/references.md",
+      "sha256": "2572670f9517df996bbf519300ac84f5a652f5ed0de71bcf3229a33ff45ff034"
+    },
+    "referencesBib": {
+      "path": "content/subjects/deep-neural-networks/references.bib",
+      "sha256AfterCorrection": "e9007fa0880cc5c3e27064b404b6ccd36e6dc55c3be31c10dd3361b4f855b65a"
+    }
+  },
+  "correctionsApplied": [
+    {
+      "file": "content/subjects/deep-neural-networks/references.bib",
+      "finding": "The two cited PyTorch tutorials had display references but no BibTeX records.",
+      "correction": "Added verified n.d. PyTorch Foundation records with tutorial version, canonical URL, and access date.",
+      "chapterContentChanged": false
+    }
+  ],
+  "curriculumEvidence": {
+    "sourcePdfSha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "officialCurriculumSha256": "d61e6d875dfd4fcbbc0e2bd18cc11e5749a0efe9aa816c540d8498d5b0037975",
+    "placement": "physical PDF page 12, printed page 10",
+    "topicDescription": "physical PDF page 14, printed page 12",
+    "exactOfficialTopic": "Introduction to neural networks",
+    "visualInspection": "passed",
+    "inventedOfficialDetailsFound": false
+  },
+  "checks": {
+    "compactEditorialStructure": "passed-9-H2",
+    "oneMinuteVersion": "passed",
+    "runningExample": "passed",
+    "chapterPromise": "passed",
+    "meaningfulProseWords": 3014,
+    "minimumProseWords": 3000,
+    "wordCountGate": "passed",
+    "mathematicalNotationAndDimensions": "passed",
+    "workedForwardPass": "passed-score-0.9",
+    "handGradient": "passed-[0.6,0.7]",
+    "complexityStatements": "passed",
+    "publishedPythonBlocks": "passed-9-checks",
+    "officialEndpoints": "passed-4-of-4-http-200",
+    "doiResolvers": "passed-3-of-3-canonical-redirect",
+    "crossrefMetadata": "passed-3-of-3",
+    "inlineToTerminalBibliography": "passed",
+    "terminalToBibtexCoverage": "passed-after-correction",
+    "fabricatedReferences": "none-found",
+    "mdxProductionBuild": "passed",
+    "foundationValidation": "passed",
+    "lint": "passed",
+    "renderedTests": "passed-3-of-3",
+    "renderedHeadingStructure": "passed-1-H1-9-H2",
+    "mathJax": "passed",
+    "shikiCode": "passed-3-blocks",
+    "readingTools": "passed"
+  },
+  "codeEnvironment": {
+    "python": "3.14.6",
+    "numpy": "2.3.4",
+    "torch": "2.9.1"
+  },
+  "verifiedDois": [
+    "10.1037/h0042519",
+    "10.1038/nature14539",
+    "10.1145/3287560.3287596"
+  ],
+  "openIssues": [],
+  "scopeExclusions": [
+    "the eleven unauthored DNN chapters",
+    "production use of the educational toy model",
+    "future chapter revisions with a different SHA-256"
+  ],
+  "recommendedNextTasks": [
+    "Integrate this publication review and bibliography correction into develop.",
+    "Update reader-facing review status only through the orchestrator's publication workflow.",
+    "Re-run this gate if the chapter hash changes."
+  ]
+}
