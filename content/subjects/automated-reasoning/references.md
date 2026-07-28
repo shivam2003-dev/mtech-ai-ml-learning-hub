@@ -8,8 +8,8 @@
    resolution and unification.
 2. Davis, M., & Putnam, H. (1960). *A Computing Procedure for Quantification
    Theory*. Journal of the ACM, 7(3), 201–215. DOI:
-   [10.1145/321033.321043](https://doi.org/10.1145/321033.321043). Foundational
-   elimination procedure; DOI metadata remains flagged for citation review.
+   [10.1145/321033.321034](https://doi.org/10.1145/321033.321034). Foundational
+   elimination procedure.
 3. Moskewicz, M. W., Madigan, C. F., Zhao, Y., Zhang, L., & Malik, S. (2001).
    *Chaff: Engineering an Efficient SAT Solver*. DAC, 530–535. DOI:
    [10.1145/378239.379017](https://doi.org/10.1145/378239.379017). CDCL
@@ -18,7 +18,7 @@
    337–340. DOI:
    [10.1007/978-3-540-78800-3_24](https://doi.org/10.1007/978-3-540-78800-3_24).
    SMT architecture.
-5. Blanchette, J. C., Fleury, M., Lasserre, M., & Weidenbach, C. (2018). *A
+5. Blanchette, J. C., Fleury, M., Lammich, P., & Weidenbach, C. (2018). *A
    Verified SAT Solver Framework with Learn, Forget, Restart, and
    Incrementality*. Journal of Automated Reasoning, 61, 31–61. DOI:
    [10.1007/s10817-018-9455-7](https://doi.org/10.1007/s10817-018-9455-7).
@@ -33,6 +33,6 @@
 - [Association for Automated Reasoning](https://www.aarinc.org/), for field
   community context and conference links.
 
-The first, third, fourth, and fifth DOI records were checked against DOI
-landing pages or publisher metadata on 2026-07-28. Citation status remains
-pending until the independent citation reviewer signs off.
+All five DOI records were checked against DOI landing pages, Crossref, or
+publisher metadata on 2026-07-28. The Davis–Putnam record uses the corrected
+ACM DOI `10.1145/321033.321034`.
