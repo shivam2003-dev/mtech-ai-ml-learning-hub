@@ -740,16 +740,33 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 .subject-prose code,
 .chapter-prose code { font-family: "SFMono-Regular", Consolas, monospace; font-size: .86em; }
+.subject-prose a,
+.chapter-prose a,
+.subject-prose :not(pre) > code,
+.chapter-prose :not(pre) > code {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
 .subject-prose pre,
 .chapter-prose pre {
   position: relative;
-  overflow: auto;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-sizing: border-box;
   padding: 28px 22px 22px;
   color: #dbe7f3;
   border-radius: 12px;
   background: #071426;
   font-size: 14px;
   line-height: 1.65;
+}
+.subject-prose pre code,
+.chapter-prose pre code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
 }
 .chapter-index {
   align-self: start;
@@ -843,8 +860,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
 }
 .chapter-prose { min-width: 0; }
 .chapter-prose mjx-container[display="true"] {
+  max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
+  box-sizing: border-box;
   margin: 1.7em 0 !important;
   padding: 18px 8px;
   border-radius: 8px;
@@ -854,6 +873,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .chapter-prose table {
   display: block;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   margin: 1.6em 0;
   overflow-x: auto;
   border-collapse: collapse;
