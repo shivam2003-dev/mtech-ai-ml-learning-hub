@@ -10,7 +10,7 @@ readingPath:
     url: "https://doi.org/10.1145/170036.170072"
     difficulty: foundational
     relevance: "Defines the association-rule problem and support/confidence framing."
-    verification: pending
+    verification: verified-crossref-2026-07-28
   - title: "Mining frequent patterns without candidate generation"
     authors: ["Jiawei Han", "Jian Pei", "Yiwen Yin"]
     year: 2000
@@ -19,7 +19,7 @@ readingPath:
     url: "https://doi.org/10.1145/342009.335372"
     difficulty: advanced
     relevance: "Introduces pattern-growth reasoning for reducing candidate work."
-    verification: pending
+    verification: verified-crossref-2026-07-28
   - title: "Data Mining: The Textbook"
     authors: ["Charu C. Aggarwal"]
     year: 2015
@@ -28,7 +28,7 @@ readingPath:
     url: "https://doi.org/10.1007/978-3-319-14142-8"
     difficulty: intermediate
     relevance: "Broad reference across record, graph, stream, spatial, and text mining."
-    verification: pending
+    verification: verified-crossref-2026-07-28
   - title: "Machine learning in Python: Main developments and technology trends"
     authors: ["Sebastian Raschka", "Joshua Patterson", "C. Nolet"]
     year: 2020
@@ -37,4 +37,4 @@ readingPath:
     url: "https://doi.org/10.3390/info11040193"
     difficulty: intermediate
     relevance: "Implementation and reproducibility context for Python workflows."
-    verification: pending
+    verification: verified-crossref-2026-07-28

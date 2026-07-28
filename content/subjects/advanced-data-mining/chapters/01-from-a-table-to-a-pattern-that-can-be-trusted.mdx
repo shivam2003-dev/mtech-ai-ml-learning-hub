@@ -38,11 +38,11 @@ authors:
   - "Shivam Kumar"
 reviewers:
   - "Subject Lead: Advanced Data Mining"
-wordCount: 3091
-citationStatus: "pending-independent-review"
+wordCount: 3147
+citationStatus: "verified"
 codeStatus: "tested"
-mathReviewStatus: "pending-independent-review"
-editorialStatus: "draft-complete"
+mathReviewStatus: "passed"
+editorialStatus: "approved"
 createdAt: "2026-07-28"
 updatedAt: "2026-07-28"
 lastVerifiedAt: "2026-07-28"
@@ -114,7 +114,8 @@ from association, derive the three classic measures, implement a transparent
 baseline, compare it with a library, and inspect failure modes. The later
 official topics—complex structures, trees and graphs, sequences, web and text,
 streams, spatiotemporal data, multivariate time series, high-dimensional
-clustering, and social networking sites—will appear as changes to the
+clustering, social networking sites, multi-relational data, privacy-preserving
+mining, and distributed computing—will appear as changes to the
 representation and evidence boundary, not as unrelated tricks.
 
 ## 02. Build the map from records to patterns
@@ -407,10 +408,11 @@ def library_patterns(transactions: list[set[str]], min_support: float = 0.4) -> 
 ```
 
 The library example is an **implementation resource**, not an endorsement of
-any particular deployment. It requires an optional dependency and should run
-inside a locked environment. On a server, set resource limits and reject
-unbounded maximum itemset length; an innocent-looking parameter can create a
-combinatorial denial of service.
+any particular deployment. It was exercised with `mlxtend==0.23.4` and should
+run inside a locked environment; record that version (and the pandas/NumPy
+versions) in the experiment lockfile. On a server, set resource limits and
+reject unbounded maximum itemset length; an innocent-looking parameter can
+create a combinatorial denial of service.
 
 ## 06. Diagnose attractive but fragile findings
 
@@ -487,11 +489,11 @@ Start with Agrawal, Imieliński, and Swami's original association-rule paper
 for the problem framing, then read Han, Pei, and Yin on FP-Growth to see how
 representation changes performance. Aggarwal's *Data Mining: The Textbook*
 provides broad coverage of clustering, outliers, streams, graphs, and complex
-objects. Read the KDD survey on data mining and knowledge discovery to place
-classic methods beside modern reproducibility concerns. The references at the
-end distinguish foundational papers, a survey, and implementation resources;
-identifiers and links were checked before this draft and remain pending a
-separate citation review.
+objects. Browse the official ACM SIGKDD community resources for current
+conferences, tutorials, and datasets, but do not treat the homepage as a
+survey or as evidence for a scientific claim. The references at the end
+distinguish foundational papers, an implementation survey, and implementation
+resources; identifiers and links were checked in this independent review.
 
 ### The bridge to later chapters
 
@@ -501,9 +503,12 @@ the population is stable; stream mining makes change explicit. Coordinates add
 spatial dependence, and multivariate time series add cross-channel lag. Text
 and web pages turn tokens and links into structured objects. High-dimensional
 clustering changes distance geometry, while social-network mining adds human
-relationships and substantial privacy obligations. The transferable skill is
-not memorising one algorithm; it is matching representation, evidence, and
-evaluation to the question.
+relationships and substantial privacy obligations. Multi-relational mining
+keeps several relation types explicit, privacy-preserving mining changes what
+can be released, and distributed solutions change how counts and thresholds
+are reconciled across workers. The transferable skill is not memorising one
+algorithm; it is matching representation, evidence, and evaluation to the
+question.
 
 ## 08. Study lab and assignment
 
@@ -560,7 +565,9 @@ The next chapter studies association analysis and pattern discovery in more
 depth, including redundancy, closed patterns, and evaluation under search. Then
 the book changes the representation: complex objects, trees and graphs,
 sequences, web and text, streams, spatial and temporal data, high-dimensional
-clusters, and social networks. Before moving on, reproduce the fixture, make
+clusters, social networks, multi-relational records, privacy-preserving
+releases, and distributed data-intensive workloads. Before moving on, reproduce
+the fixture, make
 one contract change explicit, and keep the pattern you reject. Rejected
 findings are part of a trustworthy mining record.
 
@@ -578,8 +585,8 @@ findings are part of a trustworthy mining record.
    https://doi.org/10.1145/342009.335372
 4. Aggarwal, C. C. (2015). *Data Mining: The Textbook*. Springer.
    https://doi.org/10.1007/978-3-319-14142-8
-5. ACM SIGKDD. (2020). *Knowledge discovery and data mining resources*.
-   https://www.kdd.org/
+5. ACM SIGKDD. (n.d.). *Official community resources*. Retrieved July 28,
+   2026, from https://www.kdd.org/
 6. Raschka, S., Patterson, J., & Nolet, C. (2020). Machine learning in Python:
    Main developments and technology trends in data science, machine learning,
    and artificial intelligence. *Information*, 11(4), 193.

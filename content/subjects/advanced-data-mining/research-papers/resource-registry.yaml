@@ -66,18 +66,19 @@ resources:
     access: free
     confidence: high
     verificationStatus: verified-crossref-2026-07-28
-  - title: "ACM SIGKDD"
+  - title: "ACM SIGKDD official community resources"
     author: "ACM"
     year: 2026
     resourceType: scholarly-community-resource
     url: "https://www.kdd.org/"
     venue: "ACM SIGKDD"
     difficulty: intermediate
-    relevance: "Conference, tutorial, dataset, and community context."
+    relevance: "Official conference, tutorial, dataset, and community context; not a substitute for a survey paper."
     prerequisites: ["data mining basics"]
     access: free
     confidence: high
-    verificationStatus: verified-official-page
+    accessDate: "2026-07-28"
+    verificationStatus: verified-official-page-2026-07-28
   - title: "scikit-learn User Guide: Clustering"
     author: "scikit-learn developers"
     year: 2026
