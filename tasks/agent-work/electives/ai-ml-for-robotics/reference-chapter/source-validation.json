@@ -1,0 +1,16 @@
+{
+  "officialCurriculum": {
+    "document": "BITS Pilani WILP M.Tech. Artificial Intelligence and Machine Learning brochure",
+    "sha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "titleLocator": "physical PDF page 12, printed page 10",
+    "boundary": "title and configurable Semester 2-3 elective placement only"
+  },
+  "researchSources": [
+    "Kober, Bagnell, and Peters (2013), Reinforcement Learning in Robotics: A Survey, DOI 10.1177/0278364913495721",
+    "Tobin et al. (2017), Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World, DOI 10.1109/IROS.2017.8202133",
+    "Thrun, Burgard, and Fox (2005), Probabilistic Robotics, MIT Press",
+    "Sutton and Barto (2018), Reinforcement Learning: An Introduction, second edition, MIT Press"
+  ],
+  "claimReview": "pending independent citation and claim verification",
+  "status": "partial"
+}
