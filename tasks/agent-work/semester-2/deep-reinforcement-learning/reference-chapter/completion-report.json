@@ -1,0 +1,83 @@
+{
+  "agentId": "SUBJ-006-CH01",
+  "subject": "Deep Reinforcement Learning",
+  "task": "Create the first production-quality narrative reference chapter and book shell",
+  "status": "completed",
+  "filesCreated": [
+    "content/subjects/deep-reinforcement-learning/index.mdx",
+    "content/subjects/deep-reinforcement-learning/book/00-preface.md",
+    "content/subjects/deep-reinforcement-learning/book/01-how-to-use-this-book.md",
+    "content/subjects/deep-reinforcement-learning/book/02-prerequisites.md",
+    "content/subjects/deep-reinforcement-learning/book/03-learning-outcomes.md",
+    "content/subjects/deep-reinforcement-learning/book/04-subject-roadmap.md",
+    "content/subjects/deep-reinforcement-learning/book/05-mathematical-notation.md",
+    "content/subjects/deep-reinforcement-learning/chapters/01-sequential-decisions-and-the-drl-experimental-contract.mdx",
+    "content/subjects/deep-reinforcement-learning/references.md",
+    "content/subjects/deep-reinforcement-learning/references.bib",
+    "content/subjects/deep-reinforcement-learning/further-reading.md",
+    "content/subjects/deep-reinforcement-learning/glossary.md",
+    "content/subjects/deep-reinforcement-learning/research-papers/README.md",
+    "content/subjects/deep-reinforcement-learning/papers/README.md",
+    "content/subjects/deep-reinforcement-learning/projects/README.md",
+    "content/subjects/deep-reinforcement-learning/assignments/README.md",
+    "content/subjects/deep-reinforcement-learning/quizzes/README.md",
+    "content/subjects/deep-reinforcement-learning/datasets/README.md"
+  ],
+  "filesModified": [],
+  "sourcesUsed": [
+    "BITS Pilani WILP M.Tech. AI & ML_New Brochure_2026 copy (2026), physical PDF page 12 / printed page 10, SHA-256 fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "Sutton and Barto, Reinforcement Learning: An Introduction, 2nd ed. (MIT Press, 2018), ISBN 9780262039246",
+    "Watkins and Dayan, Q-learning (Machine Learning, 1992), DOI 10.1007/BF00992698",
+    "Mnih et al., Human-level control through deep reinforcement learning (Nature, 2015), DOI 10.1038/nature14236",
+    "Henderson et al., Deep Reinforcement Learning That Matters (AAAI, 2018), DOI 10.1609/aaai.v32i1.11694",
+    "Towers et al., Gymnasium (2024), arXiv 2407.17032",
+    "García and Fernández, A Comprehensive Survey on Safe Reinforcement Learning (JMLR, 2015)",
+    "Raffin et al., Stable-Baselines3: Reliable Reinforcement Learning Implementations (JMLR, 2021)",
+    "Schulman et al., Trust Region Policy Optimization (ICML, 2015), arXiv 1502.05477",
+    "Schulman et al., Proximal Policy Optimization Algorithms (2017), arXiv 1707.06347",
+    "Haarnoja et al., Soft Actor-Critic (ICML, 2018), arXiv 1801.01290",
+    "Bellemare, Dabney, and Munos, A Distributional Perspective on Reinforcement Learning (ICML, 2017), arXiv 1707.06887",
+    "Hessel et al., Rainbow: Combining Improvements in Deep Reinforcement Learning (AAAI, 2018), DOI 10.1609/aaai.v32i1.11796"
+  ],
+  "citationsVerified": 13,
+  "citationsRejected": 0,
+  "wordCount": 3872,
+  "testsRun": [
+    "Recomputed meaningful prose count with scripts/calculate-word-count/chapter-word-count.mjs: 3872",
+    "Extracted and executed the Python Q-learning block with deterministic assertions",
+    "Validated terminal-target masking, finite Q values, array shapes, and input rejection",
+    "npm run validate:foundation: passed (45 subjects, 45 leads)",
+    "npx tsc --noEmit --incremental false: passed",
+    "GITHUB_PAGES=true GITHUB_REPOSITORY=shivam2003-dev/mtech-ai-ml-learning-hub npm run build:pages: passed (75 static routes)",
+    "GITHUB_REPOSITORY=shivam2003-dev/mtech-ai-ml-learning-hub npm run validate:links: passed (593 internal links)",
+    "node --test tests/rendered-html.test.mjs: passed (3 tests)",
+    "npm run lint: passed",
+    "npm audit --omit=dev --audit-level=high: passed",
+    "git diff --check: passed",
+    "Validated chapter metadata required fields and compact nine-H2 structure"
+  ],
+  "validationResults": {
+    "officialCurriculum": "passed: exact title and compulsory Semester 2 placement verified; detailed units unavailable",
+    "scope": "passed: all proposed topics are labelled supplementary, advanced extension, prerequisite, or industry application",
+    "chapterWordMinimum": "passed: 3872 meaningful prose words, excluding code and references",
+    "chapterStructure": "passed: nine compact reader-facing H2 sections with narrative flow",
+    "math": "pending independent Mathematics Reviewer; derivations render through MathJax",
+    "code": "pending independent Code and Notebook Reviewer; local deterministic runtime checks passed",
+    "citations": "pending independent Citation Verifier; 13 source identities recorded with no rejected citations",
+    "editorial": "pending independent Academic Editor",
+    "renderedPublication": "pending independent rendered-publication review; local static export and link checks passed",
+    "bookShell": "passed: preface, usage, prerequisites, outcomes, roadmap, notation, references, projects, assignments, quizzes, datasets, glossary, and paper folders present"
+  },
+  "openIssues": [
+    "Independent mathematics, citation, editorial, originality, code, and rendered-publication reviews remain required before main publication.",
+    "The brochure contains no topic-level units, prerequisites, learning outcomes, assessment weights, or official reading list for this subject.",
+    "The next eleven chapter routes are planned but not yet published, so the chapter's next-reading destination is intentionally non-linked.",
+    "Atari, MuJoCo, D4RL, and other high-cost or restricted assets require compute and licensing approval before use."
+  ],
+  "recommendedNextTasks": [
+    "Run independent mathematics review of the Bellman derivations and terminal/truncation convention.",
+    "Run citation and editorial review against the Subject Lead plan and source trail.",
+    "Run rendered browser review at desktop and mobile widths, including MathJax and code overflow.",
+    "After review approval, cherry-pick this subject branch into develop and create the next DRL chapter task."
+  ]
+}
