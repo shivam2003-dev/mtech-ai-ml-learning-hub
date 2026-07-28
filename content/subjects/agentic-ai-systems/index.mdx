@@ -1,0 +1,78 @@
+---
+title: "Agentic AI Systems"
+slug: "agentic-ai-systems"
+semester: "configurable-2-3"
+subjectType: "elective"
+specialization: null
+officialSyllabusSource:
+  document: "BITS Pilani WILP M.Tech. Artificial Intelligence and Machine Learning brochure"
+  pdfPage: 16
+  printedPage: 14
+  verificationStatus: "verified-course-topic-description"
+summary: "A source-bounded reference book for designing, testing, and governing language-model systems that plan, use tools, remember context, and communicate evidence."
+prerequisites:
+  - "Prerequisite: Python programming, JSON, HTTP, and basic software testing"
+  - "Prerequisite: probability, supervised learning, and neural-network fundamentals"
+  - "Supplementary: information retrieval, distributed systems, and human-computer interaction"
+learningOutcomes:
+  - "Explain how an agent differs from a one-shot language-model call and identify the state, policy, tools, and evidence in an agent loop."
+  - "Compare ReAct, Plan-and-Execute, and Reflexion designs while stating their assumptions and failure modes."
+  - "Implement a deterministic, allow-listed tool-calling loop with validation, budgets, audit logs, and a safe refusal path."
+  - "Design memory and knowledge-grounding boundaries that protect privacy, provenance, and freshness."
+  - "Evaluate agentic systems for task success, calibration, safety, cost, latency, and reproducibility."
+difficulty: "advanced"
+estimatedHours: 185
+chapterCount: 1
+projectCount: 6
+paperCount: 15
+authors:
+  - "Shivam Kumar"
+reviewers:
+  - "Subject Lead: Agentic AI Systems"
+tools:
+  - "Python 3.12+"
+  - "OpenAI Responses API (supplementary implementation reference)"
+  - "Pydantic 2.x (supplementary validation library)"
+  - "MLflow (supplementary evaluation and tracing)"
+tags:
+  - "agentic-ai"
+  - "llm-agents"
+  - "tool-use"
+  - "rag"
+  - "safety"
+  - "mathjax"
+status: "technical-review"
+createdAt: "2026-07-28"
+updatedAt: "2026-07-28"
+lastVerifiedAt: "2026-07-28"
+version: "0.1.0"
+---
+
+# Agentic AI Systems
+
+> **Curriculum boundary:** The BITS Pilani WILP brochure verifies *Agentic AI
+> Systems* as an elective with a course-topic description. The topics below
+> follow that verified description: foundations and use cases; LLMs as agents;
+> prompting; ReAct; Plan-and-Execute; Reflexion; memory; knowledge grounding;
+> multi-agent collaboration; safety and explainability; evaluation, deployment,
+> MLOps; and a goal-driven tool-calling agent. Semester placement remains
+> configurable between Semesters 2 and 3. Examples and projects are an
+> educational interpretation, not additional official units.
+
+## Reference chapter
+
+1. [A Useful Agent Knows When to Stop](./chapters/01-a-useful-agent-knows-when-to-stop/) — a narrative introduction to state, planning, tool use, memory, evidence, and safety.
+
+## Proposed book sequence
+
+1. A Useful Agent Knows When to Stop
+2. ReAct and Plan-and-Execute Control Loops
+3. Memory, Context, and Knowledge Grounding
+4. Multi-Agent Collaboration Without Lost Accountability
+5. Safety, Governance, and Explainability
+6. Evaluating, Deploying, and Operating Agents
+7. Reproducible Agentic-AI Research
+
+Only Chapter 1 is authored in this vertical slice. Future chapters remain
+planned until their source, mathematics, code, editorial, rendering, and
+accessibility reviews pass.
