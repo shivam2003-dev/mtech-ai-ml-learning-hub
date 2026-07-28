@@ -1,153 +1,101 @@
-# Subject-Lead Review: Mathematical Language for Machine Learning
+# Subject-Lead Publication Review
 
-Review status: changes required before subject approval  
-Reviewer: `subject-lead:mathematical-foundations-for-machine-learning`  
-Reviewed source: `content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx`  
-Source observed: 2026-07-28  
-Review scope: subject alignment, dependency order, mathematical coherence, code/citation evidence, chapter contract, and Statistical Methods ownership  
-Content edits performed: none
+Review ID: `math-foundations-ch01-subject-lead-2026-07-28`
 
-## Decision
+Reviewer: `subject-lead:mathematical-foundations-for-machine-learning`
 
-The chapter is a strong reference draft and remains correctly scoped as prerequisite material. It does not introduce probability, random variables, distributions, expectation, LLN, CLT, or statistical inference; the new subject-plan ownership boundary therefore leaves Chapter 1 unaffected.
+Status: **approved**
 
-It is **not yet approved** because the published MDX has a heading-order accessibility defect and its `wordCount`, `citationStatus`, `codeStatus`, and reviewer metadata are not backed by visible, reproducible validation evidence in the repository surface reviewed. These are repairable integration issues rather than a request to rewrite the chapter.
+Publication decision: **approved and published**
 
-## What passes preliminary subject review
+## Immutable evidence boundary
 
-### Curriculum and scope
+All independent decisions approve the exact chapter content snapshot:
 
-- The curriculum notice accurately says that the brochure verifies only the subject title and Semester 1 placement, not topic-level units.
-- Classification is explicit: Prerequisite with Supplementary practice.
-- Chapter content matches the approved first-chapter purpose: sets, functions, logic, quantifiers, index notation, shapes, counterexamples, and dimension-safe implementation.
-- The prerequisites section expressly says that probability concepts are neither required nor introduced and assigns them elsewhere in the curriculum.
-- The next-step section points to vectors, matrices, systems, and subspaces rather than probability.
+```text
+dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952
+```
 
-### Mathematical coherence
+The publication artifact has SHA-256:
 
-- Object/domain/codomain/image distinctions are accurately explained.
-- Quantifier-order and negation examples are appropriate.
-- The matrix-product shape argument and indexed affine-map derivation are dimensionally consistent.
-- The worked numerical affine transformation yields the stated result.
-- The text correctly distinguishes affine from linear maps when the bias is nonzero.
-- The complexity claim for conventional dense multiplication, `Theta(b*d*k)`, and output storage, `Theta(b*k)`, is appropriate.
-- The chapter consistently distinguishes mathematical vectors/tensors from NumPy array representations.
+```text
+f5c87bee018c27a171639f68d0c313c795d790383f10e62cf530f9098b634af4
+```
 
-### Pedagogy and chapter contract
+The only difference is release-governance frontmatter: two independent review
+IDs were added and citation, mathematics, and editorial statuses were advanced
+to their approved schema values. Explanatory prose, citations, equations, and
+code are unchanged. The meaningful-prose count remains 4,944.
 
-- Learning objectives are observable and aligned with the exercises.
-- The chapter follows the requested intuition-to-formalism-to-implementation sequence.
-- It contains derivation, visual intuition, worked examples, first-principles and library implementations, applications, errors, edge cases, complexity, scalability, security/privacy/ethics, research links, exercise, assignment, quiz, solution guidance, summary, key terms, and next steps.
-- The low-dimensional visualization caveats avoid claiming that pictures prove high-dimensional results.
-- The “tests complement rather than replace proof” message is academically sound.
+## Independent decisions aggregated
 
-### Code design
+| Gate | Review | Integration commit | Decision | Reviewed chapter SHA |
+|---|---|---|---|---|
+| Citation | `math-foundations-ch01-citation-review-2026-07-28` | `7805994` | Approved | `dd6654b...` |
+| Editorial | `math-foundations-ch01-editorial-review-2026-07-28` | `7805994` | Approved | `dd6654b...` |
+| Mathematics + Runtime QA | `math-foundations-ch01-math-runtime-review-2026-07-28` | `ec6a9aa` | Approved | `dd6654b...` |
 
-- The NumPy implementation declares Python/NumPy expectations, type hints, validation, expected output, and time/space discussion.
-- It validates rank, compatible feature/output dimensions, finiteness, and a bounded output element count.
-- The explicit-loop implementation mirrors the indexed derivation.
-- Five embedded unit-test cases cover a known result, agreement between implementations, feature mismatch, non-finite input, and output-size rejection.
+No independent report contains an approval blocker.
 
-### Sources
+## Current quality-gate result
 
-- The book, MIT course, NumPy paper, and two official NumPy documentation pages are relevant and authoritative.
-- The chapter does not fabricate a “foundational paper” for basic notation merely to fill a category.
-- DOI and institutional URLs match the intended resources in the plan’s verified source registry.
+- Meaningful prose: **4,944**, reproduced with the repository counter.
+- Chapter structure: one rendered H1 and ten compact H2 sections.
+- Mathematics: independently approved; dimensions, derivation, numerical case,
+  counterexamples, and complexity checks pass.
+- Code: exact published fences pass **8 of 8** tests on Python 3.14.6 and NumPy
+  2.3.4, including huge-integer error normalization.
+- Citations: independently approved; claim support, provenance, bibliography,
+  DOI identities, and eleven endpoints pass.
+- Editorial quality: independently approved; scope, originality assessment,
+  accessibility for a beginner, and master's-level prerequisite depth pass.
+- Accessibility: 255 of 255 MathJax SVGs have title and `aria-labelledby`
+  names.
+- Desktop runtime: 1440/1440, with no page-level horizontal overflow.
+- Mobile runtime: 390/390, with code, table, and long equations retained in
+  scoped horizontal scroll containers.
+- Reader tools: bookmark, progress, dark theme, code copy, citation copy, and
+  print behavior pass.
+- Subject and chapter frontmatter conform to their Draft 2020 schemas.
 
-## Required changes
+## Prior finding closure
 
-### RC-SL-001 — Repair heading hierarchy
+### RC-SL-001 — closed
 
-Severity: blocking for publication/accessibility
+The page renders exactly one H1, ten ordered H2 sections, and an ordered table
+of contents. MathJax accessible-name coverage is 255/255.
 
-The first visible heading is `## 1. Chapter title`, followed by `# Mathematical Language for Machine Learning`. A page must not descend to level two before its single level-one title. Put the `#` title first, then continue with `##` sections. If the site template renders the title from front matter, remove the duplicate Markdown H1 and make the first authored heading a level two only after confirming the rendered page already has one H1.
+### RC-SL-002 — closed
 
-Acceptance evidence:
+The reproducible meaningful-prose counter returns 4,944 words. Frontmatter and
+the word-count evidence agree.
 
-- rendered page contains exactly one H1;
-- heading levels do not skip or reverse;
-- table-of-contents order starts after the page title;
-- axe/heading-order check passes.
+### RC-SL-003 — closed
 
-### RC-SL-002 — Reconcile meaningful word count
+The exact published implementation and tests were executed. Eight of eight
+tests pass with environment and block hashes recorded.
 
-Severity: major
+### RC-SL-004 — closed
 
-Front matter says `wordCount: 4527`, while a raw file count observed during review is 6,191 words. The difference may be legitimate because code, metadata, references, navigation headings, and boilerplate are excluded, but the calculation method and result are not recorded.
+Frontmatter now identifies the Subject Lead, citation, editorial, and
+mathematics/runtime review reports. Independent approvals are explicit and
+traceable.
 
-Acceptance evidence:
+### RC-SL-005 — closed
 
-- run the repository’s meaningful-prose counter;
-- record the tool/method version and result;
-- update front matter only if the validated meaningful-prose result differs;
-- preserve evidence showing that the chapter exceeds 3,000 meaningful prose words without counting code/references.
+The independent citation verifier approves the current content snapshot,
+including brochure provenance, inline claims, bibliographic identities,
+versioned NumPy documentation, and locally labelled engineering guidance.
 
-### RC-SL-003 — Attach executable code-test evidence
+## Curriculum boundary retained
 
-Severity: major
+The official brochure verifies the subject title and Semester 1 placement but
+does not provide topic-level units. Publication does not change this fact. The
+chapter remains visibly classified as a **Prerequisite** educational
+foundation with **Supplementary** practice and must not be presented as an
+official university unit.
 
-The chapter embeds five tests and declares `codeStatus: "tested"`, but no extracted runnable test artifact, command result, environment record, or completion report was found in the reviewed repository surface. Embedded test text alone is not execution evidence.
+## Final decision
 
-Acceptance evidence:
-
-- extract or otherwise execute the published code exactly as rendered;
-- record Python and NumPy versions;
-- show all five tests passing;
-- add at least one test for nonnumeric conversion and one for malformed/ragged loop inputs, or document why those cases are outside the loop implementation contract;
-- link the evidence from the chapter-generation completion report.
-
-### RC-SL-004 — Normalize reviewer/status metadata
-
-Severity: major
-
-The `reviewers` field contains only the role string `Mathematics Reviewer`; the chapter has `mathReviewStatus: "passed"`, `citationStatus: "verified"`, and `codeStatus: "tested"`, while `editorialStatus` remains `review`. The metadata does not identify the subject-lead review, reviewer evidence, or independent citation/code decisions.
-
-Acceptance evidence:
-
-- use the agreed reviewer schema or named review-report IDs;
-- keep subject-lead status as changes-required until RC-SL-001 through RC-SL-005 close;
-- do not mark the overall chapter approved while editorial review is incomplete;
-- ensure no producing agent self-approves independent mathematics, citation, code, and editorial gates.
-
-### RC-SL-005 — Complete claim-level citation evidence
-
-Severity: major
-
-The bibliography is relevant, but `citationStatus: "verified"` is broader than the visible evidence. In particular, security/industry recommendations about untrusted object arrays, deserialization, allocation limits, and broadcasting memory behavior need claim-level support or clear labeling as local engineering guidance. The NumPy documentation entries are displayed with publication year 2026 even though only the access date is visibly established; use `n.d.` unless a source page supplies a publication/update year.
-
-Acceptance evidence:
-
-- citation-verifier report maps externally checkable claims to authoritative sources;
-- DOI/title/author/year metadata is recorded;
-- undated web documentation uses `n.d.` plus access date unless a verified update date exists;
-- security claims cite official NumPy/Python security or loading guidance, or are explicitly framed as repository engineering recommendations;
-- paper claims, source claims, and educational interpretation remain distinct.
-
-## Non-blocking polish
-
-1. The expected unittest output omits the progress dots and elapsed-time line normally printed by `unittest`; label the shown block as an abbreviated success summary or display captured output.
-2. Consider adding a compact notation-convention callout for whether vectors are columns by default; the current affine derivation is consistent, but an explicit convention will help later chapters.
-3. The source text states that basic NumPy type hints do not enforce runtime shapes. Retain this useful warning when a more formal shape-typing strategy is added later.
-
-## Statistical Methods ownership confirmation
-
-Chapter 1 passes the revised ownership boundary:
-
-- no probability prerequisite is required;
-- no random-variable, distribution, expectation, LLN, or CLT lesson appears;
-- no probability simulation or calibration project appears;
-- dataset/sample words are used only as indexed-collection motivation;
-- the proposed next chapter remains linear algebra.
-
-No Chapter 1 content change is requested as a result of the probability-scope correction.
-
-## Re-review gate
-
-The Subject Lead can approve after:
-
-1. RC-SL-001 through RC-SL-005 have evidence-backed closure;
-2. the rendered chapter passes desktop/mobile and keyboard/heading checks;
-3. the meaningful-prose gate is reproduced;
-4. code and citation reports are attached;
-5. editorial status becomes approved through an independent review.
-
+All Subject Lead publication gates are closed with evidence. The chapter is
+approved for publication with no unresolved Subject Lead blocker.

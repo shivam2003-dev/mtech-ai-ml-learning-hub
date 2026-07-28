@@ -8,105 +8,102 @@
   "sourcePath": "content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
   "reviewReportPath": "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/subject-lead-review.md",
   "reviewedAt": "2026-07-28",
-  "status": "changes-required",
-  "contentModified": false,
+  "status": "approved",
+  "approved": true,
+  "explanatoryContentModified": false,
+  "governanceMetadataModified": true,
+  "reviewedContentSnapshot": {
+    "sha256": "dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952",
+    "meaningfulProseWords": 4944,
+    "publishedCodeTestsPassed": 8,
+    "note": "All independent approvals target this exact pre-publication snapshot."
+  },
+  "publicationArtifact": {
+    "sha256": "f5c87bee018c27a171639f68d0c313c795d790383f10e62cf530f9098b634af4",
+    "deltaFromReviewedSnapshot": "Frontmatter-only transition: two reviewer report IDs added and citation, mathematics, and editorial statuses advanced to their approved schema values.",
+    "proseChanged": false,
+    "citationsChanged": false,
+    "equationsChanged": false,
+    "codeChanged": false,
+    "meaningfulProseWords": 4944
+  },
+  "independentApprovals": {
+    "citation": {
+      "reviewId": "math-foundations-ch01-citation-review-2026-07-28",
+      "integrationCommit": "7805994",
+      "status": "approved",
+      "approved": true,
+      "chapterSha256": "dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952"
+    },
+    "editorial": {
+      "reviewId": "math-foundations-ch01-editorial-review-2026-07-28",
+      "integrationCommit": "7805994",
+      "status": "approved",
+      "approved": true,
+      "chapterSha256": "dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952"
+    },
+    "mathematicsAndRuntime": {
+      "reviewId": "math-foundations-ch01-math-runtime-review-2026-07-28",
+      "integrationCommit": "ec6a9aa",
+      "status": "approved",
+      "approved": true,
+      "chapterSha256": "dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952"
+    }
+  },
   "scopeChecks": {
     "officialSyllabusBoundary": "passed",
-    "chapterClassification": "passed",
+    "chapterClassification": "passed-prerequisite-with-supplementary-practice",
     "firstChapterPurpose": "passed",
     "probabilityOwnershipBoundary": "passed",
     "statisticalMethodsDuplication": "not-present",
-    "nextChapterDependency": "passed"
+    "nextChapterDependency": "passed",
+    "meaningfulWordCount": "passed-4944",
+    "mathematicalCoherence": "passed-independent",
+    "publishedCode": "passed-8-of-8",
+    "claimLevelCitations": "passed-independent",
+    "editorialQuality": "passed-independent",
+    "headingAndAccessibility": "passed-one-h1-255-of-255-math-labels",
+    "desktopRuntime": "passed-1440-no-overflow",
+    "mobileRuntime": "passed-390-no-overflow",
+    "readerInteractions": "passed",
+    "printMode": "passed",
+    "subjectSchema": "passed",
+    "chapterSchema": "passed"
   },
-  "preliminaryChecks": {
-    "mathematicalCoherence": "passed-preliminary",
-    "requiredSectionCoverage": "passed-preliminary",
-    "codeDesign": "passed-preliminary",
-    "sourceRelevance": "passed-preliminary",
-    "headingHierarchy": "failed",
-    "meaningfulWordCountEvidence": "needs-evidence",
-    "executableCodeTestEvidence": "needs-evidence",
-    "reviewerMetadata": "needs-reconciliation",
-    "claimLevelCitationEvidence": "needs-evidence",
-    "editorialApproval": "pending"
-  },
-  "observations": {
-    "rawFileWordCount": 6191,
-    "frontMatterWordCount": 4527,
-    "rawFileLineCount": 1117,
-    "embeddedUnitTestCount": 5,
-    "firstAuthoredHeading": "## 1. Chapter title",
-    "nextHeading": "# Mathematical Language for Machine Learning"
-  },
-  "findings": [
+  "priorFindingClosure": [
     {
       "id": "RC-SL-001",
-      "severity": "blocking",
-      "area": "accessibility-heading-structure",
-      "summary": "The source places a level-two heading before the page level-one title.",
-      "requiredEvidence": [
-        "exactly one rendered H1",
-        "monotonic heading hierarchy",
-        "passing heading-order accessibility check"
-      ]
+      "status": "closed",
+      "evidence": "The rendered page has exactly one H1, ten ordered H2 sections, a route-generated table of contents, and 255 of 255 named MathJax expressions."
     },
     {
       "id": "RC-SL-002",
-      "severity": "major",
-      "area": "word-count",
-      "summary": "The declared meaningful word count lacks reproducible calculation evidence.",
-      "requiredEvidence": [
-        "meaningful-prose counter result",
-        "counter method/version",
-        "confirmed result above 3000 words excluding code and references"
-      ]
+      "status": "closed",
+      "evidence": "The repository counter reproducibly returns 4,944 meaningful prose words; frontmatter and word-count-validation.json agree."
     },
     {
       "id": "RC-SL-003",
-      "severity": "major",
-      "area": "code",
-      "summary": "Embedded tests are present, but codeStatus tested lacks execution evidence.",
-      "requiredEvidence": [
-        "exact published code executed",
-        "Python and NumPy versions",
-        "passing test output",
-        "completion-report link"
-      ]
+      "status": "closed",
+      "evidence": "The exact published code blocks pass 8 of 8 tests on Python 3.14.6 and NumPy 2.3.4, including huge-integer error normalization."
     },
     {
       "id": "RC-SL-004",
-      "severity": "major",
-      "area": "review-metadata",
-      "summary": "Reviewer and independent review-status evidence is incomplete.",
-      "requiredEvidence": [
-        "normalized reviewer report identifiers",
-        "subject-lead changes-required status retained until closure",
-        "independent citation, mathematics, code, and editorial decisions"
-      ]
+      "status": "closed",
+      "evidence": "Frontmatter names the Subject Lead, citation, editorial, and mathematics/runtime report IDs; each independent decision is approved."
     },
     {
       "id": "RC-SL-005",
-      "severity": "major",
-      "area": "citations",
-      "summary": "Claim-level citation evidence and web-document publication-date handling need completion.",
-      "requiredEvidence": [
-        "claim-to-source mapping",
-        "verified bibliographic metadata",
-        "n.d. for undated documentation unless update year is verified",
-        "support or explicit local-guidance labeling for security claims"
-      ]
+      "status": "closed",
+      "evidence": "The independent citation report approves claim support, provenance, bibliography consistency, two DOI identities, and all eleven endpoints for the exact reviewed content snapshot."
     }
   ],
-  "nonBlockingPolish": [
-    "Label unittest output as abbreviated or use captured output.",
-    "Add an explicit default vector-orientation convention for later chapters.",
-    "Retain the warning that basic NumPy type hints do not enforce runtime shapes."
+  "validationCommands": [
+    "node scripts/calculate-word-count/chapter-word-count.mjs content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
+    "node scripts/validate-content/foundation.mjs",
+    "schema validation for subject, chapter, and completion report using the repository definitions",
+    "git diff --check"
   ],
-  "approvalGate": [
-    "RC-SL-001 through RC-SL-005 closed with evidence",
-    "rendered desktop/mobile and keyboard checks pass",
-    "meaningful prose count reproduced",
-    "code and citation reports attached",
-    "independent editorial approval complete"
-  ]
+  "unresolvedBlockers": [],
+  "publicationDecision": "approved-and-published",
+  "decision": "The Subject Lead approves publication of the reference chapter. The programme brochure remains title-only, so the chapter must retain its visible prerequisite/provisional classification and must not be presented as an official university unit."
 }

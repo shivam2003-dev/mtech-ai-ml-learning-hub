@@ -32,8 +32,13 @@
     "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/correction-disposition.json"
   ],
   "filesModified": [
+    "content/subjects/mathematical-foundations-for-machine-learning/index.mdx",
     "content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
     "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/completion-report.json",
+    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/subject-lead-review.md",
+    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/subject-lead-review.json",
+    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/correction-disposition.md",
+    "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/correction-disposition.json",
     "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/code-validation.md",
     "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/code-validation.json",
     "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/word-count-validation.json",
@@ -63,6 +68,9 @@
     "eight unittest cases for known output, seeded implementation agreement, shape mismatch, non-finite input, resource-size rejection, nonnumeric conversion, huge-integer normalization, and ragged loop input",
     "scope scan for probability and project content",
     "route-safe chapter-link check",
+    "aggregate approved citation, editorial, and mathematics/runtime reports for chapter snapshot dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952",
+    "verify publication artifact differs from the approved content snapshot only in release-governance frontmatter",
+    "validate subject, chapter, and completion report against the repository schemas",
     "git diff --check"
   ],
   "validationResults": {
@@ -70,21 +78,29 @@
     "probabilityContent": "excluded",
     "projectContent": "excluded; honest placeholder only",
     "chapterStructure": "passed source audit: no authored H1; ten compact H2 sections follow problem, map, intuition/formal model, derivation/case, implementation/application, failures, evaluation/research, study lab, oral defence/summary, and references",
-    "chapterSha256": "dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952",
+    "approvedContentSnapshotSha256": "dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952",
+    "chapterSha256": "f5c87bee018c27a171639f68d0c313c795d790383f10e62cf530f9098b634af4",
+    "publicationArtifactSha256": "f5c87bee018c27a171639f68d0c313c795d790383f10e62cf530f9098b634af4",
+    "publicationArtifactDelta": "release-governance frontmatter only; explanatory prose, citations, equations, and code unchanged",
+    "chapterBodyIntegrity": "passed byte-for-byte; body SHA-256 3b34794c6dd891fb5b1f234e7e0a35d6fac6ef308eae960ae62ab980732c9d39 before and after publication metadata",
     "meaningfulProseWords": 4944,
     "minimumMeaningfulProseWords": 3000,
     "chapterFrontmatterWordCountMatches": true,
     "subjectSchema": "passed",
     "chapterSchema": "passed",
     "mdxCompilation": "passed for index and chapter with MathJax pipeline",
-    "mathReview": "pending independent approval; the producing agent does not claim an independent mathematics decision",
+    "mathReview": "approved independently for the exact dd6654b content snapshot",
     "codeStatus": "tested on Python 3.14.6 with NumPy 2.3.4; exact published blocks executed and 8 of 8 tests passed, including huge-integer OverflowError normalization",
-    "citations": "partial pending independent recheck; curriculum provenance is hash/page traceable, NumPy documentation is pinned to 2.5, technical claims have inline links, and local guidance is explicitly labeled",
-    "reviewerMetadata": "normalized to Subject Lead and independent citation-review report IDs without claiming overall approval",
-    "editorialStatus": "review",
+    "citations": "approved independently for the exact dd6654b content snapshot; curriculum provenance, claim support, bibliography, two DOI identities, and eleven endpoints passed",
+    "reviewerMetadata": "Subject Lead, citation, editorial, and mathematics/runtime report IDs are recorded in chapter and subject frontmatter",
+    "editorialStatus": "approved independently for the exact dd6654b content snapshot",
+    "subjectLeadStatus": "approved",
+    "publicationStatus": "published",
     "evidencePaths": {
       "subjectLeadReview": "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/subject-lead-review.json",
       "citationReview": "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/citation-review.json",
+      "editorialReview": "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/editorial-review.json",
+      "mathRuntimeReview": "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/math-runtime-review.json",
       "headingSource": "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/heading-validation.json",
       "wordCount": "tasks/agent-work/semester-1/mathematical-foundations/reference-chapter/word-count-validation.json",
       "code": [
@@ -99,21 +115,16 @@
     },
     "staticRoute": "./chapters/01-mathematical-language-for-machine-learning/",
     "placeholderIntegrity": "passed: no fake paper, project, assignment, quiz, or dataset content",
-    "sharedFilesTouched": false,
+    "releaseGovernanceFilesOnly": true,
     "fullChaptersCreated": 1
   },
   "openIssues": [
     "The official brochure remains title-only for this subject, so the chapter is provisional and not an official unit.",
-    "Independent mathematics, citation, editorial, accessibility, and rendered-QA sign-off is still required for the new immutable chapter snapshot before publication status can become approved.",
-    "The application must render the route-safe subject and chapter paths; shared app integration is outside this task.",
     "The canonical future paper-directory name must be standardized between papers and research-papers."
   ],
   "recommendedNextTasks": [
-    "Request independent citation and editorial recheck of chapter SHA-256 dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952.",
-    "Request Subject Lead re-review of RC-SL-001 through RC-SL-005 using the linked evidence.",
-    "Run independent mathematics review of the reference chapter.",
-    "Integrate the subject and chapter routes without changing the portable MDX content.",
-    "Render and visually inspect MathJax, code highlighting, tables, mobile layout, print mode, and heading anchors.",
-    "Keep probability and project generation blocked until their separate scope and completeness gates pass."
+    "Keep the visible prerequisite/provisional classification because the brochure remains title-only.",
+    "Standardize the future paper-directory name before full subject-book expansion.",
+    "Generate later chapters only through their separate syllabus, citation, mathematics, code, accessibility, and editorial gates."
   ]
 }
