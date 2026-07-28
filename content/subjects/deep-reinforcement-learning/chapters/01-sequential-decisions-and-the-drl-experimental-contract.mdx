@@ -1,0 +1,681 @@
+---
+title: "Sequential Decisions: From Rewards to Learning Contracts"
+slug: "sequential-decisions-and-the-drl-experimental-contract"
+subject: "deep-reinforcement-learning"
+subjectTitle: "Deep Reinforcement Learning"
+chapterNumber: 1
+classification: "supplementary"
+summary: "A decision-first introduction to sequential environments, returns, Markov decision processes, Bellman reasoning, tabular Q-learning, and the experiment contract that keeps a deep reinforcement-learning result honest."
+learningObjectives:
+  - "Describe an agent-environment loop using states, observations, actions, rewards, termination, and truncation."
+  - "Translate a sequential task into a finite-horizon Markov decision process and state what the Markov assumption leaves out."
+  - "Define discounted returns, value functions, action-values, and temporal-difference error with every symbol explained."
+  - "Derive the one-step Bellman expectation and optimality updates for a finite tabular example."
+  - "Implement a deterministic tabular Q-learning baseline with correct terminal handling and input validation."
+  - "Design an evaluation contract with seeds, environment steps, baselines, uncertainty, and safety boundaries."
+prerequisites:
+  - "Prerequisite: vectors, gradients, expectation, variance, and basic optimisation"
+  - "Prerequisite: Python 3, NumPy arrays, functions, exceptions, and unit-test reasoning"
+  - "Prerequisite: supervised learning workflow and the distinction between training and evaluation"
+  - "Prerequisite: basic Markov-chain intuition (supplementary bridge)"
+estimatedReadingMinutes: 48
+difficulty: "foundation"
+tags:
+  - "reinforcement-learning"
+  - "markov-decision-process"
+  - "bellman-equation"
+  - "q-learning"
+  - "reproducibility"
+  - "safe-ai"
+relatedChapters:
+  - "markov-decision-processes-values-and-bellman-reasoning"
+  - "sampling-monte-carlo-temporal-difference-and-tabular-control"
+  - "function-approximation-and-the-stability-problem"
+recommendedPapers:
+  - "R01"
+  - "R02"
+  - "R22"
+  - "R23"
+  - "R25"
+authors:
+  - "Shivam Kumar"
+reviewers:
+  - "Deep Reinforcement Learning Subject Lead"
+  - "Mathematics Reviewer"
+  - "Code and Notebook Author"
+  - "Citation Verifier"
+wordCount: 3872
+citationStatus: "partial"
+codeStatus: "draft"
+mathReviewStatus: "pending"
+editorialStatus: "review"
+createdAt: "2026-07-28"
+updatedAt: "2026-07-28"
+lastVerifiedAt: "2026-07-28"
+---
+
+> **Scope note:** the programme brochure verifies the title *Deep Reinforcement
+> Learning* and its compulsory Semester 2 placement, but supplies no detailed
+> units. This is a **Supplementary** reference chapter proposed by the Subject
+> Lead. It uses standard foundations from Sutton and Barto [R01] and verified
+> research resources listed at the end; it must not be read as a transcription
+> of an unavailable university syllabus.
+
+## 01 Start with the decision, not the algorithm
+
+### Why this topic matters
+
+Supervised learning asks a model to predict a target for a row or example.
+Reinforcement learning asks a system to choose actions whose consequences may
+arrive much later. That difference changes the data, the objective, and the
+meaning of an experiment. A recommendation changes what a person sees; a
+robot changes where it moves; a scheduler changes which job waits. The action
+affects the next observation, so future data are partly caused by the policy
+being evaluated. A high score on one convenient trajectory is not automatically
+evidence of a good decision system.
+
+Consider Leena, who operates twelve pumps on a campus. Each morning she can
+send a technician to only three pumps. A proposed agent sees vibration and
+temperature, selects an inspection list, and receives a reward after a week:
+avoided breakdowns are positive, unnecessary visits are mildly negative, and
+an unsafe shutdown is strongly negative. The agent cannot observe the true
+mechanical condition directly. If a sensor is repaired after a technician
+visit, the next observation is partly an effect of the action. If the reward is
+recorded only when a work order closes, it arrives late and may be missing when
+a pump leaves the network.
+
+Before choosing DQN, PPO, or any other name, Leena must write a **decision
+contract**. What is the decision time? Which values are available then? What
+actions are allowed? What event ends an episode? How are delayed outcomes
+assigned? What is a tolerable false alarm rate? What is the baseline policy?
+What evidence would justify a cautious shadow trial? These questions are not
+administrative overhead. They define the learning problem.
+
+### Learning objectives and the conceptual map
+
+This chapter builds a small map:
+
+1. An **agent** receives an observation, chooses an action, and receives a
+   reward and next observation from an **environment**.
+2. A finite-horizon **Markov decision process (MDP)** records the state,
+   action, transition, reward, discount, and termination assumptions.
+3. A **return** adds future rewards with a discount. A value function averages
+   returns under a policy; an action-value function conditions on the first
+   action.
+4. The **Bellman equation** relates a value now to a reward now plus a value
+   later. Its one-step sample form is the target used by temporal-difference
+   methods.
+5. A tested tabular Q-learning loop makes these definitions executable before
+   neural function approximation introduces additional instability.
+
+The sequence is intentionally compact and narrative. The formal symbols serve
+the decision story; they are not a replacement for specifying what a machine
+can actually observe.
+
+## 02 Build the interaction contract
+
+### Intuition: a controlled conversation
+
+At time $t$, the agent has a state-like description $S_t$. It selects an action
+$A_t$. The environment responds with a reward $R_{t+1}$ and a next state
+$S_{t+1}$. The index on the reward emphasizes that the consequence is observed
+after the action. A trajectory is a sequence such as
+
+$$
+S_0,A_0,R_1,S_1,A_1,R_2,S_2,\ldots.
+$$
+
+In an arcade game, the observation might be pixels rather than the hidden
+physical state. In pump monitoring, the state is a summary of sensor history,
+maintenance history, and remaining inspection capacity. Calling an observation
+“the state” is a modelling decision: the state is adequate only if the past
+that matters for future reward is represented, or if the missing memory is
+handled by a recurrent or belief-state model.
+
+An environment API should expose termination explicitly. **Terminated** means
+the task's terminal condition occurred, such as a pump failure or a solved
+maze. **Truncated** means an external limit stopped the episode, such as a
+maximum number of steps or a time budget. Both stop the current rollout, but
+they do not mean the same thing for bootstrapping: a time limit may leave value
+after the cutoff. Gymnasium's API and its paper document this distinction [R25].
+Merging the flags can create a silent target bug.
+
+### Formal MDP definition
+
+For this chapter, an episodic MDP is a tuple
+
+$$
+\mathcal{M}=(\mathcal{S},\mathcal{A},P,R,\gamma,\rho_0),
+$$
+
+where $\mathcal{S}$ is the set of states, $\mathcal{A}$ the set of actions,
+$P(s'\mid s,a)$ the probability of next state $s'$ after $(s,a)$, and
+$R(r\mid s,a,s')$ the reward distribution. The scalar $\gamma\in[0,1]$ is a
+discount factor and $\rho_0$ is the initial-state distribution. The Markov
+property says that, conditioned on the current state and action, the next
+state and reward do not require the full earlier history:
+
+$$
+\Pr(S_{t+1},R_{t+1}\mid S_0,A_0,\ldots,S_t,A_t)
+=
+\Pr(S_{t+1},R_{t+1}\mid S_t,A_t).
+$$
+
+This is an assumption about the chosen representation, not a law of nature.
+If a sensor hides battery age, current readings may not be Markov. Stacking a
+history window, adding a recurrent memory, or learning a belief distribution
+can make the approximation better, but each choice changes the model and its
+cost.
+
+A policy $\pi(a\mid s)$ is a probability distribution over actions given a
+state. A deterministic policy writes $a=\pi(s)$. The policy is the object that
+acts; a Q-function is an estimate used to choose or improve that policy. A
+common experimental error is to report the Q-function's training target as if
+it were the policy's real-world performance.
+
+## 03 Make delayed reward mathematical
+
+### Returns and values
+
+The discounted return from time $t$ is
+
+$$
+G_t=R_{t+1}+\gamma R_{t+2}+\gamma^2R_{t+3}+\cdots
+=\sum_{k=0}^{T-t-1}\gamma^kR_{t+k+1},
+$$
+
+for an episode ending at time $T$. When $\gamma=1$, a finite episode gives
+undiscounted cumulative reward. When $\gamma<1$, a reward now counts more than
+the same reward later, and the infinite-horizon sum is bounded when rewards are
+bounded. The discount is not a magic “patience” knob: it changes the objective.
+In a safety problem, a delayed catastrophic event should not become harmless
+merely because a discount was selected for numerical convenience.
+
+For policy $\pi$, the state-value function is
+
+$$
+V^\pi(s)=\mathbb{E}_\pi[G_t\mid S_t=s],
+$$
+
+and the action-value function is
+
+$$
+Q^\pi(s,a)=\mathbb{E}_\pi[G_t\mid S_t=s,A_t=a].
+$$
+
+The expectation averages environment randomness and policy randomness. An
+estimate from one episode is not the value itself; it is a noisy sample. This
+is why a single lucky rollout cannot establish an algorithmic improvement.
+
+### Derive the Bellman expectation equation
+
+Start with the return recursion, obtained by taking the first reward out of
+the sum:
+
+$$
+G_t=R_{t+1}+\gamma G_{t+1}.
+$$
+
+Condition on $S_t=s$. The next action is sampled from $\pi$, the next state
+from $P$, and the future return has conditional expectation $V^\pi(S_{t+1})$.
+Therefore,
+
+$$
+\begin{aligned}
+V^\pi(s)
+&=\mathbb{E}_\pi[G_t\mid S_t=s]\\
+&=\mathbb{E}_\pi[R_{t+1}+\gamma G_{t+1}\mid S_t=s]\\
+&=\sum_{a\in\mathcal{A}}\pi(a\mid s)
+\sum_{s'\in\mathcal{S}}P(s'\mid s,a)
+\left[r(s,a,s')+\gamma V^\pi(s')\right],
+\end{aligned}
+$$
+
+where $r(s,a,s')$ is the expected immediate reward. The equation says that a
+value is a locally weighted consequence plus a future value; it does not say
+that the future value is known. Dynamic programming can apply the equation
+when $P$ and $r$ are known. Reinforcement learning estimates its terms from
+interaction.
+
+For the optimal value, choose the best action rather than average according to
+a fixed policy:
+
+$$
+V^*(s)=\max_{a\in\mathcal{A}}\sum_{s'}P(s'\mid s,a)
+\left[r(s,a,s')+\gamma V^*(s')\right].
+$$
+
+The corresponding optimal action-value equation is
+
+$$
+Q^*(s,a)=\sum_{s'}P(s'\mid s,a)
+\left[r(s,a,s')+\gamma\max_{a'}Q^*(s',a')\right].
+$$
+
+If $\gamma<1$ and rewards are bounded, the Bellman optimality operator is a
+contraction in the sup norm. Repeated exact application therefore has a unique
+fixed point in the finite discounted case. This is a useful stability result,
+not a guarantee that a neural optimizer will find the fixed point: sampled
+targets, function approximation, replay distribution, and changing policies
+add separate error sources.
+
+### A two-state worked example
+
+Suppose a small inspection task has state $S$ (“stable”) and state $F$
+(“failed”). In $S$, action `inspect` gives reward $-1$, returns to $S$ with
+probability $0.8$, and reaches $F$ with probability $0.2$. State $F$ is
+terminal with value $0$. Let $\gamma=0.9$. If the current estimate is
+$V(S)=2$, one Bellman evaluation update is
+
+$$
+V_{\text{new}}(S)=-1+0.9(0.8\cdot 2+0.2\cdot 0)=0.44.
+$$
+
+The result is not “the pump is worth 0.44” in a universal sense. It is the
+value under this reward, transition model, discount, and policy. Changing the
+cost of failure, the horizon, or the action set changes the answer. Writing
+those assumptions beside a number is part of mathematical correctness.
+
+The example also illustrates a distinction between a **model** and a
+**measurement**. The transition probability $0.8$ is a model assumption; an
+estimated frequency such as 80 successful transitions in 100 trials is a
+measurement with sampling uncertainty. If the estimate came only from days on
+which a technician chose to inspect, it may not describe the transition under
+the alternative action. A paper or notebook should state whether a probability
+is known, estimated from data, or selected for a teaching example. The same
+discipline applies to the reward: an average of logged rewards is evidence
+about the logging policy and period, not a timeless property of the task.
+
+For a finite horizon, it is often clearer to attach a time index to the value,
+$V_t^\pi(s)$, because the remaining number of decisions changes what the state
+is worth. A state one step before the horizon cannot be valued like the same
+physical state at the start of an episode. Infinite-horizon notation hides this
+boundary only after a stationarity assumption has been made. In a production
+workflow, store the horizon or elapsed-time feature when it affects available
+actions, and check that a model cannot infer the answer from a future-only
+field.
+
+## 04 Turn the equation into a tested learner
+
+### From sampled Bellman target to Q-learning
+
+An agent does not normally know the transition expectation. It observes one
+sample $(s,a,r,s')$. For a non-terminal transition, the one-step Q-learning
+target is
+
+$$
+y=r+\gamma\max_{a'}Q(s',a';\theta),
+$$
+
+and the temporal-difference error is
+
+$$
+\delta=y-Q(s,a;\theta).
+$$
+
+With a tabular Q table and learning rate $\alpha\in(0,1]$,
+
+$$
+Q(s,a)\leftarrow Q(s,a)+\alpha\delta.
+$$
+
+At a true terminal state, the future term is zero, so $y=r$. For a truncated
+episode, whether to bootstrap depends on whether the task's underlying state
+continues; an experiment must state its convention. The update is **off-policy**:
+the target uses a greedy next action even if the behaviour selected an
+exploratory action. In contrast, SARSA uses the action actually selected next.
+
+### First-principles NumPy implementation
+
+The following compact loop is intentionally tabular. It validates the MDP
+dimensions, masks terminal bootstrap, uses a local random generator, and
+returns the complete learning curve. It targets Python 3.12+ and NumPy 2.x.
+
+```python
+from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Callable
+
+import numpy as np
+
+
+@dataclass(frozen=True)
+class QLearningConfig:
+    alpha: float = 0.25
+    gamma: float = 0.95
+    epsilon: float = 0.15
+    episodes: int = 300
+    max_steps: int = 40
+    seed: int = 7
+
+
+def q_learning(
+    transitions: np.ndarray,
+    rewards: np.ndarray,
+    start_state: int,
+    is_terminal: Callable[[int], bool],
+    config: QLearningConfig,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Learn Q values on a deterministic tabular environment."""
+    if transitions.ndim != 2 or rewards.shape != transitions.shape:
+        raise ValueError("transitions and rewards must be equal-rank 2-D arrays")
+    if not np.issubdtype(transitions.dtype, np.integer):
+        raise TypeError("transitions must contain integer state indices")
+    n_states, n_actions = transitions.shape
+    if not 0 <= start_state < n_states:
+        raise ValueError("start_state is outside the state table")
+    if np.any(transitions < 0) or np.any(transitions >= n_states):
+        raise ValueError("transition contains an unknown state")
+    if not 0.0 < config.alpha <= 1.0:
+        raise ValueError("alpha must be in (0, 1]")
+    if not 0.0 <= config.gamma <= 1.0:
+        raise ValueError("gamma must be in [0, 1]")
+    if not 0.0 <= config.epsilon <= 1.0:
+        raise ValueError("epsilon must be in [0, 1]")
+    if config.episodes < 1 or config.max_steps < 1:
+        raise ValueError("episodes and max_steps must be positive")
+
+    rng = np.random.default_rng(config.seed)
+    q_values = np.zeros((n_states, n_actions), dtype=np.float64)
+    returns = np.zeros(config.episodes, dtype=np.float64)
+
+    for episode in range(config.episodes):
+        state = start_state
+        total = 0.0
+        for _ in range(config.max_steps):
+            if rng.random() < config.epsilon:
+                action = int(rng.integers(n_actions))
+            else:
+                action = int(np.argmax(q_values[state]))
+            next_state = int(transitions[state, action])
+            reward = float(rewards[state, action])
+            terminal = is_terminal(next_state)
+            target = reward if terminal else reward + config.gamma * np.max(q_values[next_state])
+            q_values[state, action] += config.alpha * (target - q_values[state, action])
+            total += reward
+            state = next_state
+            if terminal:
+                break
+        returns[episode] = total
+    return q_values, returns
+```
+
+The update is small enough to audit line by line. `np.argmax` breaks ties by
+the first action, which can bias a deterministic toy result; a serious study
+should document tie handling or randomise ties. `returns` contains behaviour
+returns, not greedy evaluation returns. During evaluation, set exploration to
+zero and collect new episodes. The code intentionally models a deterministic
+transition table; it is not a production environment adapter.
+
+One useful manual test is to make all rewards zero except one transition that
+enters a terminal state. After learning, the Q value of that transition should
+move toward the reward, while earlier transitions should reflect the discounted
+path to it. Change the reward sign and repeat. This catches reversed reward
+arguments, a state/action index swap, and an accidental `gamma` omission more
+quickly than watching a long curve. A second test can set `epsilon=1` and verify
+that every action remains legal; exploration should change action frequencies,
+not bypass the environment's action contract.
+
+### Library implementation and test contract
+
+Gymnasium supplies environment lifecycle and observation/action spaces, while
+PyTorch or Stable-Baselines3 can supply neural optimisers and reference agents
+[R23, R25]. A library reduces boilerplate but does not decide whether a reward
+is valid, whether a timeout should bootstrap, or whether a score comparison is
+fair. Wrap an environment with a test that checks reset reproducibility,
+action validity, reward dtype, and the distinction between `terminated` and
+`truncated`. Pin versions and record the environment ID; a changed wrapper can
+change the learning problem without changing the algorithm name.
+
+## 05 Understand what can go wrong
+
+### The deadly triad and representation drift
+
+Tabular Q-learning can converge under restrictive assumptions, but combining
+bootstrapping, off-policy data, and function approximation is famously fragile.
+This combination is often called the **deadly triad**. A neural Q-function
+generalises from one state-action pair to others, the target depends on another
+estimated value, and the replay distribution may come from an older behaviour
+policy. Errors can reinforce themselves. A high training return can coexist
+with a policy that exploits a simulator artefact or collapses outside the
+visited states.
+
+Target networks and replay buffers in DQN [R04] reduce particular correlations:
+the target network is held fixed for a period, and replay samples mix older
+transitions rather than following one strongly correlated trajectory. They are
+stability tools, not proofs of correctness. Double estimators address a
+different overestimation mechanism; dueling heads, prioritized replay, and
+distributional values each add assumptions and tuning choices [R10, R11].
+
+### Reward and data failures
+
+Reward hacking occurs when the specified signal is easier to optimise than the
+intended outcome. If Leena rewards “number of inspections completed”, an agent
+can inspect safe pumps repeatedly while ignoring the rare dangerous pump. A
+penalty for movement can produce a motionless robot. A benchmark score can
+rise because a wrapper accidentally gives an extra life. Inspect trajectories,
+not only scalar returns; write counterexamples that would satisfy the reward
+while violating the real objective.
+
+Off-policy replay also creates distribution shift. A transition in the buffer
+may be valid, but the current policy may visit states where the table or network
+has little support. In offline RL the policy cannot collect corrective data at
+all, so extrapolation error and unsupported actions require conservative methods
+and explicit dataset coverage [R16, R17, R19]. Do not call a fixed logged
+dataset “online training” because the same update equation appears in code.
+
+There is a second, quieter failure: the data collection policy may change the
+meaning of the state. Imagine that an inspection agent is trained while a
+technician always repairs a pump immediately after a high vibration reading.
+The learner may see “high vibration, then healthy” and conclude that vibration
+is safe, when the intervention caused the healthy outcome. This is a causal
+question hidden inside a sequential dataset. Logging the action, intervention,
+and observation time makes the ambiguity visible; it does not solve it, but it
+prevents a causal story from being smuggled into a predictive score.
+
+Delayed rewards create credit-assignment ambiguity as well. If a ten-step
+inspection route produces one final reward, every action on that route shares
+the same outcome under a naive Monte Carlo update. Eligibility traces,
+reward-to-go estimates, and learned critics distribute credit in different
+ways, each with a bias and variance trade-off. Before tuning those mechanisms,
+ask whether the reward can be decomposed into auditable intermediate signals.
+Decomposition can improve learning while also creating more opportunities for
+reward hacking, so the operational meaning of each component must be recorded.
+
+### Numerical and API edge cases
+
+Large positive rewards can overflow an unstable network; large negative rewards
+can saturate a squashed policy. Normalising rewards changes the objective unless
+the transformation is justified. A terminal transition with a nonzero next-Q
+term leaks value past the end of an episode. A timeout treated as terminal can
+underestimate long-horizon value. An invalid action mask can make an agent
+appear to learn by selecting impossible actions in a simulator. These are
+testable implementation defects, not mysterious properties of exploration.
+
+## 06 Evaluate evidence, cost, and safety
+
+### A multi-axis evaluation contract
+
+An honest DRL report names at least:
+
+- the environment version, observation and action spaces, reward definition,
+  termination convention, and maximum steps;
+- the behaviour and evaluation policies, training environment steps, update
+  ratio, network architecture, optimiser, discount, and all seeds;
+- a simple baseline, such as a random, scripted, heuristic, or tabular policy;
+- mean and dispersion across independent seeds, with a confidence interval or
+  a clearly stated uncertainty summary;
+- failure rates, constraint violations, episode length, and compute budget,
+  not only average return;
+- ablations that test which component is responsible for an observed change.
+
+Henderson and colleagues showed why deep-RL conclusions can change across
+random seeds, implementations, and evaluation procedures [R22]. Their lesson
+is methodological: a claimed improvement must survive a protocol, not just a
+run. If only one seed was affordable, report it as a limitation rather than
+presenting a narrow curve as a population estimate.
+
+### Complexity and scalability
+
+For the tabular code, storing Q values costs $O(|\mathcal{S}||\mathcal{A}|)$
+space and each transition update costs $O(|\mathcal{A}|)$ because of the next
+state maximum. A dense neural Q-function with $P$ parameters costs roughly
+$O(P)$ for a forward pass and usually $O(P)$ for a backward pass; replay adds
+$O(Bd)$ storage for batch size $B$ and transition representation width $d$.
+Environment simulation can dominate both. Scaling actor processes may improve
+throughput while introducing policy lag and stale data. Measure environment
+steps, learner updates, wall-clock time, and energy separately so a faster
+implementation is not mistaken for a more sample-efficient algorithm.
+
+### Safety and responsible use
+
+The agent should first run in a simulator or shadow mode with a human-approved
+fallback. Define an action allow-list, a budget for unsafe exploration, a
+rollback trigger, and an owner who can stop the system. In a pump setting,
+“negative reward” is not an adequate safety case: a failed pump may affect
+people, water quality, or expensive equipment. Log observations, actions,
+policy version, and override reason while minimizing personal or sensitive
+data. Safe-RL surveys distinguish reward optimisation from explicit constraint
+handling [R21]; use that distinction when choosing a method.
+
+Safety review should also include people who did not design the reward. A
+maintenance manager may know that a “safe” shutdown interrupts a critical
+service; an operator may know that a sensor is unreliable during a weather
+event. Their constraints can be represented as action masks, hard budgets,
+human approval gates, or a separate constraint cost, but the chosen mechanism
+must be tested under the same disturbances expected in deployment. A simulator
+that omits these disturbances can establish code correctness, not operational
+safety.
+
+Privacy is sequential too. An observation history can reveal a person's work
+schedule even when one observation seems harmless. Retain only fields needed
+for the decision, restrict access to raw trajectories, and define deletion and
+retention rules before collecting exploratory data. If a human override is
+logged, record the reason and the policy version without turning the log into an
+unreviewed performance label. Responsible deployment treats observability,
+privacy, and contestability as part of the environment contract.
+
+## 07 Connect the baseline to research
+
+The tabular update here is the conceptual ancestor of deep Q-learning, but the
+research questions evolve as the representation and data regime change. DQN
+demonstrated that a convolutional neural network, replay, and a target network
+could learn control policies from pixels on Atari [R04]. Policy-gradient work
+such as Williams' likelihood-ratio estimator [R03] optimises a policy directly;
+TRPO and PPO constrain policy updates to reduce destructive steps [R05, R07].
+SAC adds an entropy objective for robust continuous control [R09]. IMPALA
+explores distributed actor-learner throughput and correction for policy lag
+[R12].
+
+These papers should be read as distinct claims. DQN's benchmark result does not
+prove that replay always stabilises every domain. PPO's clipped objective does
+not guarantee a trust region under every optimiser and minibatch schedule.
+SAC's entropy temperature is part of its objective, not a cosmetic exploration
+setting. A reproduction report should list deviations from the paper, use the
+paper's evaluation unit where possible, and separate three sentences:
+
+1. **Paper claim:** what the authors report under their protocol.
+2. **Our observation:** what our implementation produced under our protocol.
+3. **Our interpretation:** why the difference may have occurred, with evidence
+   and uncertainty.
+
+This separation protects a learner from turning a tutorial implementation into
+an invented scientific result.
+
+The reading order matters. Read a foundational text for definitions, then a
+method paper for the algorithmic change, then a reproducibility or library
+paper for the engineering contract. For example, Watkins and Dayan motivate
+the tabular update, Mnih et al. show one route to scaling value estimates, and
+Henderson et al. challenge the assumption that a single implementation run is
+enough evidence. A modern paper should be read with its benchmark, compute,
+and evaluation choices visible. “State of the art” is a time-dependent claim,
+so it belongs in a dated research note and should not be silently copied into a
+stable chapter sentence.
+
+## 08 Run the study lab and assignment
+
+### Practical exercise: a two-state audit
+
+Implement the two-state example twice: once by applying the Bellman expectation
+equation exactly, and once by sampling episodes and averaging returns. Use three
+discount factors and show how the estimate changes. Write down which quantities
+are known in the exact calculation and which are estimated in the sampled one.
+Add an assertion that terminal states have value zero under the chosen task.
+
+### Assignment: reproducible tabular control dossier
+
+Build a four-state inspection environment with two actions, a terminal failure,
+and a time-limit truncation. Submit:
+
+- an MDP table and a plain-language decision contract;
+- a tested Q-learning implementation and a behaviour-policy evaluation;
+- at least five independent seeds, environment-step counts, and uncertainty
+  summaries;
+- a comparison with a random and a hand-written heuristic baseline;
+- one ablation for discount, exploration, or terminal masking;
+- a trajectory table showing one successful and one failure case;
+- a short safety note describing an action allow-list and rollback trigger.
+
+The marking rubric is 25% MDP and API correctness, 25% derivation and code
+tests, 20% evaluation design, 15% failure analysis, and 15% communication and
+reproducibility. A higher return does not compensate for a leaking terminal
+target or an unverifiable seed protocol.
+
+For solution guidance, first draw the transition graph and mark terminal and
+truncated edges in different colours. Then write the target for each edge
+before writing code. Unit-test a terminal transition with a deliberately large
+next-state Q value; the target must still equal the immediate reward. Separately
+test a truncation using the documented bootstrap convention. Finally, compare
+the greedy policy to the random policy on fresh episodes. This order catches
+conceptual errors before statistical noise makes the curves look persuasive.
+
+### Oral questions
+
+1. Why does an observation sometimes fail to be a Markov state?
+2. What is the difference between a value function and an action-value function?
+3. Why does a terminal target omit the discounted next-Q term?
+4. Why is Q-learning called off-policy?
+5. Why can a time-limit truncation require bootstrapping?
+6. Which parts of a DRL result need multiple seeds, and what does a seed not fix?
+7. Give a reward-hacking example where the scalar reward improves but the real
+   objective worsens.
+
+### Complete summary
+
+Sequential learning is a controlled feedback problem. Define the agent,
+environment, information boundary, action set, reward, horizon, and terminal
+semantics before selecting an algorithm. The MDP formalises the Markov
+assumption; returns express delayed consequences; value and action-value
+functions express expected performance; and Bellman equations connect current
+decisions to future value. A sampled Q-learning update is a useful baseline
+because every term can be inspected and tested. Deep networks add expressive
+power but also bootstrapping, off-policy, and approximation risks. Evaluation
+therefore needs baselines, seeds, uncertainty, ablations, resource measures,
+and safety controls. The next chapter derives MDP policies and Bellman
+operators in greater detail before sampling is introduced.
+
+## 09 References and next reading
+
+The following identifiers are verified in the Subject Lead research bundle;
+they are reading recommendations, not claims that the brochure listed them.
+
+- **[R01]** Richard S. Sutton and Andrew G. Barto. *Reinforcement Learning: An Introduction*, 2nd ed., MIT Press, 2018. [MIT Press](https://mitpress.mit.edu/9780262039246/). Foundational textbook.
+- **[R02]** Christopher J. C. H. Watkins and Peter Dayan. “Q-learning.” *Machine Learning*, 1992. DOI: [10.1007/BF00992698](https://doi.org/10.1007/BF00992698). Foundational off-policy control paper.
+- **[R03]** Ronald J. Williams. “Simple statistical gradient-following algorithms for connectionist reinforcement learning.” *Machine Learning*, 1992. DOI: [10.1007/BF00992696](https://doi.org/10.1007/BF00992696). Foundational policy-gradient paper.
+- **[R04]** Volodymyr Mnih et al. “Human-level control through deep reinforcement learning.” *Nature*, 2015. DOI: [10.1038/nature14236](https://doi.org/10.1038/nature14236). Deep value-learning milestone.
+- **[R05]** John Schulman et al. “Trust Region Policy Optimization.” ICML, 2015. [arXiv:1502.05477](https://arxiv.org/abs/1502.05477). Constrained policy updates.
+- **[R07]** John Schulman et al. “Proximal Policy Optimization Algorithms.” 2017. [arXiv:1707.06347](https://arxiv.org/abs/1707.06347). Policy-optimisation reference.
+- **[R09]** Tuomas Haarnoja et al. “Soft Actor-Critic.” ICML, 2018. [arXiv:1801.01290](https://arxiv.org/abs/1801.01290). Maximum-entropy continuous control.
+- **[R10]** Marc G. Bellemare, Will Dabney, and Rémi Munos. “A Distributional Perspective on Reinforcement Learning.” ICML, 2017. [arXiv:1707.06887](https://arxiv.org/abs/1707.06887).
+- **[R11]** Matteo Hessel et al. “Rainbow: Combining Improvements in Deep Reinforcement Learning.” AAAI, 2018. DOI: [10.1609/aaai.v32i1.11796](https://doi.org/10.1609/aaai.v32i1.11796).
+- **[R21]** Javier García and Fernando Fernández. “A Comprehensive Survey on Safe Reinforcement Learning.” *JMLR*, 2015. [JMLR](https://www.jmlr.org/papers/v16/garcia15a.html).
+- **[R22]** Peter Henderson et al. “Deep Reinforcement Learning That Matters.” AAAI, 2018. DOI: [10.1609/aaai.v32i1.11694](https://doi.org/10.1609/aaai.v32i1.11694). Reproducibility study.
+- **[R23]** Antonin Raffin et al. “Stable-Baselines3: Reliable Reinforcement Learning Implementations.” *JMLR*, 2021. [JMLR](https://jmlr.org/papers/v22/20-1364.html). Implementation resource.
+- **[R25]** Mark Towers et al. “Gymnasium: A Standard Interface for Reinforcement Learning Environments.” 2024. [arXiv:2407.17032](https://arxiv.org/abs/2407.17032). Environment API resource.
+
+For the next study session, derive the two-state Bellman equations by hand,
+run the tabular loop with exploration disabled during evaluation, and annotate
+every place where an episode can terminate or truncate. The planned next
+chapter is **MDPs, Values, and Bellman Reasoning**; it will become navigable
+after its independent review and publication gate pass.
