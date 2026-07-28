@@ -1,0 +1,19 @@
+{
+  "path": "content/subjects/ai-and-ml-for-robotics/chapters/01-a-robot-learns-in-a-loop.mdx",
+  "h1Count": 0,
+  "h2Count": 10,
+  "h2Titles": [
+    "01. Begin with the robot's question, not the algorithm",
+    "02. Build a conceptual map of a closed-loop system",
+    "03. Form an intuitive and formal model",
+    "04. Derive one response and inspect the geometry",
+    "05. Implement and test the smallest experiment",
+    "06. What goes wrong when the loop is incomplete",
+    "07. Evaluate evidence, cost, and research connections",
+    "08. Study lab and assignment",
+    "09. Complete summary and what to study next",
+    "10. References"
+  ],
+  "architecture": "compact narrative companion with 10 reader-facing H2 sections",
+  "status": "passed"
+}

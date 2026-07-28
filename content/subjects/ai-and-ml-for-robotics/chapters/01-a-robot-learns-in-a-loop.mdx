@@ -1,0 +1,504 @@
+---
+title: "A Robot Learns in a Loop"
+slug: "a-robot-learns-in-a-loop"
+subject: "ai-and-ml-for-robotics"
+subjectTitle: "AI and ML for Robotics"
+chapterNumber: 1
+classification: "supplementary"
+summary: "A source-bounded introduction to robot learning as a closed-loop system, with a derivation and tested Python controller for a one-dimensional mobile robot."
+learningObjectives:
+  - "Distinguish a robot's state, observation, action, policy, dynamics, and reward."
+  - "Explain why a learning model must be evaluated inside a feedback loop rather than by prediction accuracy alone."
+  - "Derive a proportional controller and connect its parameters to stability, error, and actuator limits."
+  - "Run and test a deterministic Python simulation while identifying assumptions that do not transfer to hardware."
+  - "Choose a learning paradigm and a safety argument appropriate to a robotics problem."
+prerequisites:
+  - "Prerequisite: vectors, functions, derivatives, and basic probability"
+  - "Prerequisite: Python, NumPy, and unit-test style assertions"
+  - "Supplementary: introductory control, Markov decision processes, and coordinate frames"
+estimatedReadingMinutes: 115
+difficulty: "advanced"
+tags:
+  - "supplementary"
+  - "robot-learning"
+  - "closed-loop-control"
+  - "state-estimation"
+  - "sim-to-real"
+  - "mathjax"
+relatedChapters:
+  - "state-sensors-and-coordinate-frames"
+  - "learning-perception-for-action"
+  - "dynamics-planning-and-model-based-learning"
+recommendedPapers:
+  - "10.1177/0278364913495721"
+  - "10.1109/IROS.2017.8202133"
+  - "arXiv:1806.10293"
+authors:
+  - "Shivam Kumar"
+reviewers:
+  - "Subject Lead: AI and ML for Robotics"
+wordCount: 3043
+citationStatus: "partial"
+codeStatus: "tested"
+mathReviewStatus: "pending"
+editorialStatus: "draft"
+createdAt: "2026-07-28"
+updatedAt: "2026-07-28"
+lastVerifiedAt: "2026-07-28"
+---
+
+**Curriculum label:** This chapter is a **Supplementary interpretation** of the
+title *AI and ML for Robotics*. The BITS Pilani WILP brochure verifies the title
+and elective-pool placement, but does not publish a robotics unit list. The
+terms perception, estimation, planning, control, reinforcement learning, and
+sim-to-real below are teaching structure proposed by this learning hub, not
+claims about an official syllabus. They are separated from **Prerequisite**,
+**Advanced extension**, and **Industry application** material as it appears.
+
+## 01. Begin with the robot's question, not the algorithm
+
+Imagine a small wheeled robot asked to stop at a painted line. A camera sees
+pixels, wheel encoders report rotation, a controller sends motor commands, and
+the body moves through a world that can push back. The apparently simple request
+contains several questions. What does “at the line” mean? Which measurements
+are trustworthy? How quickly can the robot react? What happens if the line is
+covered, the battery is low, or a person steps into the path?
+
+A robot-learning project becomes tractable when the request is written as a
+loop. At time $t$, let the hidden physical state be $\mathbf{s}_t$, the sensor
+observation be $\mathbf{o}_t$, the action be $\mathbf{a}_t$, and the next state
+be $\mathbf{s}_{t+1}$. A simple abstraction is
+
+$$
+\mathbf{o}_t \sim p(\mathbf{o}\mid\mathbf{s}_t), \qquad
+\mathbf{a}_t \sim \pi_\theta(\mathbf{a}\mid\mathbf{o}_{0:t}), \qquad
+\mathbf{s}_{t+1} \sim p(\mathbf{s}'\mid\mathbf{s}_t,\mathbf{a}_t).
+$$
+
+The first distribution represents sensing; the second is a policy with learned
+parameters $\theta$; the third represents dynamics and disturbances. A reward
+$r_t$ can measure progress, but a reward is not the same thing as safety. A
+policy that reaches the line by hitting a person has maximised the wrong
+objective even if its average return is high.
+
+The most useful first model is therefore not “a neural network controls a
+robot.” It is “a decision rule receives bounded information, chooses bounded
+commands, and is monitored while a physical process evolves.” Learning can
+replace one component, several components, or none. Classical estimation and
+control are often the safer baseline against which a learned component is
+compared.
+
+## 02. Build a conceptual map of a closed-loop system
+
+The five nouns in the loop have different jobs. **State** is the information a
+chosen model needs to predict the future. It might include position, velocity,
+heading, joint angles, or hidden battery temperature. **Observation** is what a
+sensor actually exposes: an image, range scan, encoder tick, force value, or
+timestamp. State and observation are equal only in unusually well-instrumented
+systems. **Action** is a command after checking units, rate, and limits. **Policy**
+maps available information to an action. **Dynamics** describe how an action
+changes the physical state.
+
+This distinction explains why an offline classifier can look excellent and still
+fail on a robot. A classifier may predict whether a single image contains a
+target. A robot needs a timed sequence of decisions under changing viewpoint,
+latency, occlusion, and actuator constraints. Its errors alter future inputs.
+This feedback creates a distribution shift that ordinary independent test
+examples do not expose.
+
+There are several legitimate places to learn. A perception model can map an
+image to a geometric feature. A dynamics model can predict the next state. A
+policy can map observations to actions. An estimator can infer hidden state.
+Imitation learning can copy demonstrations, while reinforcement learning can
+search through consequences. A model-predictive controller can use a learned
+dynamics residual but retain explicit constraints. Naming the learned boundary
+is more informative than announcing that the entire stack is “end to end.”
+
+For a paper or project, draw arrows for data and for authority. Does the model
+only propose an action, or can it actuate a motor? Is a safety supervisor able
+to veto it? Where are timeouts, range checks, collision checks, and recovery
+behaviours? A block diagram should include a clock because a command computed in
+120 milliseconds may be unsafe when the control period is 20 milliseconds.
+
+## 03. Form an intuitive and formal model
+
+Start with a one-dimensional robot moving along a corridor. Its position is
+$x_t$ in metres and velocity is $v_t$ in metres per second. The command $u_t$
+is a desired acceleration. A discrete approximation with sample interval
+$\Delta t$ is
+
+$$
+x_{t+1}=x_t+\Delta t\,v_t, \qquad
+v_{t+1}=v_t+\Delta t\,u_t.
+$$
+
+Suppose a range sensor reports position with noise:
+
+$$
+o_t=x_t+\epsilon_t, \qquad \epsilon_t\sim\mathcal{N}(0,\sigma^2).
+$$
+
+The sensor does not reveal the exact state. A controller could nevertheless
+use the error between a desired position $x^\star$ and the observation:
+
+$$
+e_t=x^\star-o_t, \qquad u_t=k_p e_t-k_d v_t.
+$$
+
+Here $k_p$ pushes toward the target and $k_d$ damps motion. This proportional-
+derivative rule is a **Prerequisite/Supplementary** control baseline, not an
+official topic claim. It is valuable because it exposes a requirement a learned
+policy also faces: actions must be stable enough under delayed, noisy
+measurements.
+
+For a static target and no saturation, substitute the rule into the dynamics.
+The position error $e_t=x^\star-x_t$ obeys a second-order recurrence. In the
+continuous approximation, $\ddot e+k_d\dot e+k_p e=0$. Positive gains can
+reduce error, but their relationship matters: too little damping causes
+oscillation; too much damping makes the response slow. Discrete sampling and
+actuator limits change the safe region. A simulation that omits those effects
+cannot establish hardware stability.
+
+A learned controller has the same contract in a larger space. If $\pi_\theta$
+receives an image embedding $z_t$, then $u_t=\pi_\theta(z_t)$ still needs an
+output range, timing budget, and fallback. Training minimises an objective such
+as imitation loss or negative return; deployment requires bounds and evidence
+about states that were not in the training set. This is the conceptual bridge
+between machine learning and control.
+
+## 04. Derive one response and inspect the geometry
+
+Consider a target at $x^\star=1.0$ metre. The robot observes $o_t=0.4$ metre,
+has velocity $v_t=0.2$ metres per second, and uses $k_p=2.0$, $k_d=0.5$. The
+error is $0.6$ and the command is
+
+$$
+u_t=2.0(0.6)-0.5(0.2)=1.1\ \mathrm{m/s^2}.
+$$
+
+If the actuator can provide only $[-0.8,0.8]$, the safe command is $0.8$. That
+small clipping step is not a nuisance detail: it means the executed policy is
+different from the policy used in the derivation. If a learner is trained with
+unbounded actions and clipped later, its gradients and observed consequences can
+be misleading.
+
+The geometry becomes clearer in the $(e,v)$ plane. The controller creates a
+vector field pointing toward the origin when position error and velocity have
+compatible signs. Near the origin, damping determines whether trajectories
+spiral, overshoot, or approach monotonically. A neural policy can learn a vector
+field without an explicit equation, but plotting its actions over a grid is a
+useful interpretability check. Abrupt changes indicate sensitivity, an unseen
+region, or a representation problem.
+
+An observation history can also matter. If a camera gives only a bearing, two
+world states may produce the same current pixel. A recurrent policy or a state
+estimator can use $o_{0:t}$ to infer velocity and disambiguate them. More memory
+does not automatically solve partial observability; it introduces hidden state,
+latency, and another failure surface. Write down what information is available
+before choosing a model family.
+
+## 05. Implement and test the smallest experiment
+
+The following NumPy program simulates the one-dimensional system with a noisy
+position sensor, a deterministic seed, command saturation, and assertions. It
+is an educational baseline, not a robot driver. Python 3.12+ and NumPy 2.x are
+required. The test checks a numerical contract: commands are bounded and the
+final error improves for this particular seeded scenario.
+
+```python
+from __future__ import annotations
+
+from dataclasses import dataclass
+import numpy as np
+from numpy.typing import NDArray
+
+
+FloatArray = NDArray[np.float64]
+
+
+@dataclass(frozen=True)
+class Config:
+    dt: float = 0.05
+    kp: float = 2.0
+    kd: float = 0.5
+    command_limit: float = 0.8
+    sensor_std: float = 0.01
+
+
+def run_episode(
+    *, config: Config = Config(), steps: int = 160, seed: int = 7
+) -> tuple[FloatArray, FloatArray, FloatArray]:
+    """Run a bounded point-mass controller and return state histories."""
+    if steps < 2:
+        raise ValueError("steps must be at least 2")
+    if config.dt <= 0 or config.command_limit <= 0 or config.sensor_std < 0:
+        raise ValueError("dt and command_limit must be positive; noise non-negative")
+    rng = np.random.default_rng(seed)
+    position, velocity, target = 0.0, 0.0, 1.0
+    states = np.zeros((steps, 2), dtype=np.float64)
+    observations = np.zeros(steps, dtype=np.float64)
+    commands = np.zeros(steps - 1, dtype=np.float64)
+    for index in range(steps):
+        observation = position + rng.normal(0.0, config.sensor_std)
+        observations[index] = observation
+        states[index] = (position, velocity)
+        if index == steps - 1:
+            break
+        error = target - observation
+        command = config.kp * error - config.kd * velocity
+        commands[index] = np.clip(command, -config.command_limit, config.command_limit)
+        position += config.dt * velocity
+        velocity += config.dt * commands[index]
+    return states, observations, commands
+
+
+states, observations, commands = run_episode()
+assert states.shape == (160, 2)
+assert observations.shape == (160,)
+assert np.all(np.abs(commands) <= 0.8 + 1e-12)
+assert abs(1.0 - states[-1, 0]) < abs(1.0 - states[0, 0])
+print(f"initial={states[0, 0]:.3f} final={states[-1, 0]:.3f} max_command={np.max(np.abs(commands)):.3f}")
+```
+
+The implementation separates observation from state, which is easy to lose in
+a notebook. It also records commands so a reviewer can inspect saturation.
+The complexity is $O(T)$ time and $O(T)$ space for $T$ steps. A deployed
+controller often uses $O(1)$ memory for the latest state, but retaining a short
+ring buffer is useful for diagnosis. The printed final position is evidence
+only for the specified initial condition and seed; it is not a success rate.
+
+### A worked episode as an audit trail
+
+At the first step, the true position is zero, but the controller sees a noisy
+measurement close to zero. The error is therefore close to one metre and the
+positive command is clipped. The position does not jump immediately because the
+velocity starts at zero; the command changes velocity, and velocity changes
+position on a later tick. This delay is the first reason a robot should not be
+judged from an action snapshot. The trajectory is a time series with memory.
+
+Near the target, the proportional term becomes small. If the robot is still
+moving, the derivative term opposes that motion. In a physical system the
+encoder estimate of velocity may itself be noisy, so a practical controller may
+filter it or use a state estimator. Filtering introduces phase delay. Increasing
+$k_d$ to compensate can amplify high-frequency measurement noise. Every “tuning
+improvement” is consequently a change to a coupled loop, not an isolated model
+parameter.
+
+The example also illustrates a hidden contract between data and control. The
+controller assumes position is in metres, velocity in metres per second, and
+the target is expressed in the same frame. If a camera supplies pixels, a
+calibration or learned geometric mapping must convert them before this equation
+is meaningful. A policy trained on image coordinates can learn a shortcut such
+as target size instead of distance. Varying camera pose, lighting, and object
+appearance is useful only when the task definition explains which variations
+should preserve the correct action.
+
+### Choosing what to learn
+
+A sensible project starts by listing the available data and the cost of a wrong
+action. If labelled images are plentiful and a collision-free classical planner
+already exists, supervised perception may be the lowest-risk learned component.
+If labels are scarce but demonstrations are available, imitation learning can
+be a useful starting point; however, demonstration errors and unseen states can
+compound. Reinforcement learning can optimise long-horizon performance, yet
+physical exploration is expensive and can damage hardware. Model-based learning
+can improve sample efficiency by predicting consequences, but an inaccurate
+dynamics model can produce confidently wrong plans.
+
+The decision is not binary. A robot can learn a visual feature, use a Bayesian
+filter for state, plan with a known map, and control with a constrained feedback
+law. Another robot can learn a residual correction to a dynamics model while a
+supervisor rejects commands outside a verified envelope. Hybrid designs make
+the learned assumption explicit and permit the non-learned part to serve as a
+fallback. They also make scientific comparison easier because the baseline and
+the intervention are identifiable.
+
+For each proposed intervention, write four sentences before writing code. First,
+state what is observed and what is hidden. Second, state which mapping is
+learned and which equations remain fixed. Third, state the distribution shift
+that could invalidate it. Fourth, state who or what can stop the action. If a
+team cannot answer the fourth sentence, it has a demonstration, not yet a safe
+robotics system.
+
+### From simulator to a physical device
+
+Simulation is valuable because it permits thousands of controlled trials, but a
+simulator is a hypothesis about the world. Contact friction, backlash, cable
+drag, battery voltage, sensor timing, and flexible bodies are often simplified.
+Visual rendering can differ in texture, exposure, lens distortion, and motion
+blur. A policy can exploit any regularity that predicts reward in simulation,
+even when that regularity has no physical meaning.
+
+Domain randomisation varies selected simulation parameters so a policy cannot
+depend on one exact appearance or mass. Randomisation is not magic: if the real
+world lies outside the chosen range, the policy may still fail; if the range is
+too broad, learning can become inefficient. System identification, calibration,
+held-out disturbances, and a small supervised real-data set can complement it.
+The experimental report should list which parameters were randomised, their
+distributions, and why those ranges are plausible.
+
+Transfer also has an organizational dimension. A safe handoff names a test
+operator, a low-speed mode, a physical emergency stop, a workspace boundary,
+and a rollback procedure. Start with a robot on a stand or with simulated
+actuation, then test low-energy motions, then restricted tasks, and only then
+increase speed or autonomy. Log observations, actions, model version, firmware,
+and intervention events. If logs contain people, protect them as carefully as
+the robot itself.
+
+### A useful mathematical separation
+
+It helps to separate three errors that are often reported as one. **Prediction
+error** measures the difference between a model's output and a labelled target.
+**Tracking error** measures deviation from the desired physical trajectory.
+**Decision loss** includes task cost, energy, collision risk, or human
+intervention. A low prediction error does not imply low tracking error because
+latency and dynamics intervene. Low tracking error in a quiet laboratory does
+not imply low decision loss when a person or an unseen surface appears.
+
+For a finite episode of length $T$, a simple performance summary might be
+
+$$
+J=\frac{1}{T}\sum_{t=0}^{T-1}\left(q e_t^2+r u_t^2\right),
+$$
+
+where $q\geq0$ weights tracking error and $r\geq0$ weights effort. A safety
+constraint can be written separately, for example
+
+$$
+|u_t|\leq u_{\max},\qquad d(\mathbf{s}_t,\mathcal{O})\geq d_{\min},
+$$
+
+where $d$ is distance to an obstacle set $\mathcal{O}$. Combining all costs into
+one scalar reward can hide a severe violation behind many successful steps.
+Report constraints and violations independently, even when a learning
+algorithm uses a scalarized objective internally.
+
+### How to read a result table
+
+Ask whether the table identifies the unit of evaluation. “Success 92%” is
+ambiguous without the task, initial-state distribution, number of trials,
+definition of success, and whether an operator intervened. “Improves baseline”
+needs the same hardware, control frequency, sensor access, training budget, and
+random seeds. A confidence interval or variation across seeds communicates how
+stable the result is; a single best run communicates selection.
+
+Research-grade reporting should include failures, not only videos of successful
+episodes. Categorise failures into perception, estimation, planning, actuation,
+communication, and human-interaction causes. This taxonomy helps choose the
+next experiment. It also prevents a team from adding a larger model when the
+actual issue is a timestamp mismatch or an actuator limit.
+
+One final discipline is to distinguish a model's confidence from a system's
+permission to act. A policy may assign high probability to one command because
+all of its training examples looked alike. A monitor can still say that the
+current image is out of distribution, the state estimate is stale, or the
+workspace is occupied. In that case the correct action may be to slow down,
+stop, ask for human assistance, or return to a known safe pose. Designing these
+non-progress actions is part of the task specification, not an embarrassing
+exception. A robot that can only succeed or crash has not yet encoded the real
+cost of uncertainty.
+
+## 06. What goes wrong when the loop is incomplete
+
+The first failure is confusing prediction with control. A model can predict a
+next pixel accurately while a small bias accumulates in position. The second is
+training on clean, independent samples while deployment presents correlated
+failures. Once a policy turns left too early, its next camera view is unlike the
+training distribution. The third is ignoring units and timing. A command in
+degrees may be consumed as radians, or a model may miss a deadline and act on a
+stale observation.
+
+Noise deserves more than a random Gaussian in a script. Cameras have exposure
+and motion blur; range sensors have missing returns; encoders can slip; network
+messages can arrive late or out of order. Measure these phenomena when possible,
+simulate them explicitly, and report the gap. A learned estimator should expose
+uncertainty or a confidence policy rather than silently inventing precision.
+
+Safety also has layers. Input validation rejects impossible sensor values.
+Action validation clamps speed and acceleration. A supervisory monitor checks
+distance, workspace, battery, and communication health. A recovery controller
+handles timeouts. A human can retain an emergency stop. These mechanisms do not
+prove safety, but their absence makes a favourable benchmark especially weak.
+
+Privacy and dignity matter when robots observe people. Images, voices, faces,
+and household layouts can identify individuals. Collect the least data needed,
+state retention and access rules, and avoid training on occupants without
+appropriate consent. A robot that predicts a person’s behaviour must not turn a
+statistical correlation into a high-impact decision without review.
+
+## 07. Evaluate evidence, cost, and research connections
+
+Evaluate the whole loop with a task-specific protocol. Report success, time,
+energy, collision or near-miss counts, intervention rate, command smoothness,
+and failure-recovery time. Separate training, validation, and held-out layouts
+or physical conditions. Include confidence intervals across seeds or episodes.
+For a real robot, report hardware, firmware, control frequency, sensor model,
+latency, and operator rules. A single successful demo is a qualitative example,
+not a statistically supported deployment claim.
+
+Compare against a simple baseline. In the running example that baseline is a
+PD controller. For navigation it might be a classical planner; for grasping it
+could be a scripted approach. A learned policy earns its complexity by improving
+a measured objective under comparable constraints, not by having more layers.
+When a result improves, use ablations to ask whether perception, data quantity,
+randomisation, history, or the controller changed the outcome.
+
+The literature offers several useful connections. Kober, Bagnell, and Peters
+survey reinforcement learning in robotics and explain why sample cost and
+physical safety shape algorithm choice. Tobin and colleagues present domain
+randomisation as a way to vary simulation appearance, but transfer still needs
+careful assumptions and evaluation. QT-Opt is a useful case study in scaling
+vision-based manipulation, while *Probabilistic Robotics* supplies estimation
+foundations. These works inform a reading path; they do not establish that the
+brochure contains their methods.
+
+## 08. Study lab and assignment
+
+Run the program with seeds 7, 8, and 9. Change only one factor at a time: set
+sensor noise to zero, halve the command limit, double the sample interval, and
+reverse the derivative sign. Plot position, observation, velocity, and command.
+Write two paragraphs explaining which failures are numerical, which are control
+design failures, and which arise because the model is incomplete. Then replace
+the PD rule with a small linear policy trained on generated state-action pairs.
+Compare its closed-loop behaviour rather than its regression loss alone.
+
+**Assignment.** Design a reproducible experiment that compares a classical
+controller with one learned component. State the population of initial states,
+the sensor and actuator model, the safety envelope, the random seeds, and the
+primary metric before running it. Include one held-out disturbance, an ablation,
+and a failure-recovery plan. A strong submission can say that the learned model
+did not improve the baseline; honest negative evidence is more useful than an
+unqualified success video.
+
+Oral questions to answer without notes:
+
+1. Why can an observation differ from a state?
+2. Why is reward not a safety guarantee?
+3. What changes when an action is clipped after a policy produces it?
+4. How would you test whether a learned controller is exploiting a simulator?
+5. Which component can veto an unsafe learned action?
+
+## 09. Complete summary and what to study next
+
+A robot-learning system is a timed feedback loop. State is a modelling concept;
+observation is a measurement; action is a bounded command; dynamics produce the
+next physical situation; and a policy turns available information into a choice.
+The one-dimensional derivation shows why noise, damping, sampling, and
+saturation affect behaviour. The Python baseline demonstrates reproducibility,
+shape checks, and the difference between evidence for one simulation and a
+deployment claim.
+
+Next study state estimation and coordinate frames. Then connect perception to a
+geometric target, and only after that introduce model-based or reinforcement
+learning comparisons. At every stage, retain a classical baseline, expose
+uncertainty, evaluate held-out conditions, and keep a human-safe recovery path.
+That discipline is the foundation on which more ambitious robot learning can be
+built.
+
+## 10. References
+
+1. BITS Pilani WILP, *M.Tech. Artificial Intelligence and Machine Learning* brochure, verified PDF SHA-256 `fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b`, title at physical page 12 (printed page 10).
+2. Kober, J., Bagnell, J. A., and Peters, J. (2013). “Reinforcement Learning in Robotics: A Survey.” *The International Journal of Robotics Research*, 32(11), 1238–1274. DOI: `10.1177/0278364913495721`.
+3. Tobin, J. et al. (2017). “Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World.” IROS. DOI: `10.1109/IROS.2017.8202133`.
+4. Thrun, S., Burgard, W., and Fox, D. (2005). *Probabilistic Robotics*. MIT Press.
+5. Sutton, R. S. and Barto, A. G. (2018). *Reinforcement Learning: An Introduction*, 2nd ed. MIT Press.

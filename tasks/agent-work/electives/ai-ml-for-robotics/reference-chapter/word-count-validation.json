@@ -1,0 +1,7 @@
+{
+  "path": "content/subjects/ai-and-ml-for-robotics/chapters/01-a-robot-learns-in-a-loop.mdx",
+  "meaningfulProseWords": 3043,
+  "minimumMeaningfulProseWords": 3000,
+  "method": "scripts/calculate-word-count/chapter-word-count.mjs",
+  "status": "passed"
+}

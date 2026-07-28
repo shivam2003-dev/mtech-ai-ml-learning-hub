@@ -1,0 +1,15 @@
+{
+  "path": "content/subjects/ai-and-ml-for-robotics/chapters/01-a-robot-learns-in-a-loop.mdx",
+  "pythonVersion": "3.14.6",
+  "numpyVersion": "2.3.4",
+  "blocksExtracted": 1,
+  "method": "Extract the exact Python fence and execute it without editorial changes.",
+  "checksPassed": [
+    "input validation",
+    "state and observation shapes",
+    "command saturation bound",
+    "seeded final-error improvement"
+  ],
+  "output": "initial=0.000 final=1.211 max_command=0.800",
+  "status": "passed"
+}
