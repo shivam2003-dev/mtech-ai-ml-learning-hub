@@ -19,7 +19,7 @@ resources:
     confidenceScore: 0.99
     verificationStatus: "identifier-verified"
   - id: "ACI-S03"
-    title: "On the Relationship between Neural Networks, Pattern Recognition and Intelligence"
+    title: "(Computational) Intelligence: What's in a Name?"
     authors: ["James C. Bezdek"]
     year: 2016
     resourceType: "tutorial article"
