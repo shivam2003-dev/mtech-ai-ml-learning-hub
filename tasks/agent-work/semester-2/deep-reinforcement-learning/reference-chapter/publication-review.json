@@ -1,0 +1,104 @@
+{
+  "agentId": "independent-drl-publication-reviewer",
+  "reviewId": "drl-ch01-publication-review-2026-07-28",
+  "subject": "Deep Reinforcement Learning",
+  "chapter": "Sequential Decisions: From Rewards to Learning Contracts",
+  "task": "Independent publication review",
+  "reviewedAt": "2026-07-28",
+  "status": "approved",
+  "approved": true,
+  "approvalBlockers": [],
+  "reviewedSnapshot": {
+    "developCommitBeforeReview": "bc7c52ea70540dd3094376d315b97ebfc55799d4",
+    "chapter": {
+      "path": "content/subjects/deep-reinforcement-learning/chapters/01-sequential-decisions-and-the-drl-experimental-contract.mdx",
+      "sha256AfterCorrection": "ad9c2bc6eee3fc614d0c6fe4febb75a9d8867ba6f8cd5c4001b1d129b471d573"
+    },
+    "referencesMarkdown": {
+      "path": "content/subjects/deep-reinforcement-learning/references.md",
+      "sha256": "369a9d64520f3750d1799c38584a650342b6b7ae4396c715376f814b316c1c26"
+    },
+    "referencesBib": {
+      "path": "content/subjects/deep-reinforcement-learning/references.bib",
+      "sha256": "a851fbd33cb4bcaef4d7dd2a29856936d44f923e3b1b8734a27cafac4cffd2ef"
+    }
+  },
+  "correctionsApplied": [
+    {
+      "file": "content/subjects/deep-reinforcement-learning/chapters/01-sequential-decisions-and-the-drl-experimental-contract.mdx",
+      "finding": "The tabular example accepted empty action/state dimensions and stepped from a terminal start state, weakening the documented edge-case contract.",
+      "correction": "Added non-empty table, numeric reward, callable terminal predicate, and terminal-start validation; documented the lifecycle behavior.",
+      "chapterContentChanged": true
+    }
+  ],
+  "curriculumEvidence": {
+    "sourcePdfSha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "officialCurriculumSha256": "d61e6d875dfd4fcbbc0e2bd18cc11e5749a0efe9aa816c540d8498d5b0037975",
+    "placement": "physical PDF page 12, printed page 10",
+    "topicDescription": "title-only; no topic-level units in the supplied brochure",
+    "exactOfficialTitle": "Deep Reinforcement Learning",
+    "visualInspection": "passed",
+    "inventedOfficialDetailsFound": false
+  },
+  "checks": {
+    "compactEditorialStructure": "passed-9-H2",
+    "narrativeArchitecture": "passed-intuition-formalism-derivation-code-failure-evaluation-lab",
+    "meaningfulProseWords": 3949,
+    "minimumProseWords": 3000,
+    "wordCountGate": "passed",
+    "chapterScopeLabels": "passed-supplementary-and-industry-application-with-explicit-brochure-boundary",
+    "bellmanDerivation": "passed-return-recursion-policy-expectation-and-optimality-equations",
+    "terminalAndTruncationSemantics": "passed-and-explicitly-qualified",
+    "workedExample": "passed-two-state-numerical-update",
+    "publishedPythonBlocks": "passed-one-block-extracted-and-executed",
+    "pythonRuntime": "passed-Python-3.14.6-NumPy-2.3.4",
+    "pythonValidation": "passed-terminal-start-empty-table-numeric-reward-callable-predicate-dtype-and-index-tests",
+    "complexityStatements": "passed-tabular-and-neural-costs-scoped",
+    "officialEndpoints": "passed-11-of-12-http-200; MIT Press 403 anti-bot",
+    "doiAndArxivResolvers": "passed-11-of-11-resolvable",
+    "inlineToTerminalBibliography": "passed",
+    "fabricatedReferences": "none-found",
+    "foundationValidation": "passed-45-subjects-45-leads",
+    "mdxProductionBuild": "passed-77-static-routes",
+    "internalLinks": "passed-613-links",
+    "lint": "passed",
+    "typecheck": "passed",
+    "renderedTests": "passed-3-of-3",
+    "renderedHeadingStructure": "passed-1-H1-9-H2",
+    "mathJaxAccessibility": "passed-67-aria-labelled-expressions",
+    "readingTools": "passed-static-controls-and-hydrated-code-copy-hook",
+    "diffWhitespace": "passed"
+  },
+  "codeEnvironment": {
+    "python": "3.14.6",
+    "numpy": "2.3.4"
+  },
+  "verifiedIdentifiers": [
+    "10.1007/BF00992698",
+    "10.1007/BF00992696",
+    "10.1038/nature14236",
+    "10.1609/aaai.v32i1.11796",
+    "10.1609/aaai.v32i1.11694",
+    "arXiv:1502.05477",
+    "arXiv:1707.06347",
+    "arXiv:1801.01290",
+    "arXiv:1707.06887",
+    "arXiv:2407.17032"
+  ],
+  "openIssues": [
+    "The brochure supplies no topic-level units, prerequisites, outcomes, assessment weights, or official reading list for this title.",
+    "The approval covers Chapter 1 only; the remaining eleven planned chapters are not authored or approved.",
+    "Atari, MuJoCo, D4RL, and other high-cost or restricted assets require compute and licensing approval before use."
+  ],
+  "scopeExclusions": [
+    "the eleven unauthored DRL chapters",
+    "production use of the educational tabular example",
+    "future chapter revisions with a different SHA-256"
+  ],
+  "recommendedNextTasks": [
+    "Integrate this report and chapter correction into develop.",
+    "Update reader-facing approval metadata through the orchestrator publication workflow.",
+    "Create Chapter 2 only after its independent outline and source gate pass.",
+    "Re-run this review if the Chapter 1 hash changes."
+  ]
+}
