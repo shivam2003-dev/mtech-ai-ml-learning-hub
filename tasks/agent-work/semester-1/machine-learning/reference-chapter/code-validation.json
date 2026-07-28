@@ -1,0 +1,29 @@
+{
+  "contractVersion": "1.0.0",
+  "reportId": "machine-learning-ch01-code-validation-2026-07-28",
+  "status": "passed",
+  "sourcePath": "content/subjects/machine-learning/chapters/01-learning-problems-and-the-ml-workflow.mdx",
+  "testPath": "tasks/agent-work/semester-1/machine-learning/reference-chapter/test_reference_code.py",
+  "validatedAt": "2026-07-28",
+  "chapterSha256": "e744b5ef8db666a9f5d69d83f1b7152ff0afb43c4bf8cffd4084ad4d208bfea3",
+  "testFileSha256": "c2b8175c7dd717b8b058949cbe9887c417975bc4323489645e74d9c608a340ba",
+  "executionMethod": "The executable chapter implementation and assertions were mirrored into one reviewable test file and run as a Python program.",
+  "environment": {
+    "python": "3.14.6",
+    "numpy": "2.3.4",
+    "scikitLearn": "1.7.2"
+  },
+  "exitCode": 0,
+  "stdout": "train rows=12, test rows=4\nmajority class=0\nscratch accuracy=0.500\nlibrary accuracy=0.500\ntests=passed\n",
+  "cases": [
+    "same seed produces identical train and test indices",
+    "train and test indices are disjoint and exhaustive",
+    "every class is represented in both partitions",
+    "from-scratch majority prediction matches the analytic result",
+    "from-scratch predictions match scikit-learn DummyClassifier",
+    "from-scratch and library accuracy equal the expected 0.5",
+    "invalid test fraction is rejected",
+    "prediction before fitting is rejected"
+  ],
+  "independentApprovalClaimed": false
+}

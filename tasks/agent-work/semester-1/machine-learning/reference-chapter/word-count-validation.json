@@ -1,0 +1,22 @@
+{
+  "contractVersion": "1.0.0",
+  "reportId": "machine-learning-ch01-word-count-2026-07-28",
+  "status": "passed",
+  "sourcePath": "content/subjects/machine-learning/chapters/01-learning-problems-and-the-ml-workflow.mdx",
+  "validatedAt": "2026-07-28",
+  "command": "node scripts/calculate-word-count/chapter-word-count.mjs content/subjects/machine-learning/chapters/01-learning-problems-and-the-ml-workflow.mdx",
+  "counterPath": "scripts/calculate-word-count/chapter-word-count.mjs",
+  "chapterSha256": "e744b5ef8db666a9f5d69d83f1b7152ff0afb43c4bf8cffd4084ad4d208bfea3",
+  "meaningfulProseWords": 3711,
+  "minimumMeaningfulProseWords": 3000,
+  "frontmatterWordCount": 3711,
+  "frontmatterMatches": true,
+  "excludes": [
+    "frontmatter",
+    "code fences",
+    "reference section",
+    "headings",
+    "raw display and inline equations",
+    "URLs"
+  ]
+}

@@ -1,0 +1,837 @@
+---
+title: "Learning Problems and the ML Workflow"
+slug: "learning-problems-and-the-ml-workflow"
+subject: "machine-learning"
+chapterNumber: 1
+classification: "official"
+summary: "A decision-first introduction to supervised and unsupervised learning, empirical risk, leakage-safe data splitting, baseline implementation, honest evaluation, and reproducible machine-learning workflow design."
+learningObjectives:
+  - "Distinguish a decision, learning task, dataset, model, algorithm, and evaluation procedure."
+  - "Recognise supervised and unsupervised learning problems from the information available and the intended output."
+  - "Translate a real problem into inputs, targets, units, time boundaries, losses, and deployment constraints."
+  - "Derive the empirical-risk-minimising constant classifier under zero-one loss."
+  - "Build and test a deterministic leakage-safe baseline from scratch and with scikit-learn."
+  - "Explain why one test score cannot establish causal usefulness, fairness, stability, or production readiness."
+prerequisites:
+  - "Prerequisite: algebra, functions, finite sums, and sets"
+  - "Prerequisite: basic probability and descriptive statistics"
+  - "Prerequisite: Python functions, NumPy arrays, exceptions, and assertions"
+estimatedReadingMinutes: 42
+difficulty: "foundation"
+tags:
+  - "machine-learning-workflow"
+  - "supervised-learning"
+  - "unsupervised-learning"
+  - "empirical-risk"
+  - "baseline"
+  - "data-leakage"
+  - "model-evaluation"
+relatedChapters:
+  - "bayesian-learning"
+  - "linear-models-for-regression"
+  - "model-evaluation-and-comparison"
+recommendedPapers:
+  - "ML-R20"
+  - "ML-R21"
+  - "ML-R22"
+  - "ML-R25"
+  - "ML-R26"
+authors:
+  - "Shivam Kumar"
+reviewers:
+  - "Machine Learning Subject Lead"
+  - "Mathematics Reviewer"
+  - "Code and Notebook Author"
+  - "Citation Verifier"
+wordCount: 3711
+citationStatus: "partial"
+codeStatus: "tested"
+mathReviewStatus: "pending"
+editorialStatus: "review"
+createdAt: "2026-07-28"
+updatedAt: "2026-07-28"
+lastVerifiedAt: "2026-07-28"
+---
+
+> **Classification and source boundary:** the programme brochure explicitly
+> lists the introduction to machine learning, kinds of learning, supervised
+> and unsupervised learning, and the machine-learning workflow. Those are the
+> **Official topics** in this chapter. Problem framing, empirical risk, split
+> roles, leakage threat modelling, reproducibility, model cards, and production
+> monitoring are labelled **Supplementary** or **Industry application** depth.
+> The brochure supplies a prose topic list, not numbered units; this chapter
+> boundary is the verified plan's educational interpretation.
+
+## 01 Begin with the decision, not the algorithm
+
+### The one-minute version
+
+Machine learning uses data or experience to construct a rule whose behaviour
+is useful on cases that were not used to construct it. A responsible workflow
+does not begin with “Which model should I train?” It begins with “Which
+decision should improve, for whom, at what time, and what evidence would show
+that it improved?”
+
+In **supervised learning**, each training example contains inputs and a target:
+for example, pump sensor readings and a later maintenance outcome. The system
+learns a mapping from inputs to targets. In **unsupervised learning**, examples
+contain inputs but no target supplied for the intended task. The system seeks
+structure such as groups, low-dimensional representations, or recurring
+patterns. Neither label guarantees value. A supervised model can learn leakage,
+and an unsupervised cluster can be mathematically stable yet operationally
+meaningless.
+
+A defensible workflow writes the prediction time, unit, features, target,
+loss, baseline, split strategy, and acceptance rule before trying many models.
+Training data fit candidate rules. Validation data guide choices. Test data
+support a final, bounded estimate after choices are frozen. The score must be
+interpreted beside error costs, uncertainty, subgroup behaviour, drift, and the
+conditions under which the data were produced.
+
+This chapter builds the smallest honest classifier: always predict the most
+common training label. Its simplicity is deliberate. By deriving and testing
+that baseline, we expose the complete logic that a more impressive model must
+still obey.
+
+### Leena's maintenance question
+
+Leena supports twelve water pumps across a university campus. Each morning a
+technician can inspect only a few pumps. The current process chooses the pumps
+with the longest operating time. Leena proposes a model that uses yesterday's
+operating hours, vibration, and temperature to predict whether a pump will need
+service during the next seven days.
+
+At first, the dataset looks straightforward: one row per pump-day, three sensor
+columns, and a `needs_service` column. Then Leena asks when each field becomes
+known. She discovers that temperature was sometimes corrected after a
+technician opened the pump. Some rows include a `work_order_closed` field,
+which is recorded after the outcome. Several consecutive rows belong to the
+same degrading pump. The label is missing when a pump leaves the monitoring
+network. A random row split would place near-duplicate days from one pump in
+both training and test sets.
+
+The problem is not “classification” in the abstract. It is a morning ranking
+decision made under limited inspection capacity. False negatives may allow
+damage; false positives waste technician time. The unit could be a pump-day,
+but the evaluation must respect pumps and time. The intended prediction moment
+is 06:00. Every usable feature must exist then. “Needs service” requires an
+operational definition: perhaps a technician-confirmed intervention within the
+next seven days, excluding scheduled maintenance.
+
+The chapter follows Leena through one synthetic teaching dataset. It is not
+real campus evidence, and its values must not be used to estimate failure
+rates. Its purpose is to make the workflow executable without collecting or
+exposing operational data.
+
+## 02 Map the kinds of learning
+
+The **learning problem** states what experience is available and what
+performance should improve. The **model** is a family of possible rules. The
+**learning algorithm** uses data to choose one rule from that family. The
+**evaluation procedure** estimates how the chosen rule may behave under a
+defined future condition. Confusing these objects causes category errors. A
+decision tree is a model family, not a business question; cross-validation is
+an evaluation method, not a deployment guarantee.
+
+### Supervised learning
+
+In supervised learning, the training dataset is commonly written
+
+$$
+\mathcal{D}
+=
+\{(\mathbf{x}_i,y_i)\}_{i=1}^{n},
+$$
+
+where $n$ is the number of examples, $\mathbf{x}_i\in\mathcal{X}$ is the
+feature vector for example $i$, and $y_i\in\mathcal{Y}$ is its target.
+Classification uses a categorical target, such as service or no service.
+Regression uses a numerical target, such as remaining operating hours. The
+algorithm seeks a prediction rule $h:\mathcal{X}\rightarrow\mathcal{Y}$.
+
+The target does not need to be perfectly measured merely because it appears in
+a column. Technician decisions can encode inconsistent thresholds. Missing
+follow-up can turn unknown outcomes into false negatives. A target may be a
+proxy for the desired concept: “work order created” is not identical to
+“mechanical service was necessary.” Target definition is therefore part of
+model design.
+
+### Unsupervised learning
+
+An unsupervised dataset is often written
+
+$$
+\mathcal{D}_X=\{\mathbf{x}_i\}_{i=1}^{n},
+$$
+
+because no target $y_i$ is supplied for the intended task. Clustering might
+group operating regimes; dimensionality reduction might compress correlated
+sensor streams; density estimation might describe where observations are
+concentrated. These methods optimise mathematical objectives, but those
+objectives are not automatically the operational objective.
+
+Suppose a clustering algorithm separates pumps by manufacturer. The clusters
+may be compact and reproducible while adding nothing to maintenance decisions,
+because the manufacturer is already known. Conversely, a noisy-looking
+cluster of unusual vibration patterns may help experts formulate a new failure
+hypothesis. Unsupervised results usually need external interpretation or
+evaluation: stability across samples, agreement with known events, usefulness
+in a downstream task, or expert inspection under a predeclared protocol.
+
+### Other kinds and boundaries
+
+The brochure says “kinds of learning” and later treats reinforcement learning
+in a separate subject. It is still useful to locate adjacent categories
+without pretending they are full units here. **Supplementary:** semi-supervised
+learning combines many unlabelled examples with fewer labelled examples.
+Self-supervised learning constructs supervisory signals from the data itself.
+Online learning updates as observations arrive. Active learning selects which
+examples should be labelled. Reinforcement learning learns through
+state-action-reward interaction rather than a fixed table of independent
+input-target pairs.
+
+Real systems can combine kinds. Leena might learn sensor representations
+self-supervised, cluster operating regimes, train a supervised service
+classifier, and later optimise inspection scheduling. The correct category is
+determined by the experience and objective at each stage, not by fashionable
+terminology.
+
+## 03 Turn the story into a learning contract
+
+**Supplementary:** a learning contract converts a verbal request into objects
+that can be inspected before modelling. It should answer at least the following
+questions.
+
+1. **Decision:** what action can change? Leena chooses which pumps to inspect.
+2. **Prediction unit:** what does one output describe? One eligible pump at one
+   06:00 decision point.
+3. **Population:** to which future cases should the result apply? Monitored
+   campus pumps under stated sensor and maintenance processes.
+4. **Inputs:** which fields are available at 06:00, in which units, from which
+   system versions?
+5. **Target:** what later event counts as a positive case, and over which
+   horizon?
+6. **Action capacity:** how many pumps can technicians inspect?
+7. **Error costs:** what are the consequences of missing service and of an
+   unnecessary inspection?
+8. **Evidence design:** which time periods and pumps train, validate, and test
+   the system?
+9. **Baseline:** what simple current or constant rule must be beaten?
+10. **Acceptance rule:** which metrics, uncertainty bounds, subgroup checks,
+    and operational constraints must pass?
+
+The time index is crucial. Let $t_i$ be the prediction time for example $i$,
+$\mathbf{x}_i^{(\leq t_i)}$ contain only information legitimately available
+by that time, and $y_i^{(t_i,t_i+H]}$ describe an event in a future horizon of
+length $H$. The supervised dataset should then be understood as
+
+$$
+\mathcal{D}
+=
+\left\{
+\left(
+\mathbf{x}_i^{(\leq t_i)},
+y_i^{(t_i,t_i+H]}
+\right)
+\right\}_{i=1}^{n}.
+$$
+
+This notation turns “no future information” into an auditable condition.
+`work_order_closed`, recorded after maintenance, cannot appear in
+$\mathbf{x}_i^{(\leq t_i)}$. A daily aggregate computed at midnight may be
+valid for tomorrow morning but invalid for a decision at 20:00. The same
+column can be legitimate or leaked depending on the prediction moment.
+
+### From usefulness to loss
+
+A loss function $\ell(\hat y,y)$ assigns a penalty when prediction $\hat y$
+meets outcome $y$. Under zero-one classification loss,
+
+$$
+\ell(\hat y,y)=
+\begin{cases}
+0, & \hat y=y,\\
+1, & \hat y\neq y.
+\end{cases}
+$$
+
+The average test loss is the error rate, and one minus that value is accuracy.
+But equal penalties may contradict Leena's decision. If a missed failing pump
+is much more costly, a cost-sensitive loss can use $C_{\mathrm{FN}}$ for a
+false negative and $C_{\mathrm{FP}}$ for a false positive. Capacity may make
+precision among the top $k$ ranked pumps more relevant than overall accuracy.
+
+Metrics are compressed views of consequences. Choosing them after seeing the
+results permits a model to win by changing the question. The learning contract
+therefore records a primary metric and guardrails before broad experimentation.
+Pedro Domingos' survey of practical machine-learning lessons emphasises that
+generalisation, representation, overfitting, and data quality matter beyond
+the mechanics of fitting an algorithm
+([Domingos, 2012](https://doi.org/10.1145/2347736.2347755)).
+
+## 04 Build a leakage-safe workflow
+
+The official “machine-learning workflow” topic can be represented as a
+sequence with feedback:
+
+```text
+decision and harm analysis
+  -> data and label specification
+  -> split design
+  -> baseline
+  -> training and model selection
+  -> frozen evaluation
+  -> operational review
+  -> deployment and monitoring
+  -> new evidence and revision
+```
+
+It is not a one-way software pipeline. A failed label audit may send the team
+back to data specification. Subgroup errors may require new sampling. A
+deployment constraint may eliminate a model before training.
+
+### Training, validation, and test roles
+
+**Supplementary:** the training set is used to estimate model parameters. The
+validation set is used to choose model families, hyperparameters, features,
+thresholds, and other design decisions. The test set is held aside to estimate
+performance after those choices are frozen. If the test result influences
+another modelling choice, the test set has become validation data. A new
+untouched evaluation set is then needed for a clean final estimate.
+
+This separation is conceptual, not merely three files. If preprocessing learns
+a mean from all rows before the split, test information has influenced the
+training representation. If duplicate pump-days cross splits, the test set is
+not an independent approximation of new pumps or future time. If the team
+repeatedly checks the test score during feature engineering, human decisions
+adapt to the test set even though the training API never reads it.
+
+### Design the split around deployment
+
+An independent random row split is appropriate only when future cases are
+reasonably exchangeable with sampled rows and rows are the independent unit.
+Leena's data violate that assumption: days nest within pumps and time creates
+direction. Better evaluations may include:
+
+- a **group split** that keeps every row from one pump in one partition;
+- a **temporal split** that trains on earlier periods and tests on later ones;
+- a **grouped temporal split** when both new pumps and future conditions matter;
+- repeated or rolling evaluations to observe variability across periods.
+
+No split proves the future will match the past. It makes a specific
+generalisation question testable. “Random row performance” and “performance on
+future unseen pumps” are different estimands.
+
+### Treat leakage as a threat model
+
+Leakage is any route by which training or evaluation uses information that
+would not legitimately be available for the intended prediction. Common routes
+include future fields, outcome-derived features, duplicated entities,
+preprocessing before splitting, target-aware imputation, label windows that
+overlap features, and manual iteration on the test set. Kapoor and Narayanan
+document how leakage can invalidate scientific machine-learning claims and
+connect it to reproducibility failures
+([Kapoor and Narayanan, 2023](https://doi.org/10.1016/j.patter.2023.100804)).
+
+For each feature, Leena records source, timestamp, availability latency,
+transformation, owner, and whether the field can be changed by the outcome.
+For each split, she records the unit of separation and the future condition it
+approximates. This small threat model is more useful than the instruction “do
+not leak data,” because reviewers can challenge individual routes.
+
+## 05 Derive the smallest honest baseline
+
+A baseline answers, “What improvement is the model actually responsible for?”
+Leena should compare against the current operating-hours rule when possible.
+She should also include a constant majority classifier. The constant model
+cannot use sensor information; if a complex classifier cannot beat it under
+the primary metric, the features and fitting procedure have not demonstrated
+incremental predictive value.
+
+Let the training labels be $y_1,\ldots,y_n$ from a finite class set
+$\mathcal{Y}$. A constant classifier $h_c$ predicts the same class
+$c\in\mathcal{Y}$ for every input:
+
+$$
+h_c(\mathbf{x})=c.
+$$
+
+Under zero-one loss, its empirical risk is
+
+$$
+\widehat R(h_c)
+=
+\frac{1}{n}\sum_{i=1}^{n}
+\mathbb{1}[h_c(\mathbf{x}_i)\neq y_i],
+$$
+
+where $\mathbb{1}[A]$ equals one when statement $A$ is true and zero otherwise.
+Substituting $h_c(\mathbf{x}_i)=c$ gives
+
+$$
+\widehat R(h_c)
+=
+\frac{1}{n}\sum_{i=1}^{n}
+\mathbb{1}[c\neq y_i].
+$$
+
+Let $n_c=\sum_{i=1}^{n}\mathbb{1}[y_i=c]$ be the number of training examples
+in class $c$. Exactly $n-n_c$ examples do not have class $c$, so
+
+$$
+\widehat R(h_c)
+=
+\frac{n-n_c}{n}
+=
+1-\frac{n_c}{n}.
+$$
+
+The denominator $n$ and constant one do not depend on $c$. Minimising empirical
+risk is therefore equivalent to maximising $n_c$:
+
+$$
+c^\star\in\arg\max_{c\in\mathcal{Y}} n_c.
+$$
+
+Thus an empirical-risk-minimising constant classifier predicts a most frequent
+training class. If classes tie, the objective has multiple minimisers; an
+implementation needs an explicit deterministic tie rule.
+
+### Numerical example
+
+Suppose a training split contains eight pump-days with labels
+
+$$
+(0,0,1,0,1,0,0,1),
+$$
+
+where one means service within seven days. There are $n_0=5$ zeros and
+$n_1=3$ ones. Predicting zero produces empirical risk
+$1-5/8=3/8=0.375$. Predicting one produces risk
+$1-3/8=5/8=0.625$. The majority classifier chooses zero.
+
+That result is mathematically correct and operationally weak. It detects no
+service case, so recall for the positive class is zero. On a population where
+failures are rare, accuracy can be high while the system fails at its purpose.
+The derivation teaches two lessons: a baseline should be derived rather than
+treated as magic, and the chosen loss determines what “best” means.
+
+## 06 Implement the workflow twice
+
+The following Python 3.12 example uses NumPy 2.x and scikit-learn 1.x. It
+creates deterministic synthetic data, splits labels within each class, fits a
+from-scratch majority classifier, and checks it against scikit-learn's
+`DummyClassifier`. The library is described by Pedregosa and colleagues
+([Pedregosa et al., 2011](https://www.jmlr.org/papers/v12/pedregosa11a.html));
+the current API contract is documented on the
+[official `DummyClassifier` page](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html).
+
+```python
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+import numpy as np
+from numpy.typing import NDArray
+from sklearn.dummy import DummyClassifier
+from sklearn.metrics import accuracy_score
+
+IntArray = NDArray[np.int64]
+FloatArray = NDArray[np.float64]
+
+
+def stratified_holdout_indices(
+    y: IntArray, test_fraction: float = 0.25, seed: int = 17
+) -> tuple[IntArray, IntArray]:
+    """Return deterministic train/test indices with every class represented."""
+    labels = np.asarray(y, dtype=np.int64)
+    if labels.ndim != 1 or labels.size < 4:
+        raise ValueError("y must be one-dimensional with at least four rows")
+    if not 0.0 < test_fraction < 1.0:
+        raise ValueError("test_fraction must lie strictly between zero and one")
+
+    rng = np.random.default_rng(seed)
+    train_parts: list[IntArray] = []
+    test_parts: list[IntArray] = []
+    for label in np.unique(labels):
+        indices = np.flatnonzero(labels == label)
+        if indices.size < 2:
+            raise ValueError("each class needs at least two rows")
+        shuffled = rng.permutation(indices)
+        test_count = int(round(indices.size * test_fraction))
+        test_count = min(max(test_count, 1), indices.size - 1)
+        test_parts.append(shuffled[:test_count])
+        train_parts.append(shuffled[test_count:])
+
+    train = np.sort(np.concatenate(train_parts)).astype(np.int64)
+    test = np.sort(np.concatenate(test_parts)).astype(np.int64)
+    return train, test
+
+
+@dataclass
+class MajorityClassifier:
+    """Constant classifier with the smallest numeric label as a tie-break."""
+
+    majority_class_: int | None = None
+
+    def fit(self, X: FloatArray, y: IntArray) -> "MajorityClassifier":
+        features = np.asarray(X, dtype=np.float64)
+        labels = np.asarray(y, dtype=np.int64)
+        if features.ndim != 2 or labels.ndim != 1:
+            raise ValueError("X must be 2D and y must be 1D")
+        if features.shape[0] != labels.size or labels.size == 0:
+            raise ValueError("X and y must contain the same non-zero row count")
+        classes, counts = np.unique(labels, return_counts=True)
+        self.majority_class_ = int(classes[np.argmax(counts)])
+        return self
+
+    def predict(self, X: FloatArray) -> IntArray:
+        features = np.asarray(X, dtype=np.float64)
+        if self.majority_class_ is None:
+            raise RuntimeError("fit must be called before predict")
+        if features.ndim != 2:
+            raise ValueError("X must be 2D")
+        return np.full(features.shape[0], self.majority_class_, dtype=np.int64)
+
+
+def accuracy_scratch(y_true: IntArray, y_pred: IntArray) -> float:
+    """Return the fraction of exactly matching labels."""
+    truth = np.asarray(y_true, dtype=np.int64)
+    prediction = np.asarray(y_pred, dtype=np.int64)
+    if truth.ndim != 1 or truth.size == 0 or truth.shape != prediction.shape:
+        raise ValueError("label arrays must be non-empty, 1D, and equal in shape")
+    return float(np.mean(truth == prediction))
+
+
+# Synthetic teaching data only: hours, vibration mm/s, temperature C.
+X = np.array(
+    [
+        [120.0, 2.1, 48.0], [132.0, 2.5, 50.0],
+        [141.0, 3.0, 54.0], [155.0, 4.8, 67.0],
+        [160.0, 5.1, 70.0], [118.0, 1.9, 47.0],
+        [149.0, 3.4, 58.0], [171.0, 5.7, 73.0],
+        [128.0, 2.2, 49.0], [166.0, 5.3, 71.0],
+        [137.0, 2.8, 53.0], [152.0, 4.2, 64.0],
+        [125.0, 2.0, 48.0], [174.0, 6.0, 75.0],
+        [145.0, 3.1, 56.0], [158.0, 4.6, 66.0],
+    ],
+    dtype=np.float64,
+)
+y = np.array([0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1])
+
+train_idx, test_idx = stratified_holdout_indices(y)
+scratch = MajorityClassifier().fit(X[train_idx], y[train_idx])
+scratch_pred = scratch.predict(X[test_idx])
+
+library = DummyClassifier(strategy="most_frequent")
+library.fit(X[train_idx], y[train_idx])
+library_pred = library.predict(X[test_idx]).astype(np.int64)
+
+scratch_accuracy = accuracy_scratch(y[test_idx], scratch_pred)
+library_accuracy = float(accuracy_score(y[test_idx], library_pred))
+print(f"train rows={train_idx.size}, test rows={test_idx.size}")
+print(f"majority class={scratch.majority_class_}")
+print(f"scratch accuracy={scratch_accuracy:.3f}")
+print(f"library accuracy={library_accuracy:.3f}")
+```
+
+Expected output is deterministic:
+
+```text
+train rows=12, test rows=4
+majority class=0
+scratch accuracy=0.500
+library accuracy=0.500
+```
+
+The split function is educational, not a replacement for mature grouped or
+temporal splitting tools. It preserves class presence, but it knows nothing
+about pump identity or time. Applying it directly to Leena's repeated
+pump-days would still produce a misleading evaluation.
+
+### Tests as executable claims
+
+The useful tests are not “the function ran.” They check claims from the
+derivation and workflow:
+
+```python
+def run_tests() -> None:
+    train_a, test_a = stratified_holdout_indices(y, seed=17)
+    train_b, test_b = stratified_holdout_indices(y, seed=17)
+
+    assert np.array_equal(train_a, train_b)
+    assert np.array_equal(test_a, test_b)
+    assert set(train_a).isdisjoint(set(test_a))
+    assert sorted(np.concatenate([train_a, test_a]).tolist()) == list(range(len(y)))
+    assert set(y[train_a].tolist()) == set(y.tolist())
+    assert set(y[test_a].tolist()) == set(y.tolist())
+
+    fitted = MajorityClassifier().fit(X[train_a], y[train_a])
+    expected = np.full(test_a.size, 0, dtype=np.int64)
+    assert np.array_equal(fitted.predict(X[test_a]), expected)
+
+    sklearn_model = DummyClassifier(strategy="most_frequent")
+    sklearn_model.fit(X[train_a], y[train_a])
+    assert np.array_equal(
+        fitted.predict(X[test_a]),
+        sklearn_model.predict(X[test_a]).astype(np.int64),
+    )
+    assert accuracy_scratch(y[test_a], expected) == 0.5
+
+    try:
+        stratified_holdout_indices(y, test_fraction=1.0)
+        raise AssertionError("invalid test_fraction should fail")
+    except ValueError:
+        pass
+
+    try:
+        MajorityClassifier().predict(X)
+        raise AssertionError("predict before fit should fail")
+    except RuntimeError:
+        pass
+
+
+run_tests()
+```
+
+Time complexity is $O(n\log n)$ in this compact implementation because indices
+are sorted; counting labels and predicting are $O(n)$. Its extra space is
+$O(n)$. For large data, use tested library splitters, streamable counts where
+appropriate, and a data pipeline that preserves group and time metadata.
+
+## 07 Read failures before celebrating a score
+
+The score of $0.5$ is not evidence that the pump features are useful; the
+constant classifier ignores them. It is only a reference point. Even when a
+later model improves the score, Leena should try to break the conclusion.
+
+### Failure mode 1: accuracy hides the important class
+
+If only one percent of pumps need service, an always-negative classifier gets
+99 percent accuracy and zero positive recall. Report a confusion matrix and
+metrics linked to the decision: positive recall, precision among inspected
+pumps, false-negative cost, calibration, and inspection capacity. Avoid a
+metric buffet; predeclare a primary measure and a short set of guardrails.
+
+### Failure mode 2: leakage creates impossible foresight
+
+A post-service temperature correction or closed work order can predict the
+label because it is a consequence of the outcome. The remedy is not merely
+dropping columns with suspicious names. Trace timestamps and generation logic,
+fit preprocessing on training data only, test the feature-availability
+contract, and review whether labels overlap feature windows.
+
+### Failure mode 3: dependent rows cross the split
+
+Consecutive days from one degrading pump are similar. A random row split lets
+the model recognise a pump it has effectively seen. Group by pump when the
+claim concerns unseen pumps; split by time when the claim concerns future
+periods. If both matter, evaluate both.
+
+### Failure mode 4: the target encodes a policy
+
+Technicians inspect pumps they already suspect. “Received service” therefore
+depends on the historical inspection policy as well as mechanical condition.
+Uninspected pumps may have unknown need, not a clean negative label. A model
+trained on this target can reproduce attention patterns. Domain review,
+careful outcome measurement, follow-up, and sometimes a prospective study are
+needed.
+
+### Failure mode 5: model selection consumes the test set
+
+Trying one hundred variants and reporting the best test score adapts to random
+test peculiarities. Keep model selection inside training/validation or nested
+resampling, log every trial, and evaluate once after freezing the decision
+rule. If the result changes the rule, acknowledge that the set is no longer a
+final test.
+
+### Failure mode 6: deployment changes the data
+
+Once technicians act on predictions, high-risk pumps receive earlier service.
+The model changes the outcomes it later observes. Sensors, maintenance policy,
+season, manufacturer mix, and data pipelines also drift. Monitoring must cover
+input validity, missingness, prediction distribution, outcome delay,
+performance when labels arrive, subgroup harm, latency, and action capacity.
+
+**Security and privacy:** sensor identifiers can reveal infrastructure layout,
+and maintenance logs may contain technician names or access details. Apply
+least privilege, minimise fields, protect exports, audit access, and test for
+poisoned or malformed input. These controls do not make predictions accurate;
+they bound separate operational risks.
+
+## 08 Evaluate evidence and run the study lab
+
+An evaluation report should state the question before the answer:
+
+- prediction unit, time, horizon, population, and exclusions;
+- data period, source versions, missingness, and label construction;
+- split method and why it matches the intended generalisation;
+- baseline and current process;
+- primary metric, guardrails, and confidence or variability estimates;
+- subgroup and temporal slices chosen for a reason;
+- errors inspected and plausible leakage routes;
+- compute, latency, and capacity constraints;
+- limitations and triggers for stopping or retraining.
+
+One holdout result is conditional evidence, not a universal fact. It does not
+prove causation, fairness, robustness to every shift, or production benefit.
+Model cards offer a structured way to document intended uses, evaluation
+conditions, limitations, and performance context
+([Mitchell et al., 2019](https://doi.org/10.1145/3287560.3287596)).
+Sculley and colleagues show why production ML accumulates debt through data
+dependencies, feedback loops, configuration, and system interactions beyond
+the model object
+([Sculley et al., 2015](https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html)).
+
+### Practical lab: write the contract before fitting
+
+Choose a small public or synthetic binary-classification problem. Do not begin
+with an algorithm. Produce these deliverables:
+
+1. a one-page learning contract containing decision, unit, prediction time,
+   horizon, population, features, target, action capacity, error costs, and
+   acceptance rule;
+2. a data dictionary with units, availability timestamps, source, missingness,
+   and leakage notes;
+3. a split diagram showing which entities and time periods enter each
+   partition;
+4. a from-scratch majority baseline and library comparison with invariant and
+   edge-case tests;
+5. a confusion matrix plus two decision-relevant metrics;
+6. a failure review covering at least leakage, dependence, target quality,
+   imbalance, shift, security, privacy, and one ethical risk;
+7. a short model card that says what the experiment does **not** establish.
+
+### Assessment rubric
+
+- Problem and evidence contract: 25 percent.
+- Split and leakage reasoning: 20 percent.
+- Correct derivation and implementation: 20 percent.
+- Tests and reproducibility: 15 percent.
+- Evaluation interpretation: 10 percent.
+- Limitations, security, privacy, and ethics: 10 percent.
+
+An advanced extension is to replace the random teaching split with grouped
+temporal evaluation and compare the conclusions. A research-oriented extension
+is to preregister the evaluation, let another learner audit it without seeing
+the results, and record which ambiguities the independent audit discovers.
+
+### Assignment with solution guidance
+
+**Assignment:** a fraud team supplies transactions with `chargeback_date`,
+`account_id`, `amount`, `merchant_category`, `reviewer_score`, and a label
+indicating a chargeback within 60 days. The team randomly splits rows and
+reports 98 percent accuracy. Write a critique and a redesigned learning
+contract.
+
+**Solution guidance:** ask when `chargeback_date` and `reviewer_score` become
+available; they may leak the outcome or a later human judgement. Transactions
+within one account are dependent, so preserve accounts across partitions.
+Define the decision time and label horizon. Examine whether unresolved
+transactions are incorrectly labelled negative. Accuracy is weak under class
+imbalance; connect precision, recall, costs, review capacity, and calibration
+to the action. Use temporal separation because fraud patterns and policy
+change. Compare against current rules and a constant baseline. State that an
+offline result does not prove reduced fraud or acceptable customer harm.
+
+## 09 Defend the chapter in an oral exam
+
+1. **What distinguishes supervised from unsupervised learning?** Supervised
+   training provides a target for the intended mapping; unsupervised training
+   does not. The difference concerns available experience and objective, not
+   whether humans ever touched the data.
+2. **Why is a task not the same as a model?** The task defines the desired
+   output and evidence; a model is one family of rules that may address it.
+3. **Why must prediction time be explicit?** It determines which inputs are
+   legitimately available and prevents future information from entering
+   features.
+4. **Why does majority class minimise constant-classifier zero-one risk?**
+   Its risk is $1-n_c/n$, so maximising the class count minimises error.
+5. **What happens in a tie?** Several classes minimise the objective; software
+   must specify a deterministic or random tie policy.
+6. **Why can high accuracy be useless?** A dominant class can make constant
+   predictions accurate while all costly minority cases are missed.
+7. **When is a random row split misleading?** When rows share entities, time,
+   duplicates, or causal dependencies that will differ in deployment.
+8. **Why not inspect the test score repeatedly?** Design choices adapt to its
+   noise, turning it into validation data and biasing the final estimate.
+9. **How can an unsupervised result be evaluated?** Through stability,
+   external outcomes, downstream utility, reconstruction or density criteria,
+   and structured expert review appropriate to the objective.
+10. **What does an offline test not prove?** Causal benefit, universal
+    generalisation, fairness, security, or reliable production operation.
+
+### Chapter summary
+
+Machine learning begins with a decision and an evidence boundary. Supervised
+learning uses input-target examples; unsupervised learning seeks structure
+without a supplied target for the task. A learning contract defines the unit,
+time, population, inputs, target, loss, split, baseline, and acceptance rule.
+Training fits, validation chooses, and untouched testing estimates a frozen
+procedure under stated conditions.
+
+The majority classifier exposes empirical risk in its simplest complete form.
+It also exposes why a mathematically optimal answer to the wrong loss can be
+operationally useless. Leakage, dependent rows, policy-shaped targets,
+imbalance, repeated test use, and deployment feedback can each invalidate a
+promising score. The remedy is not ceremony: it is an auditable workflow in
+which assumptions, tests, limitations, and decisions remain connected.
+
+### Key terms
+
+Learning problem; feature; target; supervised learning; unsupervised learning;
+model; learning algorithm; loss; empirical risk; baseline; training set;
+validation set; test set; leakage; group split; temporal split; generalisation;
+model card; drift.
+
+### What to study next
+
+Proceed to Bayesian learning when you can state the learning contract, derive
+the constant zero-one-loss baseline, and explain why the example split is only
+a teaching device. Bayesian learning will introduce hypotheses, prior and
+posterior probability, maximum a posteriori estimation, Bayes-optimal
+classification, and naive Bayes under explicit assumptions.
+
+## 10 References and reading path
+
+### Recommended order
+
+1. **Survey/tutorial:** Domingos, P. (2012). “A Few Useful Things to Know about
+   Machine Learning.” *Communications of the ACM*, 55(10), 78–87.
+   [DOI](https://doi.org/10.1145/2347736.2347755). Read first for conceptual
+   cautions; treat the article as guidance, not a substitute for later proofs.
+2. **Modern reproducibility paper:** Kapoor, S., and Narayanan, A. (2023).
+   “Leakage and the Reproducibility Crisis in Machine-Learning-Based Science.”
+   *Patterns*, 4(9), 100804.
+   [DOI](https://doi.org/10.1016/j.patter.2023.100804). Map each leakage route
+   to the feature and split threat model.
+3. **Implementation resource:** Pedregosa, F., et al. (2011). “Scikit-learn:
+   Machine Learning in Python.” *Journal of Machine Learning Research*, 12,
+   2825–2830. [Official JMLR page](https://www.jmlr.org/papers/v12/pedregosa11a.html).
+   Reproduce the baseline with the documented current API.
+4. **Reporting resource:** Mitchell, M., et al. (2019). “Model Cards for Model
+   Reporting.” *Proceedings of FAT\**. 220–229.
+   [DOI](https://doi.org/10.1145/3287560.3287596). Draft the lab's limitation
+   and intended-use sections.
+5. **Industry systems paper:** Sculley, D., et al. (2015). “Hidden Technical
+   Debt in Machine Learning Systems.” *NeurIPS 28*, 2503–2511.
+   [Official conference page](https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html).
+   Identify system risks that a notebook evaluation cannot measure.
+
+### Documentation and lecture resources
+
+- Stanford CS229,
+  [course materials](https://cs229.stanford.edu/materials.html-full), for
+  university-level notes connecting learning objectives, models, and
+  generalisation.
+- scikit-learn,
+  [User Guide](https://scikit-learn.org/stable/user_guide.html), for maintained
+  library behaviour and evaluation tools. Verify the installed version because
+  APIs can change.
+
+**Access and verification note:** the linked journal, DOI, conference,
+university, and official documentation pages were rechecked on 2026-07-28.
+The synthetic pump story, derivation commentary, learning contract, and
+educational interpretations are original explanations. Claims about the cited
+works belong to those works; operational recommendations are this chapter's
+bounded synthesis and should be adapted to the actual domain.
