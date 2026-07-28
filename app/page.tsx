@@ -14,6 +14,7 @@ const featuredPosts = [
     readTime: "8 min read",
     date: "Jul 28, 2026",
     art: "kubernetes",
+    href: "/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning/",
   },
   {
     category: "Statistics",
@@ -23,6 +24,7 @@ const featuredPosts = [
     readTime: "10 min read",
     date: "Jul 26, 2026",
     art: "cloud",
+    href: "/subjects/introduction-to-statistical-methods/chapters/01-from-questions-to-statistical-evidence/",
   },
   {
     category: "Research",
@@ -32,26 +34,27 @@ const featuredPosts = [
     readTime: "7 min read",
     date: "Jul 24, 2026",
     art: "sre",
+    href: "/papers/array-programming-with-numpy/",
   },
 ];
 
 const materials = [
-  { icon: "∑", title: "Mathematics", body: "Linear algebra, calculus & optimization", count: "4 subjects", color: "mint" },
-  { icon: "▥", title: "Machine Learning", body: "Statistical learning and core algorithms", count: "8 subjects", color: "orange" },
-  { icon: "∞", title: "Deep Learning", body: "Neural networks, graphs and multimodal AI", count: "10 subjects", color: "violet" },
-  { icon: "⌘", title: "AI Systems", body: "Agents, reasoning, cloud and MLOps", count: "9 subjects", color: "blue" },
-  { icon: "▤", title: "Research Papers", body: "Verified reading paths and paper notes", count: "curated paths", color: "rose" },
-  { icon: "▣", title: "Study Guides", body: "Derivations, quizzes and revision notes", count: "45 subjects", color: "cyan" },
-  { icon: "☷", title: "Projects", body: "Beginner to research-level builds", count: "6 per subject", color: "amber" },
+  { icon: "∑", title: "Mathematics", body: "Linear algebra, calculus & optimization", count: "4 subjects", color: "mint", href: "/subjects/mathematical-foundations-for-machine-learning/" },
+  { icon: "▥", title: "Machine Learning", body: "Statistical learning and core algorithms", count: "8 subjects", color: "orange", href: "/subjects/" },
+  { icon: "∞", title: "Deep Learning", body: "Neural networks, graphs and multimodal AI", count: "10 subjects", color: "violet", href: "/subjects/deep-neural-networks/" },
+  { icon: "⌘", title: "AI Systems", body: "Agents, reasoning, cloud and MLOps", count: "9 subjects", color: "blue", href: "/subjects/" },
+  { icon: "▤", title: "Research Papers", body: "Verified reading paths and paper notes", count: "curated paths", color: "rose", href: "/papers/" },
+  { icon: "▣", title: "Study Guides", body: "Derivations, quizzes and revision notes", count: "45 subjects", color: "cyan", href: "/subjects/" },
+  { icon: "☷", title: "Projects", body: "Beginner to research-level builds", count: "6 per subject", color: "amber", href: "/projects/" },
 ];
 
 const roadmap = [
-  { label: "Prerequisites", items: ["Python", "Algebra", "Probability"], done: true },
-  { label: "Semester 1", items: ["Math Foundations", "Statistics", "Machine Learning"], current: true },
-  { label: "Semester 2", items: ["Deep Networks", "Reinforcement Learning", "Electives"] },
-  { label: "Semester 3", items: ["Specialization", "Research Methods", "Electives"] },
-  { label: "Semester 4", items: ["Dissertation", "Experiments", "Defense"] },
-  { label: "Beyond", items: ["Paper Reproduction", "Open Source", "Publication"] },
+  { label: "Prerequisites", items: ["Python", "Algebra", "Probability"], done: true, href: "/roadmap/" },
+  { label: "Semester 1", items: ["Math Foundations", "Statistics", "Machine Learning"], current: true, href: "/semesters/semester-1/" },
+  { label: "Semester 2", items: ["Deep Networks", "Reinforcement Learning", "Electives"], href: "/semesters/semester-2/" },
+  { label: "Semester 3", items: ["Specialization", "Research Methods", "Electives"], href: "/semesters/semester-3/" },
+  { label: "Semester 4", items: ["Dissertation", "Experiments", "Defense"], href: "/roadmap/" },
+  { label: "Beyond", items: ["Paper Reproduction", "Open Source", "Publication"], href: "/projects/" },
 ];
 
 const categories = [
@@ -183,6 +186,7 @@ export default function Home() {
             <div className="post-grid">
               {visiblePosts.length ? visiblePosts.map((post, index) => (
                 <article className="post-card" key={post.title}>
+                  <a className="card-cover-link" href={`${assetBase}${post.href}`} aria-label={`Read ${post.title}`} />
                   <div className={`post-art ${post.art}`}>
                     <span className="category-pill">{post.category}</span>
                     <span className="art-symbol" aria-hidden="true">
@@ -213,11 +217,11 @@ export default function Home() {
             </div>
             <div className="materials-grid">
               {materials.map((item) => (
-                <article className="material-card" key={item.title}>
+                <a className="material-card" href={`${assetBase}${item.href}`} key={item.title}>
                   <div className={`material-title ${item.color}`}><span>{item.icon}</span><strong>{item.title}</strong></div>
                   <p>{item.body}</p>
                   <small>{item.count}</small>
-                </article>
+                </a>
               ))}
             </div>
           </section>
@@ -229,10 +233,10 @@ export default function Home() {
             </div>
             <div className="roadmap-track">
               {roadmap.map((step) => (
-                <article className={`${step.current ? "current " : ""}${step.done ? "done" : ""}`} key={step.label}>
+                <a href={`${assetBase}${step.href}`} className={`roadmap-step ${step.current ? "current " : ""}${step.done ? "done" : ""}`} key={step.label}>
                   <strong>{step.done ? "✓ " : ""}{step.label}</strong>
                   <ul>{step.items.map((item) => <li key={item}>◉ &nbsp;{item}</li>)}</ul>
-                </article>
+                </a>
               ))}
             </div>
           </section>
