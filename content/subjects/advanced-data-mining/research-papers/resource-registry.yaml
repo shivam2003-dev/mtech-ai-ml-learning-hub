@@ -1,0 +1,202 @@
+subject: advanced-data-mining
+verifiedOn: 2026-07-28
+verificationPolicy: "Canonical URLs and identifiers are checked; claim-level citation review remains pending."
+resources:
+  - title: "M.Tech. Artificial Intelligence and Machine Learning brochure"
+    author: "BITS Pilani WILP"
+    year: 2026
+    resourceType: official-curriculum
+    url: "local:/Users/shivamkumar/Downloads/mtech-ai-ml.pdf"
+    venue: "BITS Pilani WILP"
+    difficulty: foundational
+    relevance: "Source of truth for the title-only Advanced Data Mining topic phrases."
+    prerequisites: []
+    access: free
+    confidence: high
+    verificationStatus: verified-local-sha256
+  - title: "Mining association rules between sets of items in large databases"
+    author: "Agrawal, Imielinski, and Swami"
+    year: 1993
+    resourceType: foundational-research-paper
+    doi: "10.1145/170036.170072"
+    url: "https://doi.org/10.1145/170036.170072"
+    venue: "SIGMOD Record"
+    difficulty: foundational
+    relevance: "Defines support and confidence for association rules."
+    prerequisites: ["probability", "sets"]
+    access: mixed
+    confidence: high
+    verificationStatus: verified-crossref-2026-07-28
+  - title: "Mining frequent patterns without candidate generation"
+    author: "Han, Pei, and Yin"
+    year: 2000
+    resourceType: foundational-research-paper
+    doi: "10.1145/342009.335372"
+    url: "https://doi.org/10.1145/342009.335372"
+    venue: "SIGMOD"
+    difficulty: advanced
+    relevance: "Introduces pattern-growth reasoning and FP-trees."
+    prerequisites: ["association rules", "trees"]
+    access: mixed
+    confidence: high
+    verificationStatus: verified-crossref-2026-07-28
+  - title: "Data Mining: The Textbook"
+    author: "Charu C. Aggarwal"
+    year: 2015
+    resourceType: textbook
+    doi: "10.1007/978-3-319-14142-8"
+    url: "https://doi.org/10.1007/978-3-319-14142-8"
+    venue: "Springer"
+    difficulty: intermediate
+    relevance: "Broad reference for record, graph, stream, spatial, and text mining."
+    prerequisites: ["statistics", "algorithms"]
+    access: paid
+    confidence: high
+    verificationStatus: verified-crossref-2026-07-28
+  - title: "Machine learning in Python: Main developments and technology trends"
+    author: "Raschka, Patterson, and Nolet"
+    year: 2020
+    resourceType: survey-paper
+    doi: "10.3390/info11040193"
+    url: "https://doi.org/10.3390/info11040193"
+    venue: "Information"
+    difficulty: intermediate
+    relevance: "Reproducible Python and machine-learning implementation context."
+    prerequisites: ["Python", "machine learning"]
+    access: free
+    confidence: high
+    verificationStatus: verified-crossref-2026-07-28
+  - title: "ACM SIGKDD"
+    author: "ACM"
+    year: 2026
+    resourceType: scholarly-community-resource
+    url: "https://www.kdd.org/"
+    venue: "ACM SIGKDD"
+    difficulty: intermediate
+    relevance: "Conference, tutorial, dataset, and community context."
+    prerequisites: ["data mining basics"]
+    access: free
+    confidence: high
+    verificationStatus: verified-official-page
+  - title: "scikit-learn User Guide: Clustering"
+    author: "scikit-learn developers"
+    year: 2026
+    resourceType: official-documentation
+    url: "https://scikit-learn.org/stable/modules/clustering.html"
+    venue: "scikit-learn"
+    difficulty: intermediate
+    relevance: "Reference implementations and caveats for clustering extensions."
+    prerequisites: ["Python", "distance functions"]
+    access: free
+    confidence: high
+    verificationStatus: verified-official-page
+  - title: "pandas User Guide"
+    author: "pandas developers"
+    year: 2026
+    resourceType: official-documentation
+    url: "https://pandas.pydata.org/docs/user_guide/index.html"
+    venue: "pandas"
+    difficulty: foundational
+    relevance: "Typed tabular transformations and reproducible record handling."
+    prerequisites: ["Python"]
+    access: free
+    confidence: high
+    verificationStatus: verified-official-page
+  - title: "NumPy reference"
+    author: "NumPy developers"
+    year: 2026
+    resourceType: official-documentation
+    url: "https://numpy.org/doc/stable/reference/"
+    venue: "NumPy"
+    difficulty: foundational
+    relevance: "Array operations used in deterministic mining fixtures."
+    prerequisites: ["Python"]
+    access: free
+    confidence: high
+    verificationStatus: verified-official-page
+  - title: "mlxtend frequent pattern mining API"
+    author: "Sebastian Raschka and contributors"
+    year: 2026
+    resourceType: implementation-documentation
+    url: "https://rasbt.github.io/mlxtend/user_guide/frequent_patterns/apriori/"
+    venue: "mlxtend"
+    difficulty: intermediate
+    relevance: "Optional Apriori and association-rule implementation to compare with first principles."
+    prerequisites: ["pandas", "association rules"]
+    access: free
+    confidence: medium
+    verificationStatus: verified-project-page
+  - title: "NetworkX algorithms reference"
+    author: "NetworkX developers"
+    year: 2026
+    resourceType: implementation-documentation
+    url: "https://networkx.org/documentation/stable/reference/algorithms/index.html"
+    venue: "NetworkX"
+    difficulty: intermediate
+    relevance: "Graph representation and mining extensions in later chapters."
+    prerequisites: ["graphs", "Python"]
+    access: free
+    confidence: high
+    verificationStatus: verified-official-page
+  - title: "DuckDB documentation"
+    author: "DuckDB Foundation"
+    year: 2026
+    resourceType: implementation-documentation
+    url: "https://duckdb.org/docs/stable/"
+    venue: "DuckDB"
+    difficulty: intermediate
+    relevance: "Local-first SQL processing for record-mining experiments."
+    prerequisites: ["SQL"]
+    access: free
+    confidence: high
+    verificationStatus: verified-official-page
+  - title: "Apache Flink: Windows"
+    author: "Apache Flink contributors"
+    year: 2026
+    resourceType: implementation-documentation
+    url: "https://nightlies.apache.org/flink/flink-docs-stable/docs/dev/datastream/operators/windows/"
+    venue: "Apache Flink"
+    difficulty: advanced
+    relevance: "Windowing concepts for stream-mining extensions."
+    prerequisites: ["stream processing", "time semantics"]
+    access: free
+    confidence: high
+    verificationStatus: verified-official-page
+  - title: "Introduction to Information Retrieval"
+    author: "Manning, Raghavan, and Schütze"
+    year: 2008
+    resourceType: textbook
+    url: "https://nlp.stanford.edu/IR-book/"
+    venue: "Cambridge University Press"
+    difficulty: intermediate
+    relevance: "Open textbook for web and text mining representations."
+    prerequisites: ["linear algebra", "probability"]
+    access: free
+    confidence: high
+    verificationStatus: verified-university-page
+  - title: "The link prediction problem for social networks"
+    author: "Liben-Nowell and Kleinberg"
+    year: 2003
+    resourceType: research-paper
+    doi: "10.1145/956863.956972"
+    url: "https://doi.org/10.1145/956863.956972"
+    venue: "CIKM"
+    difficulty: advanced
+    relevance: "A graph-mining foundation for social-network relationship prediction."
+    prerequisites: ["graphs", "evaluation"]
+    access: mixed
+    confidence: high
+    verificationStatus: verified-crossref-2026-07-28
+  - title: "On the need for time series data mining benchmarks"
+    author: "Keogh and Kasetty"
+    year: 2002
+    resourceType: research-paper
+    doi: "10.1145/775047.775062"
+    url: "https://doi.org/10.1145/775047.775062"
+    venue: "KDD"
+    difficulty: advanced
+    relevance: "Evaluation and benchmark discipline for temporal mining."
+    prerequisites: ["time series", "experimental design"]
+    access: mixed
+    confidence: high
+    verificationStatus: verified-crossref-2026-07-28

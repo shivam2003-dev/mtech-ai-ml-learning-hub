@@ -1,0 +1,40 @@
+subject: advanced-data-mining
+verifiedOn: 2026-07-28
+status: pending-independent-citation-review
+readingPath:
+  - title: "Mining association rules between sets of items in large databases"
+    authors: ["Rakesh Agrawal", "Tomasz Imielinski", "Arun Swami"]
+    year: 1993
+    type: foundational-paper
+    doi: "10.1145/170036.170072"
+    url: "https://doi.org/10.1145/170036.170072"
+    difficulty: foundational
+    relevance: "Defines the association-rule problem and support/confidence framing."
+    verification: pending
+  - title: "Mining frequent patterns without candidate generation"
+    authors: ["Jiawei Han", "Jian Pei", "Yiwen Yin"]
+    year: 2000
+    type: foundational-paper
+    doi: "10.1145/342009.335372"
+    url: "https://doi.org/10.1145/342009.335372"
+    difficulty: advanced
+    relevance: "Introduces pattern-growth reasoning for reducing candidate work."
+    verification: pending
+  - title: "Data Mining: The Textbook"
+    authors: ["Charu C. Aggarwal"]
+    year: 2015
+    type: textbook
+    doi: "10.1007/978-3-319-14142-8"
+    url: "https://doi.org/10.1007/978-3-319-14142-8"
+    difficulty: intermediate
+    relevance: "Broad reference across record, graph, stream, spatial, and text mining."
+    verification: pending
+  - title: "Machine learning in Python: Main developments and technology trends"
+    authors: ["Sebastian Raschka", "Joshua Patterson", "C. Nolet"]
+    year: 2020
+    type: survey
+    doi: "10.3390/info11040193"
+    url: "https://doi.org/10.3390/info11040193"
+    difficulty: intermediate
+    relevance: "Implementation and reproducibility context for Python workflows."
+    verification: pending
