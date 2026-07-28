@@ -1,0 +1,108 @@
+{
+  "agentId": "independent-machine-learning-publication-reviewer",
+  "reviewId": "machine-learning-ch01-publication-review-2026-07-28",
+  "subject": "Machine Learning",
+  "chapter": "Learning Problems and the ML Workflow",
+  "task": "Independent publication review",
+  "reviewedAt": "2026-07-28",
+  "status": "approved",
+  "approved": true,
+  "approvalBlockers": [],
+  "reviewedSnapshot": {
+    "developCommit": "685045c1c88a59b652a878006024bb343cccb11c",
+    "authorChapterSha256": "e744b5ef8db666a9f5d69d83f1b7152ff0afb43c4bf8cffd4084ad4d208bfea3",
+    "approvedChapterSha256": "2228b11d2221fd1643ed9f86522f244ff3a2eab3e7fa72aa53f4f0408f4d12f3",
+    "approvedSubjectIndexSha256": "125aa392e918120677d143bc3679bee2b2e7a92eea39de08afc4c88a64fc00d1",
+    "approvedReferencesBibSha256": "57a3c3ce2b6584eb0005994adacf7b90f227de871695342a734504e482079576"
+  },
+  "correctionsApplied": [
+    {
+      "file": "content/subjects/machine-learning/references.bib",
+      "finding": "Three BibTeX records abbreviated author lists as 'and others'.",
+      "correction": "Replaced abbreviations with the complete official JMLR, NeurIPS, and Crossref author records; added JMLR issue 85 and the ACM publisher.",
+      "chapterContentChanged": false
+    },
+    {
+      "file": "content/subjects/machine-learning/chapters/01-learning-problems-and-the-ml-workflow.mdx",
+      "finding": "Independent review statuses still reflected the pre-review state.",
+      "correction": "Advanced citationStatus to verified, mathReviewStatus to passed, and editorialStatus to approved after every gate passed.",
+      "chapterContentChanged": false
+    },
+    {
+      "file": "content/subjects/machine-learning/index.mdx",
+      "finding": "Reader-facing text said the reference chapter was still awaiting review.",
+      "correction": "Recorded the completed independent publication review while leaving the incomplete subject in technical review.",
+      "chapterContentChanged": false
+    }
+  ],
+  "curriculumEvidence": {
+    "sourcePdfSha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "officialCurriculumSha256": "d61e6d875dfd4fcbbc0e2bd18cc11e5749a0efe9aa816c540d8498d5b0037975",
+    "placement": "physical PDF page 12, printed page 10",
+    "topicDescription": "physical PDF page 14, printed page 12",
+    "exactOfficialTopics": [
+      "Introduction to Machine Learning",
+      "Various kinds of learning",
+      "Supervised Learning",
+      "Unsupervised Learning",
+      "Machine Learning workflow"
+    ],
+    "visualInspection": "passed: the rendered page visibly associates these topics with the Machine Learning heading",
+    "inventedOfficialDetailsFound": false,
+    "additionsLabelled": true
+  },
+  "checks": {
+    "compactEditorialStructure": "passed-10-H2",
+    "oneMinuteVersion": "passed",
+    "runningExample": "passed-Leena-pump-maintenance",
+    "meaningfulProseWords": 3711,
+    "minimumProseWords": 3000,
+    "wordCountGate": "passed",
+    "mathematicalNotation": "passed",
+    "empiricalRiskDerivation": "passed: R_hat(h_c)=1-n_c/n and argmax class count",
+    "tieCase": "passed: deterministic smallest-label policy matches np.unique ordering",
+    "complexityStatements": "passed",
+    "publishedPythonBlocks": "passed-exact-execution",
+    "independentRiskOracle": "passed-three-class-tie-and-risk-minimisation",
+    "codeEnvironment": "Python 3.14.6, NumPy 2.3.4, scikit-learn 1.7.2",
+    "crossrefMetadata": "passed-3-of-3",
+    "officialSourceEndpoints": "passed-5-of-5-http-200",
+    "completeBibtexAuthors": "passed-after-correction",
+    "fabricatedReferences": "none-found",
+    "originalityCorpusScan": "passed-60-long-paragraphs-against-82-local-content-files-no-exact-matches",
+    "lint": "passed",
+    "productionBuild": "passed",
+    "renderedTests": "passed-3-of-3",
+    "subjectInternalLinks": "passed-22-of-22-after-deployment-base-path-normalisation",
+    "desktopRenderedUx": "passed-1440x1000",
+    "mobileRenderedUx": "passed-390x844-no-horizontal-overflow",
+    "renderedHeadingStructure": "passed-1-H1-10-H2",
+    "mathJax": "passed",
+    "shikiCode": "passed",
+    "bookmarkInteraction": "passed-state-and-live-status",
+    "darkModeInteraction": "passed-control-changed-to-light-mode",
+    "browserConsoleErrors": "none"
+  },
+  "verifiedSources": [
+    "10.1145/2347736.2347755",
+    "10.1016/j.patter.2023.100804",
+    "10.1145/3287560.3287596",
+    "https://www.jmlr.org/papers/v12/pedregosa11a.html",
+    "https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html",
+    "https://cs229.stanford.edu/materials.html-full",
+    "https://scikit-learn.org/stable/user_guide.html",
+    "https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html"
+  ],
+  "openIssues": [],
+  "scopeExclusions": [
+    "the eleven unauthored Machine Learning chapters",
+    "production use of the synthetic maintenance example",
+    "future chapter revisions with a different SHA-256",
+    "subject-level publication status while most of the subject remains unauthored"
+  ],
+  "recommendedNextTasks": [
+    "Integrate this publication review and metadata correction into develop.",
+    "Re-run this gate if the approved chapter hash changes.",
+    "Keep later chapter generation behind the same curriculum, source, code, and rendered-review gates."
+  ]
+}
