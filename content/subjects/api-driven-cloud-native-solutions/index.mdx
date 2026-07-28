@@ -1,0 +1,80 @@
+---
+title: "API-Driven Cloud-Native Solutions"
+slug: "api-driven-cloud-native-solutions"
+semester: "configurable-2-3"
+semesterLabel: "Configurable elective pool (Semesters 2–3)"
+subjectType: "elective"
+specialization: null
+officialSyllabusSource:
+  document: "BITS Pilani WILP M.Tech. Artificial Intelligence and Machine Learning brochure"
+  pdfPage: 12
+  printedPage: 10
+  verificationStatus: "verified-title-only"
+summary: "A source-bounded reference book for designing, implementing, and operating APIs that expose intelligent services as observable, secure, portable cloud-native workloads."
+prerequisites:
+  - "Prerequisite: Python, HTTP, JSON, Git, and basic Linux command-line usage"
+  - "Prerequisite: introductory machine learning and relational data concepts"
+  - "Supplementary: containers, DNS, TLS, and one public-cloud vocabulary"
+learningOutcomes:
+  - "Model an API contract before choosing a framework or cloud service."
+  - "Build and test a typed FastAPI service with explicit validation, errors, health checks, and OpenAPI metadata."
+  - "Explain how containers, orchestration, configuration, observability, and rollout strategies change the reliability of an ML-backed API."
+  - "Select security, cost, latency, and data-governance controls appropriate to an API workload."
+  - "Design an evidence-driven delivery plan that can be reproduced locally and reviewed in production."
+difficulty: "advanced"
+estimatedHours: 180
+chapterCount: 10
+projectCount: 6
+paperCount: 16
+tools:
+  - "Python 3.12+"
+  - "FastAPI and Pydantic"
+  - "OpenAPI 3.1"
+  - "Docker and Docker Compose (supplementary)"
+  - "Kubernetes and a cloud provider (advanced extension)"
+tags:
+  - "api-design"
+  - "cloud-native"
+  - "fastapi"
+  - "containers"
+  - "ml-systems"
+authors:
+  - "Shivam Kumar"
+reviewers:
+  - "Subject Lead: API-Driven Cloud-Native Solutions"
+status: "technical-review"
+createdAt: "2026-07-28"
+updatedAt: "2026-07-28"
+lastVerifiedAt: "2026-07-28"
+version: "0.1.0"
+---
+
+# API-Driven Cloud-Native Solutions
+
+> **Curriculum status:** The official brochure verifies this elective title and
+> its placement in the configurable Semester 2–3 pool. It does not publish
+> units, outcomes, prerequisites, tools, or chapter ordering for this subject.
+> The sequence below is therefore a proposed educational interpretation. Each
+> addition is labelled **Prerequisite**, **Supplementary**, **Advanced extension**,
+> or **Industry application**, and must not be mistaken for an official unit.
+
+## Reference chapter
+
+1. [From an API Contract to a Cloud-Native Service](./chapters/01-from-an-api-contract-to-a-cloud-native-service/) — a supplementary first chapter with a tested FastAPI example and explicit production boundaries.
+
+## Proposed book sequence
+
+1. From an API Contract to a Cloud-Native Service
+2. HTTP Semantics, Versioning, and OpenAPI Contracts
+3. Typed Validation, Errors, and Idempotent Workflows
+4. Packaging a Service with Containers
+5. Configuration, Secrets, and Data Boundaries
+6. Reliability: Timeouts, Retries, Queues, and Backpressure
+7. Observability, SLOs, and Incident Evidence
+8. Deployment Topologies, Rollouts, and Autoscaling
+9. Securing ML and Data APIs
+10. Capstone: Operating an Intelligent Cloud-Native Product
+
+Only Chapter 1 is authored in this vertical slice. Future chapters remain
+planned until their source, mathematics, code, editorial, rendering, and
+accessibility reviews pass.
