@@ -38,11 +38,12 @@ authors:
   - "Shivam Kumar"
 reviewers:
   - "Subject Lead: Automated Reasoning"
-wordCount: 4300
-citationStatus: "pending-review"
-codeStatus: "pending-review"
-mathReviewStatus: "pending-review"
-editorialStatus: "pending-review"
+  - "Independent Publication Reviewer"
+wordCount: 3177
+citationStatus: "verified"
+codeStatus: "tested"
+mathReviewStatus: "passed"
+editorialStatus: "approved"
 createdAt: "2026-07-28"
 updatedAt: "2026-07-28"
 lastVerifiedAt: "2026-07-28"
@@ -364,12 +365,13 @@ statement. Each failure should be represented by a regression test and a
 written modelling decision.
 
 The complexity story is also easy to misread. Brute-force SAT takes
-$O(2^n\,m)$ evaluations for $n$ variables and $m$ clauses in the worst case.
-DPLL can be dramatically faster on structured instances, but SAT is NP-complete
-and no general polynomial-time guarantee is known. A benchmark result should
-therefore include instance family, encoding, random seed, hardware, timeout,
-and whether preprocessing was enabled. Reporting only the fastest successful
-case hides the search distribution.
+$O(2^n L)$ literal inspections in the worst case for $n$ variables and $L$
+total literal occurrences; when clause width is bounded, this is often written
+$O(2^n m)$ for $m$ clauses. DPLL can be dramatically faster on structured
+instances, but SAT is NP-complete and no general polynomial-time guarantee is
+known. A benchmark result should therefore include instance family, encoding,
+random seed, hardware, timeout, and whether preprocessing was enabled.
+Reporting only the fastest successful case hides the search distribution.
 
 ## 07. Make the result auditable, safe, and useful
 
@@ -522,8 +524,8 @@ and write down exactly which claim changed.
   resolution and unification paper.
 - Davis, M., & Putnam, H. (1960). *A Computing Procedure for Quantification
   Theory*. Journal of the ACM, 7(3), 201–215. DOI:
-  [10.1145/321033.321043](https://doi.org/10.1145/321033.321043). Foundational
-  elimination procedure; verify venue metadata before a formal citation export.
+  [10.1145/321033.321034](https://doi.org/10.1145/321033.321034). Foundational
+  elimination procedure.
 - Moskewicz, M. W., Madigan, C. F., Zhao, Y., Zhang, L., & Malik, S. (2001).
   *Chaff: Engineering an Efficient SAT Solver*. DAC, 530–535. DOI:
   [10.1145/378239.379017](https://doi.org/10.1145/378239.379017). Established
@@ -531,13 +533,13 @@ and write down exactly which claim changed.
 - de Moura, L., & Bjørner, N. (2008). *Z3: An Efficient SMT Solver*. TACAS,
   337–340. DOI: [10.1007/978-3-540-78800-3_24](https://doi.org/10.1007/978-3-540-78800-3_24).
   Authoritative SMT architecture reading.
-- Blanchette, J. C., Fleury, M., Lasserre, M., & Weidenbach, C. (2018). *A
+- Blanchette, J. C., Fleury, M., Lammich, P., & Weidenbach, C. (2018). *A
   Verified SAT Solver Framework with Learn, Forget, Restart, and
   Incrementality*. Journal of Automated Reasoning, 61, 31–61. DOI:
   [10.1007/s10817-018-9455-7](https://doi.org/10.1007/s10817-018-9455-7).
   Verification and certificate perspective.
 
-The first, third, fourth, and fifth entries were checked against DOI landing
-pages or publisher metadata on 2026-07-28. The Davis–Putnam DOI is retained as
-a scholarly lead and must be rechecked by the citation reviewer before
-publication; no citation-count or state-of-the-art claim depends on it.
+All five DOI records were checked against DOI landing pages, Crossref, or
+publisher metadata on 2026-07-28. The Davis–Putnam record uses the corrected
+ACM DOI `10.1145/321033.321034`; no citation-count or state-of-the-art claim
+depends on it.

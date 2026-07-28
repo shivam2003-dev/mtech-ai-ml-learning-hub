@@ -1,0 +1,89 @@
+{
+  "reviewId": "automated-reasoning-ch01-publication-review-2026-07-28",
+  "agentId": "independent-automated-reasoning-publication-reviewer",
+  "subject": "Automated Reasoning",
+  "chapter": "A Solver Must Explain Its Answer",
+  "task": "Independent publication review",
+  "reviewedAt": "2026-07-28",
+  "status": "completed",
+  "verdict": "approved-after-corrections",
+  "approved": true,
+  "filesCreated": [
+    "tasks/agent-work/electives/automated-reasoning/reference-chapter/publication-review.md",
+    "tasks/agent-work/electives/automated-reasoning/reference-chapter/publication-review.json"
+  ],
+  "filesModified": [
+    "content/subjects/automated-reasoning/chapters/01-a-solver-must-explain-its-answer.mdx",
+    "content/subjects/automated-reasoning/references.md",
+    "content/subjects/automated-reasoning/references.bib",
+    "tasks/agent-work/electives/automated-reasoning/reference-chapter/completion-report.json"
+  ],
+  "sourcesUsed": [
+    "BITS Pilani WILP M.Tech. AI and ML brochure, physical PDF page 12 / printed page 10, SHA-256 fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "ACM/Crossref metadata for DOI 10.1145/321250.321253",
+    "ACM/Crossref metadata for DOI 10.1145/321033.321034",
+    "DBLP/ACM metadata for DOI 10.1145/378239.379017",
+    "Springer metadata for DOI 10.1007/978-3-540-78800-3_24",
+    "Springer metadata for DOI 10.1007/s10817-018-9455-7",
+    "SAT Competition benchmark archive",
+    "SMT-LIB official specifications"
+  ],
+  "citationsVerified": 5,
+  "citationsRejected": 0,
+  "wordCount": 3177,
+  "testsRun": [
+    "Exact extraction and execution of the published Python DPLL block on Python 3.14.6",
+    "Exact extraction and execution of the published Z3 block with Z3 4.16.0",
+    "node scripts/calculate-word-count/chapter-word-count.mjs: 3177 meaningful prose words",
+    "npm run build:pages: passed (80 static routes)",
+    "GITHUB_REPOSITORY=shivam2003-dev/mtech-ai-ml-learning-hub npm run validate:links: passed (78 HTML files, 643 links)",
+    "npm run validate:foundation: passed (45 subjects, 45 leads)",
+    "node --test tests/rendered-html.test.mjs: passed (3 tests)",
+    "npm run lint: passed",
+    "npx tsc --noEmit --incremental false: passed",
+    "npm audit --omit=dev --audit-level=high: passed (0 production vulnerabilities)",
+    "git diff --check: passed",
+    "Playwright desktop/mobile inspection at 390x844: passed; bookmark, citation-copy, and dark-mode interactions updated accessible labels/status"
+  ],
+  "validationResults": {
+    "brochureBoundary": "passed-title-and-configurable-placement-only",
+    "narrativeStructure": "passed-1-H1-10-H2",
+    "meaningfulProseWords": 3177,
+    "minimumProseWords": 3000,
+    "mathematics": "passed-resolution-soundness-DPLL-invariant-and-complexity-scope",
+    "python": "passed-exact-DPLL-SAT-and-UNSAT-assertions",
+    "z3": "passed-exact-library-block-status-and-model",
+    "citations": "passed-after-correcting-Davis-Putnam-DOI-and-Lammich-author",
+    "bibliographyCoverage": "passed-five-DOI-records-in-markdown-and-BibTeX",
+    "editorial": "passed-compact-narrative-and-originality-assessment",
+    "renderedUx": "passed-MathJax-ARIA-code-and-reading-controls-desktop-mobile-interactions",
+    "projectContracts": "passed-six-complete-contracts",
+    "foundationRegistry": "passed-45-subjects-45-leads"
+  },
+  "evidence": {
+    "brochureSha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "curriculumSha256": "d61e6d875dfd4fcbbc0e2bd18cc11e5749a0efe9aa816c540d8498d5b0037975",
+    "chapterSha256": "77bbaec7a556692d9bfd043d47bfc0c26ef4230f3f76579d4253329ef5d397f1",
+    "referencesMarkdownSha256": "cbb891bd9c1b30a413c19228294bc15905bfc4357fe348cd0b91368b00d1eea3",
+    "referencesBibSha256": "b59e7e7447966526105a6be0d6361cd1ae12c7768fd567f8419eaeb67e915842",
+    "renderedH1Count": 1,
+    "renderedH2Count": 10,
+    "mathJaxAccessiblePairs": 82,
+    "staticHtmlFiles": 78,
+    "internalLinksChecked": 643
+  },
+  "openIssues": [
+    "The brochure provides no unit-level syllabus for this title; future proposed topics must remain explicitly classified.",
+    "Approval covers Chapter 1 only; the next seven planned chapters are not authored or approved."
+  ],
+  "scopeExclusions": [
+    "the seven unauthored Automated Reasoning chapters",
+    "production use of the educational DPLL and Z3 examples",
+    "future chapter or bibliography revisions with a different SHA-256"
+  ],
+  "recommendedNextTasks": [
+    "Integrate this reviewed chapter and report into develop.",
+    "Create Chapter 2 only after its outline and source gate pass.",
+    "Re-run this review if the Chapter 1 content or bibliography hash changes."
+  ]
+}

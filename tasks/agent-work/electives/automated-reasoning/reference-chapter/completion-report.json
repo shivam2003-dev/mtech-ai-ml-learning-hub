@@ -23,7 +23,13 @@
     "content/subjects/automated-reasoning/quizzes/README.md",
     "content/subjects/automated-reasoning/datasets/README.md"
   ],
-  "filesModified": [],
+  "filesModified": [
+    "content/subjects/automated-reasoning/chapters/01-a-solver-must-explain-its-answer.mdx",
+    "content/subjects/automated-reasoning/references.md",
+    "content/subjects/automated-reasoning/references.bib",
+    "tasks/agent-work/electives/automated-reasoning/reference-chapter/publication-review.md",
+    "tasks/agent-work/electives/automated-reasoning/reference-chapter/publication-review.json"
+  ],
   "sourcesUsed": [
     "BITS Pilani WILP M.Tech. AI & ML_New Brochure_2026 copy (2026), physical PDF page 12 / printed page 10, SHA-256 fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
     "Robinson, A Machine-Oriented Logic Based on the Resolution Principle (JACM, 1965), DOI 10.1145/321250.321253",
@@ -32,11 +38,11 @@
     "Blanchette et al., A Verified SAT Solver Framework with Learn, Forget, Restart, and Incrementality (JAR, 2018), DOI 10.1007/s10817-018-9455-7",
     "SAT Competition benchmark archive and SMT-LIB official benchmark specifications"
   ],
-  "citationsVerified": 4,
-  "citationsRejected": 1,
-  "wordCount": 3184,
+  "citationsVerified": 5,
+  "citationsRejected": 0,
+  "wordCount": 3177,
   "testsRun": [
-    "Recomputed meaningful prose count with scripts/calculate-word-count/chapter-word-count.mjs: 3184",
+    "Recomputed meaningful prose count with scripts/calculate-word-count/chapter-word-count.mjs: 3177",
     "Extracted and executed the first Python DPLL block with deterministic SAT/UNSAT assertions",
     "Validated chapter metadata and compact narrative H2 structure",
     "Validated all project contracts contain problem, prerequisites, architecture, dataset/licence, milestones, metrics, deliverables/tests, extension/deployment/ethics, and rubric fields",
@@ -52,25 +58,23 @@
   "validationResults": {
     "officialCurriculum": "passed: exact elective title and configurable Semester 2–3 placement verified; detailed units unavailable",
     "scope": "passed: proposed topics are explicitly labelled prerequisite, supplementary, advanced extension, or industry application",
-    "chapterWordMinimum": "passed: 3184 meaningful prose words, excluding code and references",
+    "chapterWordMinimum": "passed: 3177 meaningful prose words, excluding code and references",
     "chapterStructure": "passed: compact nine reader-facing H2 sections with narrative flow",
-    "math": "pending independent Mathematics Reviewer; derivations render through MathJax",
-    "code": "pending independent Code and Notebook Reviewer; local deterministic runtime check passed",
-    "citations": "pending independent Citation Verifier; four DOI identities verified and one DOI retained as a flagged lead",
-    "editorial": "pending independent Academic Editor",
-    "renderedPublication": "pending independent rendered-publication review",
+    "math": "passed independent publication review; resolution soundness, DPLL invariant, and complexity claims checked",
+    "code": "passed independent publication review; exact Python and Z3 blocks executed",
+    "citations": "passed independent publication review; five DOI identities verified and bibliography corrected",
+    "editorial": "passed independent publication review",
+    "renderedPublication": "passed independent publication review; static render and responsive controls checked",
     "bookShell": "passed: preface, usage, prerequisites, outcomes, roadmap, notation, references, projects, assignments, quizzes, datasets, glossary, and paper folders present"
   },
   "openIssues": [
-    "Independent mathematics, citation, editorial, originality, code, and rendered-publication reviews remain required before main publication.",
+    "Independent review covers this Chapter 1 snapshot only; future chapter changes require a new review.",
     "The brochure contains no topic-level units, prerequisites, learning outcomes, assessment weights, or official reading list for this subject.",
-    "The next seven chapter routes are planned but not yet published, so next-reading destinations are intentionally not linked.",
-    "The Davis–Putnam DOI is retained only as a citation-review lead until publisher metadata is independently confirmed."
+    "The next seven chapter routes are planned but not yet published, so next-reading destinations are intentionally not linked."
   ],
   "recommendedNextTasks": [
-    "Run independent mathematics review of the resolution soundness argument and DPLL invariant.",
-    "Run citation and editorial review against the source trail and title-only curriculum boundary.",
-    "Run rendered browser review at desktop and mobile widths, including MathJax and code overflow.",
-    "After review approval, cherry-pick this subject branch into develop and create the next Automated Reasoning chapter task."
+    "Cherry-pick this reviewed chapter and its publication-review report into develop.",
+    "Create Chapter 2 only after its outline and source gate pass.",
+    "Re-run this review if the Chapter 1 content or bibliography hash changes."
   ]
 }
