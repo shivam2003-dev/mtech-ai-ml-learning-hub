@@ -1,0 +1,22 @@
+{
+  "contractVersion": "1.0.0",
+  "reportId": "statistical-methods-ch01-word-count-2026-07-28",
+  "status": "passed",
+  "sourcePath": "content/subjects/introduction-to-statistical-methods/chapters/01-from-questions-to-statistical-evidence.mdx",
+  "validatedAt": "2026-07-28",
+  "command": "node scripts/calculate-word-count/chapter-word-count.mjs content/subjects/introduction-to-statistical-methods/chapters/01-from-questions-to-statistical-evidence.mdx",
+  "counterPath": "scripts/calculate-word-count/chapter-word-count.mjs",
+  "chapterSha256": "79e0c6c8acb756203bd33661941c79f0c54587519950ad943f98e0a59c450a36",
+  "meaningfulProseWords": 4642,
+  "minimumMeaningfulProseWords": 3000,
+  "frontmatterWordCount": 4642,
+  "frontmatterMatches": true,
+  "excludes": [
+    "frontmatter",
+    "code fences",
+    "reference section",
+    "headings",
+    "raw display and inline equations",
+    "URLs"
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "agentId": "statistical-methods-subject-lead-reference-chapter",
+  "subject": "Introduction to Statistical Methods",
+  "task": "Create the minimal portable subject-book skeleton and the first production-quality narrative reference chapter",
+  "status": "completed",
+  "filesCreated": [
+    "content/subjects/introduction-to-statistical-methods/index.mdx",
+    "content/subjects/introduction-to-statistical-methods/book/00-preface.md",
+    "content/subjects/introduction-to-statistical-methods/book/01-how-to-use-this-book.md",
+    "content/subjects/introduction-to-statistical-methods/book/02-prerequisites.md",
+    "content/subjects/introduction-to-statistical-methods/book/03-learning-outcomes.md",
+    "content/subjects/introduction-to-statistical-methods/book/04-subject-roadmap.md",
+    "content/subjects/introduction-to-statistical-methods/book/05-mathematical-notation.md",
+    "content/subjects/introduction-to-statistical-methods/chapters/01-from-questions-to-statistical-evidence.mdx",
+    "content/subjects/introduction-to-statistical-methods/references.md",
+    "content/subjects/introduction-to-statistical-methods/references.bib",
+    "content/subjects/introduction-to-statistical-methods/glossary.md",
+    "content/subjects/introduction-to-statistical-methods/further-reading.md",
+    "content/subjects/introduction-to-statistical-methods/research-papers/README.md",
+    "content/subjects/introduction-to-statistical-methods/papers/README.md",
+    "content/subjects/introduction-to-statistical-methods/projects/README.md",
+    "content/subjects/introduction-to-statistical-methods/assignments/README.md",
+    "content/subjects/introduction-to-statistical-methods/quizzes/README.md",
+    "content/subjects/introduction-to-statistical-methods/datasets/README.md",
+    "tasks/agent-work/semester-1/statistical-methods/reference-chapter/code-validation.json",
+    "tasks/agent-work/semester-1/statistical-methods/reference-chapter/code-validation.md",
+    "tasks/agent-work/semester-1/statistical-methods/reference-chapter/word-count-validation.json",
+    "tasks/agent-work/semester-1/statistical-methods/reference-chapter/heading-validation.json",
+    "tasks/agent-work/semester-1/statistical-methods/reference-chapter/completion-report.json"
+  ],
+  "filesModified": [],
+  "sourcesUsed": [
+    "BITS Pilani WILP M.Tech. AI & ML_New Brochure_2026 copy, physical PDF page 12 and printed page 10, SHA-256 fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "OpenIntro Statistics, fourth edition, official author site https://www.openintro.org/book/os/",
+    "NIST/SEMATECH e-Handbook of Statistical Methods https://www.itl.nist.gov/div898/software/dataplot/handbook.htm",
+    "Nosek et al. 2015, Promoting an Open Research Culture, DOI 10.1126/science.aab2374",
+    "MIT 18.650 Statistics for Applications https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/",
+    "Wilkinson and Task Force on Statistical Inference 1999, DOI 10.1037/0003-066X.54.8.594",
+    "Shivam2003 Speech and Language Processing Chapter 1, consulted only as an editorial-architecture benchmark and not copied"
+  ],
+  "citationsVerified": 6,
+  "citationsRejected": 0,
+  "wordCount": 4642,
+  "testsRun": [
+    "subject and chapter frontmatter validation against the draft-2020 JSON schemas",
+    "MDX compilation for subject and chapter with remark-math and rehype-mathjax",
+    "meaningful prose count with scripts/calculate-word-count/chapter-word-count.mjs",
+    "ten-section source heading audit with no authored chapter H1",
+    "byte-for-byte execution of the three published Python blocks in one Python __main__ namespace",
+    "eight unit tests for normal, boundary, invalid, deterministic, and sampling-audit behaviour",
+    "JSON parse validation for all evidence reports",
+    "git diff --check"
+  ],
+  "validationResults": {
+    "officialCurriculumBoundary": "passed: only the title and Semester 1 placement are treated as official",
+    "planSelection": {
+      "planPath": "tasks/agent-work/semester-1/statistical-methods/plan.md",
+      "planSha256": "e97ffec42f5eb3f93549114b681b545b87ad48a529ddaf9a34cc6d30041191e3",
+      "selectedChapter": "Chapter 1, Statistical thinking, populations, samples, variables, estimands, measurement, bias, provenance, and exploratory versus confirmatory work",
+      "classification": "prerequisite with explicitly labelled supplementary finite-population derivation"
+    },
+    "chapterSha256": "79e0c6c8acb756203bd33661941c79f0c54587519950ad943f98e0a59c450a36",
+    "meaningfulProseWords": 4642,
+    "minimumMeaningfulProseWords": 3000,
+    "chapterFrontmatterWordCountMatches": true,
+    "chapterStructure": "passed: ten compact H2 sections follow decision, map, formal objects, derivation, implementation, failures, evaluation, lab, oral defence/summary, and references",
+    "subjectSchema": "passed",
+    "chapterSchema": "passed",
+    "mdxCompilation": "passed for subject and chapter with MathJax pipeline",
+    "codeStatus": "tested on Python 3.14.6 with NumPy 2.3.4; exact published blocks executed and 8 of 8 tests passed",
+    "citationStatus": "partial pending independent claim-level review; six published references come from the verified plan",
+    "mathReview": "pending independent approval of the finite-population expectation derivation",
+    "editorialStatus": "review",
+    "renderedAccessibility": "pending application-level rendering and WCAG review",
+    "fullChaptersCreated": 1,
+    "sharedFilesTouched": false
+  },
+  "openIssues": [
+    "The official detailed BITS subject handout remains unavailable, so the topic-level chapter is provisional.",
+    "Independent mathematics, citation, editorial, accessibility, and rendered-layout reviews are required before approval.",
+    "The application must integrate and render the new subject and chapter routes without changing the portable MDX source.",
+    "Later chapters, projects, paper pages, assignments, quizzes, and datasets remain unpublished."
+  ],
+  "recommendedNextTasks": [
+    "Run independent mathematics and statistical-method review on the sampling derivation and claim boundaries.",
+    "Run independent citation and originality review against the immutable chapter hash.",
+    "Render the subject and chapter routes and inspect equations, tables, code, mobile layout, print mode, and heading anchors.",
+    "Integrate this reference slice before authorizing additional Statistical Methods chapters."
+  ]
+}

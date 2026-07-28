@@ -1,0 +1,33 @@
+{
+  "contractVersion": "1.0.0",
+  "reportId": "statistical-methods-ch01-code-validation-2026-07-28",
+  "status": "passed",
+  "sourcePath": "content/subjects/introduction-to-statistical-methods/chapters/01-from-questions-to-statistical-evidence.mdx",
+  "validatedAt": "2026-07-28",
+  "chapterSha256": "79e0c6c8acb756203bd33661941c79f0c54587519950ad943f98e0a59c450a36",
+  "executionMethod": "Selected published Python fences were compiled byte-for-byte as separate units and executed in order in one Python __main__ namespace.",
+  "environment": {
+    "python": "3.14.6",
+    "numpy": "2.3.4"
+  },
+  "blockSha256": {
+    "mean_from_scratch": "ec356dbc58322e98e1b63bfd06ce4da721b85d587587c4b36036ca4fd6abba4b",
+    "sampling_audit": "1b59bf39d89a06082e3ae2a1f045c1a291646097d50b31bff8fa37580cbad5e9",
+    "StatisticalEvidenceTests": "6fec315063fea300d7288e8d7e7af9144d572d3d49f7274ddb474110a439d424"
+  },
+  "testCount": 8,
+  "exitCode": 0,
+  "stdout": "",
+  "stderr": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.025s\n\nOK\n",
+  "cases": [
+    "known arithmetic mean",
+    "empty input rejection",
+    "Boolean input rejection",
+    "huge integer conversion normalized to documented TypeError",
+    "convenience-selection error exposed on the worked population",
+    "seeded sampling determinism and no replacement",
+    "non-finite outcome rejection",
+    "invalid sample-size rejection"
+  ],
+  "independentApprovalClaimed": false
+}
