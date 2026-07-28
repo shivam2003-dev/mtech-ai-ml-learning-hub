@@ -7,9 +7,9 @@ interpretation.
 
 - OpenAPI Initiative (2024), *OpenAPI Specification v3.1.1*.
   [spec.openapis.org/oas](https://spec.openapis.org/oas/).
-- FastAPI documentation (2026), *Deployment Concepts*.
+- FastAPI documentation (n.d.), *Deployment Concepts*. Accessed 2026-07-28.
   [fastapi.tiangolo.com/deployment/concepts](https://fastapi.tiangolo.com/deployment/concepts/).
-- Docker (2026), *Compose in production*.
+- Docker (n.d.), *Compose in production*. Accessed 2026-07-28.
   [docs.docker.com/compose/production](https://docs.docker.com/compose/production/).
 - Wiggins (2011), *The Twelve-Factor App*.
   [12factor.net](https://12factor.net/).
@@ -29,7 +29,7 @@ interpretation.
   [rfc-editor.org/rfc/rfc9110](https://www.rfc-editor.org/rfc/rfc9110).
 - RFC 9457 (2023), *Problem Details for HTTP APIs*.
   [rfc-editor.org/rfc/rfc9457](https://www.rfc-editor.org/rfc/rfc9457).
-- OpenTelemetry (2026), *Documentation*.
+- OpenTelemetry (n.d.), *Documentation*. Accessed 2026-07-28.
   [opentelemetry.io/docs](https://opentelemetry.io/docs/).
 - Sculley et al. (2015), *Hidden Technical Debt in Machine Learning Systems*.
   DOI [10.1145/2783258.2783307](https://doi.org/10.1145/2783258.2783307).
