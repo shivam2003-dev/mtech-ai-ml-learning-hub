@@ -363,6 +363,12 @@ def q_learning(
     if not np.issubdtype(transitions.dtype, np.integer):
         raise TypeError("transitions must contain integer state indices")
     n_states, n_actions = transitions.shape
+    if n_states < 1 or n_actions < 1:
+        raise ValueError("transition table must contain at least one state and action")
+    if not np.issubdtype(rewards.dtype, np.number):
+        raise TypeError("rewards must contain numeric values")
+    if not callable(is_terminal):
+        raise TypeError("is_terminal must be callable")
     if not 0 <= start_state < n_states:
         raise ValueError("start_state is outside the state table")
     if np.any(transitions < 0) or np.any(transitions >= n_states):
@@ -384,6 +390,8 @@ def q_learning(
         state = start_state
         total = 0.0
         for _ in range(config.max_steps):
+            if is_terminal(state):
+                break
             if rng.random() < config.epsilon:
                 action = int(rng.integers(n_actions))
             else:
@@ -407,6 +415,15 @@ should document tie handling or randomise ties. `returns` contains behaviour
 returns, not greedy evaluation returns. During evaluation, set exploration to
 zero and collect new episodes. The code intentionally models a deterministic
 transition table; it is not a production environment adapter.
+
+The loop also validates the table's non-empty state and action dimensions,
+rejects non-numeric rewards, and stops before selecting an action when an
+episode starts in a terminal state. Those checks matter in reusable examples:
+an empty action axis would make `argmax` fail with an implementation-level
+exception, while stepping from an already terminal state would invent a
+transition that the environment has said cannot occur. A production adapter
+should make the same lifecycle rule explicit in its `reset` and `step`
+contract.
 
 One useful manual test is to make all rewards zero except one transition that
 enters a terminal state. After learning, the Q value of that transition should
