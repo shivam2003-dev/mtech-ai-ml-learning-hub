@@ -1,7 +1,7 @@
 # Artificial and Computational Intelligence publication review
 
-Review date: 2026-07-28  
-Reviewer: Independent Publication Reviewer  
+Review date: 2026-07-28
+Reviewer: Independent Publication Reviewer
 Verdict: **approved after corrections**
 
 ## Scope and source boundary
