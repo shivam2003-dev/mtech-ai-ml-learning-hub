@@ -1,0 +1,736 @@
+---
+title: "Neural Networks as Differentiable Programs"
+slug: "neural-networks-as-differentiable-programs"
+subject: "deep-neural-networks"
+subjectTitle: "Deep Neural Networks"
+chapterNumber: 1
+classification: "official-topic"
+officialTopic: "Introduction to neural networks"
+summary: "A shape-first introduction to neural networks as parameterized, differentiable programs, built around one tiny risk-scoring model from equation to tested NumPy and PyTorch."
+learningObjectives:
+  - "Explain a neural network as a parameterized composition rather than a mysterious brain analogy."
+  - "Track batch, feature, hidden, and output axes through a two-layer network."
+  - "Derive a forward pass, parameter count, local input gradient, and computational cost."
+  - "Implement the same network with NumPy and PyTorch and test their agreement."
+  - "Separate model capacity, optimization, generalization, calibration, and responsible-use evidence."
+prerequisites:
+  - "Prerequisite: vectors, matrices, matrix multiplication, and array shapes"
+  - "Prerequisite: functions, derivatives, and the chain rule"
+  - "Prerequisite: basic Python, NumPy, and testing"
+estimatedReadingMinutes: 95
+difficulty: "intermediate"
+tags:
+  - "official-topic"
+  - "neural-networks"
+  - "differentiable-programs"
+  - "computation-graphs"
+  - "pytorch"
+relatedChapters:
+  - "linear-neural-models-for-regression-and-classification"
+  - "deep-feedforward-networks-and-representation"
+  - "backpropagation-and-automatic-differentiation"
+recommendedPapers:
+  - "10.1037/h0042519"
+  - "10.1038/nature14539"
+  - "10.1145/3287560.3287596"
+authors:
+  - "Shivam Kumar"
+reviewers:
+  - "Subject Lead: Deep Neural Networks"
+wordCount: 3014
+citationStatus: "verified-primary-metadata"
+codeStatus: "tested"
+mathReviewStatus: "pending-independent-review"
+editorialStatus: "draft-complete"
+createdAt: "2026-07-28"
+updatedAt: "2026-07-28"
+lastVerifiedAt: "2026-07-28"
+---
+
+**Classification:** **Official topic — Introduction to neural networks.**
+Computation graphs and shape contracts are **Supplementary** explanatory depth.
+Input limits and model reporting are **Industry application** guidance.
+
+**Curriculum notice:** the BITS Pilani Work Integrated Learning Programmes
+brochure places *Deep Neural Networks* in Semester 2 on physical PDF page 12
+(printed page 10). Its course description on physical PDF page 14 (printed page
+12) includes the exact phrase “Introduction to neural networks.” The brochure
+does not publish units, prerequisites, outcomes, tools, hours, or a chapter
+order. This chapter covers that verified phrase and labels added teaching depth;
+it does not present the proposed structure as an official university unit. The
+source PDF SHA-256 is
+`fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b`;
+the visually verified curriculum record is
+`content/curriculum/official-curriculum.yaml`, SHA-256
+`d61e6d875dfd4fcbbc0e2bd18cc11e5749a0efe9aa816c540d8498d5b0037975`.
+
+## 01. Begin with a program, not a brain metaphor
+
+### The one-minute version
+
+A neural network is a parameterized program assembled from simple numerical
+operations. Inputs enter the program, matrices mix coordinates, biases shift
+them, nonlinear functions change which patterns can be represented, and a final
+output supports a defined task. “Learning” means choosing parameter values from
+data according to an objective; it does not mean that the program understands
+the world in the human sense.
+
+This chapter follows Mira, an engineer building a tiny screening model for
+equipment telemetry. Each record has two measurements and the model returns one
+risk score. We will write the model as a composition, calculate one output by
+hand, draw its computation graph, derive a local input gradient, implement the
+same parameters in NumPy and PyTorch, and test shape and numerical contracts.
+The model is intentionally too small for deployment. Its purpose is to expose
+the structure that remains present in much larger networks.
+
+The central habit is to ask five questions:
+
+1. What task and population are being described?
+2. What does each tensor axis mean?
+3. Which values are learned parameters, fixed operations, inputs, or outputs?
+4. What evidence supports correctness and usefulness?
+5. Under what conditions should the system refuse to produce or act on a score?
+
+If those questions are unanswered, adding layers merely makes an unclear system
+larger.
+
+### Mira's running example
+
+Mira receives a batch of equipment records. Feature one is a standardized
+temperature deviation and feature two is a standardized vibration deviation.
+The network produces a real-valued score for further investigation. It does not
+declare that a machine will fail, schedule maintenance by itself, or estimate a
+probability. Those would be additional claims requiring labels, calibration,
+decision thresholds, operational costs, and prospective validation.
+
+Her first model has two input features, three hidden units, and one output:
+
+$$
+\mathbf{z}=\mathbf{x}^{\mathsf T}\mathbf{W}_1+\mathbf{b}_1^{\mathsf T},
+\qquad
+\mathbf{h}=\operatorname{ReLU}(\mathbf{z}),
+\qquad
+s=\mathbf{h}\mathbf{w}_2+b_2.
+$$
+
+We use row-oriented batches in code. A single mathematical input is a column
+vector $\mathbf{x}\in\mathbb{R}^{2}$, while a batch is stored as
+$\mathbf{X}\in\mathbb{R}^{b\times 2}$ with one example per row. The hidden
+matrix is $\mathbf{H}\in\mathbb{R}^{b\times 3}$ and the score matrix is
+$\mathbf{S}\in\mathbb{R}^{b\times 1}$. Stating both conventions avoids the
+common mistake of treating a one-axis software array as an inherently row or
+column object.
+
+### What this chapter promises
+
+After studying the chapter, you should be able to explain why a network is a
+composition of functions, predict every intermediate shape, distinguish
+architecture from fitted parameter values, reproduce a forward pass, calculate
+its parameter count and leading computational cost, and describe what an
+automatic-differentiation system records. You should also be able to reject the
+claims “the model ran, therefore it is correct” and “the network is expressive,
+therefore its score is trustworthy.”
+
+The [official *Deep Learning* book site](https://www.deeplearningbook.org/)
+identifies feedforward networks, regularization, optimization, convolution,
+sequence modelling, and practical methodology as distinct parts of the field.
+That separation is useful: representation, training, evaluation, and operation
+are connected, but they are not the same problem. The
+[D2L multilayer-perceptron path](https://d2l.ai/chapter_multilayer-perceptrons/mlp.html)
+similarly separates model definition, forward/backward computation, numerical
+stability, and generalization. This chapter establishes the vocabulary needed
+for those later distinctions.
+
+## 02. Build the conceptual map
+
+### From unit to network
+
+A unit accepts numbers, combines them, and applies an optional transformation.
+For an input $\mathbf{x}\in\mathbb{R}^{d}$, one affine unit computes
+
+$$
+z=\mathbf{w}^{\mathsf T}\mathbf{x}+b
+  =\sum_{j=1}^{d}w_jx_j+b.
+$$
+
+The vector $\mathbf{w}$ contains weights and $b$ is a bias. The word *affine*
+matters: the bias means the mapping is not strictly linear unless $b=0$.
+Several units evaluated together form a layer. Layers composed in sequence form
+a feedforward network when information moves from inputs toward outputs without
+a recurrent feedback edge.
+
+A nonlinear activation is not decorative. If every layer applies only an
+affine map, then composing many layers still produces one affine map. For
+matrices $\mathbf{W}_1,\mathbf{W}_2$ and biases $\mathbf{b}_1,\mathbf{b}_2$,
+
+$$
+(\mathbf{X}\mathbf{W}_1+\mathbf{b}_1)\mathbf{W}_2+\mathbf{b}_2
+=\mathbf{X}(\mathbf{W}_1\mathbf{W}_2)
+(\mathbf{b}_1\mathbf{W}_2+\mathbf{b}_2).
+$$
+
+Depth without nonlinearity has not created a richer function family. A
+rectified linear unit, or ReLU, applies
+$\operatorname{ReLU}(a)=\max(0,a)$ element by element. It creates piecewise
+linear behavior by retaining positive pre-activations and replacing negative
+ones by zero. This makes the program nonlinear, although each region with a
+fixed activation pattern remains affine.
+
+### Architecture, parameters, and state
+
+An architecture specifies operations and connectivity: input width, layer
+types, hidden widths, activation functions, and output structure. Parameters
+are values chosen during learning, such as weights and biases. Hyperparameters
+are choices made outside the basic parameter-fitting step, such as hidden width
+or learning rate. Some layers also carry non-parameter state, such as running
+statistics. Conflating these categories makes experiments hard to reproduce.
+
+For Mira's architecture, the parameter shapes are
+
+$$
+\mathbf{W}_1\in\mathbb{R}^{2\times3},\quad
+\mathbf{b}_1\in\mathbb{R}^{3},\quad
+\mathbf{w}_2\in\mathbb{R}^{3\times1},\quad
+b_2\in\mathbb{R}.
+$$
+
+The trainable parameter count is
+
+$$
+2\cdot3+3+3\cdot1+1=13.
+$$
+
+Batch size is absent from this count because the model reuses the same
+parameters for every example. A larger batch changes intermediate storage and
+work, not the number of learned values.
+
+### Representation is not understanding
+
+Hidden coordinates are often called *features* or *representations*. This means
+that the program transforms an input into another coordinate system useful for
+its objective. It does not establish that one hidden unit corresponds to a
+stable human concept, that the representation is causal, or that a score is
+fair across operating conditions. Interpretability is an empirical and
+contextual investigation, not a property granted by the word “neuron.”
+
+Historical language can also mislead. Rosenblatt's 1958 perceptron paper is an
+important primary source for early trainable threshold models
+([DOI 10.1037/h0042519](https://doi.org/10.1037/h0042519)). A modern
+multilayer differentiable program is not simply a biological neuron simulation,
+and the historical paper should not be used to support claims about modern deep
+architectures that it did not study.
+
+## 03. Follow the forward computation
+
+### A batch shape ledger
+
+For batch size $b$, input width $d=2$, hidden width $m=3$, and output width
+$k=1$, the batch computation is
+
+$$
+\mathbf{Z}=\mathbf{X}\mathbf{W}_1+\mathbf{1}_b\mathbf{b}_1^{\mathsf T},
+\qquad
+\mathbf{H}=\operatorname{ReLU}(\mathbf{Z}),
+\qquad
+\mathbf{S}=\mathbf{H}\mathbf{W}_2+\mathbf{1}_b\mathbf{b}_2^{\mathsf T}.
+$$
+
+Here $\mathbf{1}_b$ is a length-$b$ column of ones, used to show bias addition
+mathematically. Libraries normally broadcast each bias across batch rows.
+Broadcasting is convenient only after the intended axes are known.
+
+The products obey:
+
+- $(b\times2)(2\times3)\rightarrow(b\times3)$;
+- a length-three bias is added to each hidden row;
+- ReLU preserves the $(b\times3)$ shape;
+- $(b\times3)(3\times1)\rightarrow(b\times1)$;
+- the scalar output bias is added to every score.
+
+This ledger is a proof obligation. If a weight were accidentally stored as
+$3\times2$, the first multiplication would be undefined. If batch size happened
+to equal hidden width, an incorrectly oriented bias might still execute. Shape
+equality therefore checks structural compatibility, not semantic intent.
+
+### One numerical pass
+
+Mira uses
+
+$$
+\mathbf{x}^{\mathsf T}=\begin{bmatrix}2&-1\end{bmatrix},\quad
+\mathbf{W}_1=
+\begin{bmatrix}
+0.5&-1&0.25\\
+1&0.5&-0.75
+\end{bmatrix},\quad
+\mathbf{b}_1^{\mathsf T}=\begin{bmatrix}0.1&0.5&1\end{bmatrix}.
+$$
+
+The three pre-activations are
+
+$$
+\begin{aligned}
+z_1&=2(0.5)+(-1)(1)+0.1=0.1,\\
+z_2&=2(-1)+(-1)(0.5)+0.5=-2,\\
+z_3&=2(0.25)+(-1)(-0.75)+1=2.25.
+\end{aligned}
+$$
+
+Therefore $\mathbf{h}=\begin{bmatrix}0.1&0&2.25\end{bmatrix}$. With
+
+$$
+\mathbf{W}_2=\begin{bmatrix}1\\-2\\0.4\end{bmatrix},
+\qquad b_2=-0.1,
+$$
+
+the score is
+
+$$
+s=0.1(1)+0(-2)+2.25(0.4)-0.1=0.9.
+$$
+
+The arithmetic is intentionally transparent. If code returns a different
+number for these exact parameters, either the implementation, orientation,
+dtype, or copied data is wrong. If code returns $0.9$, only numerical
+consistency has been established; usefulness still requires data and evaluation.
+
+### Composition notation
+
+Let $f_1(\mathbf{x};\theta_1)=\mathbf{W}_1^{\mathsf T}\mathbf{x}+\mathbf{b}_1$,
+let $\rho$ apply ReLU, and let
+$f_2(\mathbf{h};\theta_2)=\mathbf{w}_2^{\mathsf T}\mathbf{h}+b_2$.
+The full network is
+
+$$
+f(\mathbf{x};\theta)=f_2(\rho(f_1(\mathbf{x};\theta_1));\theta_2),
+$$
+
+where $\theta$ denotes all thirteen parameters. This notation separates a
+function family from one fitted member of that family. Training changes
+$\theta$; it does not silently change what the axes mean or what task the
+output is supposed to support.
+
+## 04. Read the computation graph and derivative
+
+### Graph as an execution record
+
+A computation graph represents values as nodes and operations as directed
+edges. For Mira's network, the forward order is:
+
+```text
+X ──matmul W1──> Z ──add b1──> A ──ReLU──> H
+H ──matmul W2──> U ──add b2──> S
+```
+
+The graph is useful because each operation has a local derivative and a shape
+contract. Reverse-mode automatic differentiation evaluates the forward graph,
+stores information needed by derivative rules, and then propagates sensitivity
+from an output backward through the recorded operations. PyTorch's
+[autograd tutorial](https://docs.pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html)
+describes tensors and operations as a directed acyclic graph whose leaves are
+inputs/parameters and whose roots are outputs. Chapter 4 will derive reverse
+mode in detail; here we inspect one local result.
+
+### Derivative through the active region
+
+Away from zero, the ReLU derivative is
+
+$$
+\rho'(a)=
+\begin{cases}
+1,&a>0,\\
+0,&a<0.
+\end{cases}
+$$
+
+At the selected input, hidden units one and three are active and unit two is
+inactive. Define the activation mask
+$\mathbf{r}=\begin{bmatrix}1&0&1\end{bmatrix}^{\mathsf T}$.
+For scalar score $s$, the input gradient is
+
+$$
+\nabla_{\mathbf{x}}s
+=\mathbf{W}_1\operatorname{diag}(\mathbf{r})\mathbf{w}_2.
+$$
+
+Substituting the active columns gives
+
+$$
+\nabla_{\mathbf{x}}s
+=1\begin{bmatrix}0.5\\1\end{bmatrix}
++0.4\begin{bmatrix}0.25\\-0.75\end{bmatrix}
+=\begin{bmatrix}0.6\\0.7\end{bmatrix}.
+$$
+
+Locally, increasing the first standardized feature by a small amount changes
+the score by roughly $0.6$ times that change, provided no ReLU boundary is
+crossed. This is a local sensitivity statement, not a causal effect. Features
+may be correlated, standardization may differ after deployment, and crossing a
+boundary changes the active affine region.
+
+At exactly zero, ReLU is not differentiable in the classical two-sided sense.
+Libraries choose a conventional subgradient for optimization. That choice
+allows a program to proceed; it does not remove the mathematical corner. A
+finite-difference check near the corner can disagree depending on step size and
+direction, which is why gradient tests must avoid or explicitly analyze
+nondifferentiable points.
+
+### Differentiable does not mean trainable or correct
+
+A differentiable program supports gradient computation over many of its
+operations. It may still have poorly scaled signals, an unsuitable objective,
+corrupted labels, leakage, insufficient capacity, excessive capacity, or an
+optimization process that reaches an unhelpful solution. Conversely, some
+program components are discrete or nondifferentiable and require alternative
+estimators or problem formulations. “Differentiable program” describes a
+powerful engineering structure, not a guarantee of successful learning.
+
+The 2015 review by LeCun, Bengio, and Hinton surveys representation learning and
+deep architectures ([DOI 10.1038/nature14539](https://doi.org/10.1038/nature14539)).
+Use it for a historical and architectural map, then follow important claims to
+primary task-specific papers. A review's breadth is valuable, but it is not a
+substitute for checking experimental design or later evidence.
+
+## 05. Implement and test the same contract
+
+The following script supports Python 3.12 or later, NumPy 2.x, and PyTorch 2.x.
+The published blocks were executed on Python 3.14.6, NumPy 2.3.4, and PyTorch
+2.9.1. Seeds are fixed even though this particular parameter fixture contains
+no random initialization.
+
+### First-principles NumPy implementation
+
+```python
+from __future__ import annotations
+
+import numpy as np
+import torch
+from numpy.typing import NDArray
+from torch import Tensor, nn
+
+FloatArray = NDArray[np.float64]
+
+W1: FloatArray = np.array(
+    [[0.5, -1.0, 0.25], [1.0, 0.5, -0.75]], dtype=np.float64
+)
+B1: FloatArray = np.array([0.1, 0.5, 1.0], dtype=np.float64)
+W2: FloatArray = np.array([[1.0], [-2.0], [0.4]], dtype=np.float64)
+B2: FloatArray = np.array([-0.1], dtype=np.float64)
+
+
+def validate_batch(values: object) -> FloatArray:
+    """Return a finite float64 batch with exactly two features."""
+    try:
+        batch = np.asarray(values, dtype=np.float64)
+    except (TypeError, ValueError, OverflowError) as error:
+        raise ValueError("inputs must form a numeric rectangular array") from error
+    if batch.ndim != 2 or batch.shape[1] != 2:
+        raise ValueError("expected shape (batch, 2)")
+    if batch.shape[0] == 0:
+        raise ValueError("batch must contain at least one record")
+    if not np.isfinite(batch).all():
+        raise ValueError("inputs must be finite")
+    return batch
+
+
+def tiny_network_numpy(values: object) -> FloatArray:
+    """Compute a two-layer score without an ML framework."""
+    batch = validate_batch(values)
+    hidden_pre = batch @ W1 + B1
+    hidden = np.maximum(hidden_pre, 0.0)
+    scores = hidden @ W2 + B2
+    if not np.isfinite(scores).all():
+        raise FloatingPointError("network produced a non-finite score")
+    return scores
+```
+
+The implementation accepts a two-dimensional batch rather than silently
+promoting a single vector. That strict boundary makes callers state whether
+they have one example or many. Finite-value validation prevents NaN or infinity
+from flowing through a score that may otherwise look structurally valid.
+Production limits would also bound batch size, payload size, dtype conversions,
+request time, and memory; those are local defensive requirements, not claims
+that NumPy provides a deployment security boundary.
+
+### PyTorch module and executable tests
+
+```python
+class TinyRiskNetwork(nn.Module):
+    """PyTorch form of the exact NumPy fixture."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.hidden = nn.Linear(2, 3, dtype=torch.float64)
+        self.output = nn.Linear(3, 1, dtype=torch.float64)
+        with torch.no_grad():
+            self.hidden.weight.copy_(torch.from_numpy(W1.T))
+            self.hidden.bias.copy_(torch.from_numpy(B1))
+            self.output.weight.copy_(torch.from_numpy(W2.T))
+            self.output.bias.copy_(torch.from_numpy(B2))
+
+    def forward(self, batch: Tensor) -> Tensor:
+        if batch.ndim != 2 or batch.shape[1] != 2 or batch.shape[0] == 0:
+            raise ValueError("expected non-empty shape (batch, 2)")
+        if not torch.isfinite(batch).all():
+            raise ValueError("inputs must be finite")
+        return self.output(torch.relu(self.hidden(batch)))
+
+
+def run_tests() -> None:
+    np.random.seed(7)
+    torch.manual_seed(7)
+    sample = np.array([[2.0, -1.0]], dtype=np.float64)
+    expected = np.array([[0.9]], dtype=np.float64)
+
+    numpy_score = tiny_network_numpy(sample)
+    np.testing.assert_allclose(numpy_score, expected, rtol=0.0, atol=1e-12)
+
+    model = TinyRiskNetwork()
+    tensor = torch.tensor(sample, dtype=torch.float64, requires_grad=True)
+    torch_score = model(tensor)
+    np.testing.assert_allclose(
+        torch_score.detach().numpy(), numpy_score, rtol=0.0, atol=1e-12
+    )
+    torch_score.sum().backward()
+    np.testing.assert_allclose(
+        tensor.grad.detach().numpy(),
+        np.array([[0.6, 0.7]], dtype=np.float64),
+        rtol=0.0,
+        atol=1e-12,
+    )
+    assert sum(parameter.numel() for parameter in model.parameters()) == 13
+
+    for invalid in (
+        np.array([2.0, -1.0]),
+        np.empty((0, 2)),
+        np.array([[2.0, -1.0, 4.0]]),
+        np.array([[np.nan, 1.0]]),
+    ):
+        try:
+            tiny_network_numpy(invalid)
+        except ValueError:
+            pass
+        else:
+            raise AssertionError(f"invalid input was accepted: {invalid!r}")
+
+    two_scores = tiny_network_numpy([[2.0, -1.0], [0.0, 0.0]])
+    assert two_scores.shape == (2, 1)
+    print("9 checks passed; score=0.900; input_gradient=[0.600, 0.700]")
+
+
+if __name__ == "__main__":
+    run_tests()
+```
+
+The [PyTorch model-building tutorial](https://docs.pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html)
+documents `nn.Module` as the base structure for neural models and shows the
+common pattern of defining layers in initialization and computation in
+`forward`. Here the framework version is not “more correct” than the explicit
+NumPy function. Agreement between independent forms is useful evidence that
+weights were transposed and biases aligned correctly. The test also asks
+autograd for the input gradient and compares it with the hand derivation.
+
+The leading forward cost for dense batch multiplication is
+$\Theta(bdm+bmk)$ operations, where $d=2$, $m=3$, and $k=1$ here. Intermediate
+activation storage is $\Theta(bm)$, excluding framework bookkeeping. Large
+widths and batches change these costs dramatically. Parameter count alone does
+not describe activation memory, optimizer state, data movement, or latency.
+
+## 06. Connect the toy network to practical work
+
+### From score to decision
+
+A real system needs an explicit task statement. Is the score used to rank
+machines for inspection, trigger a warning, or supply one feature to a human
+workflow? The target label must correspond to that intended use. A retrospective
+maintenance code may be delayed, inconsistently recorded, or influenced by
+which machines were already inspected. A random row split can leak repeated
+measurements from the same machine into training and evaluation.
+
+The network output in this chapter is a raw score. Converting it into a
+probability requires a link function and evidence of calibration on data
+representative of the deployment setting. Converting it into an action requires
+a threshold and a cost model: missed failures, unnecessary inspections,
+downtime, and human workload do not have equal consequences. Accuracy alone may
+hide poor performance for rare failure types or specific machine families.
+
+For a bounded experiment, Mira should document:
+
+- population, collection period, measurement units, and missingness;
+- label definition, observation window, and known label delay;
+- machine-level split boundaries that prevent leakage;
+- preprocessing fitted only on training data;
+- baseline models and why the network is being considered;
+- score distribution, ranking metrics, threshold metrics, and calibration;
+- repeated seeds or another uncertainty-aware comparison;
+- slices by relevant equipment type and operating regime;
+- compute environment, parameter count, latency, and memory;
+- intended users, prohibited uses, fallback behavior, and review date.
+
+The model-card proposal by Mitchell and colleagues provides a structured
+approach to reporting intended use, evaluation context, and limitations
+([DOI 10.1145/3287560.3287596](https://doi.org/10.1145/3287560.3287596)).
+It does not certify that a model is safe; it helps make claims and omissions
+inspectable.
+
+### Capacity, optimization, and evidence
+
+Capacity describes the range of functions available to an architecture and
+parameter budget. Optimization describes how parameter values are selected.
+Generalization describes behavior on relevant unseen cases. Calibration
+compares predictive confidence with observed frequencies under defined
+conditions. Robustness asks how behavior changes under perturbation or shift.
+These questions interact, yet success on one does not imply success on another.
+
+A network can memorize training records and fail on new machines. A training
+loss can decrease while an operational metric worsens. Two parameter settings
+can have similar validation loss but different subgroup errors or latency.
+Increasing hidden width can improve the best attainable fit while increasing
+search cost and overfitting risk. A credible report keeps these observations
+separate instead of calling the model “better” without naming the metric,
+dataset, uncertainty, and budget.
+
+### Responsible boundary
+
+Telemetry can reveal production schedules, operator behavior, or commercially
+sensitive conditions. Retention and access should therefore be minimized and
+audited. An equipment-risk score should not be repurposed into a worker
+performance score. Operators need a path to report sensor faults and challenge
+incorrect alerts. High-consequence actions need fail-safe design and domain
+review beyond this educational model.
+
+## 07. Diagnose failures before adding depth
+
+### Structural failures
+
+The easiest failure to detect is an impossible shape, but it is not the only
+structural error. Feature order may change while the width remains two. Units
+may shift from standardized values to raw measurements. A bias can broadcast
+along the wrong conceptual axis. A training pipeline may save weights without
+the preprocessing version. Prevent these failures with named schemas,
+versioned feature contracts, assertions, and end-to-end fixture tests.
+
+### Numerical and derivative failures
+
+Non-finite input can propagate through every later operation. Very large
+activations can overflow; very small gradients can underflow or become
+insignificant at the working precision. ReLU units can remain inactive for all
+observed inputs. Gradient checks can fail at nondifferentiable points or because
+finite-difference steps are badly chosen. Monitor activation distributions and
+gradient norms, use stable loss formulations, and compare a small analytic case
+before scaling.
+
+### Experimental failures
+
+Leakage, duplicated entities, tuning on the test set, an absent baseline, and
+reporting the best seed are experimental failures even when the code is
+mathematically correct. Distribution shift can invalidate a previously useful
+score. A model may exploit a proxy correlated with maintenance policy rather
+than equipment condition. Diagnose these problems through split audits,
+negative controls, ablations, error slices, repeated runs, and prospective
+monitoring.
+
+### Interpretation failures
+
+A local gradient is sensitivity under the model, not proof of causation.
+Hidden-unit activation is not automatically a semantic concept. A high score is
+not automatically a probability. A visually persuasive diagram is not evidence
+of generalization. An analogy between artificial units and brains becomes
+inaccurate when it encourages biological or cognitive claims unsupported by
+the model.
+
+### Research reading discipline
+
+When reading a paper, separate:
+
+1. the problem and population;
+2. the architecture and parameterization;
+3. the objective and optimization procedure;
+4. the datasets and split protocol;
+5. the reported measurements;
+6. the authors' interpretation;
+7. later educational interpretation;
+8. what you have reproduced locally.
+
+For this chapter, read Rosenblatt for historical context, the LeCun-Bengio-Hinton
+review for a broad map, the Goodfellow-Bengio-Courville book for formal
+organization, and the PyTorch/D2L resources for implementation. Read the model
+cards paper as applied reporting guidance. None of these sources alone proves
+that Mira's telemetry model is useful.
+
+## 08. Study lab, oral questions, and summary
+
+### Practical lab
+
+Run the published program and preserve the environment versions and output.
+Then complete these tasks:
+
+1. draw the computation graph and annotate every node with its shape;
+2. reproduce the score $0.9$ without code;
+3. reproduce the input gradient $\begin{bmatrix}0.6&0.7\end{bmatrix}$;
+4. add a test for an object array containing a nonnumeric string;
+5. change the first bias so a pre-activation reaches zero and explain why a
+   symmetric finite-difference check may not match the framework convention;
+6. evaluate a batch of five records and record all intermediate shapes;
+7. propose a machine-level train/validation/test split and two leakage tests;
+8. write a one-page model card containing intended use, prohibited use,
+   metrics, limitations, and fallback behavior.
+
+**Assignment:** replace the hidden width three by width four. Choose explicit
+parameters that activate at least two units for the reference input. Provide a
+shape ledger, parameter count, manual forward calculation, NumPy and PyTorch
+implementations, framework-parity test, analytic input gradient, and a
+finite-difference check away from activation boundaries. Add invalid-input
+tests and a short evaluation plan. Do not claim that the resulting score is a
+probability or production-ready prediction.
+
+Suggested marking: mathematical contract 25%, implementation and tests 25%,
+derivative reasoning 20%, evaluation design 15%, reporting and responsible-use
+boundary 15%.
+
+### Oral questions
+
+1. Why do two affine layers without an activation collapse into one affine map?
+2. Which dimensions contribute to the parameter count, and why does batch size
+   not contribute?
+3. What is the difference between an architecture, a parameter, and a
+   hyperparameter?
+4. What does the local input gradient say, and what does it not say?
+5. Why can a successful broadcast still be semantically wrong?
+6. Why does automatic differentiation not prove that an objective is suitable?
+7. How would entity leakage appear in equipment telemetry?
+8. What evidence would be needed before treating a score as a probability?
+9. Which claims belong to the cited papers, and which are this chapter's
+   educational interpretation?
+10. When should the scoring service abstain or fail closed?
+
+### Summary
+
+A neural network is best introduced as a parameterized composition with an
+explicit input contract, tensor shapes, operations, and output meaning. An
+affine unit mixes coordinates and adds a bias. A nonlinear activation prevents
+multiple layers from collapsing into one affine map. A computation graph
+records the operations needed for a forward result and local derivatives.
+
+Mira's two-layer network has thirteen parameters, returns $0.9$ for the
+reference input, and has local input gradient
+$\begin{bmatrix}0.6&0.7\end{bmatrix}$ in its current activation region. NumPy,
+PyTorch, hand calculation, and autograd agree for the fixture. That agreement
+is a correctness check, not evidence of generalization, calibration, fairness,
+causality, or operational value.
+
+The next chapter studies the official topic “Linear neural networks for
+regression and classification.” It will connect scores to losses and fitted
+parameters while preserving the task, split, shape, and evidence discipline
+established here.
+
+## 09. References
+
+1. BITS Pilani Work Integrated Learning Programmes. (2026). *M.Tech. Artificial Intelligence and Machine Learning for working professionals* brochure. Deep Neural Networks placement: physical PDF page 12, printed page 10; course description: physical PDF page 14, printed page 12. Source SHA-256 `fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b`. Visually verified 2026-07-28.
+2. Goodfellow, I., Bengio, Y., & Courville, A. (2016). *Deep Learning*. MIT Press. [Official author site](https://www.deeplearningbook.org/). Free official HTML; paid print. Accessed 2026-07-28.
+3. Zhang, A., Lipton, Z. C., Li, M., & Smola, A. J. (2023). *Dive into Deep Learning*. Cambridge University Press. [Multilayer perceptrons, version 1.0.3](https://d2l.ai/chapter_multilayer-perceptrons/mlp.html). Free official interactive book. Accessed 2026-07-28.
+4. PyTorch Foundation. (n.d.). *Build the Neural Network*. PyTorch Tutorials 2.13.0 documentation. [Official tutorial](https://docs.pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html). Free. Accessed 2026-07-28.
+5. PyTorch Foundation. (n.d.). *Automatic Differentiation with torch.autograd*. PyTorch Tutorials 2.13.0 documentation. [Official tutorial](https://docs.pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html). Free. Accessed 2026-07-28.
+6. Rosenblatt, F. (1958). The perceptron: A probabilistic model for information storage and organization in the brain. *Psychological Review*, 65(6), 386–408. [https://doi.org/10.1037/h0042519](https://doi.org/10.1037/h0042519).
+7. LeCun, Y., Bengio, Y., & Hinton, G. (2015). Deep learning. *Nature*, 521, 436–444. [https://doi.org/10.1038/nature14539](https://doi.org/10.1038/nature14539).
+8. Mitchell, M., Wu, S., Zaldivar, A., et al. (2019). Model Cards for Model Reporting. *Proceedings of the Conference on Fairness, Accountability, and Transparency*, 220–229. [https://doi.org/10.1145/3287560.3287596](https://doi.org/10.1145/3287560.3287596).

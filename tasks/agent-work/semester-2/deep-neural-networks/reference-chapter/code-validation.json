@@ -1,0 +1,28 @@
+{
+  "chapter": "content/subjects/deep-neural-networks/chapters/01-neural-networks-as-differentiable-programs.mdx",
+  "chapterSha256": "3f26b095cb520ce90fadfba642ff5f8155d3da4841c6362d4adc7c4546532246",
+  "validatedAt": "2026-07-28",
+  "method": "Extract both Python fences from the MDX, join them in document order, and execute the exact extracted source through python3 -c.",
+  "pythonBlocks": 2,
+  "extractedCodeSha256": "e7c145333d4eabdaffe89cec0838b2a742b8cbdbb767cbaa14b778c7b3c16625",
+  "environment": {
+    "python": "3.14.6",
+    "numpy": "2.3.4",
+    "torch": "2.9.1"
+  },
+  "checksPassed": 9,
+  "checksFailed": 0,
+  "output": "9 checks passed; score=0.900; input_gradient=[0.600, 0.700]",
+  "coverage": [
+    "manual score fixture equals 0.9",
+    "NumPy and PyTorch outputs agree",
+    "autograd input gradient equals the hand-derived [0.6, 0.7]",
+    "model parameter count equals 13",
+    "one-dimensional input rejected",
+    "empty batch rejected",
+    "wrong feature width rejected",
+    "NaN input rejected",
+    "two-record batch returns shape (2, 1)"
+  ],
+  "status": "passed"
+}

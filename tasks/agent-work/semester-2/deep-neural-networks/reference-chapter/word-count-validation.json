@@ -1,0 +1,11 @@
+{
+  "chapter": "content/subjects/deep-neural-networks/chapters/01-neural-networks-as-differentiable-programs.mdx",
+  "chapterSha256": "3f26b095cb520ce90fadfba642ff5f8155d3da4841c6362d4adc7c4546532246",
+  "validatedAt": "2026-07-28",
+  "command": "node scripts/calculate-word-count/chapter-word-count.mjs content/subjects/deep-neural-networks/chapters/01-neural-networks-as-differentiable-programs.mdx",
+  "counterPolicy": "Excludes frontmatter, terminal references, fenced code, headings, inline code, equations, Markdown markers, and URLs.",
+  "meaningfulProseWords": 3014,
+  "minimumRequired": 3000,
+  "frontmatterWordCount": 3014,
+  "status": "passed"
+}

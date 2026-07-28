@@ -1,0 +1,80 @@
+{
+  "validatedAt": "2026-07-28",
+  "curriculum": {
+    "sourcePdfSha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "officialCurriculumSha256": "d61e6d875dfd4fcbbc0e2bd18cc11e5749a0efe9aa816c540d8498d5b0037975",
+    "placement": "physical PDF page 12, printed page 10",
+    "topicDescription": "physical PDF page 14, printed page 12",
+    "exactTopicCovered": "Introduction to neural networks",
+    "inventedOfficialUnits": false,
+    "status": "passed"
+  },
+  "resources": [
+    {
+      "url": "https://www.deeplearningbook.org/",
+      "authority": "official author site",
+      "httpStatus": 200,
+      "status": "passed"
+    },
+    {
+      "url": "https://d2l.ai/chapter_multilayer-perceptrons/mlp.html",
+      "authority": "official project site",
+      "httpStatus": 200,
+      "status": "passed"
+    },
+    {
+      "url": "https://docs.pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html",
+      "authority": "official documentation",
+      "httpStatus": 200,
+      "status": "passed"
+    },
+    {
+      "url": "https://docs.pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html",
+      "authority": "official documentation",
+      "httpStatus": 200,
+      "status": "passed"
+    },
+    {
+      "doi": "10.1037/h0042519",
+      "title": "The perceptron: A probabilistic model for information storage and organization in the brain.",
+      "year": 1958,
+      "registry": "Crossref",
+      "resolverStatus": 302,
+      "status": "passed"
+    },
+    {
+      "doi": "10.1038/nature14539",
+      "title": "Deep learning",
+      "year": 2015,
+      "registry": "Crossref",
+      "resolverStatus": 302,
+      "status": "passed"
+    },
+    {
+      "doi": "10.1145/3287560.3287596",
+      "title": "Model Cards for Model Reporting",
+      "year": 2019,
+      "registry": "Crossref",
+      "resolverStatus": 302,
+      "status": "passed"
+    }
+  ],
+  "metadataCoverage": [
+    "title",
+    "author or organisation",
+    "publication year or n.d.",
+    "resource type",
+    "URL",
+    "DOI where available",
+    "venue or publisher",
+    "access date",
+    "difficulty",
+    "relevance",
+    "prerequisites",
+    "free or paid status",
+    "confidence",
+    "verification status"
+  ],
+  "status": "passed"
+}
+

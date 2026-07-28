@@ -1,0 +1,80 @@
+{
+  "agentId": "subject-lead-sem-02-deep-neural-networks",
+  "subject": "Deep Neural Networks",
+  "task": "Create the first full-content vertical slice and minimal subject-book skeleton",
+  "status": "completed",
+  "chapterSha256": "3f26b095cb520ce90fadfba642ff5f8155d3da4841c6362d4adc7c4546532246",
+  "filesCreated": [
+    "content/subjects/deep-neural-networks/index.mdx",
+    "content/subjects/deep-neural-networks/book/00-preface.md",
+    "content/subjects/deep-neural-networks/book/01-how-to-use-this-book.md",
+    "content/subjects/deep-neural-networks/book/02-prerequisites.md",
+    "content/subjects/deep-neural-networks/book/03-learning-outcomes.md",
+    "content/subjects/deep-neural-networks/book/04-subject-roadmap.md",
+    "content/subjects/deep-neural-networks/book/05-mathematical-notation.md",
+    "content/subjects/deep-neural-networks/chapters/01-neural-networks-as-differentiable-programs.mdx",
+    "content/subjects/deep-neural-networks/research-papers/README.md",
+    "content/subjects/deep-neural-networks/papers/README.md",
+    "content/subjects/deep-neural-networks/projects/README.md",
+    "content/subjects/deep-neural-networks/assignments/README.md",
+    "content/subjects/deep-neural-networks/quizzes/README.md",
+    "content/subjects/deep-neural-networks/datasets/README.md",
+    "content/subjects/deep-neural-networks/references.md",
+    "content/subjects/deep-neural-networks/references.bib",
+    "content/subjects/deep-neural-networks/glossary.md",
+    "content/subjects/deep-neural-networks/further-reading.md",
+    "tasks/agent-work/semester-2/deep-neural-networks/reference-chapter/word-count-validation.json",
+    "tasks/agent-work/semester-2/deep-neural-networks/reference-chapter/code-validation.md",
+    "tasks/agent-work/semester-2/deep-neural-networks/reference-chapter/code-validation.json",
+    "tasks/agent-work/semester-2/deep-neural-networks/reference-chapter/source-validation.json",
+    "tasks/agent-work/semester-2/deep-neural-networks/reference-chapter/completion-report.json"
+  ],
+  "filesModified": [],
+  "sourcesUsed": [
+    "BITS Pilani WILP M.Tech AI and ML brochure, SHA-256 fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "Deep Learning by Goodfellow, Bengio, and Courville, official author site",
+    "Dive into Deep Learning by Zhang, Lipton, Li, and Smola, official project site",
+    "PyTorch official model-building and autograd tutorials",
+    "Rosenblatt 1958, DOI 10.1037/h0042519",
+    "LeCun, Bengio, and Hinton 2015, DOI 10.1038/nature14539",
+    "Mitchell et al. 2019, DOI 10.1145/3287560.3287596"
+  ],
+  "citationsVerified": 8,
+  "citationsRejected": 0,
+  "wordCount": 3014,
+  "testsRun": [
+    "exact extraction and execution of two published Python blocks: 9 checks passed",
+    "node scripts/calculate-word-count/chapter-word-count.mjs: 3014 meaningful prose words",
+    "npm run validate:foundation: passed",
+    "npm run build:pages: passed with DNN subject and chapter routes",
+    "npm test: 3 of 3 rendered/static tests passed",
+    "npm run validate:links: failed globally because the validator resolves the configured GitHub Pages base path as a nested directory inside out",
+    "git diff --check: passed",
+    "seven external resource/DOI resolver checks and three Crossref DOI metadata checks: passed"
+  ],
+  "validationResults": {
+    "officialTopicBoundary": "passed-exact",
+    "compactNarrativeArchitecture": "passed-9-H2",
+    "meaningfulWordCount": "passed-3014",
+    "codeExecution": "passed-9-checks",
+    "frontmatterAndMdxBuild": "passed",
+    "staticRoutes": "passed",
+    "renderedDnnChapter": "passed-1-H1-9-H2-MathJax-and-Shiki-code",
+    "internalStaticLinkValidator": "blocked-by-global-basepath-resolution-bug",
+    "resourceMetadata": "passed",
+    "citationMetadata": "passed",
+    "independentMathReview": "pending",
+    "independentEditorialReview": "pending",
+    "independentAccessibilityReview": "pending"
+  },
+  "openIssues": [
+    "Independent mathematics, citation/editorial, rendered accessibility, and final publication reviews remain required before approved or published status.",
+    "The repository-wide internal-link validator currently misresolves /mtech-ai-ml-learning-hub/ URLs beneath out/mtech-ai-ml-learning-hub; this is a platform validator issue outside the DNN content files.",
+    "Only Chapter 1 is authored; the remaining eleven official-topic chapters remain planned."
+  ],
+  "recommendedNextTasks": [
+    "Run independent mathematics and citation/editorial reviews on the immutable chapter hash.",
+    "Inspect the rendered subject and chapter at desktop and mobile widths.",
+    "Author Chapter 2 only after Chapter 1 review findings are dispositioned."
+  ]
+}
