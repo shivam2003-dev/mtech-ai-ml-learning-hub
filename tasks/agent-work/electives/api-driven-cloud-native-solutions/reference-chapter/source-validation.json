@@ -1,5 +1,5 @@
 {
-  "status": "passed-source-identity-pending-claim-review",
+  "status": "passed-independent-citation-review",
   "officialCurriculum": {
     "document": "BITS Pilani WILP M.Tech AI and ML brochure",
     "sha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
@@ -16,5 +16,5 @@
     {"id":"R07","title":"Borg, Omega, and Kubernetes","url":"https://doi.org/10.1145/2898442.2898444","type":"research paper","doi":"10.1145/2898442.2898444","status":"verified"},
     {"id":"R08","title":"Application Container Security Guide","url":"https://doi.org/10.6028/NIST.SP.800-190","type":"NIST publication","status":"verified"}
   ],
-  "claimReview": "pending-independent-citation-review"
+  "claimReview": "passed: source identity, DOI metadata, official documentation URLs, and access-date metadata reviewed on 2026-07-28"
 }

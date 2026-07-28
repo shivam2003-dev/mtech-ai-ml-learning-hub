@@ -1,0 +1,100 @@
+{
+  "agentId": "independent-api-driven-cloud-native-solutions-publication-reviewer",
+  "reviewId": "api-cloud-ch01-publication-review-2026-07-28",
+  "subject": "API-Driven Cloud-Native Solutions",
+  "chapter": "From an API Contract to a Cloud-Native Service",
+  "task": "Independent publication review",
+  "reviewedAt": "2026-07-28",
+  "status": "approved",
+  "approved": true,
+  "approvalBlockers": [],
+  "reviewedSnapshot": {
+    "developCommit": "63e5a15",
+    "chapter": {
+      "path": "content/subjects/api-driven-cloud-native-solutions/chapters/01-from-an-api-contract-to-a-cloud-native-service.mdx",
+      "sha256": "2e545273e9da151799e24031b582348eb97e6877e8268e6d3b19ea8077290ca0"
+    },
+    "subjectIndex": {
+      "path": "content/subjects/api-driven-cloud-native-solutions/index.mdx",
+      "sha256": "cc8a21b9a0dd4ef8b1b039b71b40cdc56536e7a02bc0eb24195265a501ed147f"
+    },
+    "referencesMarkdownSha256": "ddfd4bb0ba795fa515265043207bb4263cb7f8da613029838d2b843d82cd76e2",
+    "referencesBibSha256": "736aa40e08dea115ba1341fb95a9435be2eee9bae0ebeb65b21a73570d2a08cd"
+  },
+  "correctionsApplied": [
+    {
+      "file": "content/subjects/api-driven-cloud-native-solutions/chapters/01-from-an-api-contract-to-a-cloud-native-service.mdx",
+      "finding": "The chapter described contract tests but did not publish executable test code.",
+      "correction": "Added a companion pytest block covering success, validation, finite/range bounds, tenant policy, health semantics, model version, and request ID."
+    },
+    {
+      "file": "content/subjects/api-driven-cloud-native-solutions/chapters/01-from-an-api-contract-to-a-cloud-native-service.mdx",
+      "finding": "Chapter status fields and word count still reflected pre-review state.",
+      "correction": "Set wordCount to 3267 and advanced citationStatus, codeStatus, mathReviewStatus, and editorialStatus to approved review states."
+    },
+    {
+      "file": "content/subjects/api-driven-cloud-native-solutions/references.md",
+      "finding": "Undated live documentation pages were labelled with the current year.",
+      "correction": "Changed FastAPI, Docker, and OpenTelemetry documentation to n.d. and recorded the 2026-07-28 access date."
+    }
+  ],
+  "curriculumEvidence": {
+    "sourcePdfSha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "placement": "physical PDF page 12, printed page 10",
+    "exactOfficialBoundary": "API-driven Cloud Native Solutions title and configurable Semester 2-3 elective-pool placement only",
+    "topicDescription": "none published for this title-only elective",
+    "visualInspection": "passed",
+    "inventedOfficialDetailsFound": false,
+    "supplementaryLabels": "passed: API contracts, FastAPI, containers, observability, cloud deployment, security, and ML serving are labelled supplementary or industry guidance"
+  },
+  "checks": {
+    "compactEditorialStructure": "passed-9-H2, no authored H1",
+    "meaningfulProseWords": 3267,
+    "minimumProseWords": 3000,
+    "wordCountGate": "passed",
+    "mathematicalNotationAndDimensions": "passed-contract tuple, sigmoid, M/M/1 queue and cost relationships; arithmetic independently checked",
+    "publishedPythonBlocks": "passed-2-blocks, Python 3.14.6, FastAPI/Pydantic; extracted pytest contract suite 4 passed",
+    "openapiRuntime": "passed-TestClient generated OpenAPI 3.1.0 with /v1/score and health semantics",
+    "officialAndPublisherUrls": "passed-8-of-8 chapter sources reachable or resolver-verified",
+    "citationMetadata": "passed-undated documentation corrected to n.d. with access date",
+    "fabricatedReferences": "none-found",
+    "mdxProductionBuild": "passed-79 static routes",
+    "foundationValidation": "passed-45 subjects and 45 leads",
+    "internalLinks": "passed-633 links",
+    "lint": "passed",
+    "typecheck": "passed",
+    "productionAudit": "passed-0 vulnerabilities",
+    "renderedTests": "passed-3-of-3",
+    "renderedHeadingStructure": "passed-1-H1-9-H2",
+    "mathJax": "passed-40 unique accessible expression titles",
+    "shikiCode": "passed-2 blocks with code-copy controls",
+    "browserRenderedUx": "passed-root-path snapshot with reading tools, TOC, MathJax alt text, code-copy controls; local static asset console errors are base-path-only and not present in the production Pages build"
+  },
+  "verifiedSources": [
+    "https://spec.openapis.org/oas/",
+    "https://fastapi.tiangolo.com/deployment/concepts/",
+    "https://www.rfc-editor.org/rfc/rfc9110",
+    "https://www.rfc-editor.org/rfc/rfc9457",
+    "10.1145/2408776.2408794",
+    "10.1145/2783258.2783307",
+    "10.1145/2898442.2898444",
+    "10.6028/NIST.SP.800-190"
+  ],
+  "openIssues": [
+    "The official brochure remains title-only for this elective; the chapter is approved as a supplementary interpretation, not an official unit guide.",
+    "Only the first reference chapter is authored; subject-level publication remains blocked until the remaining nine proposed chapters and full project/resource reviews are complete.",
+    "The pytest extraction emitted one upstream Starlette/httpx deprecation warning; all four tests passed."
+  ],
+  "scopeExclusions": [
+    "the nine unauthored API/cloud chapters",
+    "subject-level requirement for 15-30 resources and full paper notes",
+    "production deployment of the educational FastAPI toy service",
+    "future chapter revisions with a different SHA-256"
+  ],
+  "recommendedNextTasks": [
+    "Integrate this report and bibliography corrections into develop.",
+    "Keep subject metadata at technical-review while Chapter 1 can be treated as approved.",
+    "Author Chapter 2 only after its source boundary and review plan are recorded.",
+    "Re-run this gate whenever the approved chapter or bibliography hashes change."
+  ]
+}
