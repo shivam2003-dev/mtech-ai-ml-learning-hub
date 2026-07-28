@@ -114,6 +114,29 @@ experimental method
 - theorem proving depth defers to **Automated Reasoning**.
 - metaheuristic taxonomy and advanced convergence analysis defer to **Metaheuristics for Optimization**.
 
+### Concept ownership and cross-link contract
+
+This matrix turns the prose boundaries into an enforceable drafting contract. A
+chapter author may include the ACI treatment shown below, but must link to the
+named owner rather than reproducing its principal derivation or evaluation
+framework.
+
+| Shared concept | Primary derivation owner | ACI allowance | ACI stopping rule and required cross-link |
+|---|---|---|---|
+| Vector calculus, gradients, and optimization proofs | Mathematical Foundations for Machine Learning | Use previously defined gradients and the chain rule in small worked examples. | Do not reteach vector-calculus foundations, convergence proofs, or general convex analysis; link before Chapter 6 derivations. |
+| Probability, estimation, confidence intervals, and hypothesis tests | Introduction to Statistical Methods | Define experiment variables and interpret repeated-run uncertainty using an approved shared notation. | Do not derive probability distributions, estimators, intervals, or tests; Chapter 11 links to their primary treatment. |
+| Supervised-learning workflow and model evaluation | Machine Learning | Use a small perceptron or multilayer network only to explain the computational-intelligence lineage and contrast paradigms. | Do not survey supervised algorithms, generalization theory, or own the end-to-end evaluation workflow; Chapter 6 and Chapter 11 link to Machine Learning. |
+| Multilayer-network optimization and modern architectures | Deep Neural Networks | Derive one small forward/backward pass and validate it numerically. | Stop before depth-specific architecture design, large-scale training, regularization surveys, transformers, or production optimization; Chapter 6 links onward. |
+| Markov decision processes and reinforcement learning | Deep Reinforcement Learning | Introduce state, action, transition, reward, policy, and value only as a conceptual sequential-decision bridge. | Do not derive Bellman algorithms, Q-learning updates, policy gradients, or deep RL; Chapter 4 links to Deep Reinforcement Learning. |
+| Logic, proof procedures, and knowledge representation | Automated Reasoning | Teach executable facts/rules, entailment, and small forward/backward-chaining traces. | Stop before theorem-prover completeness machinery, SAT/SMT architecture, or advanced proof calculi; Chapter 2 links onward. |
+| Evolutionary and swarm metaheuristics | Metaheuristics for Optimization | Teach representative GA, PSO, and ACO mechanisms and fair empirical comparison. | Do not claim a complete taxonomy or general convergence theory; Chapters 8–9 link to the elective. |
+| Responsible deployment and system lifecycle | Architecting AI Systems and MLOps | Create risk, reproducibility, and reporting artefacts for the chapter-scale systems. | Do not replace production architecture, governance, monitoring, or lifecycle automation; Chapters 11–12 link onward. |
+
+Notation ownership follows the primary subject: ACI reuses the shared symbols
+for probability, gradients, losses, MDPs, and evaluation metrics. Any local
+variation must be declared in the chapter notation table and mapped back to the
+shared registry.
+
 ## 5. Proposed 12-chapter outline
 
 Each row is a planning unit, not a full chapter and not an official university unit.
@@ -208,7 +231,7 @@ Queries will be executed against official course sites, Crossref, OpenAlex, Sema
 
 ## 8. Preliminary verified resource catalogue
 
-This catalogue contains 28 resources. “Verified” means the metadata and destination were checked on 2026-07-28 against the official host, publisher page, DOI/Crossref record, or official proceedings. It does not mean every result or claim has completed chapter-level fact checking.
+This core catalogue contains 30 resources. “Verified” means the metadata and destination were checked on 2026-07-28 against the official host, publisher page, DOI/Crossref record, or official proceedings. It does not mean every result or claim has completed chapter-level fact checking. Five additional chapter-selector records are itemized separately below so the global reading-path additions remain auditable without disguising them as part of the 15–30 core catalogue target.
 
 ### Curriculum, courses, books, standards, and tools
 
@@ -247,14 +270,31 @@ This catalogue contains 28 resources. “Verified” means the metadata and dest
 | R26 | Concrete Problems in AI Safety | Dario Amodei, Chris Olah, Jacob Steinhardt, Paul Christiano, John Schulman, Dan Mané; 2016 | arXiv preprint | https://arxiv.org/abs/1606.06565 ; arXiv:1606.06565 | Intermediate–advanced; objective misspecification, shift, safe exploration; ML/RL basics | Free | 0.99 / arXiv metadata verified |
 | R27 | Model Cards for Model Reporting | Margaret Mitchell et al.; 2019 | FAccT 2019 proceedings | https://doi.org/10.1145/3287560.3287596 | Intermediate; transparent model reporting; evaluation basics | Publisher access varies; author copies may exist | 1.00 / ACM Crossref metadata verified |
 | R28 | Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model | Julian Schrittwieser et al.; 2020 | Research article, *Nature* 588, 604–609 | https://doi.org/10.1038/s41586-020-03051-4 | Advanced extension; learned models plus tree search; RL/search/neural nets | Publisher access varies | 0.99 / publisher page verified |
+| R29 | DeepProbLog: Neural Probabilistic Logic Programming | Robin Manhaeve, Sebastijan Dumančić, Angelika Kimmig, Thomas Demeester, Luc De Raedt; 2018 | NeurIPS 2018 proceedings | https://proceedings.neurips.cc/paper/2018/hash/dc5d637ed5e62c36ecb73b654b05ba2a-Abstract.html | Advanced; modern integration of neural predicates with probabilistic logic; logic/probability/neural basics | Free official paper and supplement | 1.00 / official NeurIPS record verified |
+| R30 | A Fast and Elitist Multiobjective Genetic Algorithm: NSGA-II | Kalyanmoy Deb, Amrit Pratap, Sameer Agarwal, T. Meyarivan; 2002 | *IEEE Transactions on Evolutionary Computation* 6(2), 182–197 | https://doi.org/10.1109/4235.996017 | Advanced; established multi-objective evolutionary algorithm; optimization/evolutionary basics | Publisher access varies | 1.00 / IEEE and DOI metadata verified |
 
 ### Resource-quality notes
 
 - R01 is authoritative only for curriculum facts it actually prints.
 - R03–R13 are teaching/implementation resources, not substitutes for original-paper citations.
-- R14–R28 are preliminary reading candidates. Chapter authors must read the relevant paper before describing methods or findings.
+- R14–R30 are preliminary reading candidates. Chapter authors must read the relevant paper before describing methods or findings.
 - “Publisher access varies” is deliberately not labelled free. Availability must be checked again when paper pages are authored.
 - Confidence measures metadata/host verification, not endorsement of every claim or suitability for every learner.
+
+### Structured chapter-selector records
+
+These records were already used by the global reading path or were selected
+during remediation for a specific chapter role. They are accepted sources, not
+unresolved placeholders, and their identifiers are included in the completion
+report.
+
+| ID | Title | Author(s); year | Type / venue | URL / identifier | Chapter role and boundary | Verification |
+|---|---|---|---|---|---|---|
+| S01 | Ant Colony System: A Cooperative Learning Approach to the Traveling Salesman Problem | Marco Dorigo, Luca Maria Gambardella; 1997 | *IEEE Transactions on Evolutionary Computation* 1(1), 53–66 | https://doi.org/10.1109/4235.585892 | Established ACO follow-on for Chapter 9; does not replace the original Ant System source | DOI/publisher metadata verified |
+| S02 | Concrete Problems in AI Safety, Revisited | Inioluwa Deborah Raji, Roel Dobbe; 2024 | arXiv preprint | https://arxiv.org/abs/2401.10899 | Modern socio-technical critique for Chapters 1, 7, and 12; not a fuzzy-method authority | arXiv title/author metadata verified; final publication status still to be checked |
+| S03 | (Computational) Intelligence: What’s in a Name? | James C. Bezdek; 2016 | *IEEE Systems, Man, and Cybernetics Magazine* | https://doi.org/10.1109/MSMC.2016.2558778 | Terminology/history tutorial for Chapters 1, 5, and 10 | DOI and IEEE CIS host metadata verified |
+| S04 | Particle Swarm Optimization: A Survey of Historical and Recent Developments with Hybridization Perspectives | Saptarshi Sengupta, Sanchita Basak, Richard Alan Peters II; 2019 | *Machine Learning and Knowledge Extraction* 1(1) | https://doi.org/10.3390/make1010010 | Modern survey/tutorial for Chapter 9; secondary map, not a replacement for R20 | DOI/publisher metadata verified |
+| S05 | pymoo: Multi-objective Optimization in Python | Julian Blank, Kalyanmoy Deb; 2020 | *IEEE Access* 8, 89497–89509 | https://doi.org/10.1109/ACCESS.2020.2990567 ; arXiv:2002.04504; docs https://pymoo.org/ | Modern applied multi-objective extension and implementation companion for Chapter 8 | IEEE/arXiv metadata and official project documentation verified |
 
 ## 9. Proposed paper reading path
 
@@ -298,24 +338,35 @@ Papers may appear in more than one pedagogical role; the sequence below avoids r
 3. Amodei et al. (2016), **Concrete Problems in AI Safety** — operational failure modes.
 4. NIST (2023), **AI RMF 1.0** — lifecycle risk practice; a standard rather than a research paper.
 
-### Per-chapter minimum mapping
+### Per-chapter reading contracts
 
-| Chapter | Foundational | Modern | Survey/tutorial | Implementation |
-|---:|---|---|---|---|
-| 1 | Turing 1950 | Raji & Dobbe 2024 | Bezdek 2016 | Berkeley CS188 intro |
-| 2 | McCulloch–Pitts 1943 (logic/neural bridge) | current neuro-symbolic paper to be selected after query review | AIMA logic chapters | SWI-Prolog manual |
-| 3 | Hart–Nilsson–Raphael 1968 | neural-guided search paper to be selected | Berkeley CS188 search/CSP | NetworkX docs |
-| 4 | Watkins–Dayan 1992 | Silver et al. 2016 | Sutton–Barto | Berkeley CS188 games/MDPs |
-| 5 | Zadeh 1965 as CI paradigm example | modern hybrid paper to be selected | Bezdek 2016 | reproducible NumPy harness |
-| 6 | Rosenblatt 1958; Rumelhart et al. 1986 | Vaswani et al. 2017 | LeCun et al. 2015 | PyTorch tutorials |
-| 7 | Zadeh 1965 | modern explainable fuzzy-systems paper to be selected | authoritative fuzzy tutorial to be selected | scikit-fuzzy docs |
-| 8 | canonical GA source to be verified from publisher | multi-objective EC paper to be selected | DEAP references | DEAP docs |
-| 9 | Kennedy–Eberhart 1995; Dorigo et al. 1996 | current hybrid swarm paper to be selected | Sengupta et al. 2019 | DEAP/custom NumPy |
-| 10 | established hybrid source to be selected | Schrittwieser et al. 2020 | neuro-symbolic survey to be selected | ablation notebook |
-| 11 | reproducibility foundation to be selected | Mitchell et al. 2019 | NIST evaluation material | pytest/profiling |
-| 12 | Amodei et al. 2016 | Raji & Dobbe 2024 | NIST AI RMF | risk-register template |
+Every row now names a verified record for the four required pedagogical roles.
+“Foundational/authoritative” permits an authoritative textbook, standard, or
+course when inventing a single origin paper would be historically misleading.
+A modern reading may be a critical or applied connection rather than a claim
+that it introduced the chapter’s core method. Chapter authors must preserve the
+limits in the contract column.
 
-“To be selected” entries are deliberate open research tasks, not placeholders for fabricated citations. They block final chapter approval but not planning approval.
+| Ch. | Foundational or authoritative | Modern connection | Survey or tutorial | Implementation | Reading contract |
+|---:|---|---|---|---|---|
+| 1 | R14 Turing (1950) | S02 Raji–Dobbe (2024) | S03 Bezdek (2016) | R04 Berkeley CS188 introduction | Compare historical and current definitions without presenting imitation, rational agency, or the IEEE framing as the sole definition of intelligence. |
+| 2 | R17 McCulloch–Pitts (1943), used only as a logic/computation bridge | R29 DeepProbLog (2018) | R05 AIMA logic chapters | R13 SWI-Prolog manual | Teach syntax, semantics, entailment, and executable rules first; DeepProbLog is a bounded modern integration case, not evidence that neural methods replace sound symbolic inference. |
+| 3 | R15 Hart–Nilsson–Raphael (1968) | R24 AlphaGo (2016), for learned guidance inside search | R04 Berkeley CS188 search/CSP chapters | R12 NetworkX documentation | Derive classical guarantees before the modern case; do not transfer AlphaGo results to generic A* or CSPs, and do not imply a learned heuristic preserves admissibility. |
+| 4 | R22 Watkins–Dayan (1992), read only as a boundary marker | R24 AlphaGo (2016) | R07 Sutton–Barto MDP chapters | R04 Berkeley CS188 games/MDPs | Keep MDPs conceptual and game search explicit; Q-learning and deep-RL derivations belong to Deep Reinforcement Learning. |
+| 5 | R16 Zadeh (1965), as one CI paradigm rather than a universal origin | R28 MuZero (2020), as an adaptive learned-search case | S03 Bezdek (2016) | R10 DEAP documentation for a reproducible stochastic-search harness | Compare representations, objectives, and evidence across paradigms; do not treat a learned planning system as a general definition of computational intelligence. |
+| 6 | R18 Rosenblatt (1958) and R19 Rumelhart et al. (1986) | R25 Vaswani et al. (2017), only as an architecture extension | R23 LeCun et al. (2015) | R09 PyTorch tutorials | End after one small forward/backward derivation and tested implementation; deep architecture and large-scale optimization belong to Deep Neural Networks. |
+| 7 | R16 Zadeh (1965) | S02 Raji–Dobbe (2024), for auditing explanation and deployment claims | S03 Bezdek (2016), supplemented by R05’s fuzzy treatment where used | R11 scikit-fuzzy documentation | Zadeh defines graded membership; the modern reading critiques socio-technical explanation claims and is not a fuzzy-inference authority. Keep fuzziness distinct from probability. |
+| 8 | R05 AIMA’s evolutionary-search treatment as the authoritative teaching entry | R30 NSGA-II (2002) and S05 pymoo (2020) | R10 DEAP documentation and references | R10 DEAP plus S05 pymoo documentation | Make no unsupported “first genetic algorithm” claim. Teach a basic GA before multi-objective extensions, compare under equal fitness budgets, and record operator/version choices. |
+| 9 | R20 Kennedy–Eberhart (1995), R21 Dorigo et al. (1996) | S04 Sengupta et al. (2019), for contemporary hybridization context | S04 Sengupta et al. (2019) | R10 DEAP/custom NumPy, checked against S01’s ACO specification | The survey fills both modern-context and tutorial roles transparently; algorithm definitions and historical claims remain anchored to R20, R21, and S01. |
+| 10 | R24 AlphaGo (2016), as an established search-learning hybrid | R29 DeepProbLog (2018) and R28 MuZero (2020) | S03 Bezdek (2016), as a broad hybrid-CI map | R09 PyTorch and R13 SWI-Prolog for a two-component ablation | Treat each paper as one hybrid design, require component ablations, and do not claim that “hybrid” automatically improves accuracy, guarantees, or interpretability. |
+| 11 | R08 NIST AI RMF as authoritative lifecycle guidance | R27 Model Cards (2019) | R08 NIST AI RMF measurement/evaluation guidance | R27 reporting artefact plus the tested profiling harness specified by the chapter | Separate statistical inference, owned by Statistical Methods, from systems evidence. Record seeds, versions, hardware, failures, and uncertainty without promoting one-machine timings to universal claims. |
+| 12 | R26 Amodei et al. (2016) | S02 Raji–Dobbe (2024) | R08 NIST AI RMF | R08 risk-map template and R27 model-card structure | Distinguish each source’s claims from the chapter’s interpretation; use the sources to structure risk questions, not to certify a deployment as safe or compliant. |
+
+The source-selection gate is closed at planning level: no chapter row contains
+an unresolved citation placeholder. This permits chapter task specification,
+not automatic publication. Chapter authors must still read the selected sources,
+validate claims and identifiers at authoring time, and pass independent
+citation review.
 
 ## 10. Practical project portfolio
 
@@ -510,11 +561,14 @@ The subject page should show 168 core hours and clearly mark project pathways as
 - Topic-level syllabus absence is explicit.
 - All proposed chapters are labelled with allowed non-official classifications.
 - Twelve chapters fall inside the required 8–16 range.
-- Twenty-eight preliminary resources fall inside the required 15–30 range.
+- Thirty core preliminary resources fall inside the required 15–30 range; five
+  additional selector records are separately itemized and traceable.
 - Resource catalogue uses official/primary/authoritative sources and records access, confidence, and verification state.
 - Reading path contains 5 foundational, 6 established, 5 modern, 3 survey/tutorial, and 4 applied/industry entries.
+- Every chapter has a selected foundational/authoritative, modern, survey/tutorial, and implementation reading contract with explicit scope limits.
 - Project portfolio contains 2 beginner, 2 intermediate, 1 advanced, and 2 research-oriented projects.
 - Knowledge graph uses approved relationship types.
+- Shared concepts have a primary owner, a bounded ACI allowance, and a stopping rule.
 - Full chapter generation has not begun.
 
 ### Open validation tasks
@@ -522,16 +576,16 @@ The subject page should show 168 core hours and clearly mark project pathways as
 1. Obtain or locate the official detailed subject syllabus.
 2. Have a curriculum reviewer approve the proposed balance of symbolic AI and CI.
 3. Verify final free/paid access at content-authoring time.
-4. Complete selections currently marked “to be selected” in the per-chapter paper mapping.
-5. Run DOI, URL, BibTeX, and duplicate checks when the resource records are promoted into the content data store.
-6. Coordinate notation with the other three Semester 1 Subject Leads.
-7. Approve a single reference implementation style before code authors work in parallel.
+4. Re-run DOI, URL, BibTeX, and duplicate checks when the resource records are promoted into the content data store.
+5. Coordinate the ownership matrix and notation with the neighbouring Subject Leads.
+6. Approve a single reference implementation style before code authors work in parallel.
+7. Approve exact identity, version/date, licence, URL, and intended fields before any optional external project dataset replaces a synthetic default.
 
 ## 14. Recommended next tasks
 
 1. Mark this plan `technical-review`.
 2. Run syllabus-scope review against any additional official source.
-3. Conduct cross-subject overlap review with Machine Learning and Mathematical Foundations.
+3. Have the Machine Learning, Statistical Methods, Mathematical Foundations, Deep Neural Networks, Deep Reinforcement Learning, Automated Reasoning, Metaheuristics, MLOps, and AI Systems leads ratify the ownership rows that affect them.
 4. Promote verified resource records into the shared resource schema.
-5. Resolve the open per-chapter paper selections.
-6. After approval, create only front matter, roadmap, and Chapter 1 task manifests—do not generate all chapters at once.
+5. Re-run live identifier checks and generate the BibTeX bundle from the structured records.
+6. After approval, create front matter, roadmap, and bounded chapter task manifests; do not generate all chapters at once.
