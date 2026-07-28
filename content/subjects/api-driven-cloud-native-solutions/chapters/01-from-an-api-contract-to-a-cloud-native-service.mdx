@@ -1,0 +1,512 @@
+---
+title: "From an API Contract to a Cloud-Native Service"
+slug: "from-an-api-contract-to-a-cloud-native-service"
+subject: "api-driven-cloud-native-solutions"
+subjectTitle: "API-Driven Cloud-Native Solutions"
+chapterNumber: 1
+classification: "supplementary"
+summary: "A source-bounded introduction to API contracts, typed validation, and cloud-native operating boundaries, with a tested FastAPI example that exposes a deterministic ML-style score."
+learningObjectives:
+  - "Explain why an API contract includes inputs, outputs, errors, timing, and operational evidence."
+  - "Distinguish a process, container, service, and cloud-native system without treating them as synonyms."
+  - "Implement and test a typed FastAPI endpoint with bounded input, structured errors, health checks, and model version metadata."
+  - "Derive simple throughput and tail-latency relationships and use them to set a measurement plan."
+  - "Identify security, privacy, reliability, and governance boundaries before deployment."
+prerequisites:
+  - "Prerequisite: Python functions, exceptions, typing, JSON, and basic HTTP"
+  - "Prerequisite: introductory supervised learning and train/test discipline"
+  - "Supplementary: Docker, DNS, TLS, Linux processes, and cloud IAM"
+estimatedReadingMinutes: 135
+difficulty: "advanced"
+tags:
+  - "supplementary"
+  - "api-design"
+  - "cloud-native"
+  - "fastapi"
+  - "openapi"
+  - "ml-systems"
+  - "mathjax"
+relatedChapters:
+  - "http-semantics-versioning-and-openapi-contracts"
+  - "typed-validation-errors-and-idempotent-workflows"
+  - "packaging-a-service-with-containers"
+recommendedPapers:
+  - "10.1145/2408776.2408794"
+  - "10.1145/2783258.2783307"
+  - "10.1145/2898442.2898444"
+authors:
+  - "Shivam Kumar"
+reviewers:
+  - "Subject Lead: API-Driven Cloud-Native Solutions"
+wordCount: 3209
+citationStatus: "pending"
+codeStatus: "pending"
+mathReviewStatus: "pending"
+editorialStatus: "pending"
+createdAt: "2026-07-28"
+updatedAt: "2026-07-28"
+lastVerifiedAt: "2026-07-28"
+---
+
+**Curriculum label:** This chapter is a **Supplementary interpretation** of the
+title *API-Driven Cloud-Native Solutions*. The official BITS Pilani WILP
+brochure verifies the elective title and configurable Semester 2–3 placement,
+but does not publish units. API contracts, FastAPI, containers, observability,
+and cloud deployment below are a proposed teaching structure, not claims about
+an official syllabus.
+
+## 01. Begin with the promise, not the framework
+
+An API begins with a promise. A caller sends a representation of intent, and a
+service returns a representation of a result or a useful failure. The promise
+includes more than a URL and a JSON example. It answers: which fields are
+required, what units and ranges apply, which status codes are possible, whether
+repeating the request is safe, how long the caller may wait, and what version of
+the underlying model or business rule produced the result. If these questions
+are left implicit, every client invents an interpretation and the system gains
+multiple incompatible contracts.
+
+Consider an endpoint that estimates whether a support ticket should be routed to
+an AI engineering queue. The input might contain text and a tenant identifier;
+the output might contain a score, a route, a model version, and a request ID.
+That output is not a fact about a person. It is a decision aid under uncertainty.
+The API should therefore make uncertainty, abstention, and model identity
+visible. It should refuse an empty tenant, cap text length, and avoid logging the
+ticket body by default. A caller should be able to distinguish “the model
+declined to decide” from “the network failed” and from “the request was invalid.”
+
+This is why the first artefact in a cloud-native project should be a contract and
+a failure matrix. A framework can generate an OpenAPI document, but generated
+documentation does not decide what the service is allowed to do. Write the
+intent, units, limits, errors, and evidence first. Then choose a process model,
+container image, queue, or cloud product that can uphold that promise.
+
+The words *API-driven* and *cloud-native* also need care. API-driven means that
+the boundary between capabilities is explicit and consumable by a program. It
+does not require microservices; a well-designed modular monolith can have a
+better contract than a dozen chatty services. Cloud-native is an approach to
+operating software with automation, immutable artefacts, observable behaviour,
+and infrastructure that can be replaced or scaled. A Docker image is useful,
+but a container alone cannot provide a rollback, a data policy, or a useful SLO.
+
+## 02. Map the service from request to evidence
+
+Draw the journey of one request before drawing the infrastructure diagram. A
+client resolves a name, establishes a connection, sends headers and a body, and
+waits for a response. A gateway may authenticate, rate-limit, and route it. The
+application validates the representation, invokes a model or downstream data
+service, and serialises a response. At each boundary, a timeout or malformed
+message can occur. The result must carry enough context for a user and an
+operator to understand what happened without exposing sensitive payloads.
+
+The following conceptual map is intentionally small:
+
+1. **Contract:** schema, semantics, compatibility, and examples.
+2. **Application:** validation, business decision, model invocation, and errors.
+3. **Runtime:** process, memory, concurrency, health, and shutdown behaviour.
+4. **Delivery:** image, configuration, migration, rollout, and rollback.
+5. **Evidence:** logs, metrics, traces, tests, model version, and audit records.
+
+An ML endpoint adds a sixth question: what data and parameter snapshot did the
+decision use? Write $\hat{y}=f_\theta(\mathbf{x})$, where $\mathbf{x}$ is a
+validated feature vector, $\theta$ is a model snapshot, and $\hat{y}$ is a
+prediction or score. The API should return a stable identifier for the snapshot
+without returning internal weights. If the feature vector was assembled from a
+feature store, record freshness and schema versions as metadata. Otherwise a
+reproducible training experiment can become an irreproducible production
+decision.
+
+The system boundary is important for security. The client is untrusted, even if
+it is another service. A request ID is useful for correlation but is not proof of
+identity. Authentication answers “who may call?”; authorisation answers “which
+tenant or operation may they access?”; validation answers “is this representation
+well formed?”; and policy answers “is this action permitted?” Keeping those
+questions separate prevents a type check from being mistaken for an access
+control check.
+
+Write a small table for every endpoint: actor, purpose, input fields, sensitive
+fields, output fields, side effects, latency target, retry policy, and owner. A
+read-only prediction endpoint may safely retry under some conditions; a payment,
+delete, or job-submission endpoint needs idempotency and a durable state machine.
+This table becomes a bridge between software engineering, ML evaluation, privacy
+review, and operations.
+
+## 03. Turn intuition into a formal contract
+
+A contract can be represented as a tuple
+
+$$
+\mathcal{C}=(I,O,E,T,S,V),
+$$
+
+where $I$ is the input schema, $O$ the successful output schema, $E$ the set of
+documented errors, $T$ the timing and size limits, $S$ the side-effect and
+security policy, and $V$ the compatibility/version rule. This notation is not a
+standard specification; it is a reasoning aid. It prevents the common mistake
+of calling only $I$ and $O$ “the API.”
+
+For a deterministic score endpoint, let $x_i$ be a numeric feature, with a
+declared domain $a_i\leq x_i\leq b_i$. A simple model can be written as
+
+$$
+z=\mathbf{w}^{\mathsf{T}}\mathbf{x}+b,
+\qquad p=\sigma(z)=\frac{1}{1+e^{-z}}.
+$$
+
+The score $p$ is between zero and one, but it is not automatically a calibrated
+probability. The contract should say what it means, how it was evaluated, and
+whether a threshold maps it to a route. If the model is only a tutorial stub,
+label it as such and do not imply clinical, financial, or security validity.
+
+There are useful invariants. For valid input, $0\leq p\leq1$. For a bounded
+payload of at most $N$ characters, validation work is at most proportional to
+$N$ before the model runs. For a read-only request, repeating the same body and
+model version should not create a side effect. For every response, a request ID
+and model version should be present or the endpoint should return a documented
+error. These invariants become tests rather than hopes.
+
+Timing can be stated as a budget rather than a promise of perfection. Let
+$L=L_{queue}+L_{validation}+L_{model}+L_{downstream}+L_{serialisation}$.
+The sum is a useful decomposition, but its averages hide queueing and pauses.
+An SLO might require $p_{95}(L)\leq 300\,\mathrm{ms}$ for requests under a
+declared payload and concurrency. A target without workload, time window, or
+error definition is not reproducible evidence.
+
+## 04. Derive capacity, errors, and a worked request
+
+Suppose one process completes a request in a measured mean service time of
+$s=20\,\mathrm{ms}$ under a small, steady workload. The rough service rate is
+$\mu=1/s=50$ requests per second. If arrivals average $\lambda=30$ requests
+per second, the utilisation estimate is $\rho=\lambda/\mu=0.6$. This is not a
+production capacity claim: variability, downstream calls, Python scheduling,
+and model memory all matter. It is a warning that increasing traffic toward the
+service rate makes queues sensitive to small changes.
+
+For a simple single-server queue, the familiar M/M/1 approximation gives
+
+$$
+W=\frac{1}{\mu-\lambda},
+$$
+
+when the assumptions hold and $\lambda<\mu$. At $\mu=50$ and $\lambda=30$,
+$W\approx 50\,\mathrm{ms}$ including waiting and service in this simplified
+model. At $\lambda=45$, it becomes $200\,\mathrm{ms}$. The sharp increase is
+why tail latency, admission control, and bounded queues matter more than a
+single fast local benchmark. Real workloads are not necessarily Poisson, and a
+model can have a bimodal latency distribution, so treat the equation as
+intuition and measure the actual service.
+
+Now work one request. A caller sends `{"tenant_id":"demo","x1":0.7,"x2":0.2}`.
+The service validates the tenant and finite numeric range, computes
+$z=1.2(0.7)-0.8(0.2)-0.1=0.58$, and returns $p=\sigma(0.58)\approx0.641$. If the
+route threshold is 0.6, the route is `review`; the response still needs a model
+version and request ID. If `x2` is missing, the server returns a 422-style
+validation error without calling the model. If the tenant is unknown, it returns
+a policy error without revealing which tenants exist. If the model is not
+ready, a 503-style response tells an automated caller that retry may be
+reasonable, subject to backoff and idempotency.
+
+The important derivation is not the sigmoid. It is the chain from an external
+representation to a bounded computation and an observable result. A cloud
+deployment preserves the chain only if it also preserves version, limits,
+timeouts, and evidence during restarts or rollouts.
+
+## 05. Implement and test a typed FastAPI service
+
+The following example is deliberately small. It uses Python 3.12+, FastAPI, and
+Pydantic. It has no database, does not call a real model, and must not be used as
+a production security boundary. It demonstrates typed input, finite/range
+checks, a stable response, request correlation, health semantics, and explicit
+errors. The dependency set is `fastapi` and an ASGI server such as `uvicorn`.
+
+```python
+from __future__ import annotations
+
+from math import exp, isfinite
+from typing import Annotated
+from uuid import uuid4
+
+from fastapi import FastAPI, Header, HTTPException, Request
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+
+MODEL_VERSION = "demo-logistic-2026-07-28"
+app = FastAPI(title="Bounded scoring service", version="0.1.0")
+
+
+class ScoreRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    tenant_id: Annotated[str, Field(min_length=1, max_length=64)]
+    x1: float = Field(ge=-5.0, le=5.0)
+    x2: float = Field(ge=-5.0, le=5.0)
+
+    @field_validator("x1", "x2")
+    @classmethod
+    def require_finite(cls, value: float) -> float:
+        if not isfinite(value):
+            raise ValueError("features must be finite")
+        return value
+
+
+class ScoreResponse(BaseModel):
+    request_id: str
+    model_version: str
+    probability: float = Field(ge=0.0, le=1.0)
+    route: str
+
+
+@app.get("/health/live", include_in_schema=False)
+def live() -> dict[str, str]:
+    return {"status": "alive"}
+
+
+@app.get("/health/ready", include_in_schema=False)
+def ready() -> dict[str, str]:
+    # A real service would check model and dependency readiness here.
+    return {"status": "ready", "model_version": MODEL_VERSION}
+
+
+@app.post("/v1/score", response_model=ScoreResponse)
+def score(
+    payload: ScoreRequest,
+    request: Request,
+    x_request_id: Annotated[str | None, Header()] = None,
+) -> ScoreResponse:
+    request_id = x_request_id or str(uuid4())
+    if payload.tenant_id != "demo":
+        raise HTTPException(status_code=403, detail="tenant is not permitted")
+    z = 1.2 * payload.x1 - 0.8 * payload.x2 - 0.1
+    probability = 1.0 / (1.0 + exp(-z))
+    route = "review" if probability >= 0.6 else "standard"
+    return ScoreResponse(
+        request_id=request_id,
+        model_version=MODEL_VERSION,
+        probability=probability,
+        route=route,
+    )
+```
+
+The `request` parameter is included to show where correlation and client
+metadata could be inspected, but the example intentionally does not log the
+body. In a real service, use a tested middleware policy for request IDs rather
+than trusting arbitrary caller values as an audit identity. The `extra="forbid"`
+choice catches accidental field drift; a public compatibility policy may instead
+allow unknown fields while ignoring them. That is a contract decision, not a
+universal rule.
+
+Test the invariants with an ASGI test client: valid input returns a bounded score
+and model version; an unknown field is rejected; `NaN` is rejected; a non-demo
+tenant receives 403; and both health endpoints return their documented shape.
+Run static type checking and a syntax check in CI, pin dependency versions, and
+exercise the generated OpenAPI document. The from-scratch sigmoid derivation is
+small enough to inspect; the library framework supplies parsing, schema
+generation, and protocol handling that should be tested rather than assumed.
+
+## 06. See what goes wrong before adding cloud infrastructure
+
+The first failure is often an unbounded input. A giant text field can consume
+memory before a model is invoked; a deeply nested JSON document can make parsing
+expensive. Limit body size at the gateway and field lengths in the application.
+Return a generic error that helps a caller correct its request without exposing
+stack traces, filesystem paths, model prompts, or tenant existence.
+
+The second failure is a timeout mismatch. If a gateway waits 2 seconds, the
+application waits 5 seconds for a downstream model, and a client retries after
+1 second, one user action can create overlapping work. Set a deadline budget,
+propagate it, cancel work when possible, and make retries explicit. Retry only
+errors that are safe to retry; an idempotency key is necessary but not magical—it
+must be stored and associated with a durable result for a side-effecting job.
+
+The third failure is readiness confusion. A process can accept a TCP connection
+while its model is still loading. A liveness check should answer whether the
+process can be restarted; readiness should answer whether it can receive traffic
+under the contract. Returning ready merely because Python imported is misleading.
+Conversely, checking a fragile analytics dependency in liveness can cause a
+restart storm. Name the dependency and failure semantics of each check.
+
+The fourth failure is model drift hidden by application health. An endpoint may
+return HTTP 200 while the feature distribution has changed, labels are delayed,
+or the model version is missing. Add data-quality and model-performance signals
+where labels permit, but keep them separate from request success. A 200 response
+means the protocol exchange completed, not that the prediction is correct.
+
+The fifth failure is a container treated as a boundary of trust. Images can carry
+unneeded packages, mutable tags, vulnerable libraries, or embedded secrets. Run
+as a non-root user where practical, pin and scan dependencies, use a read-only
+filesystem when possible, and pass secrets through a managed mechanism. Do not
+put credentials in a Dockerfile, image layer, client bundle, or source-control
+fixture.
+
+## 07. Evaluate cost, scale, security, and industry practice
+
+Scaling is a decision about a workload, not a badge. Replicating a stateless API
+can increase throughput, but every process may load the same model into memory.
+If a model consumes 1 GB and four workers each load it, memory pressure can be
+near 4 GB before the runtime and OS. A process manager, a larger instance, a
+separate model server, batching, or a smaller model each changes latency,
+complexity, and cost. Measure cold start, warm request, concurrency, and tail
+latency under a declared payload.
+
+Cloud-native practice favours immutable artefacts and automated replacement.
+Build an image from a pinned base, record its digest, run tests against that
+digest, and deploy with a rollback reference. Keep configuration outside the
+image, but validate it at startup. Separate build, release, and run concerns so
+the same artefact can move between environments. A staging environment is not
+proof of production safety if its data, traffic, and dependency limits differ.
+
+Security is layered: TLS protects the connection; authentication identifies the
+caller; authorisation limits the action and tenant; validation constrains the
+representation; rate limits reduce abuse; audit records support accountability;
+and privacy controls govern collection, retention, and deletion. Redact tokens,
+features, and personal text from logs by default. Use least privilege for model
+registries, object stores, queues, and deployment identities. An ML endpoint
+also needs abuse testing for prompt or feature manipulation when its input is
+free text or user-controlled data.
+
+Governance is easiest when it is attached to a concrete data path. Draw where a
+feature enters, where it is transformed, where it is cached, and where it is
+deleted. Name the owner who can answer a subject-access or deletion request. If
+the service sends a feature to a third-party model, record the destination,
+retention setting, region, and contractual restriction. “The provider is
+trusted” is not a data-flow control. A useful design can reject a request before
+the sensitive field is copied into a queue, and can return a stable reason code
+without repeating the value in a log.
+
+Cost should be measured in the same experiment as latency. Let $c_r$ be the
+monthly fixed runtime cost, $c_q$ the cost of a request-sized compute unit, and
+$n$ the accepted request count. A simple estimate is
+
+$$
+\widehat{C}(n)=c_r+n c_q.
+$$
+
+It omits egress, storage, observability, idle replicas, support time, and the
+cost of a failed prediction, so it is only a planning model. It nevertheless
+helps compare batching, caching, a smaller model, or a slower but cheaper
+worker. State the unit and time window; “low cost” without traffic is not an
+engineering result.
+
+The delivery pipeline should make a change reviewable. A commit produces tests,
+an image digest, a contract diff, and a migration note. A release records which
+configuration and model version are paired. A rollout first sends a small,
+observable share of traffic, compares error and tail-latency signals, and keeps
+a tested rollback path. If a model has no labels yet, do not pretend that a
+temporary proxy metric proves quality; use a narrower release and state the
+uncertainty. When a deployment fails, preserve the evidence needed to explain
+whether the cause was code, data, dependency, capacity, or configuration.
+
+Operational evidence should answer a question. Metrics show rates, errors,
+latency percentiles, queue depth, model version, and resource use. Structured
+logs explain one request without copying sensitive bodies. Traces connect a
+gateway, service, and dependency when sampling and retention are appropriate.
+An SLO links these signals to user impact. For example, “99% of valid score
+requests complete in 300 ms over 30 days, excluding declared client errors” is
+more actionable than “the API is fast.” Document the exclusion so an error budget
+cannot be manipulated by relabelling failures.
+
+Research connects these practices to measurable trade-offs. The tail-at-scale
+work explains why distributed fan-out makes rare slow components visible to many
+users. Sculley and colleagues describe hidden technical debt that accumulates
+around ML dependencies, data, and feedback loops. Kubernetes and Borg research
+illustrate scheduling and declarative management, but neither paper removes the
+need to verify a particular workload. Treat claims as hypotheses, reproduce the
+measurement, and record where your system differs.
+
+## 08. Run the study lab and assignment
+
+### Practical exercise
+
+Create the FastAPI service locally and write a contract test matrix with at least
+these rows: valid request, missing field, extra field, non-finite number, wrong
+tenant, oversized tenant, model-not-ready simulation, and generated request ID.
+Run the service behind a local reverse proxy or ASGI test client. Record p50,
+p95, and p99 latency for 1, 10, and 50 concurrent requests using a fixed seed
+and a synthetic body. Explain why the numbers are not a cloud capacity promise.
+
+### Assignment
+
+Design version `v2` of the endpoint for a batch of up to 32 records. Submit:
+
+1. an OpenAPI contract with request, response, and problem-detail examples;
+2. a threat model naming assets, actors, trust boundaries, and mitigations;
+3. a sequence diagram from request to model and back;
+4. a failure matrix for timeout, overload, stale model, and dependency outage;
+5. a container and rollout plan with health checks, rollback, and secret policy;
+6. test output, latency distribution, model-version evidence, and limitations.
+
+Do not upload real personal data. A correct submission can conclude that a
+multi-region design, a database, or a Kubernetes cluster is unnecessary for the
+stated workload. The rubric rewards a defensible boundary and evidence, not the
+number of cloud products.
+
+### Quiz and solution guidance
+
+1. **Why is the error set part of a contract?** Because callers need to decide
+   whether to fix input, authenticate, retry, or escalate; one generic 500 makes
+   all four indistinguishable.
+2. **Why is a mean latency insufficient?** A small fraction of long requests can
+   dominate user experience and queue the next requests; percentiles reveal the
+   tail under a declared workload.
+3. **What is the difference between liveness and readiness?** Liveness answers
+   whether restart may help; readiness answers whether the instance can safely
+   receive traffic. Their dependency checks and remediation differ.
+4. **Why does a model version belong in evidence?** A prediction without the
+   parameter/data snapshot cannot be reproduced, compared, or rolled back.
+5. **Why is a container not a security boundary?** Image contents, runtime
+   privileges, network policy, secrets, and host configuration still influence
+   what the process can do.
+
+## 09. Complete the chapter and choose what to study next
+
+An API-driven cloud-native solution is a chain of explicit decisions. The schema
+defines a representation, validation protects the computation, an application
+returns a meaningful result or error, a runtime enforces resource and timing
+limits, delivery produces a replaceable artefact, and evidence lets people
+operate and review the result. For ML, the chain also names feature freshness,
+model identity, uncertainty, and the boundary between a score and a human or
+automated action.
+
+Start small enough to test every invariant. A typed local endpoint can reveal
+more than a premature cluster if the experiment includes malformed input,
+timeouts, concurrency, cold start, and privacy review. Scale only when a measured
+workload and user need justify it. Treat OpenAPI, FastAPI, Docker, Kubernetes,
+and cloud services as tools for upholding a contract—not as the contract itself.
+
+### Oral questions
+
+- Which part of $\mathcal{C}$ would change when an endpoint gains a side effect?
+- Where would you enforce a maximum request body: gateway, application, or both?
+- What evidence would distinguish model drift from a downstream outage?
+- When would batching improve cost but harm the latency SLO?
+- Which fields must never be copied into a default access log?
+
+### Chapter summary
+
+The subject is title-only in the official source, so this chapter's API,
+cloud-native, and ML-serving sequence is explicitly supplementary. A contract
+includes schema, errors, timing, side effects, security, and versioning. A small
+formal model exposes invariants; a FastAPI service makes them executable. Queue
+intuition explains why utilisation and tail latency matter. Failures around
+limits, retries, readiness, model drift, image trust, and secrets are part of
+the design. The study lab turns the ideas into reproducible evidence, while the
+next chapter can extend the contract to HTTP semantics, compatibility, and
+OpenAPI evolution.
+
+### References
+
+- OpenAPI Initiative (2024), *OpenAPI Specification v3.1.1*.
+  [spec.openapis.org/oas](https://spec.openapis.org/oas/).
+- FastAPI (2026), *Deployment Concepts*.
+  [fastapi.tiangolo.com/deployment/concepts](https://fastapi.tiangolo.com/deployment/concepts/).
+- RFC 9110 (2022), *HTTP Semantics*.
+  [rfc-editor.org/rfc/rfc9110](https://www.rfc-editor.org/rfc/rfc9110).
+- RFC 9457 (2023), *Problem Details for HTTP APIs*.
+  [rfc-editor.org/rfc/rfc9457](https://www.rfc-editor.org/rfc/rfc9457).
+- Dean and Barroso (2013), *The Tail at Scale*.
+  [doi:10.1145/2408776.2408794](https://doi.org/10.1145/2408776.2408794).
+- Sculley et al. (2015), *Hidden Technical Debt in Machine Learning Systems*.
+  [doi:10.1145/2783258.2783307](https://doi.org/10.1145/2783258.2783307).
+- Burns et al. (2016), *Borg, Omega, and Kubernetes*.
+  [doi:10.1145/2898442.2898444](https://doi.org/10.1145/2898442.2898444).
+- NIST (2018), *Application Container Security Guide*, SP 800-190.
+  [doi:10.6028/NIST.SP.800-190](https://doi.org/10.6028/NIST.SP.800-190).

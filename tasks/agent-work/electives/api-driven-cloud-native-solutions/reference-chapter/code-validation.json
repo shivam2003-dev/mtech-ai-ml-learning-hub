@@ -1,0 +1,18 @@
+{
+  "language": "Python",
+  "version": "3.12+",
+  "framework": "FastAPI with Pydantic",
+  "status": "pending-independent-review",
+  "checks": [
+    "AST syntax compilation",
+    "valid bounded score",
+    "schema rejection for missing and extra fields",
+    "finite-number validation",
+    "tenant policy error",
+    "health endpoint shape",
+    "OpenAPI generation",
+    "no payload logging by default"
+  ],
+  "runtimeCommand": "python -m pytest -q tests/test_api.py",
+  "note": "Tests are specified but the repository does not include a Python service package; reviewer must run them in an isolated Python environment."
+}

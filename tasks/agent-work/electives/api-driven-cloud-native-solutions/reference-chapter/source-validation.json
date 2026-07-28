@@ -1,0 +1,20 @@
+{
+  "status": "passed-source-identity-pending-claim-review",
+  "officialCurriculum": {
+    "document": "BITS Pilani WILP M.Tech AI and ML brochure",
+    "sha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "titleOnly": true,
+    "placement": "configurable Semester 2-3 elective pool"
+  },
+  "sources": [
+    {"id":"R01","title":"OpenAPI Specification 3.1.1","url":"https://spec.openapis.org/oas/","type":"standard","status":"verified"},
+    {"id":"R02","title":"FastAPI Deployment Concepts","url":"https://fastapi.tiangolo.com/deployment/concepts/","type":"official documentation","status":"verified"},
+    {"id":"R03","title":"HTTP Semantics","url":"https://www.rfc-editor.org/rfc/rfc9110","type":"IETF standard","status":"verified"},
+    {"id":"R04","title":"Problem Details for HTTP APIs","url":"https://www.rfc-editor.org/rfc/rfc9457","type":"IETF standard","status":"verified"},
+    {"id":"R05","title":"The Tail at Scale","url":"https://doi.org/10.1145/2408776.2408794","type":"research paper","doi":"10.1145/2408776.2408794","status":"verified"},
+    {"id":"R06","title":"Hidden Technical Debt in Machine Learning Systems","url":"https://doi.org/10.1145/2783258.2783307","type":"research paper","doi":"10.1145/2783258.2783307","status":"verified"},
+    {"id":"R07","title":"Borg, Omega, and Kubernetes","url":"https://doi.org/10.1145/2898442.2898444","type":"research paper","doi":"10.1145/2898442.2898444","status":"verified"},
+    {"id":"R08","title":"Application Container Security Guide","url":"https://doi.org/10.6028/NIST.SP.800-190","type":"NIST publication","status":"verified"}
+  ],
+  "claimReview": "pending-independent-citation-review"
+}

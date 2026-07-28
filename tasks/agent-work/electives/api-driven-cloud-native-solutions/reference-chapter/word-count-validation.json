@@ -1,0 +1,8 @@
+{
+  "chapter": "content/subjects/api-driven-cloud-native-solutions/chapters/01-from-an-api-contract-to-a-cloud-native-service.mdx",
+  "meaningfulProseWords": 3209,
+  "minimum": 3000,
+  "status": "passed",
+  "method": "scripts/calculate-word-count/chapter-word-count.mjs",
+  "excluded": ["code", "references", "frontmatter"]
+}
