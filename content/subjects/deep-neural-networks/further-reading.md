@@ -12,4 +12,3 @@
 
 Use the chapter bibliography and subject references for canonical URLs and
 identifiers.
-

@@ -15,4 +15,3 @@ source's problem and evidence, separate the paper's claims from later
 interpretation, and record what was reproduced locally. Never infer production
 safety from a benchmark. Use the related-subject links when a proof, statistical
 method, application domain, or systems topic belongs elsewhere.
-

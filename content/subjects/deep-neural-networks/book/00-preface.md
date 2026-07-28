@@ -16,4 +16,3 @@ implementation, evaluation, limitations, and research connection. A chapter is
 not approved merely because it is long or executable. Its claims, mathematics,
 code, metadata, links, accessibility, and rendered presentation require
 independent evidence.
-

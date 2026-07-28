@@ -20,4 +20,3 @@ leaky split, expand a matrix product by indices, differentiate a branched scalar
 expression, and compare analytic gradient descent on a quadratic with a
 numerical implementation. Weakness in one area calls for targeted remediation,
 not silent symbol memorization.
-

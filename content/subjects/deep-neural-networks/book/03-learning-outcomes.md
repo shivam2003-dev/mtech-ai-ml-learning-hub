@@ -18,4 +18,3 @@ brochure wording. By the end of the approved book, a learner should be able to:
   interpretation, later interpretation, and local reproduction;
 - connect architecture mechanics to Computer Vision, NLP, Distributed ML,
   MLOps, and AI systems without duplicating those subjects.
-

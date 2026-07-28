@@ -24,4 +24,3 @@ The core chapter plan totals 184 hours. Readiness, one selected project path,
 and cumulative review bring the proposed subject pathway to 236 hours. Project
 options are alternatives; their hours must not be added as though every project
 were mandatory.
-

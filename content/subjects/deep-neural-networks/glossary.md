@@ -15,4 +15,3 @@
 - **Parameter:** a value adjusted by the learning procedure.
 - **Pre-activation:** a unit's affine value before its activation function.
 - **ReLU:** the elementwise function \(\max(0,x)\).
-

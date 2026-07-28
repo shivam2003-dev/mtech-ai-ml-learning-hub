@@ -23,4 +23,3 @@ used interchangeably.
 Every chapter defines symbols before use, states differentiability and shape
 assumptions, and distinguishes an exact equality from numerical approximation
 or software assignment.
-
