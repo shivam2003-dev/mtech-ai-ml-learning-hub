@@ -1,0 +1,130 @@
+{
+  "contractVersion": "1.0.0",
+  "reviewId": "math-foundations-ch01-math-runtime-review-2026-07-28",
+  "role": "Independent Mathematics and Runtime QA Reviewer",
+  "subject": "Mathematical Foundations for Machine Learning",
+  "chapter": "Mathematical Language for Machine Learning",
+  "sourcePath": "content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
+  "reviewedAt": "2026-07-28",
+  "reviewedCommit": "2cf45df",
+  "reviewedChapterSha256": "dd6654b96b617a91a2aaa9e3ab29bb7bded4f0bca335ee350026a6ce42862952",
+  "status": "approved",
+  "approved": true,
+  "scope": [
+    "meaningful-prose word-count gate",
+    "mathematical notation, derivations, dimensions, examples, and complexity",
+    "byte-for-byte execution of the published Python blocks",
+    "production build and rendered HTML checks",
+    "MathJax accessible names",
+    "desktop and 390-pixel mobile reflow",
+    "bookmark, progress, theme, citation-copy, code-copy, and print behaviour"
+  ],
+  "wordCountEvidence": {
+    "command": "node scripts/calculate-word-count/chapter-word-count.mjs content/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning.mdx",
+    "meaningfulProseWords": 4944,
+    "frontmatterWordCount": 4944,
+    "minimumMeaningfulProseWords": 3000,
+    "passed": true
+  },
+  "mathematicsEvidence": {
+    "status": "passed",
+    "checks": [
+      "The declared dimensions X in R^(b x d), W in R^(d x k), c in R^k, and Y in R^(b x k) are mutually consistent.",
+      "XW and the outer-product bias 1_b c^T both have shape b x k, so their addition is defined.",
+      "The indexed expression Y_(i,l) = sum_(j=1)^d X_(i,j) W_(j,l) + c_l retains exactly the batch and output indices.",
+      "The chapter correctly distinguishes the affine map from a linear map when c is nonzero.",
+      "The worked b=2, d=3, k=2 case independently recomputes to Y = [[-2, 2], [4, -5]].",
+      "The matrix non-commutativity counterexample, quantifier-order examples, and codomain-versus-image example are valid.",
+      "The dense-operation counts and asymptotic bounds Theta(bdk), Theta(bk), and validation Theta(bd + dk + k) are dimensionally and computationally consistent.",
+      "The NumPy broadcasting, one-dimensional transpose, approximate-comparison, empty-axis, and float64 discussions are appropriately qualified as software or local-contract behaviour."
+    ],
+    "unresolvedBlockers": []
+  },
+  "codeEvidence": {
+    "executionMethod": "Extracted the three published fenced blocks and compiled each byte-for-byte as a separate Python unit, then executed them in order in the same __main__ namespace.",
+    "environment": {
+      "python": "3.14.6",
+      "numpy": "2.3.4"
+    },
+    "blockSha256": {
+      "affine_batch": "a3401d0b3645ea119b4632370f843896b0afa004a551c6df79c1a1febaa92e0e",
+      "affine_batch_loops": "f739f834097024e330ca8464fbdf360e90bf04376dcb4241a360052df2b3cf61",
+      "AffineBatchTests": "1281ed64d45544d98ad2a23d53fd9123d9e4e6efd867daadf40834c6f5ee7e00"
+    },
+    "testCount": 8,
+    "passed": 8,
+    "failed": 0,
+    "exitCode": 0,
+    "runnerOutput": "........ | Ran 8 tests in 0.055s | OK",
+    "hugeIntegerErrorNormalization": "passed: 10**1000 is normalized from the float64 conversion OverflowError path to the documented TypeError containing 'representable as float64'"
+  },
+  "buildEvidence": {
+    "command": "npm test",
+    "productionStaticPages": 70,
+    "renderedTestSuites": 3,
+    "renderedTestsPassed": 3,
+    "renderedTestsFailed": 0,
+    "exitCode": 0
+  },
+  "renderedEvidence": {
+    "browser": "Playwright Chromium through playwright-cli",
+    "route": "/mtech-ai-ml-learning-hub/subjects/mathematical-foundations-for-machine-learning/chapters/01-mathematical-language-for-machine-learning/",
+    "desktop": {
+      "viewport": "1440x900",
+      "documentScrollWidth": 1440,
+      "documentClientWidth": 1440,
+      "horizontalPageOverflow": false
+    },
+    "mobile": {
+      "viewport": "390x844",
+      "documentScrollWidth": 390,
+      "documentClientWidth": 390,
+      "chapterWidth": 358,
+      "horizontalPageOverflow": false,
+      "toolsBounds": [0, 390],
+      "tocDisplay": "none"
+    },
+    "structure": {
+      "h1Count": 1,
+      "h2Count": 10,
+      "tableCount": 1,
+      "codeCopyButtonCount": 8
+    },
+    "mathJax": {
+      "expressionCount": 255,
+      "svgTitleCount": 255,
+      "ariaLabelledSvgCount": 255,
+      "mobileExpressionsWithScopedHorizontalScroll": 8
+    },
+    "scopedOverflow": {
+      "codeContainerClientWidth": 358,
+      "maximumObservedCodeScrollWidth": 615,
+      "tableClientWidth": 358,
+      "tableScrollWidth": 481,
+      "pageRemainedWidthBounded": true
+    },
+    "consoleErrors": 0,
+    "consoleWarnings": 0
+  },
+  "interactionEvidence": {
+    "bookmark": "passed: bookmarked=true persisted in chapter localStorage",
+    "progress": "passed: scroll to document end rendered and persisted 100% read",
+    "darkMode": "passed: learning-dark class and dark preference persisted",
+    "codeCopy": "passed: the published implementation block button changed from Copy code to Copied",
+    "citationCopy": "passed: the live status region reported Citation copied",
+    "print": "passed: print media hides reading tools, table of contents, and context; uses block chapter layout and white header background",
+    "mobileWidthAfterInteractions": "390/390"
+  },
+  "testsRun": [
+    "chapter meaningful-prose counter",
+    "independent mathematical notation, dimension, worked-example, and complexity audit",
+    "byte-for-byte execution of all three published Python blocks",
+    "npm test production build and rendered checks",
+    "Playwright desktop 1440x900 structural and overflow audit",
+    "Playwright mobile 390x844 structural, scoped-overflow, MathJax, and console audit",
+    "Playwright bookmark, progress, dark-mode, code-copy, citation-copy, and print-media checks",
+    "git diff --check"
+  ],
+  "unresolvedBlockers": [],
+  "approvalStatement": "Approved for Mathematics and Runtime QA on the exact reviewed chapter SHA-256. This decision does not approve or supersede the separate citation or academic-editorial review gates."
+}
