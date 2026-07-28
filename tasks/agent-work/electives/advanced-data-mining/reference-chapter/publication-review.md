@@ -30,7 +30,7 @@ Evidence gates passed:
   input checks;
 - `mlxtend==0.23.4` library fixture comparison;
 - 38 MathJax expressions with accessible SVG titles;
-- responsive 1440px and 390px rendered previews with no visible overflow.
+- responsive desktop (1200px capture) and 390px rendered previews with no visible overflow.
 
 This approval covers Chapter 1 only. The subject remains `technical-review`
 until its fourteen remaining planned chapters and subject-level resources are
