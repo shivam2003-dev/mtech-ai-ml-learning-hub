@@ -52,6 +52,10 @@ test("keeps the production shell accessible and interactive", async () => {
   assert.match(readingTools, /navigator\.clipboard/);
   assert.match(readingTools, /mtech-hub:chapter/);
   assert.match(css, /mjx-container/);
+  assert.match(css, /overflow-wrap:\s*anywhere/);
+  assert.match(css, /\.chapter-prose pre code[\s\S]*?width:\s*max-content/);
+  assert.match(css, /\.chapter-prose pre[\s\S]*?overflow-x:\s*auto/);
+  assert.match(css, /\.chapter-prose table[\s\S]*?max-width:\s*100%/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(css, /@keyframes toon-float/);
   assert.match(packageJson, /"validate:foundation"/);
