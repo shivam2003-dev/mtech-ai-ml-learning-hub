@@ -1,0 +1,25 @@
+{
+  "contractVersion": "1.0.0",
+  "reportId": "machine-learning-ch01-heading-validation-2026-07-28",
+  "status": "passed-source-and-render-check",
+  "sourcePath": "content/subjects/machine-learning/chapters/01-learning-problems-and-the-ml-workflow.mdx",
+  "chapterSha256": "e744b5ef8db666a9f5d69d83f1b7152ff0afb43c4bf8cffd4084ad4d208bfea3",
+  "validatedAt": "2026-07-28",
+  "authoredH1Count": 0,
+  "authoredH2Count": 10,
+  "orderedSectionNumbers": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  "headings": [
+    "01 Begin with the decision, not the algorithm",
+    "02 Map the kinds of learning",
+    "03 Turn the story into a learning contract",
+    "04 Build a leakage-safe workflow",
+    "05 Derive the smallest honest baseline",
+    "06 Implement the workflow twice",
+    "07 Read failures before celebrating a score",
+    "08 Evaluate evidence and run the study lab",
+    "09 Defend the chapter in an oral exam",
+    "10 References and reading path"
+  ],
+  "renderingContract": "The application renders the chapter frontmatter title as the page H1.",
+  "renderedChecks": "Production export contains the H1, ten-item table of contents, MathJax equations, highlighted Python, and reading tools."
+}
