@@ -1,0 +1,142 @@
+{
+  "agentId": "independent-advanced-data-mining-publication-reviewer",
+  "reviewId": "advanced-data-mining-ch01-publication-review-2026-07-28",
+  "subject": "Advanced Data Mining",
+  "chapter": "From a Table to a Pattern That Can Be Trusted",
+  "task": "Independent publication review",
+  "reviewedAt": "2026-07-28",
+  "status": "approved-after-correction",
+  "approved": true,
+  "approvalBlockers": [],
+  "reviewedSnapshot": {
+    "developCommitBeforeReview": "95b13429ac7feb2c0b537cfc1ba678bcb2e67a7e",
+    "chapterSha256": "256949397f5c4071a1c6bb0baa86e763a3950194e684f85c84981ec3fa387ccb",
+    "subjectIndexSha256": "9f3fa5514f3fac6a10a99b1e7fbb7fa7e3551119cc7bf6eec91667121cb23ee7",
+    "referencesMarkdownSha256": "954e17dd5c702646b5e618710b558c94b5ab4e06db69e2bf4bb3fd295e661fcc",
+    "referencesBibSha256": "4dd58a088aea971ebfbede3dda5021fec408d5c0dd14426a6ec8b5a6ac4db4be",
+    "resourceRegistrySha256": "7b5f544c5450b9bcb144e000c648354f43802beb911fc969cb57849bb2b28375",
+    "readingPathSha256": "780292afd85d8650375eb4a6fd66f3b0abfdf88b338f6cfe099764e3bcaf6730"
+  },
+  "correctionsApplied": [
+    {
+      "file": "content/subjects/advanced-data-mining/index.mdx",
+      "finding": "The proposed sequence and verified topic list omitted the brochure's multi-relational, privacy-preserving, and distributed data-mining topics.",
+      "correction": "Added all three official phrases and three labelled future chapters; aligned planned chapterCount to 15.",
+      "chapterContentChanged": false
+    },
+    {
+      "file": "content/subjects/advanced-data-mining/chapters/01-from-a-table-to-a-pattern-that-can-be-trusted.mdx",
+      "finding": "The chapter called the ACM SIGKDD homepage a 2020 survey and did not name the three omitted official extensions in its forward map.",
+      "correction": "Reframed SIGKDD as an official community resource, corrected the terminal citation, and added multi-relational, privacy-preserving, and distributed extensions to the chapter map and summary.",
+      "chapterContentChanged": true
+    },
+    {
+      "file": "content/subjects/advanced-data-mining/references.bib",
+      "finding": "Terminal chapter references for the Raschka survey and SIGKDD resource were not represented in BibTeX.",
+      "correction": "Added Crossref-matched Raschka article and dated ACM SIGKDD web records.",
+      "chapterContentChanged": false
+    },
+    {
+      "file": "content/subjects/advanced-data-mining/research-papers/reading-path.yaml",
+      "finding": "The four chapter reading-path records still had pending verification markers.",
+      "correction": "Recorded Crossref verification on 2026-07-28 for the four DOI-backed chapter resources.",
+      "chapterContentChanged": false
+    },
+    {
+      "file": "content/subjects/advanced-data-mining/chapters/01-from-a-table-to-a-pattern-that-can-be-trusted.mdx",
+      "finding": "Chapter metadata still represented pre-review state.",
+      "correction": "Advanced citationStatus to verified, mathReviewStatus to passed, and editorialStatus to approved.",
+      "chapterContentChanged": false
+    }
+  ],
+  "curriculumEvidence": {
+    "sourcePdfSha256": "fee3ec5d142deb610e1f0a86df9267e3c9355f1dfdda4419d21f49b45207de1b",
+    "officialCurriculumRecord": "content/curriculum/subject-registry.yaml#SUBJ-009",
+    "placement": "physical PDF page 12, printed page 10; configurable Semester 2–3 elective pool",
+    "topicDescription": "physical PDF page 17, printed page 15",
+    "exactOfficialTopics": [
+      "Foundations of Data Mining and Record Data Mining",
+      "Association Analysis and Pattern Discovery",
+      "Topics beyond conventional record data mining",
+      "Mining complex data structures",
+      "Tree and graph mining",
+      "Sequence mining",
+      "Web and text data mining",
+      "Stream data mining",
+      "Spatiotemporal data mining",
+      "Mining multivariate time-series data",
+      "High-dimensional data clustering",
+      "Mining social networking sites",
+      "Multi-relational Data Mining",
+      "Privacy preserving Data Mining",
+      "Distributed computing solutions for data-intensive data mining"
+    ],
+    "visualInspection": "passed: topic phrases were matched against the verified curriculum record",
+    "inventedOfficialDetailsFound": false,
+    "additionsLabelled": true
+  },
+  "checks": {
+    "compactEditorialStructure": "passed-10-reader-facing-H2",
+    "readerFacingH1": "passed-1-H1",
+    "runningExample": "passed-privacy-safe-study-session-baskets",
+    "meaningfulProseWords": 3147,
+    "minimumProseWords": 3000,
+    "wordCountGate": "passed",
+    "chapterScopeLabels": "passed-official-topic-plus-labelled-supplementary-and-industry-application-depth",
+    "mathematicalNotation": "passed-support-confidence-lift-and-downward-closure; dimensions and assumptions checked",
+    "publishedPythonBlocks": "passed-2-blocks-extracted-and-executed",
+    "pythonRuntime": "passed-Python-3.13.12-NumPy-2.4.4-pandas-3.0.2",
+    "fromScratchOutput": "passed-known-supports-and-invalid-input-tests",
+    "libraryOutput": "passed-mlxtend-0.23.4-fixture-comparison",
+    "complexityStatements": "passed-brute-force-cost-scoped-to-teaching-fixture",
+    "crossrefMetadata": "passed-4-of-4-DOI-records",
+    "officialAndPublisherUrls": "passed-resolved-or-official; ACM endpoints return anti-bot 403 while DOI metadata matches",
+    "inlineToTerminalBibliography": "passed-5-external-resources-plus-curriculum-record",
+    "bibtexCoverage": "passed-5-terminal-external-resources-represented",
+    "fabricatedReferences": "none-found",
+    "foundationValidation": "passed-45-subjects-45-leads",
+    "internalStaticLinks": "passed-623-links",
+    "lint": "passed",
+    "typecheck": "passed",
+    "productionAudit": "passed-0-production-vulnerabilities",
+    "productionBuild": "passed-78-static-routes",
+    "renderedTests": "passed-3-of-3",
+    "renderedHeadingStructure": "passed-1-H1-10-H2",
+    "mathJaxAccessibility": "passed-38-expressions-with-accessible-svg-titles",
+    "shikiCode": "passed-2-Python-blocks",
+    "desktopRenderedUx": "passed-1440x900-preview",
+    "mobileRenderedUx": "passed-390x844-preview-no-visible-overflow",
+    "readingTools": "passed-static-bookmark-citation-dark-mode-print-controls",
+    "browserConsoleErrors": "none-after-base-path-correct-local-export"
+  },
+  "verifiedSources": [
+    "content/curriculum/official-curriculum.yaml#SUBJ-009",
+    "content/curriculum/subject-registry.yaml#SUBJ-009",
+    "https://api.crossref.org/works/10.1145/170036.170072",
+    "https://api.crossref.org/works/10.1145/342009.335372",
+    "https://api.crossref.org/works/10.1007/978-3-319-14142-8",
+    "https://api.crossref.org/works/10.3390/info11040193",
+    "https://link.springer.com/book/10.1007/978-3-319-14142-8",
+    "https://www.mdpi.com/2078-2489/11/4/193",
+    "https://www.kdd.org/",
+    "https://rasbt.github.io/mlxtend/user_guide/frequent_patterns/apriori/"
+  ],
+  "openIssues": [
+    "Only Chapter 1 is authored; the remaining fourteen planned chapters remain to be written and independently reviewed.",
+    "The official brochure supplies topic phrases but no fixed chapter order, prerequisites, datasets, or software; all sequence and workload claims remain educational design.",
+    "Several ACM DOI publisher pages return HTTP 403 to automated clients; DOI and Crossref metadata were verified, and this is recorded rather than hidden.",
+    "External dataset licences and checksums must be verified before any project uses real data."
+  ],
+  "scopeExclusions": [
+    "the fourteen unauthored chapters",
+    "subject-level publication approval",
+    "production use of the synthetic basket fixture",
+    "future revisions with different content hashes"
+  ],
+  "recommendedNextTasks": [
+    "Integrate this approved Chapter 1 review and corrections into develop.",
+    "Keep subject metadata at technical-review until all planned chapters and resource contracts are authored and reviewed.",
+    "Create Chapter 2 only after an independently checked outline and source boundary.",
+    "Re-run this gate whenever the approved chapter, subject index, or bibliography hash changes."
+  ]
+}

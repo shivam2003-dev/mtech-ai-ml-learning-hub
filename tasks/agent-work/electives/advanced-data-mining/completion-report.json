@@ -25,9 +25,18 @@
     "content/subjects/advanced-data-mining/quizzes/README.md",
     "content/subjects/advanced-data-mining/references.md",
     "content/subjects/advanced-data-mining/references.bib",
-    "tasks/agent-work/electives/advanced-data-mining/completion-report.json"
+    "tasks/agent-work/electives/advanced-data-mining/completion-report.json",
+    "tasks/agent-work/electives/advanced-data-mining/reference-chapter/publication-review.json",
+    "tasks/agent-work/electives/advanced-data-mining/reference-chapter/publication-review.md"
   ],
-  "filesModified": [],
+  "filesModified": [
+    "content/subjects/advanced-data-mining/index.mdx",
+    "content/subjects/advanced-data-mining/chapters/01-from-a-table-to-a-pattern-that-can-be-trusted.mdx",
+    "content/subjects/advanced-data-mining/references.md",
+    "content/subjects/advanced-data-mining/references.bib",
+    "content/subjects/advanced-data-mining/research-papers/reading-path.yaml",
+    "content/subjects/advanced-data-mining/research-papers/resource-registry.yaml"
+  ],
   "sourcesUsed": [
     "content/curriculum/official-curriculum.yaml#SUBJ-009",
     "content/curriculum/subject-registry.yaml#SUBJ-009",
@@ -37,12 +46,15 @@
     "https://doi.org/10.1007/978-3-319-14142-8",
     "https://doi.org/10.3390/info11040193"
   ],
-  "citationsVerified": 11,
+  "citationsVerified": 15,
   "citationsRejected": 0,
-  "wordCount": 3091,
+  "wordCount": 3147,
   "testsRun": [
-    "node scripts/calculate-word-count/chapter-word-count.mjs: 3091 meaningful prose words",
-    "python 3.12 baseline miner fixture and invalid-input tests: passed",
+    "node scripts/calculate-word-count/chapter-word-count.mjs: 3147 meaningful prose words",
+    "python 3.13.12 baseline miner fixture and invalid-input tests: passed",
+    "mlxtend 0.23.4 library fixture comparison: passed",
+    "Crossref API metadata checks for four DOI-backed chapter resources: passed",
+    "Playwright desktop 1440px and mobile 390px rendered previews: passed",
     "npx tsc --noEmit --incremental false: passed",
     "npm test: 78 static routes and 3 rendered tests passed",
     "GITHUB_REPOSITORY=shivam2003-dev/mtech-ai-ml-learning-hub npm run validate:links: 623 links passed",
@@ -53,25 +65,25 @@
   "validationResults": {
     "officialBoundary": "passed-title-only-topic-labelled",
     "chapterStructure": "passed-10-reader-facing-h2-sections",
-    "chapterWordMinimum": "passed-3091-meaningful-prose-words",
-    "codeStatus": "tested-baseline-independent-library-runtime-pending",
-    "mathStatus": "pending-independent-review",
-    "citationStatus": "pending-independent-review",
-    "editorialStatus": "draft-complete-review-pending",
+    "chapterWordMinimum": "passed-3147-meaningful-prose-words",
+    "codeStatus": "tested-baseline-and-pinned-library-runtime",
+    "mathStatus": "passed-independent-review",
+    "citationStatus": "verified-independent-review",
+    "editorialStatus": "approved-independent-review",
     "projectContracts": "passed-2-beginner-2-intermediate-1-advanced-1-research",
     "subjectScaffold": "passed-required-book-resource-directories",
-    "resourceRegistry": "passed-16-resource-records-with-identifiers-or-canonical-official-pages"
+    "resourceRegistry": "passed-16-resource-records-with-identifiers-or-canonical-official-pages",
+    "publicationReview": "approved-after-correction"
   },
   "openIssues": [
-    "Independent mathematics, citation, editorial, originality, and rendered UX reviews are pending.",
+    "Chapter 1 is approved; the subject remains technical-review until the fourteen planned chapters are authored and reviewed.",
     "The official brochure provides topic phrases but no detailed unit sequence or fixed elective semester.",
-    "The optional mlxtend implementation must be run only in a pinned environment before publication.",
+    "Several ACM DOI publisher pages return HTTP 403 to automated clients; DOI and Crossref metadata were verified.",
     "External dataset licences and checksums must be verified before any project uses real data."
   ],
   "recommendedNextTasks": [
-    "Run the chapter's Python snippets and compare the library output with the from-scratch baseline.",
-    "Perform independent DOI and claim-level citation review.",
-    "Run MathJax, accessibility, rendered mobile, and link validation gates.",
-    "Subject Lead and Academic Editor review before integration into develop."
+    "Integrate the approved Chapter 1 review and corrections into develop.",
+    "Keep subject metadata at technical-review until the fourteen planned chapters and full resource library are authored.",
+    "Create Chapter 2 only after its outline and source boundary pass review."
   ]
 }
